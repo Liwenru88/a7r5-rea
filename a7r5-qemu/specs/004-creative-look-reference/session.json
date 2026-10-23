@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "parameters": "runs/native-look-cp-509uu886/look-parameters.json",
+  "materials": "build/look-materials-joint-oj2ed8ok",
+  "live_parameters": true,
+  "scope": "offline six joint-parameter looks with Astia, embedded FL2/FL3 matrices and type1-only sound selector; real parameter windows, software reference, device untested",
+  "CP_sha256": "18b265c589eb4201d3b3680857d897b693d06c6dd491d795dbb3a616d6182e97"
+}

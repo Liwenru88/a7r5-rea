@@ -1,0 +1,17 @@
+/dev/nflasha2	/setting vfat	rw,nodiratime,noatime,sync,posix_attr	0	0
+/dev/nflasha3	/system	vfat	rw,nodiratime,noatime,sync,posix_attr	0	0
+/dev/nflasha8	/cp	vfat	rw,nodiratime,noatime,sync,posix_attr	0	0
+/dev/nflasha11	/log	vfat	rw,nodiratime,noatime,sync,posix_attr,batch_sync	0	0
+/dev/nflasha12	/cert	vfat	rw,nodiratime,noatime,sync,posix_attr,batch_sync	0	0
+/dev/nflasha18	/lens	vfat	rw,nodiratime,noatime,sync,posix_attr	0	0
+/dev/nflasha10	/tmp	vfat	rw,nodiratime,noatime,sync,posix_attr	0	0
+/dev/nflasha15	/usr	ext2	ro,nodiratime,noatime,sync	0	0
+
+#/dev/nflasha2	/setting vfat	rw,nodiratime,noatime,sync,noexec	0	0
+#/dev/nflasha3	/system	vfat	rw,nodiratime,noatime,sync,noexec	0	0
+#/dev/nflasha8	/cp	vfat	rw,nodiratime,noatime,sync,noexec	0	0
+#/dev/nflasha11	/log	vfat	rw,nodiratime,noatime,sync,noexec,batch_sync	0	0
+#/dev/nflasha12	/cert	vfat	rw,nodiratime,noatime,sync,noexec,batch_sync	0	0
+#/dev/nflasha18	/lens	vfat	rw,nodiratime,noatime,sync,noexec	0	0
+#/dev/nflasha10	/tmp	vfat	rw,nodiratime,noatime,sync,noexec	0	0
+#/dev/nflasha15	/usr	ext2	ro,nodiratime,noatime,sync	0	0

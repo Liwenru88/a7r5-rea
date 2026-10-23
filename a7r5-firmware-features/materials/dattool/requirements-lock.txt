@@ -1,0 +1,5 @@
+cffi==2.1.1
+cryptography==50.0.2
+numpy==2.5.4
+pycparser==3.11
+pycryptodomex==3.24.1

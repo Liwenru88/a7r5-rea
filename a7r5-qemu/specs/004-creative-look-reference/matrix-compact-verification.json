@@ -1,0 +1,42 @@
+{
+  "scope": "equal-size embedded matrix; original-entry boot blocked at PLL0; no DAT",
+  "materials": "build/look-materials-compact-m60gnero",
+  "CP_sha256": "360aae92035b66c5e7f7f1b02b44acc0451ad1c18ca0f9a9aafde459fa61a525",
+  "CP_bytes": 17617008,
+  "boot_comparison": {
+    "reference": "runs/native-look-cp-boot-rc4nld0z",
+    "compact": "runs/native-look-cp-boot-q06rd26u"
+  },
+  "boot_matrix_mapping_verified": true,
+  "boot_stage_progress_same_as_reference": true,
+  "full_CP_boot_verified": false,
+  "DAT_packaging_allowed": false,
+  "negative_integrity": "runs/native-look-cp-t90987rv/expected-integrity-rejection.json",
+  "native_equivalence": "runs/look-inline-verify-f8_vu434/result.json",
+  "native_invocations": 20016,
+  "Qt_acceptance": "runs/look-qt-accept-296vp_8c",
+  "Qt_passed": 41,
+  "expected_bad_photo": 1,
+  "regression_tests_passed": 49,
+  "regression_logs": "logs/look-compact-regression-93ktru4f",
+  "original_photo_unchanged": true,
+  "default_runtime_and_CP_model_unchanged": true,
+  "camera_io": false,
+  "original_images_modified": false,
+  "source_sha256": {
+    "tools/look_matrix_embed.py": "a3cbd29297d4e439f74422d9696e6033119df577016fc987b25e378a5a5883a5",
+    "tools/look_matrix_compact.py": "8593d04638867350c94309c473cada688333a1bcf2d8eea28ce1f11f7f2569ac",
+    "tools/look_cp_boot.py": "b67fb69b49dd827dda475d81cce10060e292ecd75344981ef490c2985091bc63",
+    "tools/look_materials.py": "f9d03a5fc585a9d47fc59f2d0ff2e7c738f07eaa97cc3bb266d4626b4106df5d",
+    "tools/look_embed_verify.py": "f4fb83a1e8066715a4b56c0445e817d0161737a6dac1a180bde1937b232b2317",
+    "tools/look_native.py": "6ac868630803d9089d98c5504a67945c14bc066884516e09a9a3eb2c5657bc32",
+    "source/guest/look-matrix-bootcopy.S": "b1676b2c5db616a09c19d9a59fb2888a687d02406ce5d19a7155e56987a29ea1",
+    "source/guest/look-matrix-bootcall.S": "abc319eb479fedf1a1a7365e10a3f1458f09520f8211d7e0bd7e7a1cf6845c2d",
+    "source/guest/look-reference-cp.c": "9de496d00a0c97d1ea9fd466df433f64fe475005a4e981e7833bc5d43a50bc94",
+    "source/guest/look-live-cp.c": "beb0ba926f9bd99874244ccff2e03553e03f1fa571dfdc3297f205512bc5c9ff",
+    "source/guest/look-inline-matrix-check.c": "87c4f9a5a1d8a0ee14bcbd86aca56e737025578d11078d35d28acb0a96524e11",
+    "tests/test-look-matrix-layout.py": "68aa1eee40f4c2a180d95da451109661323135176f672cb1643a8b60ed4bbc41",
+    "tests/test-look-matrix-compact.py": "e43c493a8d9e94c0cd1aeb6158d5409a3491e64c3901a1e3c9ba35844287e989",
+    "tests/test-look-cp-boot.py": "d2bc4d826a08b7e2901920ec6e5c28c5544811915825c849cad7d08a778e731d"
+  }
+}

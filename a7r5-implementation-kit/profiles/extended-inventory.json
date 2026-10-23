@@ -1,0 +1,306 @@
+{
+  "schema": "a7r5-partitions-2",
+  "model": "ILCE-7RM5",
+  "firmware_expected": "4.00",
+  "views": "both",
+  "partitions": [
+    {
+      "device": "pnflasha",
+      "major": 252,
+      "minor": 0,
+      "bytes": 1954545664,
+      "image": "pnflasha.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha1",
+      "major": 252,
+      "minor": 1,
+      "bytes": 25100288,
+      "image": "pnflasha1.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha2",
+      "major": 252,
+      "minor": 2,
+      "bytes": 20971520,
+      "image": "pnflasha2.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha3",
+      "major": 252,
+      "minor": 3,
+      "bytes": 78643200,
+      "image": "pnflasha3.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha4",
+      "major": 252,
+      "minor": 4,
+      "bytes": 12582912,
+      "image": "pnflasha4.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha5",
+      "major": 252,
+      "minor": 5,
+      "bytes": 314572800,
+      "image": "pnflasha5.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha6",
+      "major": 252,
+      "minor": 6,
+      "bytes": 26214400,
+      "image": "pnflasha6.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha7",
+      "major": 252,
+      "minor": 7,
+      "bytes": 16777216,
+      "image": "pnflasha7.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha8",
+      "major": 252,
+      "minor": 8,
+      "bytes": 67108864,
+      "image": "pnflasha8.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha10",
+      "major": 252,
+      "minor": 10,
+      "bytes": 12582912,
+      "image": "pnflasha10.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha11",
+      "major": 252,
+      "minor": 11,
+      "bytes": 314572800,
+      "image": "pnflasha11.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha12",
+      "major": 252,
+      "minor": 12,
+      "bytes": 41943040,
+      "image": "pnflasha12.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha13",
+      "major": 252,
+      "minor": 13,
+      "bytes": 4194304,
+      "image": "pnflasha13.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha15",
+      "major": 252,
+      "minor": 15,
+      "bytes": 749731840,
+      "image": "pnflasha15.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha18",
+      "major": 252,
+      "minor": 18,
+      "bytes": 20971520,
+      "image": "pnflasha18.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha22",
+      "major": 252,
+      "minor": 22,
+      "bytes": 68157440,
+      "image": "pnflasha22.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha23",
+      "major": 252,
+      "minor": 23,
+      "bytes": 67108864,
+      "image": "pnflasha23.img",
+      "view": "physical"
+    },
+    {
+      "device": "pnflasha30",
+      "major": 252,
+      "minor": 30,
+      "bytes": 23068672,
+      "image": "pnflasha30.img",
+      "view": "physical"
+    },
+    {
+      "device": "nflashaB0",
+      "major": 252,
+      "minor": 126,
+      "bytes": 4194304,
+      "image": "nflashaB0.img",
+      "view": "boot"
+    },
+    {
+      "device": "nflashaB1",
+      "major": 252,
+      "minor": 127,
+      "bytes": 4194304,
+      "image": "nflashaB1.img",
+      "view": "boot"
+    },
+    {
+      "device": "cnflasha1",
+      "major": 252,
+      "minor": 129,
+      "bytes": 25100288,
+      "image": "cnflasha1.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha2",
+      "major": 252,
+      "minor": 130,
+      "bytes": 20971520,
+      "image": "cnflasha2.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha3",
+      "major": 252,
+      "minor": 131,
+      "bytes": 78643200,
+      "image": "cnflasha3.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha4",
+      "major": 252,
+      "minor": 132,
+      "bytes": 12582912,
+      "image": "cnflasha4.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha5",
+      "major": 252,
+      "minor": 133,
+      "bytes": 314572800,
+      "image": "cnflasha5.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha6",
+      "major": 252,
+      "minor": 134,
+      "bytes": 26214400,
+      "image": "cnflasha6.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha7",
+      "major": 252,
+      "minor": 135,
+      "bytes": 16777216,
+      "image": "cnflasha7.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha8",
+      "major": 252,
+      "minor": 136,
+      "bytes": 67108864,
+      "image": "cnflasha8.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha10",
+      "major": 252,
+      "minor": 138,
+      "bytes": 12582912,
+      "image": "cnflasha10.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha11",
+      "major": 252,
+      "minor": 139,
+      "bytes": 314572800,
+      "image": "cnflasha11.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha12",
+      "major": 252,
+      "minor": 140,
+      "bytes": 41943040,
+      "image": "cnflasha12.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha13",
+      "major": 252,
+      "minor": 141,
+      "bytes": 4194304,
+      "image": "cnflasha13.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha15",
+      "major": 252,
+      "minor": 143,
+      "bytes": 749731840,
+      "image": "cnflasha15.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha18",
+      "major": 252,
+      "minor": 146,
+      "bytes": 20971520,
+      "image": "cnflasha18.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha22",
+      "major": 252,
+      "minor": 150,
+      "bytes": 68157440,
+      "image": "cnflasha22.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha23",
+      "major": 252,
+      "minor": 151,
+      "bytes": 67108864,
+      "image": "cnflasha23.img",
+      "view": "plaintext"
+    },
+    {
+      "device": "cnflasha30",
+      "major": 252,
+      "minor": 158,
+      "bytes": 23068672,
+      "image": "cnflasha30.img",
+      "view": "plaintext"
+    }
+  ],
+  "total_bytes": 5691539456,
+  "coverage": "标准模式仅含明文与启动区；扩展模式另含物理视图；隐藏区域及一致快照未证明"
+}

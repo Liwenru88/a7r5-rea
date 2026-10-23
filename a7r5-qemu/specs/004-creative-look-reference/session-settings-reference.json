@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "parameters": "runs/native-look-cp-509uu886/look-parameters.json",
+  "materials": "build/look-materials-77zf0trj",
+  "live_parameters": true,
+  "scope": "fresh AP then CP instruction execution per accepted selection; no full AP/CP transport or ISP; no device I/O"
+}

@@ -1,0 +1,17 @@
+{
+  "filesystems_FAT_source": "a7r5-dat-tool/a7r5dat/fat.py",
+  "FAT_source_sha256": "b6530aaa4bff38166fd6989ef4d6138634bfd3512c371ec306359192a971595c",
+  "SquashImage_source": {
+    "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+    "line": 8614,
+    "adaptation": "恢复完整read及其依赖，排除输出中已截断且本任务不使用的inventory方法"
+  },
+  "trust_recipe_source": "historical/card-update-offline-20261021__trust.py.txt",
+  "adaptations": [
+    "仅接受现有公钥摘要，不生成或读取私钥",
+    "保留库前像／ELF符号／反汇编／RSA代码完整性检查",
+    "不恢复缺失的第二套fwtool解析器，当前只宣称单套解析及完整目标摘要",
+    "无USB／SSH／设备写入入口"
+  ],
+  "sector_plan_source": "historical/updater-trust-kit-deploy-20261021-01__plan.py.txt"
+}

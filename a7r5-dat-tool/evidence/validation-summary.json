@@ -1,0 +1,14 @@
+{
+  "status": "OFFLINE_TOOL_VERIFIED_DEVICE_UNTESTED",
+  "current_roundtrip_exact": true,
+  "official_rebuild_logical_files_equal": true,
+  "official_rebuild_binary_exact": false,
+  "official_rebuild_usr_layout_differing_bytes": 600,
+  "private_key_matches_current_research_identity": true,
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "source_DATs_unchanged": true,
+  "camera_io": false,
+  "sd_io": false,
+  "full_CP_boot_verified": false,
+  "device_update_verified": false
+}

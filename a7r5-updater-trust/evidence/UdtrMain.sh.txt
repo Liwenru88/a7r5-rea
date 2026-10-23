@@ -1,0 +1,76 @@
+#!/bin/sh
+
+. /usr/bin/common.src
+
+ERROR_CA_COMMAND=67
+
+getCurrentMode()
+{
+	#Serial boot?
+	test -f /root/IAMLDUDWRT && return $MODE_PROD
+
+	touch /ramdsk/mode
+
+	#Forced Production?
+	test -f /setting/updater/mode  || { echo "[W] Forced Prod Mode."; touch /ramdsk/mode1 ; return $MODE_PROD; }
+
+	#Minor?
+	test -f /setting/updater/mode3 && { touch /ramdsk/mode3 /ramdsk/UFP /ramdsk/UFP_PRFILE; return $MODE_MINOR; }
+
+	#Service?
+	test -f /setting/updater/mode2 && { touch /ramdsk/mode2 /ramdsk/UFP /ramdsk/UFP_PRFILE; return $MODE_SERVICE; }
+
+	#Versionskip?
+	test -f /setting/updater/mode6 && { touch /ramdsk/mode6 /ramdsk/UFP                   ; return $MODE_VERSKIP; }
+
+	#Production?
+	test -f /setting/updater/mode1 && { touch /ramdsk/mode1                               ; return $MODE_PROD; }
+
+	#MS Crypt?
+	test -f /setting/updater/mode5 && { touch /ramdsk/mode5 /ramdsk/UFP /ramdsk/UFP_PRFILE; return $MODE_MSCRYPT; }
+
+	#FILE Crypt?
+	test -f /setting/updater/mode7 && { touch /ramdsk/mode7 /ramdsk/UFP /ramdsk/UFP_PRFILE; return $MODE_FILECRYPT; }
+
+	#Default USER
+	touch /ramdsk/UFP /ramdsk/UFP_PRFILE
+	return $MODE_USER
+}
+
+#--------------------------------------------------------------------
+ms_led_on
+
+ud_get_power_ic_type.elf # 4 is CA
+if [ $? = 4 ] ; then
+        echo "CA SET FIRMUP MODE"
+        if [ -e /root/IAMLDUDWRT ] ; then
+                uc_caboot.elf || { echo "[ERROR]uc_caboot.elf failed" ; blink_error_exit $ERROR_CA_COMMAND ; }
+        fi
+        uc_cacmd.elf -m ca -c continu || { echo "[ERROR]uc_cascmd continu failed" ; blink_error_exit\ $ERROR_CA_COMMAND ; }
+fi
+
+getCurrentMode
+cur_mode=$?
+
+echo "-------------------------"
+echo "[VERSION] `cat /version.txt`"
+echo "-------------------------"
+
+echo ""
+echo "[DETAIL] MODE=$cur_mode"
+echo ""
+
+if [ ! -e /root/IAMLDUDWRT ] ; then
+#Updater InComplete --> ERROR_UINCOMP
+        test -f /setting/updater/uincomp && { umount /setting ; blink_error_exit $ERROR_UINCOMP ; }
+        umount /setting || { echo "[ERROR]nflasha2 umount failed" ; blink_error_exit $ERROR_NAND_UNMOUNT ; }
+fi
+
+ud_im.elf &
+if [ $MODE_PROD -eq $cur_mode ] ; then
+	execute_prod.sh $cur_mode
+else
+	#User / Minor / Service
+	execute_ufp.sh $cur_mode
+fi
+

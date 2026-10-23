@@ -1,0 +1,158 @@
+{
+  "source_partition_sha256": "acf32d30dd883ed349738e66fb081e85e0d6a3c746f5e3ca169031e8d69ed731",
+  "candidate_partition_sha256": "a3733332c2a1b336226bb9000e01665ce54bec970aefc3334b88863b80f40ceb",
+  "partition_bytes": 25100288,
+  "initrd": {
+    "bytes": 9097216,
+    "before_sha256": "d08fd6f7606aef23f31f244fbda3cb335c55172d2b8d7ef84746e77139694528",
+    "after_sha256": "77e0b6d7754f1f93da2e1bbe8cfe3cbcaa22f9915a2ff31fbec1eabd332f3ca3",
+    "before_md5": "eeab3100b1f628df05695c4fcc0e52b2",
+    "after_md5": "03b089579add2b8490d09c6fedc83b50"
+  },
+  "SquashFS_nodes": 342,
+  "libraries": [
+    {
+      "path": "/usr/lib/libupdaterapi.so",
+      "bytes": 105984,
+      "verifyKey": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification9verifyKeyEPKc",
+        "elf_va": "0x13324",
+        "file_offset": "0x13324",
+        "symbol_bytes": 584,
+        "before_hex": "fd7bb2a9e00301aa",
+        "after_hex": "00008052c0035fd6",
+        "before_disassembly": [
+          "0x13324: stp x29, x30, [sp, #-0xe0]!",
+          "0x13328: mov x0, x1"
+        ],
+        "after_disassembly": [
+          "0x13324: mov w0, #0",
+          "0x13328: ret"
+        ]
+      },
+      "VerifySignature": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification15VerifySignatureENS_13verify_info_tEPKc",
+        "elf_va": "0x1356c",
+        "file_offset": "0x1356c",
+        "symbol_bytes": 372,
+        "sha256": "09673372f91a975948094f57f302295356d853cfdadfc577eaf6d63577c007f1",
+        "unchanged": true
+      },
+      "before_sha256": "1b334b9fb100601b1f8bc764cd9244bb32c2906101f4b2a8c0bd2e8d684df351",
+      "after_sha256": "f817ee56f78fc829a341229f89236fcf6d7ba4dd7fefab1a61da4d2d7c4a58d6",
+      "fragment_index": 42,
+      "fragment_uncompressed_offset": 0,
+      "fragment_zlib_start": 8896950,
+      "fragment_stored_bytes": 32248,
+      "zlib_split": 71767
+    },
+    {
+      "path": "/usr/lib/libsdfileinputupdaterapi.so",
+      "bytes": 60584,
+      "verifyKey": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification9verifyKeyEPKc",
+        "elf_va": "0xa9a8",
+        "file_offset": "0xa9a8",
+        "symbol_bytes": 584,
+        "before_hex": "fd7bb2a9e00301aa",
+        "after_hex": "00008052c0035fd6",
+        "before_disassembly": [
+          "0xa9a8: stp x29, x30, [sp, #-0xe0]!",
+          "0xa9ac: mov x0, x1"
+        ],
+        "after_disassembly": [
+          "0xa9a8: mov w0, #0",
+          "0xa9ac: ret"
+        ]
+      },
+      "VerifySignature": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification15VerifySignatureENS_13verify_info_tEPKc",
+        "elf_va": "0xabf0",
+        "file_offset": "0xabf0",
+        "symbol_bytes": 372,
+        "sha256": "d68fbf3480a215b246d080693df50a4626ee1afb359ae8816a47339104e62564",
+        "unchanged": true
+      },
+      "before_sha256": "257164d1cdf88757b8c0e2ba08ac47b06c46007410af308b7a8571b442b00cd2",
+      "after_sha256": "0624862064e43495d6291637d2e193d4656145d069550c58a4ce184bb9f5e354",
+      "fragment_index": 39,
+      "fragment_uncompressed_offset": 64128,
+      "fragment_zlib_start": 8851847,
+      "fragment_stored_bytes": 45103,
+      "zlib_split": null
+    },
+    {
+      "path": "/usr/lib/libseninputupdaterapi.so",
+      "bytes": 31512,
+      "verifyKey": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification9verifyKeyEPKc",
+        "elf_va": "0x5244",
+        "file_offset": "0x5244",
+        "symbol_bytes": 584,
+        "before_hex": "fd7bb2a9e00301aa",
+        "after_hex": "00008052c0035fd6",
+        "before_disassembly": [
+          "0x5244: stp x29, x30, [sp, #-0xe0]!",
+          "0x5248: mov x0, x1"
+        ],
+        "after_disassembly": [
+          "0x5244: mov w0, #0",
+          "0x5248: ret"
+        ]
+      },
+      "VerifySignature": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification15VerifySignatureENS_13verify_info_tEPKc",
+        "elf_va": "0x548c",
+        "file_offset": "0x548c",
+        "symbol_bytes": 372,
+        "sha256": "ddba427a26c809e046ac9543e7ebfd8e4aedc1b862e2f7c921a87085c5629d08",
+        "unchanged": true
+      },
+      "before_sha256": "3240c3c70aaa645de3af74101cd4fb85263ec478cff830993a5cd4ba0a6bd704",
+      "after_sha256": "6e62daaf5e4c216ab5920a841d2c5e90b7845fa7ae998b2bbbb5d7d9b7991dca",
+      "fragment_index": 40,
+      "fragment_uncompressed_offset": 0,
+      "fragment_zlib_start": 8966404,
+      "fragment_stored_bytes": 40309,
+      "zlib_split": 1349
+    },
+    {
+      "path": "/usr/lib/libuudfileinputupdaterapi.so",
+      "bytes": 52288,
+      "verifyKey": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification9verifyKeyEPKc",
+        "elf_va": "0x95ac",
+        "file_offset": "0x95ac",
+        "symbol_bytes": 584,
+        "before_hex": "fd7bb2a9e00301aa",
+        "after_hex": "00008052c0035fd6",
+        "before_disassembly": [
+          "0x95ac: stp x29, x30, [sp, #-0xe0]!",
+          "0x95b0: mov x0, x1"
+        ],
+        "after_disassembly": [
+          "0x95ac: mov w0, #0",
+          "0x95b0: ret"
+        ]
+      },
+      "VerifySignature": {
+        "mangled_symbol": "_ZN7Updater21SignatureVerification15VerifySignatureENS_13verify_info_tEPKc",
+        "elf_va": "0x97f4",
+        "file_offset": "0x97f4",
+        "symbol_bytes": 372,
+        "sha256": "ac5614b7a5d88713de340c79624ce05cbe7815e0ec5851403e3bd022d3c99584",
+        "unchanged": true
+      },
+      "before_sha256": "f8a622fd2b038080cf682b22febe60e379b916f72d8890687b1a6b2109c5182e",
+      "after_sha256": "9d2181d1f63060271d9edc80b3580519d545529cdf753cff79796d3d36829ae7",
+      "fragment_index": 44,
+      "fragment_uncompressed_offset": 61424,
+      "fragment_zlib_start": 9047396,
+      "fragment_stored_bytes": 40026,
+      "zlib_split": 321
+    }
+  ],
+  "p1chksum_before": "8012c2a05301a39e5b4b34c96fdfc974  ./boot/vmlinux.bin\neeab3100b1f628df05695c4fcc0e52b2  ./boot/initrd.img\n",
+  "p1chksum_after": "8012c2a05301a39e5b4b34c96fdfc974  ./boot/vmlinux.bin\n03b089579add2b8490d09c6fedc83b50  ./boot/initrd.img\n",
+  "camera_IO": false
+}

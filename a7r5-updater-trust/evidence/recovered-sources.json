@@ -1,0 +1,119 @@
+{
+  "card-update-offline-20261021/trust.py": {
+    "events": [
+      {
+        "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+        "line": 8660,
+        "action": "Add"
+      },
+      {
+        "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+        "line": 8710,
+        "action": "Update"
+      },
+      {
+        "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+        "line": 8804,
+        "action": "Update"
+      }
+    ],
+    "recovered_file": "historical/card-update-offline-20261021__trust.py.txt",
+    "recovered_sha256": "6d8df6731ca535918e56e16dd240767f7558271a2abfd6fe49798ca1c0f68f2d"
+  },
+  "updater-trust-kit-deploy-20261021-01/plan.py": {
+    "events": [
+      {
+        "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+        "line": 9707,
+        "action": "Add"
+      }
+    ],
+    "recovered_file": "historical/updater-trust-kit-deploy-20261021-01__plan.py.txt",
+    "recovered_sha256": "5c6575f66adedac4f72707e7c965df9826a9472f68e2ba9e03f33c93fe551ad6"
+  },
+  "updater-trust-kit-deploy-20261021-01/sources/trust_engine.c": {
+    "events": [
+      {
+        "session": "rollout-2026-10-20T18-41-05-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a158e6-8819-7bb0-862f-1295f7491443.jsonl",
+        "line": 9726,
+        "action": "Add"
+      }
+    ],
+    "recovered_file": "historical/updater-trust-kit-deploy-20261021-01__sources__trust_engine.c.txt",
+    "recovered_sha256": "23fe45ec09d60289a931a49edd68272cc62d604d45380efaa9d9d564b68973eb"
+  },
+  "card-flash-libjit-20261021-01/native_gate.c": {
+    "events": [
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 185,
+        "action": "Add"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 195,
+        "action": "Update"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 218,
+        "action": "Update"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 283,
+        "action": "Update"
+      }
+    ],
+    "recovered_file": "historical/card-flash-libjit-20261021-01__native_gate.c.txt",
+    "recovered_sha256": "c8e341fe7ea010b3607dd4fa954ed25f2652ec23a1ef8d6669632eba5eb9e487"
+  },
+  "card-flash-libjit-20261021-01/reconcile.py": {
+    "events": [
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 244,
+        "action": "Add"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 298,
+        "action": "Update"
+      }
+    ],
+    "recovered_file": "historical/card-flash-libjit-20261021-01__reconcile.py.txt",
+    "recovered_sha256": "7a72ca6db7f425a6c19eb96792cbdbdbcde3691b432d2b7bd4e6307f8cd3e00e"
+  },
+  "card-flash-libjit-20261021-01/operation.py": {
+    "events": [
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 313,
+        "action": "Add"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 378,
+        "action": "Update"
+      }
+    ],
+    "recovered_file": "historical/card-flash-libjit-20261021-01__operation.py.txt",
+    "recovered_sha256": "8587abc3aacc1e8e1f9accfe2d8ed99ecab7e5971f6c77bf3564a22c66d3317b"
+  },
+  "card-flash-libjit-20261021-01/execute_once.py": {
+    "events": [
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 339,
+        "action": "Add"
+      },
+      {
+        "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+        "line": 400,
+        "action": "Update"
+      }
+    ],
+    "recovered_file": "historical/card-flash-libjit-20261021-01__execute_once.py.txt",
+    "recovered_sha256": "89c20ed1011b66be018c093438175e189a1851e9a951962edb100cb27f27f996"
+  }
+}

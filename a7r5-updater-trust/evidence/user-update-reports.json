@@ -1,0 +1,14 @@
+[
+  {
+    "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+    "line": 946,
+    "kind": "historical_user_report_not_new_measurement",
+    "text": "更新成功了\n"
+  },
+  {
+    "session": "rollout-2026-10-21T17-00-39-01a158e5-b64d-7f10-bcf2-38976e1c13a8_01a15db0-f0ee-7f81-8f75-0a4150819fc7.jsonl",
+    "line": 964,
+    "kind": "historical_user_report_not_new_measurement",
+    "text": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_ade168976d054298b15923217dde1b62\\\",0]\",\"question\":\"请仅查看机身：当前版本页是否显示 4.04，相机是否已正常重启并进入拍摄界面，且没有错误提示？暂时无需连接 USB、取卡或重新执行更新。\",\"answer\":\"版本为 4.04，正常进入拍摄界面，无错误\"}]\n</send_user_message_question_reply>\n"
+  }
+]

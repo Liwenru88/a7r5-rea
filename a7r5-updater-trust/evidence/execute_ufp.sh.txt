@@ -1,0 +1,84 @@
+#!/bin/sh
+
+. /usr/bin/common.src
+MODPATH=/usr/kmod
+BUSPOWER_IC_NONE=1
+
+copyCurrentFirmwareInfo()
+{
+	mount -t vfat /dev/nflasha1 /mnt $VFAT_MOUNT_OPTION_SYNC || { echo "[ERROR]nflasha1 mount failed" ; exit 1 ; }
+	mount -t vfat /dev/nflasha2 /setting $VFAT_MOUNT_OPTION_SYNC || { echo "[ERROR]nflasha2 mount failed" ; exit 1 ; }
+	cp /mnt/dat2 /ramdsk/
+	cp /mnt/dat3 /ramdsk/
+	cp /setting/updater/dat4 /ramdsk/
+	umount /setting  || { echo "[ERROR]nflasha2 umount failed" ; exit 1 ; }
+	umount /mnt  || { echo "[ERROR]nflasha1 umount failed" ; exit 1 ; }
+}
+
+insmodMediaDriver()
+{
+	insmod $MODPATH/mcmn_drv.ko || { echo "[Error] : error insmod mcmn_drv.ko" ; exit 1  ; }
+	insmod $MODPATH/mmc_drv.ko ||  { echo "[Error] : error insmod mmc_drv.ko" ; exit 1  ; }
+	insmod $MODPATH/nvme-core.ko || { echo "[Error] : error insmod nvme-core.ko" ; exit 1  ; }
+	insmod $MODPATH/nvme.ko ||  { echo "[Error] : error insmod nvme.ko " ; exit 1  ; }
+}
+
+enterBeetsFw1()
+{
+	ud_get_buspower_ic.elf
+	if [ $? -ne $BUSPOWER_IC_NONE ] ; then
+		/usr/bin/ud_pd_firmup.elf u
+	fi
+}
+
+_pid=0
+
+cur_mode=$1
+
+enterBeetsFw1
+prepare-usb.sh
+
+ud_timeout_poweroff.elf &
+
+mount -t vfat /dev/nflasha2 /setting $VFAT_MOUNT_OPTION_SYNC || { echo "[ERROR]nflasha2 mount failed" ; exit 1 ; }
+if [ -e /setting/updater/comp ] ; then
+	rm -rf /setting/updater/mode*
+fi
+umount /setting  || { echo "[ERROR]nflasha2 umount failed" ; exit 1 ; }	
+
+#tentative
+/usr/bin/ulogio.elf ml 0xf1388074 0x800000
+/usr/bin/ulogio.elf dl 0xf1388070 0x10
+
+if [ $MODE_MINOR -eq $cur_mode  ] ; then
+	echo "[DETAIL] : exec sauu -m"
+	LD_PRELOAD="/usr/lib/libSysDef.so:/usr/lib/libInfraSKD.so" sauu -m || { echo "[Error] : error sauu" ; exit 1 ; }
+elif [ $MODE_VERSKIP -eq $cur_mode ] ; then
+	copyCurrentFirmwareInfo
+	echo "[DETAIL] : exec sauu -s"
+	LD_PRELOAD="/usr/lib/libSysDef.so:/usr/lib/libInfraSKD.so" sauu -s || { echo "[Error] : error sauu" ; exit 1 ; }
+elif [ $MODE_MSCRYPT -eq $cur_mode ] ; then
+	echo "[DETAIL] : exec sdfileinput.elf"
+	insmodMediaDriver
+	LD_PRELOAD="/usr/lib/libInfraSKD.so" sdfileinput.elf || { echo "[Error] : error sdfileinput" ; exit 1 ; }
+	mount -t vfat /dev/nflasha2 /setting $VFAT_MOUNT_OPTION_SYNC
+	touch /setting/updater/MediaUpdateCompleteFlag
+	umount /setting
+elif [ $MODE_FILECRYPT -eq $cur_mode ] ; then
+	echo "[DETAIL] : exec uudfileinput.elf"
+	mount -t vfat /dev/nflasha22 /mnt $VFAT_MOUNT_OPTION_SYNC
+	LD_PRELOAD="/usr/lib/libInfraSKD.so" uudfileinput.elf /mnt/firm.dat || { echo "[Error] : error uudfileinput" ; exit 1 ; }
+else
+	echo "[DETAIL] : exec sauu"
+	LD_PRELOAD="/usr/lib/libSysDef.so:/usr/lib/libInfraSKD.so" sauu || { echo "[Error] : error sauu" ; exit 1 ; }
+fi
+
+echo "User Update OK"
+updater_log.sh "Updater: END. User Update OK"
+LSINUM_MIRA_CETUS=3
+
+# !!! reboot !!! 
+ud_read_lsi_type.elf
+if [ $? = $LSINUM_MIRA_CETUS ] ; then
+	us_reboot.sh
+fi

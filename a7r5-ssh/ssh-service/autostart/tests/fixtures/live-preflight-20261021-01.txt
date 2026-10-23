@@ -1,0 +1,85 @@
+A7R5_AUTO_PREFLIGHT1
+Name:	busybox
+Umask:	0077
+State:	R (running)
+Tgid:	1950
+Ngid:	0
+Pid:	1950
+PPid:	1949
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	0 
+VmPeak:	    2372 kB
+VmSize:	    2372 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	     244 kB
+VmRSS:	     244 kB
+RssAnon:	      48 kB
+RssFile:	     196 kB
+RssShmem:	       0 kB
+VmData:	     308 kB
+VmStk:	     132 kB
+VmExe:	     408 kB
+VmLib:	    1368 kB
+VmPTE:	      16 kB
+VmPMD:	      12 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+Threads:	1
+SigQ:	5/1089
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000004
+SigCgt:	0000000000000000
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+Speculation_Store_Bypass:	unknown
+Cpus_allowed:	7
+Cpus_allowed_list:	0-2
+Mems_allowed:	1
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	0
+nonvoluntary_ctxt_switches:	1
+
+===NS===
+mnt:[4026533196]
+===MOUNTS===
+39 38 252:135 / / ro,noatime,nodiratime - ext2 /dev/nflasha7 ro,sync,errors=continue
+40 39 0:4 / /proc rw,relatime - proc proc rw
+41 39 0:6 / /dev rw,relatime - devtmpfs devtmpfs rw,size=139488k,nr_inodes=34872,mode=755
+42 41 0:16 / /dev/cgroup rw,relatime - cgroup nodev rw,cpuset
+43 41 0:17 / /dev/pts rw,relatime - devpts none rw,mode=600,ptmxmode=000
+44 39 0:14 / /sys rw,relatime - sysfs none rw
+45 44 0:8 / /sys/kernel/debug rw,relatime - debugfs none rw
+46 39 252:130 / /setting rw,noatime,nodiratime - vfat /dev/nflasha2 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+47 39 252:131 / /system rw,noatime,nodiratime - vfat /dev/nflasha3 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+48 39 252:136 / /cp rw,noatime,nodiratime - vfat /dev/nflasha8 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+49 39 252:140 / /cert rw,noatime,nodiratime - vfat /dev/nflasha12 rw,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,batch_sync,posix_attr,avoid_dlink,errors=remount-ro
+50 39 252:146 / /lens rw,noatime,nodiratime - vfat /dev/nflasha18 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+51 39 252:138 / /tmp rw,noatime,nodiratime - vfat /dev/nflasha10 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+52 51 252:134 / /tmp/jiritsu rw,noatime - vfat /dev/nflasha6 rw,sync,dirsync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,avoid_dlink,errors=remount-ro
+53 39 252:143 / /usr ro,noatime,nodiratime - ext2 /dev/nflasha15 ro,sync,errors=continue
+54 53 252:150 / /usr/data/ai_dict/usr rw,noatime - vfat /dev/nflasha22 rw,dirsync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+55 39 252:138 / /etc rw,noatime,nodiratime - vfat /dev/nflasha10 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+56 39 252:138 / /var rw,noatime,nodiratime - vfat /dev/nflasha10 rw,sync,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,posix_attr,avoid_dlink,errors=remount-ro
+57 39 0:15 / /tmp_wbshd rw,relatime - tmpfs none rw
+58 39 252:139 / /log rw,noatime,nodiratime - vfat /dev/nflasha11 rw,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,batch_sync,posix_attr,avoid_dlink,errors=remount-ro
+59 39 0:18 / /tmp_bt rw,noatime - tmpfs none rw,sync,dirsync,size=1024k
+60 39 0:20 / /tmp_ipsec rw,noatime - tmpfs none rw,sync,dirsync,size=128k
+61 39 0:21 / /tmp_cloud rw,noatime - tmpfs none rw,sync,dirsync,size=128k
+62 39 0:19 / /tmp_network rw,noatime - tmpfs none rw,sync,dirsync,size=1024k
+63 56 0:22 / /var rw,nosuid,nodev,relatime - tmpfs a7r5-private-ssh rw,size=4096k,mode=755
+64 55 0:22 /run/a7r5-ssh-5e551f1a97774fa1885f15799583d09b/passwd.view /etc/passwd ro,relatime - tmpfs a7r5-private-ssh rw,size=4096k,mode=755
+65 43 0:23 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,mode=620,ptmxmode=666
+===READY===
+A7R5_PRIVATE_READY 5e551f1a97774fa1885f15799583d09b parent=1898 child=1899 uid=0 euid=0 ttl=0 parent_unchanged=1 private_account_changed=1 parent_ns=mnt:[4026531840] child_ns=mnt:[4026533196] host_public_sha=1d37ff3ca1da5e372673315c5848e6f2a180de2df9390bbea5437211e46b5328
+===PUBLIC===
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJbdW4syUxnSsfa3xYTRbb6OZAnepKn4bPDCz5HnVOTvKfEI83mAbouGwsi4rzBn6VDWGiHG5ZlnZWeQLgYDM/A=
+===END===

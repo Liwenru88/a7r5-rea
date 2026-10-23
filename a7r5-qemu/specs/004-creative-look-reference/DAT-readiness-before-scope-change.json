@@ -1,0 +1,32 @@
+{
+  "state": "BLOCKED_FULL_CP_BOOT",
+  "DAT_packaging_allowed": false,
+  "component_CP": {
+    "path": "build/look-materials-compact-m60gnero/cpapp-b.bin",
+    "bytes": 17617008,
+    "sha256": "360aae92035b66c5e7f7f1b02b44acc0451ad1c18ca0f9a9aafde459fa61a525"
+  },
+  "equal_length_FAT_replacement_precondition": true,
+  "actual_FAT_repack_verified": false,
+  "historical_CP_partition_bytes": 24531968,
+  "original_partition_images_read": false,
+  "BSS_and_data_overlap": false,
+  "original_entry_layout_stage_verified": true,
+  "full_CP_boot_verified": false,
+  "external_AP_loader_verified": false,
+  "blockers": [
+    "PLL0 0xf1388100 model/initial state/locking semantics unavailable",
+    "CP service startup completion not observed",
+    "external loader complete-file transfer not executed",
+    "final integrated CP must preserve existing type1 sound change and rebind target hashes"
+  ],
+  "next_steps": [
+    "establish PLL0 semantics and sourced initial configuration; preserve real failure behavior",
+    "continue CP original startup to verifiable service completion",
+    "verify complete CP file transfer by AP/mini loader",
+    "rebase final integrated CP, then FAT/container/signature and independent unpack verification"
+  ],
+  "camera_io": false,
+  "card_io": false,
+  "new_DAT_generated": false
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+tool_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -n "${A7R5_DAT_PYTHON:-}" ]; then
+    runtime=$A7R5_DAT_PYTHON
+elif [ -x "$tool_dir/.venv/bin/python" ]; then
+    runtime=$tool_dir/.venv/bin/python
+else
+    printf '%s\n' '请先运行 ./安装依赖.command，或用已安装依赖的 Python 执行 dattool.py。' >&2
+    exit 1
+fi
+exec "$runtime" -B "$tool_dir/dattool.py" "$@"

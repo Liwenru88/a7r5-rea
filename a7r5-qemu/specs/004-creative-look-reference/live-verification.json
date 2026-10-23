@@ -1,0 +1,56 @@
+{
+  "scope": "fresh instruction execution per accepted selection; software reference pixels",
+  "materials": "build/look-materials-77zf0trj",
+  "Qt_acceptance": "runs/look-qt-accept-xwohyafx",
+  "regression_logs": "logs/look-live-regression-i0dg3qnl",
+  "regression_tests_passed": 29,
+  "Qt_platform": "cocoa",
+  "Qt_accepted_requests": 36,
+  "Qt_native_success_requests": 35,
+  "Qt_bad_image_stopped": 1,
+  "fresh_native_parameter_results_verified": true,
+  "all_18_look_items_executed": true,
+  "photo_picker_verified": true,
+  "no_result_cache": true,
+  "normal_close_verified": true,
+  "native_Q10_diagonal_verified": true,
+  "native_nonuniform_Gamma_axis_verified": true,
+  "matrix_ISP_color_space_verified": false,
+  "hue_phase_verified": false,
+  "complete_original_look_pixel_stages_verified": false,
+  "native_AP_CP_transport_verified": false,
+  "native_ISP_pixels_verified": false,
+  "camera_io": false,
+  "original_images_modified": false,
+  "native_CP_ISP_research_preserved": true,
+  "AP_CP_parameter_ms": {
+    "min": 763.11,
+    "median": 784.255,
+    "max": 829.15
+  },
+  "reference_render_ms": {
+    "min": 119.18,
+    "median": 127.195,
+    "max": 341.37
+  },
+  "source_sha256": {
+    "tools/look_native.py": "63f157f6ef4ba404bd921ccd1ccf5245ff48ac8bc7ee03be153f7bf0604c6178",
+    "tools/look_materials.py": "2e6ce5be16dc0cde9e09bcc1776d65251515e3158094da5ff2cd648361bff765",
+    "tools/look_live.py": "4a7fba640e99a47abdb3b6d39d025c6b46d5f58862cb1a8739fa3d5456074c65",
+    "tools/look_reference_ui.py": "a595ec503ca2882581b89a371ad1cc6494ddc53c01ced43039c236feda684842",
+    "tools/look_launch.py": "680bf29ae33f5b4e39fb491c5cb96a4d94f46c43241d2cf390b2e70d4d0af293",
+    "tests/test-look-live.py": "6a9b98af5dc8085cb69b921ed39264360bf0b21cfb89bdcd19a6e5b150084b0c",
+    "tests/accept-look-reference.py": "aea99bf8b719393dd5fa1d392345fdc39e56957875235e902a7b89a963db961b",
+    "source/guest/look-live-ap.c": "6db162bce33cc50408f00113398a3ee5e755e98119b42062d17917af9e853a6d",
+    "source/guest/look-live-cp.c": "5b54ffd363929af09a68c89f2cdc511055c7fd174ac2ad47ae606b8c0a733715",
+    "source/guest/look-reference-ap.S": "dd2dc073e464693611bbc3a275987e3a8aed06af356d7680dc0b59c3ac03df7d",
+    "source/guest/cp-native-start.S": "09de86f7ea1f3ba43ebd97da30ea3c47ba434aacaca41cdc4975d0aaeff83f75",
+    "source/guest/look-reference-ap.c": "feab16cb7aa289d8d0aa22916578d3e4fb93ba7d233e5c948488b4ad149252a4",
+    "source/guest/look-reference-cp.c": "377bdf01392908a2a2ba0e2e028da96b8928bb3d88a05021f0746a14dbba8223"
+  },
+  "strict_photo_Gamma_mapping_replay": {
+    "cases": 35,
+    "all_passed": true,
+    "fresh_processes_from_original_Qt_acceptance": true
+  }
+}

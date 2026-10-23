@@ -1,0 +1,16 @@
+{
+  "scope": "original emulator snapshots; pixels only; no replacement rendering",
+  "sources": [
+    "local-application-support/A7R5 Emulator/runs/native-app-ll31jzms/live-0087-C4.bin",
+    "local-application-support/A7R5 Emulator/runs/native-app-ll31jzms/live-0089-ENTER.bin",
+    "runs/native-app-s1tjtsaq/research-0002-C4.bin",
+    "runs/native-app-s1tjtsaq/research-0000-MENU.bin"
+  ],
+  "pixel_sha256": [
+    "5a202505c573e9f681127420bb0c1e8f36617b26d0aa45a94b82c0dd0a763edb",
+    "dc7d7e46bf3c576fb5d069f28b09748ef2bde7689043bd82a69b08d92d823acd",
+    "0dfdc8ec08743fe63d07c9eb5e6c2052018c60f857d1d6775b99b58019ce8f58",
+    "ffa49293cecd82e38be2a7549dad0b7f9e497726c97c118a05068208bd117bde"
+  ],
+  "frame_bytes": 614400
+}

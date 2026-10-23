@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "A7R5 Studio",
+  "version": "0.1.0",
+  "identifier": "local.a7r5.studio",
+  "build": {"frontendDist": "../web"},
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [{"title": "A7R5 Studio · 本地测试版", "width": 1160, "height": 820, "minWidth": 940, "minHeight": 720}],
+    "security": {"csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src ipc: http://ipc.localhost"}
+  },
+  "bundle": {"active": false, "targets": ["app"], "macOS": {"minimumSystemVersion": "14.0"}}
+}

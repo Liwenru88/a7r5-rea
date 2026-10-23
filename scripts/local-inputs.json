@@ -1,0 +1,45 @@
+{
+  "desktop": [
+    {
+      "path": "a7r5-firmware-images/官方升级包/BODYDATA.DAT",
+      "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2"
+    },
+    {
+      "path": "a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha1.img",
+      "sha256": "acf32d30dd883ed349738e66fb081e85e0d6a3c746f5e3ca169031e8d69ed731"
+    },
+    {
+      "path": "a7r5-exec/sdk/libc-2.25.so",
+      "sha256": "f9104526eb7e5d2ea533c1a209bb0b83e69367f569e4c966895c8e106e6382c9"
+    },
+    {
+      "path": "a7r5-dat-tool/keys/research-signing-private.pem",
+      "private": true
+    },
+    {
+      "path": "a7r5-ssh/ssh-service/original-view/vendor/sftp-server.arm64",
+      "sha256": "621e0f8b6aaaedddbbd1e31dd01b2bae551b70af11d508b7fee66a491348f76e"
+    }
+  ],
+  "exec": [
+    {
+      "path": "a7r5-exec/sdk/libc-2.25.so",
+      "sha256": "f9104526eb7e5d2ea533c1a209bb0b83e69367f569e4c966895c8e106e6382c9"
+    },
+    {
+      "path": "a7r5-exec/TOOL.json"
+    }
+  ],
+  "libjit": [
+    {
+      "path": "a7r5-libjit/packages/libjit-info-20261021-02/test-fixtures/libJiritsu.so",
+      "sha256": "ea2d9ba9dbeb56fc11ad88be7b5c30b6b237f8ccc55ce9f24c02546eb0ba07b1"
+    }
+  ],
+  "qemu": [
+    {
+      "path": "a7r5-qemu/source/qemu/vendor/qemu-11.1.2.tar.xz",
+      "sha256": "731b5681e4bb18be313231579b8efd0296c5b015fa36dc533874b639ba838016"
+    }
+  ]
+}

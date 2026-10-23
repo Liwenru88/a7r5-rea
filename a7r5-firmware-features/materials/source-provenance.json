@@ -1,0 +1,87 @@
+{
+  "source_files": [
+    {
+      "path": "analysis/ap-look-selfcontained-20261022-01/ap_patch.py",
+      "sha256": "f29459c98f2a07f027537b6d846af8f8a3f35c365dcca8cb9a84f442ef0d1e8c"
+    },
+    {
+      "path": "analysis/ap-look-selfcontained-20261022-01/offline_cpu.py",
+      "sha256": "6dfe1bc8d1733997f633940a7156ac0ce15ac712c0078d51f25bfd0b3e3ff1d4"
+    },
+    {
+      "path": "analysis/ap-look-selfcontained-20261022-01/test_selection.py",
+      "sha256": "4f08a807e8820493eb87341d6372e3517ac2e8e2ecdef8ee357068c625341d3b"
+    },
+    {
+      "path": "analysis/fl23-candidates-20261021/reference/tools/build_r5_m4strict_ap.py",
+      "sha256": "a3f95f81971e49136ae0f789d67ecbb81bc18065463ba79ec54e50df997c370c"
+    },
+    {
+      "path": "analysis/fl23-candidates-20261021/reference/tools/build_r5_m4strict_cp.py",
+      "sha256": "2050cfe4c51c6314a923868dc07a6aeb0dc729611f7af8d0fde98ed06a0c3e90"
+    },
+    {
+      "path": "analysis/fl23-candidates-20261021/reference/tools/build_r5_m4strict_gamma.py",
+      "sha256": "9be7afb4a480c1cfc72a78c5d609724b82746cfcf9b7a070d57f1ff7c0e866f4"
+    },
+    {
+      "path": "analysis/custom-features-20261021-03/research-materials-v3/code/ap_runtime.py",
+      "sha256": "20bd2b190876fe310c0850770d1f413287deacce84a67711c19c3938b1d3fb96"
+    },
+    {
+      "path": "analysis/custom-features-20261021-03/research-materials-v3/code/cp_runtime.py",
+      "sha256": "ac95bdc40c0665da6a35ac7c7692586ced06883e53693619daf41d83052d5725"
+    },
+    {
+      "path": "analysis/custom-features-20261021-03/research-materials-v3/code/name_resources.py",
+      "sha256": "3c30061f620278a0598d95121185680ac628dc4ad5cbecc9d11c01dfc8f0131d"
+    },
+    {
+      "path": "analysis/custom-features-20261021-03/research-materials-v3/code/r5_ntsc.py",
+      "sha256": "5998713ece5b4b2cad23d980bb9e344368a462a81530be693d8ad91c4bb67fe7"
+    },
+    {
+      "path": "analysis/custom-features-20261021-03/research-materials-v3/code/assembler.py",
+      "sha256": "f65920a49f8313abf1ea2305f75df8f5e4e45c665f883b522fabe45c76a49f7e"
+    },
+    {
+      "path": "analysis/joint-look-adaptation-20261022-01/menu_names.py",
+      "sha256": "acc8a70c74ecc69cf460a019647a7854c3f7a9ae32cab046171ccc3d8eddd2df"
+    },
+    {
+      "path": "analysis/joint-look-adaptation-20261022-01/test_sound_selector.py",
+      "sha256": "f81a9d2178b80eb904df9141d261d59f544d2da4e02e98b59aed2363ce7fbd3d"
+    },
+    {
+      "path": "a7r5-qemu/tools/look_joint.py",
+      "sha256": "ad0038b14ab24000357a4f0220ff39ffe014301549801ff45aec466de4ca4efe"
+    },
+    {
+      "path": "a7r5-qemu/tools/look_matrix_compact.py",
+      "sha256": "8593d04638867350c94309c473cada688333a1bcf2d8eea28ce1f11f7f2569ac"
+    },
+    {
+      "path": "a7r5-qemu/tools/look_matrix_embed.py",
+      "sha256": "a3cbd29297d4e439f74422d9696e6033119df577016fc987b25e378a5a5883a5"
+    },
+    {
+      "path": "a7r5-qemu/source/guest/look-joint.S",
+      "sha256": "acc2d15a0fee28cfdfecb01c970a69eafbec2554225b381656cb028e85f1a68d"
+    },
+    {
+      "path": "a7r5-qemu/source/guest/look-matrix-bootcopy.S",
+      "sha256": "b1676b2c5db616a09c19d9a59fb2888a687d02406ce5d19a7155e56987a29ea1"
+    },
+    {
+      "path": "a7r5-qemu/source/guest/look-matrix-inline.S",
+      "sha256": "d6d7362f07af850e1551f8fb0050eba7ce462304981e80161ca2c69d70d62c4c"
+    },
+    {
+      "path": "a7r5-qemu/source/guest/look-matrix-bootcall.S",
+      "sha256": "abc319eb479fedf1a1a7365e10a3f1458f09520f8211d7e0bd7e7a1cf6845c2d"
+    }
+  ],
+  "full_source_snapshots_for_review_only": true,
+  "run_reproduce_script_instead": true,
+  "private_keys_packaged": false
+}

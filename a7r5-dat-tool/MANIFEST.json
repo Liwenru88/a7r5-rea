@@ -1,0 +1,154 @@
+{
+  "version": "1.0.0",
+  "contains_private_signing_key": true,
+  "private_key_path": "keys/research-signing-private.pem",
+  "encrypted_archive": false,
+  "camera_io": false,
+  "files": {
+    ".gitignore": {
+      "bytes": 75,
+      "sha256": "ee448edc1b698e2700d7c777694f22ee3c56aa7c3ae0c9d66bff035ea8ca6f63",
+      "mode": "0o600"
+    },
+    "README.md": {
+      "bytes": 7481,
+      "sha256": "8c6a820caa12b921ebba37e4c53a59a9236766570271ac43f35cdb3f7115bbdf",
+      "mode": "0o600"
+    },
+    "SOURCE_FILES.json": {
+      "bytes": 1172,
+      "sha256": "0384ca18f2e05e5969e59def60ffd83be54c61d59209573780c0cfe8c1895523",
+      "mode": "0o600"
+    },
+    "a7r5dat/__init__.py": {
+      "bytes": 51,
+      "sha256": "9862b13628758fede9788761cf377adf94be07dee152c5946407b461352047ba",
+      "mode": "0o600"
+    },
+    "a7r5dat/codec.py": {
+      "bytes": 7852,
+      "sha256": "0cc9fa7cbe99d832dd63d1dff62dc1b6d1f35a8cf8320fb4012678afe84cab7d",
+      "mode": "0o600"
+    },
+    "a7r5dat/constants.py": {
+      "bytes": 252,
+      "sha256": "e102c8511ec2a0e1c9713339fee098f304a476fc275dc80fb0dcac43836e2cef",
+      "mode": "0o600"
+    },
+    "a7r5dat/encryptor.py": {
+      "bytes": 5041,
+      "sha256": "7bba39d9cf5f7e0956775b787cd2ccae297dc113f740146a29e71ad81004dd9d",
+      "mode": "0o600"
+    },
+    "a7r5dat/ext2_patch.py": {
+      "bytes": 7400,
+      "sha256": "6a22b44f9d9606b4dff49545f5f3fd9e652493867905b364a57395dd31a49404",
+      "mode": "0o600"
+    },
+    "a7r5dat/ext2read.py": {
+      "bytes": 4514,
+      "sha256": "c2972216e93f7d1fc4b146445e23e43684ae0ad9dd148b3d91f95a3f1a5b2926",
+      "mode": "0o600"
+    },
+    "a7r5dat/fat.py": {
+      "bytes": 4401,
+      "sha256": "b6530aaa4bff38166fd6989ef4d6138634bfd3512c371ec306359192a971595c",
+      "mode": "0o600"
+    },
+    "a7r5dat/tool.py": {
+      "bytes": 22915,
+      "sha256": "90c215f76f12f28207e1912bb3cabb0372ccf9fb24972cfabea421f56fcd9ad3",
+      "mode": "0o600"
+    },
+    "dattool": {
+      "bytes": 407,
+      "sha256": "ac5882ad6440179a41cfcd27706c3dd7b572bd2a0ca5e29a26d94bed73703b82",
+      "mode": "0o700"
+    },
+    "dattool.py": {
+      "bytes": 177,
+      "sha256": "af46c7c6d01dee7937b3c41330ce7d3b2054c954e6b5defbe16b921e48fa60d7",
+      "mode": "0o700"
+    },
+    "evidence/official-rebuild-comparison.json": {
+      "bytes": 3667,
+      "sha256": "b73b40e1f9965ab11f25db6717fdd5cdb0803f282b04ef1940b09b57aec31442",
+      "mode": "0o600"
+    },
+    "evidence/rebuilt-current-from-official.DAT.json": {
+      "bytes": 4207,
+      "sha256": "1b0b5fffb1fba8ce24d601d0aa73e8eff386ae45380baa4f8567396564e7804e",
+      "mode": "0o600"
+    },
+    "evidence/roundtrip-current.DAT.json": {
+      "bytes": 735,
+      "sha256": "270791a0f998fb4138511661f2af2b5fe7ea4a87b29d658bafe160df2250526c",
+      "mode": "0o600"
+    },
+    "evidence/unit-tests.json": {
+      "bytes": 1218,
+      "sha256": "37d930a7e24f502ba106fb73bad1f15a1fe58da8a38382034bdd2cb776e78260",
+      "mode": "0o600"
+    },
+    "evidence/validation-summary.json": {
+      "bytes": 525,
+      "sha256": "7954fb17f65df4c802f08574c5a8442817e06579b809e89c0ee90f1f8e756da3",
+      "mode": "0o644"
+    },
+    "keys/README.md": {
+      "bytes": 292,
+      "sha256": "c3a009921a4c34dbb01f39255068528a74a66386fdd12d8c6fc535ad1dfd19f3",
+      "mode": "0o600"
+    },
+    "keys/research-public.pem": {
+      "bytes": 451,
+      "sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+      "mode": "0o600"
+    },
+    "keys/research-signing-private.pem": {
+      "bytes": 1703,
+      "sha256": "3c64a0897fca201a1480e4d504719f354d1362ce05e1dcfc83efede9daeb405e",
+      "mode": "0o600"
+    },
+    "keys/sony-original-public.pem": {
+      "bytes": 451,
+      "sha256": "8281413b5607446939613e07d020b2c7d8ee2371349099de56bc8288f7be0a43",
+      "mode": "0o600"
+    },
+    "licenses/NOTICE.md": {
+      "bytes": 790,
+      "sha256": "81a0b1756ff1a0bd55e5615988d7a47313bf8d5737f3e5b65c5ac8567e0bd0bc",
+      "mode": "0o600"
+    },
+    "licenses/reference-LICENSE": {
+      "bytes": 1305,
+      "sha256": "0032a12e5c600a0915b41a3b41587893446b2b32026f0153b958e349957bac2d",
+      "mode": "0o600"
+    },
+    "requirements-dev.txt": {
+      "bytes": 39,
+      "sha256": "e1e3dc07756d8b5229b087e34304b65e8713da5bdfcdef76e3fa39895dfe713d",
+      "mode": "0o600"
+    },
+    "requirements-lock.txt": {
+      "bytes": 84,
+      "sha256": "c63a5a2744f392d5d25171c23b786e8224695c0b9f254985fc67616a0613f030",
+      "mode": "0o600"
+    },
+    "requirements.txt": {
+      "bytes": 56,
+      "sha256": "f7367edafc5270eb5f9c023bea01b9ddc27b0fbba24564d185ac8f5961210ab3",
+      "mode": "0o600"
+    },
+    "tests/test_tool.py": {
+      "bytes": 7690,
+      "sha256": "414f7f7aa1f4d94a9dc669aa201e3a6745042ab4a83066bb218be6f3cb71a048",
+      "mode": "0o600"
+    },
+    "安装依赖.command": {
+      "bytes": 1077,
+      "sha256": "fda2adea39609e447f217a715cfec2034db760ca7fed0cceddc87792c15d286f",
+      "mode": "0o700"
+    }
+  }
+}

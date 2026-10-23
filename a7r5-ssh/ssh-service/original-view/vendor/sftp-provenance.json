@@ -1,0 +1,9 @@
+{
+  "url": "https://archive.debian.org/debian/pool/main/o/openssh/openssh-sftp-server_7.4p1-10+deb9u7_arm64.deb",
+  "package_sha256": "e1a1c2f1b9377cc2a401adc3e1180ba47b068051b9938231ad2a1b94931674fd",
+  "binary_sha256": "621e0f8b6aaaedddbbd1e31dd01b2bae551b70af11d508b7fee66a491348f76e",
+  "distribution_signature_verified": false,
+  "source_rebuilt_locally": false,
+  "copyright_source": "openssh-client_7.4p1-10+deb9u7_arm64.deb",
+  "copyright_package_sha256": "3bd7da145f468b7893e4d100576a4732ea75c6da97106a991d7006364e892da1"
+}

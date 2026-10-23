@@ -1,0 +1,178 @@
+{
+  "source/guest/test-native-sandbox.c": {
+    "bytes": 1487,
+    "sha256": "ca8aeec3cf73976d99d25e4ca4f1250a199fbea68c313970b5289f4ec0b74c44"
+  },
+  "source/guest/test-ramfb-viewer.c": {
+    "bytes": 7442,
+    "sha256": "816485aed9d2472b3d51d8f56df954b9e69cc337e961c2aed93671f07825f266"
+  },
+  "source/guest/sony-lz77.h": {
+    "bytes": 231,
+    "sha256": "d11d5730a66867e564aeccc3020e4e6fa9ba63eda50885d73da47273bd9606ab"
+  },
+  "source/guest/hdmi-format-service.c": {
+    "bytes": 15564,
+    "sha256": "b45dd0bdbdcd0743021213cb2a11f31d2adda8450186aea32025c91b305badfd"
+  },
+  "source/guest/seed-date-clock.c": {
+    "bytes": 4270,
+    "sha256": "e63d76cb4648980aa6b53f8dbc6cbfb1a3b01b7cfddc09e132c6cfff496eb380"
+  },
+  "source/guest/menu-observe-a7r5-baseline.c": {
+    "bytes": 172574,
+    "sha256": "5177c99b648ab7e483a4f3add1e3c393fed480d5d0fa436372cb850bc19a7c7c"
+  },
+  "source/guest/test-lease-retry.c": {
+    "bytes": 908,
+    "sha256": "de8d06bdf510d5ea548583dde342a4e4e0f2f1f04b4dc4e127137da8edd9117d"
+  },
+  "source/guest/fsys-file-test.c": {
+    "bytes": 5035,
+    "sha256": "71e8354b7ef1e85faa018765f071c356f9ca62ac7445bf89c7f7888f25e16b6e"
+  },
+  "source/guest/mutex-trace.c": {
+    "bytes": 1865,
+    "sha256": "c567de1aa09ec4b27c3bd71761eb36b9abc0a077b446734506d15c6b79e606f8"
+  },
+  "source/guest/gpe-sprite.c": {
+    "bytes": 6875,
+    "sha256": "4f3169c27a95bd16958b2b530d116e64ffde4bcb956d945093f103ef10939832"
+  },
+  "source/guest/menu-scanmem.c": {
+    "bytes": 8954,
+    "sha256": "e46db06fc1f0fa2e18c37390746ea729e291211ac9c8e3d7edb11518356f5661"
+  },
+  "source/guest/file-media-config.c": {
+    "bytes": 1232,
+    "sha256": "2f374eb7c4efdd0beadc95307d5c6fbd6a336ad97c47d5892917615e73a17644"
+  },
+  "source/guest/capid-service.h": {
+    "bytes": 519,
+    "sha256": "b881c2008cef00c4ac6f973e79fe071aeea5cdd58993d1326f107a8276899970"
+  },
+  "source/guest/menu-regs.c": {
+    "bytes": 3932,
+    "sha256": "95ca2e37c41dbc657c5089adc63867fe4b37dc94f354cc0f5a10c05a417adf5d"
+  },
+  "source/guest/seed-indicator-config.c": {
+    "bytes": 2090,
+    "sha256": "c04e98783fff50d0a6364a6ae11777a3821557428346b37c70eae09db5c7f608"
+  },
+  "source/guest/headless-osd-a7r5.c": {
+    "bytes": 18541,
+    "sha256": "3f0990aae5b5bcad368301a03985935290bc4e6b198576ea5a1b2e2bc32d5497"
+  },
+  "source/guest/input-table.c": {
+    "bytes": 7068,
+    "sha256": "b5c18370aa662ace9af8d64df31194fe23a7f5efae83a82a2b86f08b73fd00d8"
+  },
+  "source/guest/check-menu-observe.c": {
+    "bytes": 5349,
+    "sha256": "8306d55cd825f98ee09394e0588653bfb5bd79ecb90444c0746bece8b3269b58"
+  },
+  "source/guest/headless-osd.h": {
+    "bytes": 2952,
+    "sha256": "b408c13cfe820d72a91c98858a0ea86efbffbd5681c8ec4be04774a4c62db4a7"
+  },
+  "source/guest/menu-readmem.c": {
+    "bytes": 6192,
+    "sha256": "75c436d9f0761669f3e75452695884a57a78d3b7b4c2c9645e4a638db98724e1"
+  },
+  "source/guest/dmm-service.c": {
+    "bytes": 5322,
+    "sha256": "5e1cfa89a268ae05d294b8aa570d49f82a0dd15df099b94876ad844a14059ad1"
+  },
+  "source/guest/a7r5-services.c": {
+    "bytes": 3158,
+    "sha256": "86fa2693347dddfde37362eca17de725205a4c38bfde4969294dc1a46ecceac4"
+  },
+  "source/guest/a7r5-lease-retry.h": {
+    "bytes": 510,
+    "sha256": "d6fa21d166450b3f42a7a5d689d8aff1ae8c4c44cc1f92630d339644b8408b7f"
+  },
+  "source/guest/seed-power-on.c": {
+    "bytes": 2162,
+    "sha256": "129663a5148f255cc9667fe9d996fb0f262cdcb422b598a2f182b4d4fce79c5c"
+  },
+  "source/guest/test-frame-lease.c": {
+    "bytes": 3499,
+    "sha256": "202ecf0a04f06baa01183e85b5c9ee4ecf07432f91a36efa59b845f49e31d460"
+  },
+  "source/guest/inject-cp-event.c": {
+    "bytes": 2996,
+    "sha256": "07f9aaf9fec19a8f3f8ca8b40d2cb00b2a3d6f584759bd4b8a51c8eefc2aed20"
+  },
+  "source/guest/test-mutex-trace.c": {
+    "bytes": 835,
+    "sha256": "95b76f6d9494c72eceeb9bff0499fb2b8f29205b91102e4a929b021bf1661743"
+  },
+  "source/guest/a7r5-gui.inc": {
+    "bytes": 6927,
+    "sha256": "1d7d4f0c9c75cd2649063aa353f7a7dfbe287236879372673c434593498f8928"
+  },
+  "source/guest/hdmi-format-service.h": {
+    "bytes": 1188,
+    "sha256": "51228811bd91596538a22d789fb16264508c69cd43789e2b095f05ba7c13fa4d"
+  },
+  "source/guest/test-date-clock.c": {
+    "bytes": 2111,
+    "sha256": "b1063719186c36c0f1d5106b9a569102697ab4307c87eb5b9b3adefc67966b34"
+  },
+  "source/guest/backup-dump.c": {
+    "bytes": 2009,
+    "sha256": "9268bad89ca1c60cb284502c94908fe471e33ec9773044b46a7d18dcec39ede0"
+  },
+  "source/guest/sony-lz77.c": {
+    "bytes": 3687,
+    "sha256": "cad2ac49979f08dd93cf7bd498ef66691dce35b924eccf5986eda03824328bbf"
+  },
+  "source/guest/gpe-raster.c": {
+    "bytes": 5366,
+    "sha256": "2801954265ed4b9da5e81d2b07d1100147df63e65365ecf1405ea249fa5af4fa"
+  },
+  "source/guest/capid-service.c": {
+    "bytes": 5076,
+    "sha256": "45b787c1e078cc8970d026a913b5294a7a9f2f6f79a14050830e01a00d14f157"
+  },
+  "source/guest/sa-address-service.c": {
+    "bytes": 3118,
+    "sha256": "65269b039c0ab058fd1606aad46b97214afb737cf1c19a77c2f42f05563e6496"
+  },
+  "source/guest/ramfb-viewer.c": {
+    "bytes": 13388,
+    "sha256": "56062eaffbf8a967ca47b5ca0d051c1605bf799a84c184cddf56f795fed6b1af"
+  },
+  "source/guest/gpe-sprite.h": {
+    "bytes": 598,
+    "sha256": "991033c3ab7e1521fc5a8578fc60518868b3cc41b9b16350da9fcb68699f6819"
+  },
+  "source/guest/inject-key.c": {
+    "bytes": 2530,
+    "sha256": "4723084b461d804890168d04427caeb0e800dfccae679d0416595bbf4e01ddaa"
+  },
+  "source/guest/a7r5-model-trace.inc": {
+    "bytes": 4989,
+    "sha256": "1f55372c85972f9c0a9a574fb19a16b5e57ed16937ba81b952872b94bb865012"
+  },
+  "source/guest/gpe-copy.h": {
+    "bytes": 481,
+    "sha256": "6b7b54705cd8770cfaecf73d28d4e7c919d632bc90ab21e795c031d744fc4b00"
+  },
+  "source/guest/a7r5-services.h": {
+    "bytes": 313,
+    "sha256": "a5d17034d60e792540ea4645d64337fc74beb3a2a0359a4246538cd5797ae5b2"
+  },
+  "source/guest/dmm-service.h": {
+    "bytes": 438,
+    "sha256": "67385b1335e46f1d0d4e5161205f8f7d738ca2aab960abd6f8cca90db71facd7"
+  },
+  "source/guest/native-menu-reentry.inc": {
+    "bytes": 4214,
+    "sha256": "d52b1c640fbd3c3066210d93e74173dfe629bc2cde4588747a90a9d8648f132e"
+  },
+  "source/guest/headless-osd-export.c": {
+    "bytes": 1957,
+    "sha256": "5b3d9f84b83d1c843123e5b11d58ac256cbcd127429f3e8f64cf8b90db693138"
+  }
+}

@@ -1,0 +1,845 @@
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1373,6 +1373,21 @@
+     sysbus_realize_and_unref(gicbusdev, &error_fatal);
+     sysbus_mmio_map(gicbusdev, 0, vms->memmap[VIRT_GIC_DIST].base);
+     sysbus_mmio_map(gicbusdev, 1, vms->memmap[VIRT_GIC_CPU].base);
++    /* Local Sony experiment: the WBI warm-resume path uses snapshot page tables that
++       reference the CXD900xx GIC at its real addresses (0xf13a1000/0xf13a2000).
++       Alias the virt GIC there so resumed kernels get interrupts. Additive overlap. */
++    if (g_getenv("QEMU_SONY_TIMERS")) {
++        MemoryRegion *dist_alias = g_new(MemoryRegion, 1);
++        memory_region_init_alias(dist_alias, NULL, "sony-gicd-alias",
++                                 sysbus_mmio_get_region(gicbusdev, 0), 0,
++                                 vms->memmap[VIRT_GIC_DIST].size);
++        memory_region_add_subregion_overlap(mem, 0xf13a1000, dist_alias, 1);
++        MemoryRegion *cpu_alias = g_new(MemoryRegion, 1);
++        memory_region_init_alias(cpu_alias, NULL, "sony-gicc-alias",
++                                 sysbus_mmio_get_region(gicbusdev, 1), 0,
++                                 vms->memmap[VIRT_GIC_CPU].size);
++        memory_region_add_subregion_overlap(mem, 0xf13a2000, cpu_alias, 1);
++    }
+     if (vms->virt) {
+         sysbus_mmio_map(gicbusdev, 2, vms->memmap[VIRT_GIC_HYP].base);
+         sysbus_mmio_map(gicbusdev, 3, vms->memmap[VIRT_GIC_VCPU].base);
+@@ -1518,6 +1533,14 @@
+     memory_region_add_subregion(mem, base,
+                                 sysbus_mmio_get_region(s, 0));
+     sysbus_connect_irq(s, 0, qdev_get_gpio_in(vms->gic, irq));
++    /* Local Sony experiment: the CXD900xx debug UART lives at 0xf1000000; the WBI
++       resume trampoline and the resumed kernel's console write there. Alias UART0. */
++    if (!secure && uart == VIRT_UART0 && g_getenv("QEMU_SONY_TIMERS")) {
++        MemoryRegion *uart_alias = g_new(MemoryRegion, 1);
++        memory_region_init_alias(uart_alias, NULL, "sony-uart-alias",
++                                 sysbus_mmio_get_region(s, 0), 0, size);
++        memory_region_add_subregion_overlap(mem, 0xf1000000, uart_alias, 1);
++    }
+ 
+     nodename = g_strdup_printf("/pl011@%" PRIx64, base);
+     qemu_fdt_add_subnode(ms->fdt, nodename);
+@@ -3156,6 +3179,32 @@
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
+     create_gic(vms, sysmem);
++    /* Local Sony experiment: overlay four timers on the generic RAM range. */
++    if (g_getenv("QEMU_SONY_TIMERS")) {
++        for (unsigned i = 0; i < 4; i++) {
++            DeviceState *dev = qdev_new("sony-hwtimer");
++            SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++            sysbus_realize_and_unref(sbd, &error_fatal);
++            memory_region_add_subregion_overlap(sysmem, 0xf1042000 + i * 0x1000,
++                                                 sysbus_mmio_get_region(sbd, 0), 1);
++            sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(vms->gic, 200 + i));
++        }
++        /* Minimal SPAcc crypto-engine register model at its real address so the
++           WBI resume's eMMC re-keying polling succeeds; RAM-backed otherwise. */
++        DeviceState *spacc = qdev_new("sony-spacc-stub");
++        sysbus_realize_and_unref(SYS_BUS_DEVICE(spacc), &error_fatal);
++        memory_region_add_subregion_overlap(sysmem, 0xF7FC0000,
++                                             sysbus_mmio_get_region(SYS_BUS_DEVICE(spacc), 0), 1);
++        /* Catch-all for the remaining CXD900xx peripheral window: the resumed
++           snapshot kernel pokes real-hardware registers that virt lacks; answer
++           polls with all-ones and absorb writes. Documented test-environment shim,
++           below every real device in priority. */
++        DeviceState *busstub = qdev_new("sony-cxd-bus-stub");
++        sysbus_realize_and_unref(SYS_BUS_DEVICE(busstub), &error_fatal);
++        memory_region_add_subregion_overlap(sysmem, 0xF0000000,
++                                             sysbus_mmio_get_region(SYS_BUS_DEVICE(busstub), 0),
++                                             -1000);
++    }
+     create_msi_controller(vms);
+ 
+     virt_post_cpus_gic_realized(vms, sysmem);
+--- a/hw/input/meson.build
++++ b/hw/input/meson.build
+@@ -1,4 +1,5 @@
+ system_ss.add(files('hid.c'))
++system_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('sony-ui-input.c'))
+ system_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
+ system_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
+ system_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
+--- /dev/null
++++ b/hw/input/sony-ui-input.c
+@@ -0,0 +1,147 @@
++/*
++ * Native QEMU window keys for the isolated Sony menu experiment.
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * This is a host-side bridge, not an emulation of Sony input hardware.
++ * One byte requests one tap; the receiving launcher uses the verified firmware
++ * injection path. Unknown keys and repeats while held are ignored.
++ */
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/module.h"
++#include "hw/core/qdev-properties.h"
++#include "hw/core/qdev-properties-system.h"
++#include "chardev/char-fe.h"
++#include "qom/object.h"
++#include "ui/console.h"
++#include "ui/input.h"
++#include "ui/sony-ui-input.h"
++
++OBJECT_DECLARE_SIMPLE_TYPE(SonyUIInput, SONY_UI_INPUT)
++
++struct SonyUIInput {
++    DeviceState parent_obj;
++    CharFrontend chr;
++    QemuInputHandlerState *handler;
++    char *display;
++    bool held[KEY_MAX + 1];
++};
++
++static unsigned char sony_key(unsigned int key)
++{
++    size_t i;
++
++    switch (key) {
++    case KEY_ESC:     return 'M';
++    case KEY_KPENTER: return 'E';
++    case KEY_F12:     return 'S';
++    default:         break;
++    }
++    for (i = 0; i < G_N_ELEMENTS(sony_ui_actions); i++) {
++        if (key && sony_ui_actions[i].key == key) {
++            return sony_ui_actions[i].command;
++        }
++    }
++    return 0;
++}
++
++static void sony_input_event(DeviceState *dev, QemuConsole *src,
++                             QemuInputEvent *event)
++{
++    SonyUIInput *s = SONY_UI_INPUT(dev);
++    unsigned int key;
++    unsigned char action;
++
++    if (event->type != INPUT_EVENT_KIND_KEY) {
++        return;
++    }
++    key = event->key.key; /* QEMU 11 input API uses Linux key codes. */
++    if (key > KEY_MAX || !(action = sony_key(key))) {
++        return;
++    }
++    if (!event->key.down) {
++        s->held[key] = false;
++        return;
++    }
++    if (s->held[key]) {
++        return;
++    }
++    s->held[key] = true;
++    /* A one-byte record cannot leave a partial command in the stream. */
++    if (qemu_chr_fe_write(&s->chr, &action, 1) != 1) {
++        warn_report("Sony UI key dropped: launcher input channel unavailable");
++    }
++}
++
++static const QemuInputHandler sony_input_handler = {
++    .name = "Sony menu experiment keyboard bridge",
++    .mask = INPUT_EVENT_MASK_KEY,
++    .event = sony_input_event,
++};
++
++static void sony_input_realize(DeviceState *dev, Error **errp)
++{
++    SonyUIInput *s = SONY_UI_INPUT(dev);
++    Error *err = NULL;
++
++    if (!qemu_chr_fe_backend_connected(&s->chr) || !s->display) {
++        error_setg(errp, "sony-ui-input requires chardev and display properties");
++        return;
++    }
++    s->handler = qemu_input_handler_register(dev, &sony_input_handler);
++    qemu_input_handler_bind(s->handler, s->display, 0, &err);
++    if (err) {
++        qemu_input_handler_unregister(s->handler);
++        s->handler = NULL;
++        error_propagate(errp, err);
++        return;
++    }
++    qemu_input_handler_activate(s->handler);
++}
++
++static void sony_input_unrealize(DeviceState *dev)
++{
++    SonyUIInput *s = SONY_UI_INPUT(dev);
++    if (s->handler) {
++        qemu_input_handler_unregister(s->handler);
++        s->handler = NULL;
++    }
++}
++
++static const Property sony_input_properties[] = {
++    DEFINE_PROP_CHR("chardev", SonyUIInput, chr),
++    DEFINE_PROP_STRING("display", SonyUIInput, display),
++};
++
++static bool sony_input_connected(Object *obj, Error **errp)
++{
++    SonyUIInput *s = SONY_UI_INPUT(obj);
++
++    return s->handler && qemu_chr_fe_backend_open(&s->chr);
++}
++
++static void sony_input_class_init(ObjectClass *klass, const void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->realize = sony_input_realize;
++    dc->unrealize = sony_input_unrealize;
++    dc->desc = "Sony experimental UI keyboard bridge (host-side)";
++    dc->hotpluggable = false;
++    device_class_set_props(dc, sony_input_properties);
++    object_class_property_add_bool(klass, "input-connected",
++                                   sony_input_connected, NULL);
++}
++
++static const TypeInfo sony_input_type = {
++    .name = TYPE_SONY_UI_INPUT,
++    .parent = TYPE_DEVICE,
++    .instance_size = sizeof(SonyUIInput),
++    .class_init = sony_input_class_init,
++};
++
++static void sony_input_register(void)
++{
++    type_register_static(&sony_input_type);
++}
++type_init(sony_input_register)
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -168,3 +168,5 @@
+ 
+ # HPPA devices
+ system_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
++system_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('sony_spacc_stub.c'))
++system_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('sony_cxd_bus_stub.c'))
+--- /dev/null
++++ b/hw/misc/sony_cxd_bus_stub.c
+@@ -0,0 +1,58 @@
++/* Local Sony experiment: catch-all for the CXD900xx peripheral window
++ * (0xF0000000..0xFFFFFFFF) during WBI warm-resume experiments. The resumed snapshot
++ * kernel restores drivers that poll real-hardware registers absent on virt; this
++ * region answers reads with all-ones (status "done/ready" bits set) and absorbs
++ * writes. Priority -1000 keeps it below every real device and the SPAcc stub.
++ * NOT a hardware model; a test-environment shim only. */
++#include "qemu/osdep.h"
++#include "hw/core/sysbus.h"
++
++#define TYPE_SONY_CXD_BUS_STUB "sony-cxd-bus-stub"
++OBJECT_DECLARE_SIMPLE_TYPE(SonyCxdBusStub, SONY_CXD_BUS_STUB)
++
++struct SonyCxdBusStub {
++    SysBusDevice parent_obj;
++    MemoryRegion mmio;
++};
++
++static uint64_t cxd_bus_read(void *opaque, hwaddr offset, unsigned size)
++{
++    return 0xFFFFFFFF;
++}
++
++static void cxd_bus_write(void *opaque, hwaddr offset, uint64_t value, unsigned size)
++{
++}
++
++static const MemoryRegionOps cxd_bus_ops = {
++    .read = cxd_bus_read,
++    .write = cxd_bus_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void cxd_bus_realize(DeviceState *dev, Error **errp)
++{
++    SonyCxdBusStub *s = SONY_CXD_BUS_STUB(dev);
++    memory_region_init_io(&s->mmio, OBJECT(dev), &cxd_bus_ops, s,
++                          TYPE_SONY_CXD_BUS_STUB, 0x10000000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
++}
++
++static void cxd_bus_class_init(ObjectClass *klass, const void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->realize = cxd_bus_realize;
++}
++
++static const TypeInfo cxd_bus_info = {
++    .name = TYPE_SONY_CXD_BUS_STUB,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SonyCxdBusStub),
++    .class_init = cxd_bus_class_init,
++};
++
++static void cxd_bus_register_types(void)
++{
++    type_register_static(&cxd_bus_info);
++}
++type_init(cxd_bus_register_types)
+--- /dev/null
++++ b/hw/misc/sony_spacc_stub.c
+@@ -0,0 +1,75 @@
++/* Local Sony experiment: minimal register model for the CXD900xx SPAcc crypto engine
++ * (phys 0xF7FC0000, 256 KiB). The stock WBI resume path re-keys the eMMC crypto engine
++ * via cryptEmmc_pio_write, which polls status offsets +0x1c (needs bit 20) and +0x4
++ * (bit 18 for the read path). Real hardware semantics are NOT emulated; this only lets
++ * the driver's polling succeed so the resume path proceeds. All offsets are RAM-backed
++ * so the driver's own data writes read back consistently. */
++#include "qemu/osdep.h"
++#include "hw/core/sysbus.h"
++
++#define TYPE_SONY_SPACC_STUB "sony-spacc-stub"
++OBJECT_DECLARE_SIMPLE_TYPE(SonySpaccStub, SONY_SPACC_STUB)
++
++struct SonySpaccStub {
++    SysBusDevice parent_obj;
++    MemoryRegion mmio;
++    uint32_t *ram;
++};
++
++static uint64_t spacc_read(void *opaque, hwaddr offset, unsigned size)
++{
++    SonySpaccStub *s = opaque;
++    uint32_t value = 0;
++    if (offset + 4 <= 0x40000)
++        memcpy(&value, (uint8_t *)s->ram + offset, 4);
++    if (offset == 0x1c)
++        value |= (1u << 20);   /* cryptEmmc_pio_write: tbz w0,#0x14 is the failure path */
++    if (offset == 0x4)
++        value |= (1u << 20) | (1u << 18);   /* pio_write tests bit 20, pio_read bit 18 */
++    if (g_getenv("QEMU_SONY_SPACC_DEBUG"))
++        fprintf(stderr, "SPACC_STUB read off=%#lx -> %#x\n", (unsigned long)offset, value);
++    return value;
++}
++
++static void spacc_write(void *opaque, hwaddr offset, uint64_t value, unsigned size)
++{
++    SonySpaccStub *s = opaque;
++    if (offset + 4 <= 0x40000) {
++        uint32_t v = value;
++        memcpy((uint8_t *)s->ram + offset, &v, 4);
++    }
++}
++
++static const MemoryRegionOps spacc_ops = {
++    .read = spacc_read,
++    .write = spacc_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void spacc_realize(DeviceState *dev, Error **errp)
++{
++    SonySpaccStub *s = SONY_SPACC_STUB(dev);
++    s->ram = g_malloc0(0x40000);
++    memory_region_init_io(&s->mmio, OBJECT(s), &spacc_ops, s,
++                          TYPE_SONY_SPACC_STUB, 0x40000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
++}
++
++static void spacc_class_init(ObjectClass *klass, const void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->realize = spacc_realize;
++}
++
++static const TypeInfo spacc_info = {
++    .name = TYPE_SONY_SPACC_STUB,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SonySpaccStub),
++    .class_init = spacc_class_init,
++};
++
++static void spacc_register_types(void)
++{
++    type_register_static(&spacc_info);
++}
++type_init(spacc_register_types)
+--- a/hw/timer/meson.build
++++ b/hw/timer/meson.build
+@@ -2,6 +2,7 @@
+ system_ss.add(when: 'CONFIG_ALLWINNER_A10_PIT', if_true: files('allwinner-a10-pit.c'))
+ system_ss.add(when: 'CONFIG_ARM_MPTIMER', if_true: files('arm_mptimer.c'))
+ system_ss.add(when: 'CONFIG_ARM_TIMER', if_true: files('arm_timer.c'))
++system_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('sony_hwtimer.c'))
+ system_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_systick.c'))
+ system_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_timer.c'))
+ system_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_ttc.c'))
+--- /dev/null
++++ b/hw/timer/sony_hwtimer.c
+@@ -0,0 +1,157 @@
++/*
++ * Sony BIONZ timer register model for the local CXD90057 firmware experiment.
++ * Based on ma1co/qemu hw/timer/bionz_hwtimer.c, updated for QEMU 11.
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "hw/core/irq.h"
++#include "hw/core/sysbus.h"
++#include "qemu/module.h"
++#include "qemu/log.h"
++#include "qemu/timer.h"
++#include "qom/object.h"
++
++#define TYPE_SONY_HWTIMER "sony-hwtimer"
++OBJECT_DECLARE_SIMPLE_TYPE(SonyHwtimerState, SONY_HWTIMER)
++
++struct SonyHwtimerState {
++    SysBusDevice parent_obj;
++    MemoryRegion mmio;
++    qemu_irq irq;
++    QEMUTimer *timer;
++    int64_t epoch;
++    uint32_t count, control, compare;
++};
++
++static int64_t period_ns(SonyHwtimerState *s)
++{
++    return 250LL << (s->control & 7); /* 4 MHz input clock */
++}
++
++static uint32_t counter(SonyHwtimerState *s)
++{
++    if (!(s->control & 0x1000)) {
++        return s->count;
++    }
++    return s->count + (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->epoch) /
++                     period_ns(s);
++}
++
++static void reschedule(SonyHwtimerState *s)
++{
++    if (s->control & 0x1000) {
++        uint32_t remaining = s->compare - counter(s);
++        timer_mod(s->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                  (remaining ? remaining : 1) * period_ns(s));
++    } else {
++        timer_del(s->timer);
++    }
++}
++
++static void tick(void *opaque)
++{
++    SonyHwtimerState *s = opaque;
++    s->count = counter(s);
++    s->epoch = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    switch (s->control & 0x30) {
++    case 0x10: /* one shot */
++        s->control &= ~0x1000;
++        break;
++    case 0: /* periodic */
++        s->count = 0;
++        break;
++    default: /* free running: next compare is after the 32-bit wrap */
++        break;
++    }
++    if (s->control & 0x100) {
++        qemu_irq_raise(s->irq);
++    }
++    /* Do not immediately retrigger a free-running comparator at the same tick. */
++    if ((s->control & 0x1030) == 0x1030) {
++        timer_mod(s->timer, s->epoch + (1ULL << 32) * period_ns(s));
++    } else {
++        reschedule(s);
++    }
++}
++
++static uint64_t timer_read(void *opaque, hwaddr offset, unsigned size)
++{
++    SonyHwtimerState *s = opaque;
++    switch (offset) {
++    case 0: return s->control;
++    case 8: return s->compare;
++    case 12: return counter(s);
++    default: return 0;
++    }
++}
++
++static void timer_write(void *opaque, hwaddr offset, uint64_t value, unsigned size)
++{
++    SonyHwtimerState *s = opaque;
++    switch (offset) {
++    case 0:
++        s->count = counter(s);
++        s->epoch = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        if (value & 0x80000000) {
++            s->count = 0;
++            s->compare = UINT32_MAX;
++            qemu_irq_lower(s->irq);
++        }
++        s->control = value & 0xffff;
++        break;
++    case 4:
++        if (value & 0x10) {
++            s->count = 0;
++            s->epoch = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        }
++        if (value & 1) {
++            qemu_irq_lower(s->irq);
++        }
++        break;
++    case 8: s->compare = value; break;
++    case 16:
++        s->count = value;
++        s->epoch = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "Sony timer write offset 0x%" HWADDR_PRIx "\n", offset);
++        return;
++    }
++    reschedule(s);
++}
++
++static const MemoryRegionOps timer_ops = {
++    .read = timer_read,
++    .write = timer_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++};
++
++static void timer_realize(DeviceState *dev, Error **errp)
++{
++    SonyHwtimerState *s = SONY_HWTIMER(dev);
++    s->compare = UINT32_MAX;
++    s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, tick, s);
++    memory_region_init_io(&s->mmio, OBJECT(s), &timer_ops, s, TYPE_SONY_HWTIMER, 0x1000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
++    sysbus_init_irq(SYS_BUS_DEVICE(s), &s->irq);
++}
++
++static void timer_class_init(ObjectClass *klass, const void *data)
++{
++    DEVICE_CLASS(klass)->realize = timer_realize;
++}
++
++static const TypeInfo timer_info = {
++    .name = TYPE_SONY_HWTIMER,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SonyHwtimerState),
++    .class_init = timer_class_init,
++};
++
++static void register_types(void)
++{
++    type_register_static(&timer_info);
++}
++type_init(register_types)
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -35,6 +35,8 @@
+ 
+ typedef struct VirtualGfxConsole {
+     GtkWidget *drawing_area;
++    GtkWidget *sony_controls;
++    GtkWidget *sony_status;
+     DisplayGLCtx dgc;
+     DisplayChangeListener dcl;
+     QKbdState *kbd;
+--- /dev/null
++++ b/include/ui/sony-ui-input.h
+@@ -0,0 +1,71 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++#ifndef QEMU_UI_SONY_UI_INPUT_H
++#define QEMU_UI_SONY_UI_INPUT_H
++
++#include "standard-headers/linux/input-event-codes.h"
++
++#define TYPE_SONY_UI_INPUT "sony-ui-input"
++
++typedef enum SonyUIAction {
++    SONY_UI_UP,
++    SONY_UI_DOWN,
++    SONY_UI_LEFT,
++    SONY_UI_RIGHT,
++    SONY_UI_ENTER,
++    SONY_UI_MENU,
++    SONY_UI_PLAY,
++    SONY_UI_DELETE,
++    SONY_UI_C1,
++    SONY_UI_RECORD,
++    SONY_UI_AUTO,
++    SONY_UI_P,
++    SONY_UI_A,
++    SONY_UI_S,
++    SONY_UI_M,
++    SONY_UI_1,
++    SONY_UI_2,
++    SONY_UI_3,
++    SONY_UI_PHOTO,
++    SONY_UI_MOVIE,
++    SONY_UI_SQ,
++    SONY_UI_DIAL_LEFT,
++    SONY_UI_DIAL_RIGHT,
++} SonyUIAction;
++
++/*
++ * Shared by GTK and the host input bridge. Zero key/command means not enabled.
++ * Enable a control only after verifying its firmware mapping and adding the
++ * same one-byte command to the launcher. Each enabled key must be unique.
++ * These are host commands, never Sony firmware key numbers or dial values.
++ */
++static const struct {
++    const char *label;
++    unsigned int key;
++    unsigned char command;
++} sony_ui_actions[] = {
++    [SONY_UI_UP]         = { "上",         KEY_UP,    'U' },
++    [SONY_UI_DOWN]       = { "下",         KEY_DOWN,  'D' },
++    [SONY_UI_LEFT]       = { "左",         KEY_LEFT,  'L' },
++    [SONY_UI_RIGHT]      = { "右",         KEY_RIGHT, 'R' },
++    [SONY_UI_ENTER]      = { "确认",       KEY_ENTER, 'E' },
++    [SONY_UI_MENU]       = { "MENU",       KEY_M,     'M' },
++    [SONY_UI_PLAY]       = { "播放",       0, 0 },
++    [SONY_UI_DELETE]     = { "删除 (C2)",  KEY_DELETE, 'X' },
++    [SONY_UI_C1]         = { "C1",         0, 0 },
++    [SONY_UI_RECORD]     = { "录像按键",   0, 0 },
++    [SONY_UI_AUTO]       = { "AUTO",       0, 0 },
++    [SONY_UI_P]          = { "P",          0, 0 },
++    [SONY_UI_A]          = { "A",          0, 0 },
++    [SONY_UI_S]          = { "S",          0, 0 },
++    [SONY_UI_M]          = { "M",          0, 0 },
++    [SONY_UI_1]          = { "1",          0, 0 },
++    [SONY_UI_2]          = { "2",          0, 0 },
++    [SONY_UI_3]          = { "3",          0, 0 },
++    [SONY_UI_PHOTO]      = { "照片",       0, 0 },
++    [SONY_UI_MOVIE]      = { "录像",       0, 0 },
++    [SONY_UI_SQ]         = { "S&Q",        0, 0 },
++    [SONY_UI_DIAL_LEFT]  = { "左转",       KEY_PAGEUP, '<' },
++    [SONY_UI_DIAL_RIGHT] = { "右转",       KEY_PAGEDOWN, '>' },
++};
++
++#endif
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -57,6 +57,7 @@
+ #include "trace.h"
+ #include "standard-headers/linux/input-event-codes.h"
+ #include "ui/input.h"
++#include "ui/sony-ui-input.h"
+ #include "system/runstate.h"
+ #include "system/system.h"
+ #include "keymaps.h"
+@@ -1082,6 +1083,12 @@
+     GtkDisplayState *s = vc->s;
+     InputButton btn;
+ 
++    /* The Sony bridge has no pointer; keep the sidebar reachable. */
++    if (vc->gfx.sony_controls) {
++        gtk_widget_grab_focus(vc->focus);
++        return TRUE;
++    }
++
+     /* implicitly grab the input at the first click in the relative mode */
+     if (button->button == 1 && button->type == GDK_BUTTON_PRESS &&
+         !qemu_input_is_absolute(vc->gfx.dcl.con) && s->ptr_owner != vc) {
+@@ -1335,6 +1342,12 @@
+     int keycode;
+     unsigned int lnx;
+ 
++    /* Tab reaches the native controls; Sony does not consume this key. */
++    if (vc->gfx.sony_controls &&
++        (key->keyval == GDK_KEY_Tab || key->keyval == GDK_KEY_ISO_Left_Tab)) {
++        return FALSE;
++    }
++
+ #ifdef G_OS_WIN32
+     /* on windows, we ought to ignore the reserved key event? */
+     if (key->hardware_keycode == 0xff)
+@@ -2330,6 +2343,158 @@
+ static bool gd_scale_valid(double scale)
+ {
+     return scale >= VC_SCALE_MIN && scale <= VC_SCALE_MAX;
++}
++
++static Object *gd_sony_bridge(QemuConsole *con)
++{
++    Object *obj = object_resolve_path_type("", TYPE_SONY_UI_INPUT, NULL);
++    g_autofree char *display = NULL;
++
++    if (!obj) {
++        return NULL;
++    }
++    display = object_property_get_str(obj, "display", &error_abort);
++    return display && qemu_console_lookup_by_device_name(display, 0, NULL) == con
++        ? obj : NULL;
++}
++
++static void gd_sony_clicked(GtkButton *button, gpointer opaque)
++{
++    VirtualConsole *vc = opaque;
++    unsigned int action = GPOINTER_TO_UINT(
++        g_object_get_data(G_OBJECT(button), "sony-action"));
++    unsigned int key = sony_ui_actions[action].key;
++    Object *bridge = gd_sony_bridge(vc->gfx.dcl.con);
++
++    gtk_widget_grab_focus(vc->focus);
++    if (!key || !sony_ui_actions[action].command) {
++        return;
++    }
++    if (!runstate_is_running()) {
++        gtk_label_set_text(GTK_LABEL(vc->gfx.sony_status),
++                           "QEMU 已暂停，请先恢复运行");
++        return;
++    }
++    if (!bridge || !object_property_get_bool(bridge, "input-connected", NULL)) {
++        gtk_label_set_text(GTK_LABEL(vc->gfx.sony_status),
++                           "输入通道未连接，未发送操作");
++        return;
++    }
++    /* Do not release a key the user is physically holding. */
++    if (!qkbd_state_key_get(vc->gfx.kbd, key)) {
++        qkbd_state_key_event(vc->gfx.kbd, key, true);
++        qkbd_state_key_event(vc->gfx.kbd, key, false);
++    }
++    gtk_label_set_text(GTK_LABEL(vc->gfx.sony_status),
++                       "操作结果以相机画面为准");
++}
++
++static gboolean gd_sony_key_event(GtkWidget *widget, GdkEventKey *key,
++                                  gpointer opaque)
++{
++    /* Preserve native Tab navigation and Space/Enter button activation. */
++    switch (key->keyval) {
++    case GDK_KEY_Tab:
++    case GDK_KEY_ISO_Left_Tab:
++    case GDK_KEY_space:
++    case GDK_KEY_Return:
++    case GDK_KEY_KP_Enter:
++        return FALSE;
++    default:
++        return gd_key_event(widget, key, opaque);
++    }
++}
++
++static void gd_sony_button(VirtualConsole *vc, GtkWidget *grid,
++                           SonyUIAction action, int col, int row, int width)
++{
++    GtkWidget *button = gtk_button_new_with_label(sony_ui_actions[action].label);
++    bool verified = sony_ui_actions[action].key &&
++                    sony_ui_actions[action].command;
++    g_autofree char *tip = g_strdup_printf("%s · %s",
++        sony_ui_actions[action].label,
++        verified ? "已验证输入；一次点击请求一次操作" : "尚未通过运行验收，当前不可执行");
++
++    gtk_widget_set_tooltip_text(button, tip);
++    gtk_widget_set_sensitive(button, verified);
++    gtk_widget_set_hexpand(button, TRUE);
++    gtk_widget_set_size_request(button, -1, 32);
++    gtk_widget_set_focus_on_click(button, FALSE);
++    g_object_set_data(G_OBJECT(button), "sony-action", GUINT_TO_POINTER(action));
++    g_signal_connect(button, "clicked", G_CALLBACK(gd_sony_clicked), vc);
++    g_signal_connect(button, "key-press-event", G_CALLBACK(gd_sony_key_event), vc);
++    g_signal_connect(button, "key-release-event", G_CALLBACK(gd_sony_key_event), vc);
++    g_signal_connect(button, "focus-in-event", G_CALLBACK(gd_focus_in_event), vc);
++    g_signal_connect(button, "focus-out-event", G_CALLBACK(gd_focus_out_event), vc);
++    gtk_grid_attach(GTK_GRID(grid), button, col, row, width, 1);
++}
++
++static GtkWidget *gd_sony_group(GtkWidget *box, const char *title)
++{
++    GtkWidget *label = gtk_label_new(title);
++    GtkWidget *grid = gtk_grid_new();
++
++    gtk_label_set_xalign(GTK_LABEL(label), 0);
++    gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
++    gtk_grid_set_column_spacing(GTK_GRID(grid), 4);
++    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
++    gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
++    gtk_box_pack_start(GTK_BOX(box), grid, FALSE, FALSE, 0);
++    return grid;
++}
++
++static void gd_sony_controls(VirtualConsole *vc, QemuConsole *con)
++{
++    GtkWidget *box, *grid, *label, *separator;
++    int i;
++
++    if (!gd_sony_bridge(con)) {
++        return;
++    }
++    vc->tab_item = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
++    gtk_box_pack_start(GTK_BOX(vc->tab_item), vc->gfx.drawing_area, TRUE, TRUE, 0);
++    separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
++    gtk_box_pack_start(GTK_BOX(vc->tab_item), separator, FALSE, FALSE, 0);
++    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
++    vc->gfx.sony_controls = box;
++    gtk_container_set_border_width(GTK_CONTAINER(box), 12);
++    gtk_widget_set_hexpand(box, FALSE);
++    gtk_widget_set_valign(box, GTK_ALIGN_START);
++    gtk_box_pack_start(GTK_BOX(vc->tab_item), box, FALSE, FALSE, 0);
++
++    label = gtk_label_new(NULL);
++    gtk_label_set_markup(GTK_LABEL(label), "<b>Sony α7C II · 相机控件</b>");
++    gtk_label_set_xalign(GTK_LABEL(label), 0);
++    gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
++    grid = gd_sony_group(box, "菜单按键");
++    gd_sony_button(vc, grid, SONY_UI_UP,     1, 0, 1);
++    gd_sony_button(vc, grid, SONY_UI_LEFT,   0, 1, 1);
++    gd_sony_button(vc, grid, SONY_UI_ENTER,  1, 1, 1);
++    gd_sony_button(vc, grid, SONY_UI_RIGHT,  2, 1, 1);
++    gd_sony_button(vc, grid, SONY_UI_DOWN,   1, 2, 1);
++    gd_sony_button(vc, grid, SONY_UI_MENU,   3, 0, 1);
++    gd_sony_button(vc, grid, SONY_UI_C1,     3, 1, 1);
++    gd_sony_button(vc, grid, SONY_UI_RECORD, 3, 2, 1);
++    gd_sony_button(vc, grid, SONY_UI_PLAY,   0, 3, 2);
++    gd_sony_button(vc, grid, SONY_UI_DELETE, 2, 3, 2);
++
++    grid = gd_sony_group(box, "模式拨盘");
++    for (i = 0; i < 8; i++) {
++        gd_sony_button(vc, grid, SONY_UI_AUTO + i, i % 4, i / 4, 1);
++    }
++    grid = gd_sony_group(box, "照片 / 录像 / S&Q");
++    for (i = 0; i < 3; i++) {
++        gd_sony_button(vc, grid, SONY_UI_PHOTO + i, i, 0, 1);
++    }
++    grid = gd_sony_group(box, "右后拨盘 / Rear Dial R");
++    gd_sony_button(vc, grid, SONY_UI_DIAL_LEFT, 0, 0, 1);
++    gd_sony_button(vc, grid, SONY_UI_DIAL_RIGHT, 1, 0, 1);
++    label = gtk_label_new("灰色控件：运行功能尚未就绪\n键盘：方向 / Enter / M 或 Esc / Delete\n右后拨盘：PageUp / PageDown");
++    gtk_label_set_xalign(GTK_LABEL(label), 0);
++    gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
++    vc->gfx.sony_status = gtk_label_new("操作结果以相机画面为准");
++    gtk_label_set_xalign(GTK_LABEL(vc->gfx.sony_status), 0);
++    gtk_box_pack_start(GTK_BOX(box), vc->gfx.sony_status, FALSE, FALSE, 0);
+ }
+ 
+ static VirtualConsole *
+@@ -2405,6 +2570,7 @@
+     vc->type = GD_VC_GFX;
+     vc->tab_item = vc->gfx.drawing_area;
+     vc->focus = vc->gfx.drawing_area;
++    gd_sony_controls(vc, con);
+     gtk_notebook_append_page(GTK_NOTEBOOK(s->notebook),
+                              vc->tab_item, gtk_label_new(vc->label));
+ 
+@@ -2794,6 +2960,9 @@
+ 
+     vc = gd_vc_find_current(s);
+     gtk_widget_set_sensitive(s->view_menu, vc != NULL);
++    if (vc && vc->type == GD_VC_GFX && vc->gfx.sony_controls) {
++        gtk_widget_grab_focus(vc->focus);
++    }
+ #ifdef CONFIG_VTE
+     gtk_widget_set_sensitive(s->copy_item,
+                              vc && vc->type == GD_VC_VTE);

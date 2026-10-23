@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "parameters": "runs/native-look-cp-509uu886/look-parameters.json",
+  "materials": "build/look-materials-inline-inbjxwos",
+  "live_parameters": true,
+  "scope": "CP embedded FL2/FL3 matrix experimental layout; fresh AP/CP instruction windows; reference pixels only; no device I/O or deployment validation"
+}

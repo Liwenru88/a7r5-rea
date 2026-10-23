@@ -1,0 +1,46 @@
+{
+  "scope": "CC1 native parameter application and software reference; no full ISP",
+  "Qt_acceptance": "runs/look-qt-accept-jbm9oklv",
+  "regression_logs": "logs/look-chroma-regression-l4itii3f",
+  "regression_tests_passed": 35,
+  "Qt_platform": "cocoa",
+  "Qt_requests": 42,
+  "fresh_AP_CP_success_requests": 41,
+  "expected_bad_photo_requests": 1,
+  "all_18_looks_have_native_CC1_outputs": true,
+  "BW_native_zero_gains_reference_monochrome": true,
+  "SE_native_control_and_monochrome_base_verified": true,
+  "SE_sepia_tint_verified": false,
+  "CC1_reference_pixel_formula_verified_on_camera": false,
+  "matrix_actual_ISP_space_verified": false,
+  "native_AP_CP_transport_verified": false,
+  "ISP_pixels_verified": false,
+  "camera_io": false,
+  "original_images_modified": false,
+  "original_photo_modified": false,
+  "camera_JPEG": {
+    "source_sha256": "7efc9bf92a0e52f8dd9de0c2a620f5e4c10a9db201b54e6c2b93f265edf1ad7f",
+    "source_modified": false,
+    "primary_frame_selected": true,
+    "native_parameter_and_preview_looks": [
+      "ST",
+      "FL2",
+      "FL3",
+      "BW",
+      "SE"
+    ]
+  },
+  "native_CP_ISP_research_preserved": true,
+  "source_sha256": {
+    "tools/look_live.py": "47937a68f915c97bf989471b89dbadf1c71e7223fa35bb67c7cb0af6640a6c53",
+    "tools/look_chroma.py": "f50fdd76ca4b4615b39ce6130b977704dc1ab67881b5ee1ab65d447874fbe751",
+    "tools/look_reference_ui.py": "c6668b06c0350c3a6fe04e51e2c51bae9f604fde92e3d08ab33e826e89c8f666",
+    "tools/look_native.py": "63f157f6ef4ba404bd921ccd1ccf5245ff48ac8bc7ee03be153f7bf0604c6178",
+    "source/guest/look-live-cp.c": "521424cbf555d3ddb21e7e3e419967d329d56d20a4d1a0a03d11725daa5f05dd",
+    "source/guest/look-live-ap.c": "6db162bce33cc50408f00113398a3ee5e755e98119b42062d17917af9e853a6d",
+    "tests/accept-look-reference.py": "395264d835a9676c47ede87c8348204d4f19cfcc668768145b1fbed42493e6ac",
+    "tests/test-look-camera-jpeg.py": "02ff0d0e78f44f6509dcbe08110edb85f6b3a4de76edf6eebaeaf3105dc0964f",
+    "tests/test-look-chroma.py": "959fcf0f5da2e044b2328b36e2a3468ca80ab6961c7f456fe8914605e4d501a5",
+    "tests/test-look-live.py": "6a9b98af5dc8085cb69b921ed39264360bf0b21cfb89bdcd19a6e5b150084b0c"
+  }
+}

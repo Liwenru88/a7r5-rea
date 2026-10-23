@@ -1,0 +1,26 @@
+[
+  {
+    "target": "payload/libjit-trust.c",
+    "sha256": "cb2dc3758e3a94b80b5a7fc3ec669e0477746c1fa9c2a6852276733bb73fadec",
+    "source": "a7r5-exec/payload/libjit.c",
+    "adaptation": "保留构造和票据机制；改为原生任务，无shell、无超时杀进程；添加编译模式内部标记"
+  },
+  {
+    "target": "payload/native_gate.c",
+    "sha256": "fdbddbc92b742f8910a99d2a9388ba59cfedeb051eb6638d5f05934243e316bf",
+    "source": "historical/card-flash-libjit-20261021-01__native_gate.c.txt",
+    "adaptation": "目标在生产中固定；测试宏只影响隔离夹具目标类型／路径、容量sysfs及占用枚举"
+  },
+  {
+    "target": "payload/sector_core.inc",
+    "sha256": "723ad40f584311d0a06c657823fe581d0dcf9cad6da64f4348b49288b8050416",
+    "source": "historical/updater-trust-kit-deploy-20261021-01__sources__trust_engine.c.txt",
+    "adaptation": "提取同一full_hash/trust_apply_fd核心，保留前像、阶段同步、完整回读和故障停止"
+  },
+  {
+    "target": "runtime/operation.py",
+    "sha256": "820b8494cafc7c50aa6e5235a1ea21798f5a324ade79adaedf35be30c3e03c69",
+    "source": "historical/card-flash-libjit-20261021-01__operation.py.txt",
+    "adaptation": "绑定新包；精确输出、完整日志、25MB回读和重复状态才safe_to_stop；主机超时不杀工作进程"
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "parameters": "runs/native-look-cp-509uu886/look-parameters.json",
+  "materials": "build/look-materials-compact-m60gnero",
+  "live_parameters": true,
+  "scope": "equal-size CP matrix bootstrap-copy candidate; original-entry boot still blocked at PLL0; reference pixels only; no DAT or device I/O"
+}

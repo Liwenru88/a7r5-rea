@@ -1,0 +1,63 @@
+{
+  "verification": {
+    "state": "OFFLINE_MATRIX_EMBEDDED_INTEGRATED_DAT_VERIFIED_DEVICE_UNTESTED",
+    "source_DAT_sha256": "319f01f003e1a7e7f8009c3b196efafe8b001c21383c12e901e1ec3c100c9ad2",
+    "package_sha256": "45a97165cc2236ad6aadea24f42ba46bedb5ba1f69da96b8b3806c79ab34188c",
+    "package_bytes": 754525608,
+    "research_version": "4.05",
+    "same_version_as_previous_research_package": true,
+    "CP_sha256": "31f21cce9da148998c065ecf9d927e353d70a24ff245f2842cfa05cc21ce2c3b",
+    "CP_bytes": 17617008,
+    "AP_sha256": "b051590a61cf6fac9f0026601ca431405d9278d6ed3c814cf34f99164b0f3d3a",
+    "changed_TAR_members": [
+      "0700_part_image/dev/nflasha8",
+      "0701_part_image_sum/part_image.sum"
+    ],
+    "header_and_updater_unchanged": true,
+    "AP_and_68_menu_resources_unchanged": true,
+    "other_plaintext_preserved": true,
+    "all_plaintext_bytes_verified": 751577088,
+    "plaintext_sha256": "e90798701a74602f3fd58154e64fe8519ddf3574249737bfbe0736214ab8abc4",
+    "inverse_exact": true,
+    "OpenSSL": {
+      "exit_code": 0,
+      "result": "Signature Verified Successfully"
+    },
+    "RSA_and_CRC_and_frame_checks_valid": true,
+    "tampered_signed_byte_rejected": true,
+    "independent_final_CP_unpack_verified": true,
+    "matrix_dependency_embedded_in_CP": true,
+    "matrix_setting_installation_required": false,
+    "native_matrix_invocations": 20016,
+    "Qt_reference_preview_verified": true,
+    "original_signing_identity_reused": true,
+    "private_key_copied": false,
+    "original_external_loader_executed": false,
+    "full_CP_boot_verified": false,
+    "original_ISP_verified": false,
+    "device_sound_verified": false,
+    "device_update_verified": false,
+    "release_ready": false,
+    "camera_io": false,
+    "SD_io": false,
+    "original_partition_images_read": false,
+    "original_images_modified": false,
+    "temporary_partition_images_retained": false
+  },
+  "reference_regressions": 53,
+  "package_feature_regressions": 25,
+  "default_preview_materials": "build/look-materials-integrated-8wzq2z0r",
+  "native_matrix_evidence": "runs/look-inline-verify-h1ggrt53/result.json",
+  "Qt_evidence": "runs/look-qt-accept-hyewrgzm/result.json",
+  "preservation": {
+    "default_runtime": {
+      "binary": "02e51fb137c074364bdfb382160e4239494622e3b2c495692bef6f72fccf2e3f",
+      "kernel": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66",
+      "initrd": "a95b001d61b77b980052cd60b24d90496eb92177853634bf8d4d4223de41249a",
+      "dtb": "5aff1e79858f7eef8862e413d837feb4249adf267c5b484ed3aa65e5df01f6bc",
+      "gpe": "80fc6236379933f80c2689aa002e0cf39483da8d45e876705d2a427cd1a2a7d1"
+    },
+    "PLL_sources_frozen_not_used_by_this_work": true,
+    "old_packages_and_failure_evidence_preserved": true
+  }
+}

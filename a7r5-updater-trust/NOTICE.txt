@@ -1,0 +1,5 @@
+本模块定向恢复本项目保留的更新器信任构建、FAT/SquashFS解析及部署研究源码。
+FAT解析器来源为现存a7r5-dat-tool/a7r5dat/fat.py；SquashFS与历史源码的会话行号及摘要见evidence/。
+参考许可证保存在reference-LICENSE；索尼固件数据及上游代码保留各自权利。
+本次轻量ZIP不包含完整原厂或研究分区镜像、DAT、签名私钥、SSH凭证。公钥已附带。
+historical/是审阅文本，不能直接当作新的实机安装包。

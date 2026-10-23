@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/chocotan/a7c2-re",
+  "commit": "433737ae5a8a241ae86eb307a12bb6a2c33600c7",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/chocotan/a7c2-re/433737ae5a8a241ae86eb307a12bb6a2c33600c7/report/2026-10-19-ssh-feasibility/README.md",
+      "bytes": 1285,
+      "sha256": "b2aafb939ef248505be1b120bacdcb7d4261623fc62dca357c13627068de3e3d"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chocotan/a7c2-re/433737ae5a8a241ae86eb307a12bb6a2c33600c7/report/2026-10-19-ssh-feasibility/REPORT.md",
+      "bytes": 25940,
+      "sha256": "c5dba9ab675a3ad6b316ebd5391e2e8fcbd4c92664c8313e23cd8ae7bcd07ee4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chocotan/a7c2-re/433737ae5a8a241ae86eb307a12bb6a2c33600c7/report/2026-10-19-ssh-feasibility/ssh-camera.sh",
+      "bytes": 4993,
+      "sha256": "5b880a8859d276288ff73d53fe2e10454e08d7590a30c0af4a145797d3211b97"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chocotan/a7c2-re/433737ae5a8a241ae86eb307a12bb6a2c33600c7/report/2026-10-19-ssh-feasibility/scope.md",
+      "bytes": 1510,
+      "sha256": "95f2d003cb60ba945b7532b17df885a9378502c2da439d0b65a9d956f3c06cd7"
+    }
+  ],
+  "upstream_script_executed": false
+}

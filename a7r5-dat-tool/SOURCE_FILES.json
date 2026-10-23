@@ -1,0 +1,30 @@
+[
+  {
+    "source": "analysis/card-update-offline-20261021/common.py",
+    "sha256": "daa69d768a101a48ff311e02e89cdca8dd369f4268862ddfb8a53f81d0636f25"
+  },
+  {
+    "source": "analysis/card-update-offline-20261021/vendor/encryptor.py",
+    "sha256": "e04523fb13dd10d01f84ec8d397bf4426c436d75f6c9fa658f526006e80b76d8"
+  },
+  {
+    "source": "analysis/card-update-offline-20261021/vendor/fwtool/sony/constants.py",
+    "sha256": "f9ff02a3889b587cd5bad5f4362fb73fee2f8f3591fc3ed6003eb8ac92d0622a"
+  },
+  {
+    "source": "analysis/card-update-offline-20261021/vendor/filesystems.py",
+    "sha256": "a170fe9ca802064b6bb4c7660d539902802642188845342547d451bd198b8d99"
+  },
+  {
+    "source": "analysis/card-update-offline-20261021/vendor/ext2read.py",
+    "sha256": "ba8fdfd5dfb6367d9d58f3571bb87ee40d94e9d46f10878d8f42b8342ebfd776"
+  },
+  {
+    "source": "analysis/integrated-features-20261022-02/ext2_patch.py",
+    "sha256": "212283823a4dfb23e9eee1942917446b8b04af7409501d690cffdb82c96a0fc9"
+  },
+  {
+    "source": "analysis/card-update-offline-20261021/vendor/licenses/reference-LICENSE",
+    "sha256": "0032a12e5c600a0915b41a3b41587893446b2b32026f0153b958e349957bac2d"
+  }
+]

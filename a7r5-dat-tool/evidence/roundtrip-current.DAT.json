@@ -1,0 +1,20 @@
+{
+  "status": "OFFLINE_PACK_VERIFIED_DEVICE_UNTESTED",
+  "bytes": 754525608,
+  "sha256": "4c2338a4fd8df0470912cd40505adaddbda330f7378deffba267bb6cbb7675e0",
+  "crc32": "81d37313",
+  "source": {
+    "bytes": 754525608,
+    "sha256": "4c2338a4fd8df0470912cd40505adaddbda330f7378deffba267bb6cbb7675e0",
+    "crc32": "81d37313"
+  },
+  "changed_archive_members": [],
+  "changed_components": [],
+  "plaintext_sha256": "10809ab73fe7760ad9c2a387faed1508316b6df2e6f4fd3d17bf1fc8f888bcb0",
+  "plaintext_bytes": 751577088,
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "signature_verified": true,
+  "independent_decryption_exact": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

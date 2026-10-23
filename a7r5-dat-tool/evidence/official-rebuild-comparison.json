@@ -1,0 +1,176 @@
+{
+  "status": "LOGICALLY_IDENTICAL_FILES_WITH_EXT2_BLOCK_LAYOUT_DIFFERENCE",
+  "current_sha256": "4c2338a4fd8df0470912cd40505adaddbda330f7378deffba267bb6cbb7675e0",
+  "rebuilt_sha256": "6005f9ca8861b1da3cdfd55fe574db50129cc136bfac8c25f80ef145b5973e3a",
+  "all_usr_entries_equal": true,
+  "usr_entries": 1042,
+  "all_usr_inodes_and_regular_file_contents_equal": true,
+  "different_usr_bytes": 600,
+  "sample_differences": [
+    {
+      "offset": 54634932,
+      "current": "06",
+      "rebuilt": "08"
+    },
+    {
+      "offset": 56988124,
+      "current": "03",
+      "rebuilt": "09"
+    },
+    {
+      "offset": 262133212,
+      "current": "05",
+      "rebuilt": "0a"
+    },
+    {
+      "offset": 264436188,
+      "current": "0a",
+      "rebuilt": "0b"
+    },
+    {
+      "offset": 344198144,
+      "current": "43",
+      "rebuilt": "69"
+    },
+    {
+      "offset": 344198145,
+      "current": "6c",
+      "rebuilt": "76"
+    },
+    {
+      "offset": 344198146,
+      "current": "61",
+      "rebuilt": "65"
+    },
+    {
+      "offset": 344198147,
+      "current": "73",
+      "rebuilt": "20"
+    },
+    {
+      "offset": 344198148,
+      "current": "73",
+      "rebuilt": "46"
+    },
+    {
+      "offset": 344198150,
+      "current": "63",
+      "rebuilt": "6c"
+    },
+    {
+      "offset": 344198151,
+      "current": "20",
+      "rebuilt": "6d"
+    },
+    {
+      "offset": 344198152,
+      "current": "4e",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198153,
+      "current": "65",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198154,
+      "current": "67",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198155,
+      "current": "2e",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198160,
+      "current": "d9",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198161,
+      "current": "ab",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198163,
+      "current": "1e",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198164,
+      "current": "43",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198165,
+      "current": "6c",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198166,
+      "current": "61",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198167,
+      "current": "73",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198168,
+      "current": "73",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198169,
+      "current": "69",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198170,
+      "current": "63",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198171,
+      "current": "20",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198172,
+      "current": "43",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198173,
+      "current": "68",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198174,
+      "current": "72",
+      "rebuilt": "00"
+    },
+    {
+      "offset": 344198175,
+      "current": "6f",
+      "rebuilt": "00"
+    }
+  ],
+  "camera_io": false,
+  "independent_ext2_parsers": 2,
+  "regular_files_compared": 919,
+  "files_with_different_block_mapping": [
+    "/share/app/string_french_horizontal.uxc",
+    "/share/app/string_polish_horizontal.uxc",
+    "/share/app/string_turkish_horizontal.uxc",
+    "/share/app/string_persian_horizontal.uxc",
+    "/share/app/string_indonesia_horizontal.uxc",
+    "/share/app/string_brazilianportuguese_vertical.uxc",
+    "/share/app/string_german_horizontal.uxc",
+    "/share/app/string_spanish_vertical.uxc"
+  ],
+  "CP_and_WBI_partition_exact": true,
+  "classification": "文件内容与inode一致；间接块映射和数据落点不同，不能把600字节全部视为填充"
+}

@@ -1,0 +1,43 @@
+{
+  "scope": "isolated creative look parameter application and software reference preview",
+  "parameters": "runs/native-look-cp-509uu886/look-parameters.json",
+  "reference_output": "runs/look-reference-qo3ngzmk",
+  "Qt_acceptance": "runs/look-qt-accept-6kydylgl",
+  "regression_logs": "logs/creative-look-reference-g41h_zx6",
+  "regression_tests_passed": 21,
+  "native_AP_selector_cases": 204,
+  "native_CP_selection_cases": 12,
+  "native_CP_packer_cases": 96,
+  "native_matrix_cases": 160,
+  "native_Gamma_output_cases": 112,
+  "native_Gamma_input_unchanged_cases": 112,
+  "reference_preview_complete": true,
+  "full_AP_CP_transport_verified": false,
+  "ISP_pixels_verified": false,
+  "FL2_FL3_pixel_accuracy_verified": false,
+  "Gamma_hardware_axis_verified": false,
+  "A7R5_six_look_color_calibrated": false,
+  "camera_io": false,
+  "original_images_modified": false,
+  "native_CP_ISP_research_preserved": true,
+  "default_runtime_files": {
+    "binary": "02e51fb137c074364bdfb382160e4239494622e3b2c495692bef6f72fccf2e3f",
+    "kernel": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66",
+    "initrd": "a95b001d61b77b980052cd60b24d90496eb92177853634bf8d4d4223de41249a",
+    "dtb": "5aff1e79858f7eef8862e413d837feb4249adf267c5b484ed3aa65e5df01f6bc",
+    "gpe": "80fc6236379933f80c2689aa002e0cf39483da8d45e876705d2a427cd1a2a7d1"
+  },
+  "source_sha256": {
+    "tools/look_materials.py": "e53d5202dbd0e0821cf3a2d8ef4560205acee78720c61a63d9fb786248461e11",
+    "tools/look_launch.py": "119bafe334de21948ba545280915b1ffe034283664e008dc91fe3d3f8b3617a1",
+    "tools/look_native.py": "54cab40b0d3c7fff9e61a3b0d4d2aa71439cbcf8e5c6dfa728153499ccd24adc",
+    "tools/look_reference_ui.py": "31516ab945fdb1d61a06ffb0708c5f7fe85aa90f7a3fe6233fb8c038d9dadecb",
+    "tools/look_reference.py": "d7d25ef4062f974c085338a9f8c7223871c8a1e1b5c0d7d312b71169e41f91ff",
+    "tests/test-look-reference.py": "321e34a0020321bc455ca2e3ff41bf3c3acbfab41e85d24c52994821b032c58d",
+    "tests/accept-look-reference.py": "36f55e13de7c46db6540244c579d2782c82653c570c045a38a1837e344e8f52d",
+    "source/guest/look-reference-cp.c": "377bdf01392908a2a2ba0e2e028da96b8928bb3d88a05021f0746a14dbba8223",
+    "source/guest/look-reference-ap.S": "dd2dc073e464693611bbc3a275987e3a8aed06af356d7680dc0b59c3ac03df7d",
+    "source/guest/look-reference-ap.c": "feab16cb7aa289d8d0aa22916578d3e4fb93ba7d233e5c948488b4ad149252a4",
+    "启动创意外观参考预览.command": "2377e7e3179d211efa2e9838df9b0f88213389b628e324c1dc0da9e4b7cd6eb5"
+  }
+}

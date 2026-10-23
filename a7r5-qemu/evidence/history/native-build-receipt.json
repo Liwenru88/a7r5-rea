@@ -1,0 +1,9 @@
+{
+  "platform": "darwin",
+  "source_sha256": "731b5681e4bb18be313231579b8efd0296c5b015fa36dc533874b639ba838016",
+  "patch_sha256": "29a84ae7a23897af25279f3c438bef387a01d59137767e0362631d4c294f78f8",
+  "binary": "native-macos/build/qemu-system-aarch64",
+  "binary_sha256": "48121fea382fdc1f5151c3bbbde7b8d4fc24c32a05589c5c11a94dabbec192cb",
+  "guest_rebuilt": false,
+  "docker_build_modified": false
+}

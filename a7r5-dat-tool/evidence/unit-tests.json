@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "tests": 20,
+  "elapsed_seconds": 0.61,
+  "command": "python -B -m pytest -q a7r5-dat-tool/tests -p no:cacheprovider",
+  "source_sha256": {
+    "dattool.py": "af46c7c6d01dee7937b3c41330ce7d3b2054c954e6b5defbe16b921e48fa60d7",
+    "a7r5dat/constants.py": "e102c8511ec2a0e1c9713339fee098f304a476fc275dc80fb0dcac43836e2cef",
+    "a7r5dat/__init__.py": "9862b13628758fede9788761cf377adf94be07dee152c5946407b461352047ba",
+    "a7r5dat/ext2_patch.py": "6a22b44f9d9606b4dff49545f5f3fd9e652493867905b364a57395dd31a49404",
+    "a7r5dat/codec.py": "0cc9fa7cbe99d832dd63d1dff62dc1b6d1f35a8cf8320fb4012678afe84cab7d",
+    "a7r5dat/ext2read.py": "c2972216e93f7d1fc4b146445e23e43684ae0ad9dd148b3d91f95a3f1a5b2926",
+    "a7r5dat/tool.py": "90c215f76f12f28207e1912bb3cabb0372ccf9fb24972cfabea421f56fcd9ad3",
+    "a7r5dat/fat.py": "b6530aaa4bff38166fd6989ef4d6138634bfd3512c371ec306359192a971595c",
+    "a7r5dat/encryptor.py": "7bba39d9cf5f7e0956775b787cd2ccae297dc113f740146a29e71ad81004dd9d",
+    "tests/test_tool.py": "414f7f7aa1f4d94a9dc669aa201e3a6745042ab4a83066bb218be6f3cb71a048"
+  },
+  "scope": "容器边界、校验联动、路径与链接、密钥、覆盖和失败发布",
+  "camera_io": false
+}

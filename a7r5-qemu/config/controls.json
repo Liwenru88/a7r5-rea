@@ -1,0 +1,676 @@
+{
+  "schema": 1,
+  "model": "ILCE-7RM5",
+  "firmware": "4.00",
+  "input_fingerprint": {
+    "kernel": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66",
+    "initrd": "a95b001d61b77b980052cd60b24d90496eb92177853634bf8d4d4223de41249a",
+    "dtb": "5aff1e79858f7eef8862e413d837feb4249adf267c5b484ed3aa65e5df01f6bc"
+  },
+  "controls": [
+    {
+      "id": "UP",
+      "label": "↑ 上",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "DOWN",
+      "label": "↓ 下",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "LEFT",
+      "label": "← 左",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "RIGHT",
+      "label": "右 →",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "ENTER",
+      "label": "中心确认",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "MENU",
+      "label": "MENU / 返回",
+      "group": "菜单导航",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "guide",
+        "shooting",
+        "unknown",
+        "menu_option",
+        "shooting_ready",
+        "fn",
+        "fn_notice",
+        "playback_empty",
+        "initial_setup",
+        "setup_on_camera",
+        "setup_complete",
+        "menu_group",
+        "custom_notice",
+        "custom_setting",
+        "custom_setting_notice",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/qt-acceptance.json"
+      ],
+      "limitations": "仅证明菜单动作，不等同于摇杆或控制轮实体来源；点按总是成对释放",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "SHUTTER_HALF",
+      "label": "快门半按",
+      "group": "正面",
+      "interaction": "two_stage",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+      ],
+      "limitations": "缺少两段事件与对焦硬件证据",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+    },
+    {
+      "id": "SHUTTER_FULL",
+      "label": "快门全按",
+      "group": "正面",
+      "interaction": "two_stage",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+      ],
+      "limitations": "缺少两段事件和拍摄硬件，不能拍照",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+    },
+    {
+      "id": "POWER",
+      "label": "ON/OFF 电源开关",
+      "group": "正面",
+      "interaction": "select",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+      ],
+      "limitations": "实体电源状态未模拟；应用退出使用独立 QMP 流程",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+    },
+    {
+      "id": "FRONT_DIAL",
+      "label": "前拨轮",
+      "group": "正面",
+      "interaction": "rotate",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-swvf5qi0/research/report.json"
+      ],
+      "limitations": "固件分配的前拨轮事件，每次一格；当前仅验收菜单切页，不开放拍摄曝光调整。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+    },
+    {
+      "id": "LENS_RELEASE",
+      "label": "镜头释放按钮",
+      "group": "机械与感应",
+      "interaction": "mechanical",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+      ],
+      "limitations": "机械锁扣，不虚构数字按键",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669447.html"
+    },
+    {
+      "id": "SHOOT_SELECTOR",
+      "label": "照片 / 视频 / S&Q",
+      "group": "顶部",
+      "interaction": "select",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+      ],
+      "limitations": "未确认模式状态协议与互斥状态",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "SHOOT_UNLOCK",
+      "label": "拍摄选择器解锁",
+      "group": "机械与感应",
+      "interaction": "mechanical",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+      ],
+      "limitations": "机械锁扣",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "MODE_DIAL",
+      "label": "模式转盘",
+      "group": "顶部",
+      "interaction": "select",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-s8kvuv7x/research/report.json"
+      ],
+      "limitations": "仅开放自动/P/A/S/M；等待原厂模式标志匹配后才完成。未知显示布局禁用，不证明测光、曝光或拍摄链。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "MODE_UNLOCK",
+      "label": "模式转盘解锁",
+      "group": "机械与感应",
+      "interaction": "mechanical",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+      ],
+      "limitations": "机械锁扣",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "REAR_DIAL_L",
+      "label": "后拨轮 L",
+      "group": "顶部",
+      "interaction": "rotate",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-swvf5qi0/research/report.json"
+      ],
+      "limitations": "固件 DIAL_ASSIGN_REAR_DIAL，每次一格切页；返回时保留页选择焦点，用控制轮或方向键恢复条目焦点。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "REAR_DIAL_R",
+      "label": "后拨轮 R",
+      "group": "顶部",
+      "interaction": "rotate",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-swvf5qi0/research/report.json"
+      ],
+      "limitations": "固件 DIAL_ASSIGN_REAR_DIAL2，每次一格切页；两个后拨轮代码不同，不验证实体电路来源。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "REAR_DIAL_R_LOCK",
+      "label": "后拨轮 R 锁定",
+      "group": "顶部",
+      "interaction": "select",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+      ],
+      "limitations": "实体锁定事件未确认",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "MOVIE",
+      "label": "MOVIE 录像按钮",
+      "group": "顶部",
+      "interaction": "tap",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+      ],
+      "limitations": "录像事件和传感器/编码链尚未模拟",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "C2",
+      "label": "C2 自定义键",
+      "group": "顶部",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-s8kvuv7x/research/report.json"
+      ],
+      "limitations": "当前分配为对焦区域；P 模式已验证广域→区→重进回读→恢复广域。智能自动模式有原厂限制，不证明实际对焦。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669449.html"
+    },
+    {
+      "id": "C3",
+      "label": "C3 / 保护",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-s8kvuv7x/research/report.json"
+      ],
+      "limitations": "打开原厂对焦模式面板，支持上下导航和取消；确认部分选项会显示镜头限制，不证明实际对焦。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "C1",
+      "label": "C1 自定义键",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-s8kvuv7x/research/report.json"
+      ],
+      "limitations": "当前分配为白平衡；P 模式已验证自动→日光→重进回读→恢复自动。智能自动模式显示原厂限制；不证明成像色彩处理。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "AF_ON",
+      "label": "AF-ON / 放大",
+      "group": "背面",
+      "interaction": "hold",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "按下/释放和对焦、回放上下文未验证",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "AEL",
+      "label": "AEL / 图像索引",
+      "group": "背面",
+      "interaction": "hold",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "保持语义和上下文未验证",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "JOYSTICK",
+      "label": "多重选择器（摇杆）",
+      "group": "背面",
+      "interaction": "joystick",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_group",
+        "menu_option"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-nbu2iy_y/research/report.json"
+      ],
+      "limitations": "独立多重选择器事件 0x70f7，验证上下左右和中心、选项提交/回读/还原。未开放八向、保持、拍摄对焦点移动。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "FN",
+      "label": "Fn 快捷菜单",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready",
+        "fn"
+      ],
+      "evidence": [
+        "logs/key-dispatch/root-cause.json",
+        "runs/native-app-2yezmikt/research/report.json"
+      ],
+      "limitations": "需先完成本次 RAM 中的原厂首次设置；Fn 面板可导航、开关，部分设置受智能自动模式或未模拟硬件限制",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "CONTROL_WHEEL",
+      "label": "控制轮旋转",
+      "group": "背面",
+      "interaction": "rotate",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_option",
+        "menu_page"
+      ],
+      "evidence": [
+        "logs/function-expansion/controls-map-20261020.json",
+        "runs/native-app-swvf5qi0/research/report.json"
+      ],
+      "limitations": "固件 DIAL_ASSIGN_CONTROL_WHEEL，每次一格；已验证菜单行选择和固定选项值往返。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "WHEEL_DIRECTIONS",
+      "label": "控制轮四向及中心",
+      "group": "背面",
+      "interaction": "pad",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "六键菜单行为已验证，实体事件来源未单独证明",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "C4",
+      "label": "C4 / 删除",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "menu",
+        "menu_option",
+        "setup_on_camera",
+        "shooting_ready"
+      ],
+      "evidence": [
+        "logs/desktop-implementation/c4-evidence.json",
+        "logs/function-expansion/option-help-research.json",
+        "runs/native-app-s1tjtsaq/research/report.json"
+      ],
+      "limitations": "已验证菜单帮助、首次设置的在机内设置入口，以及拍摄信息页触摸操作开关 Off/On 往返。未实现触摸坐标/手势或照片删除。",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "PLAYBACK",
+      "label": "回放（空介质提示）",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready",
+        "playback_empty"
+      ],
+      "evidence": [
+        "logs/key-dispatch/root-cause.json",
+        "runs/native-app-2yezmikt/research/report.json"
+      ],
+      "limitations": "仅验证原厂无存储卡提示及再次按回放返回；照片浏览、解码与虚拟媒体未实现",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "TOUCH",
+      "label": "触摸屏 / 触摸板",
+      "group": "背面",
+      "interaction": "touch",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "触点、坐标范围及手势协议未验证",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "EYE_SENSOR",
+      "label": "眼传感器",
+      "group": "机械与感应",
+      "interaction": "sensor",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "未模拟真实眼传感器输入",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "DIOPTER",
+      "label": "屈光度调节",
+      "group": "机械与感应",
+      "interaction": "mechanical",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "光学机械操作，不虚构数字事件",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "MONITOR_HINGE",
+      "label": "屏幕翻转与旋转",
+      "group": "机械与感应",
+      "interaction": "sensor",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "屏幕姿态/翻转传感器未建模",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "EYECUP",
+      "label": "眼罩拆卸",
+      "group": "机械与感应",
+      "interaction": "mechanical",
+      "mapping_status": "unknown",
+      "behavior_status": "not_tested",
+      "enabled_contexts": [],
+      "evidence": [
+        "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+      ],
+      "limitations": "机械操作，不进入固件注入层",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/contents/TP1000669448.html"
+    },
+    {
+      "id": "DISP",
+      "label": "DISP 显示切换（控制轮上）",
+      "group": "背面",
+      "interaction": "tap",
+      "mapping_status": "verified",
+      "behavior_status": "pass",
+      "enabled_contexts": [
+        "shooting_ready"
+      ],
+      "evidence": [
+        "runs/native-app-2yezmikt/research/report.json",
+        "logs/key-dispatch/root-cause.json"
+      ],
+      "limitations": "复用已验证的控制轮上键 0x3；仅验证拍摄信息布局循环，黑色背景无真实取景画面",
+      "source": "https://helpguide.sony.net/ilc/2230/v1/en/print.pdf"
+    }
+  ]
+}
