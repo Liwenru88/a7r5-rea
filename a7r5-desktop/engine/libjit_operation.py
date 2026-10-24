@@ -8,6 +8,7 @@ import time
 from transport import Channel,FileResultError,HEADER,READ,wire
 
 class Operation:
+    packet_limit=512
     def __init__(self,bundle,channel_factory=Channel):
         self.bundle=Path(bundle);self.config=json.loads((self.bundle/'config.json').read_text())
         self.run=self.config['run_id'];self.prefix='/tmp/jiritsu/a7r5-jit-'+self.run
@@ -21,6 +22,18 @@ class Operation:
                     self.prefix+'.state.new':512,self.prefix+'.output':32768}
         self.writes={self.prefix+'.ticket':self.ticket,'/tmp/jiritsu/libJit.so':self.payload}
         self.trigger_attempts=0;self.written=set()
+
+    def configure_ram_control(self,layout,marker):
+        if layout not in ('ram-v1','ram-v2') or marker not in self.payload:
+            raise ValueError('RAM控制文件与执行模板不匹配')
+        previous=self.prefix
+        self.prefix='/tmp_wbshd/a7r5-control-'+self.run+'/task'
+        self.reads={self.prefix+path[len(previous):] if path.startswith(previous+'.') else path:limit
+                    for path,limit in self.reads.items()}
+        self.ticket_path=self.prefix+'.ticket' if layout=='ram-v1' else '/tmp_wbshd/a7r5-control-'+self.run+'.ticket'
+        self.reads.pop(self.prefix+'.ticket',None);self.reads[self.ticket_path]=128
+        self.writes={self.ticket_path:self.ticket,'/tmp/jiritsu/libJit.so':self.payload}
+
     def interface_checked(self,device,interface):
         raw=dict(pid=int(device.idProduct),bus=device.bus,ports=list(device.port_numbers or ()),
                  number=int(interface.bInterfaceNumber),alternate=int(interface.bAlternateSetting),
@@ -34,7 +47,7 @@ class Operation:
     def guard_packet(self,packet):
         if packet!=self.permitted_packet or len(packet)<HEADER.size+7:raise PermissionError('未经精确授权')
         size,function,sequence,*meta=HEADER.unpack_from(packet);body=packet[HEADER.size:]
-        if size!=len(body) or function!=0x40 or not 1<=sequence<=512 or any(meta):raise PermissionError('非法报文')
+        if size!=len(body) or function!=0x40 or not 1<=sequence<=self.packet_limit or any(meta):raise PermissionError('非法报文')
         selects={struct.pack('<HH',0x1001,15)+b'\0'+wire(p)+b'\0' for p in self.reads}
         puts={struct.pack('<HH',0x1001,16)+b'\0\xff\0'+d for d in self.writes.values()}
         if body not in selects|puts|{READ}:raise PermissionError('禁止 DEBUG、START 命令或额外文件操作')

@@ -23,6 +23,7 @@ def operation(tmp,engine,fault=None):
     tmp.mkdir();(tmp/'materials').mkdir()
     cfg=dict(PROFILE,run_id='aabbccdd'*4,engine=engine,task_seconds=1,
              expected_output_begin='BEGIN\n',expected_output_end='END\n')
+    if engine=='libjit':cfg.update(control_layout='ram-flat-v1',control_prefix='/tmp_wbshd/a7r5-jit-'+cfg['run_id'])
     (tmp/'config.json').write_text(json.dumps(cfg))
     for name in ['payload.so','libJit.so']:(tmp/'materials'/name).write_bytes(b'fixed-payload')
     (tmp/'materials/ticket.bin').write_bytes(b'fixed-ticket')
@@ -71,9 +72,13 @@ class Camera:
             raw=self.contents(self.selected)
             if raw is None:code=0x10000006;raw=b''
         elif command==16:
-            raw=body[7:];self.puts.append((self.selected,raw));self.files[self.selected]=raw
-            if self.selected=='/etc/ld.so.preload':self.preload=raw;self.armed=True
-            if self.selected=='/tmp/jiritsu/libJit.so':self.triggers+=1
+            raw=body[7:];self.puts.append((self.selected,raw))
+            if self.fault=='ram-full' and self.selected.startswith('/tmp_wbshd/') and self.selected.endswith('.ticket'):
+                code=0x10000008
+            else:
+                self.files[self.selected]=raw
+                if self.selected=='/etc/ld.so.preload':self.preload=raw;self.armed=True
+                if self.selected=='/tmp/jiritsu/libJit.so':self.triggers+=1
             raw=b''
         elif command==5:
             assert self.engine=='kit' and self.armed

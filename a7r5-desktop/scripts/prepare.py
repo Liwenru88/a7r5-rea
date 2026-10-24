@@ -59,6 +59,15 @@ def jit_values(run):
                 TICKET_BYTES='A7R5_LIBJIT '+run+'\n', LIBJIT_PATH='/tmp/jiritsu/libJit.so')
 
 
+def ram_jit_values(run):
+    control='/tmp_wbshd/a7r5-control-'+run
+    values=jit_values(run)
+    values.update({key:control+'/task'+suffix for key,suffix in (
+        ('STATE_PATH','.state'),('STATE_NEW','.state.new'),('OUTPUT_PATH','.output'),('CLAIM_PATH','.claim'))})
+    values.update(TICKET_PATH=control+'.ticket',CAPTURE_CONTROL_PARENT='/tmp_wbshd',CAPTURE_CONTROL_DIR=control)
+    return values
+
+
 def header(path, values):
     path.write_text(''.join('#define '+k+' '+json.dumps(v)+'\n' for k, v in values.items()))
 
@@ -109,41 +118,96 @@ def compile_library(directory, source, run):
     return output.read_bytes()
 
 
-def capture_library(directory, run):
+def capture_shape(part_bytes=16384):
+    if part_bytes not in (16384,262144):raise ValueError('未知捕获编译布局')
+    count=(25100288+part_bytes-1)//part_bytes
+    return dict(CAPTURE_PART_BYTES=part_bytes,CAPTURE_PART_COUNT=count,
+        CAPTURE_SUMMARY=f' bytes=25100288 twice=1 chunks={count} chunk_bytes={part_bytes}\n')
+
+
+def capture_library(directory, run, *, probe=False, part_bytes=16384):
     directory.mkdir()
     profile = json.loads((ROOT/'engine/profile.json').read_text())
-    header(directory/'jit_config.h', jit_values(run))
+    control='/tmp_wbshd/a7r5-control-'+run
+    header(directory/'jit_config.h', ram_jit_values(run))
     header(directory/'capture_config.h', dict(CAPTURE_TARGET='/dev/cnflasha1',
-        CAPTURE_RAM_PARENT='/tmp_wbshd', CAPTURE_RAM_DIR='/tmp_wbshd/a7r5-capture-'+run,
+        **capture_shape(part_bytes), CAPTURE_RAM_PARENT='/tmp_wbshd', CAPTURE_RAM_DIR='/tmp_wbshd/a7r5-capture-'+run,
         CAPTURE_PATH='/tmp_wbshd/a7r5-capture-'+run+'/partition.bin',
         CAPTURE_BEGIN='A7R5_CAPTURE_BEGIN '+run+'\n', CAPTURE_END='A7R5_CAPTURE_END '+run+'\n',
         PRELOAD_A=bytes.fromhex(profile['preload_baselines'][0][1]).decode(),
         PRELOAD_B=bytes.fromhex(profile['preload_baselines'][1][1]).decode()))
+    if probe:
+        header(directory/'work_probe_config.h',dict(PROBE_SOURCE='/dev/cnflasha6',
+            PROBE_DATA_PATH=control+'/task.work-root',PROBE_BEGIN='A7R5_WORK_PROBE_BEGIN '+run+'\n',
+            PROBE_END='A7R5_WORK_PROBE_END '+run+'\n'))
     source = (ROOT/'sources/trust/libjit-trust.c').read_text().replace(
-        '#include "native_gate.c"', '#include "capture_gate.c"').replace(
-        'A7R5_TRUST_PRODUCTION_V2', 'A7R5_CAPTURE_READONLY_V1')
+        '#include "native_gate.c"', '#include "work_probe.c"' if probe else '#include "capture_gate.c"').replace(
+        'A7R5_TRUST_PRODUCTION_V2', 'A7R5_WORK_PROBE_READONLY_V2_RAM_BOOTSTRAP' if probe else ('A7R5_CAPTURE_READONLY_V5_RAM_16K' if part_bytes==16384 else 'A7R5_CAPTURE_READONLY_V4_RAM_BOOTSTRAP'))
     (directory/'capture-wrapper.c').write_text(source)
     return compile_library(directory, directory/'capture-wrapper.c', run)
 
 
-def trust_library(directory, run, preload, before, after, plan):
+def capture_cleanup_library(directory, run):
     directory.mkdir()
-    header(directory/'jit_config.h', jit_values(run))
+    profile=json.loads((ROOT/'engine/profile.json').read_text())
+    control='/tmp_wbshd/a7r5-cleanup-'+run
+    values=ram_jit_values(run)
+    values.update({key:control+'/task'+suffix for key,suffix in (
+        ('STATE_PATH','.state'),('STATE_NEW','.state.new'),('OUTPUT_PATH','.output'),('CLAIM_PATH','.claim'))})
+    values.update(TICKET_PATH=control+'.ticket',CAPTURE_CONTROL_DIR=control)
+    header(directory/'jit_config.h',values)
+    header(directory/'cleanup_config.h',dict(**capture_shape(),CLEANUP_PARENT='/tmp_wbshd',
+        CLEANUP_DIRECTORY='a7r5-capture-'+run,SOURCE_CONTROL_DIRECTORY='a7r5-control-'+run,
+        CAPTURE_BEGIN='A7R5_CAPTURE_BEGIN '+run+'\n',CAPTURE_END='A7R5_CAPTURE_END '+run+'\n',
+        PRELOAD_A=bytes.fromhex(profile['preload_baselines'][0][1]).decode(),
+        PRELOAD_B=bytes.fromhex(profile['preload_baselines'][1][1]).decode()))
+    source=(ROOT/'sources/trust/libjit-trust.c').read_text().replace(
+        '#include "native_gate.c"','#include "capture_cleanup.c"').replace(
+        'A7R5_TRUST_PRODUCTION_V2','A7R5_CAPTURE_CLEANUP_V2_RAM_16K')
+    (directory/'cleanup-wrapper.c').write_text(source)
+    return compile_library(directory,directory/'cleanup-wrapper.c',run)
+
+
+def trust_library(directory, run, preload, before, after, plan):
     rows = plan['rows']
     old = b''.join(before[r['offset']:r['offset']+512] for r in rows)
     new = b''.join(after[r['offset']:r['offset']+512] for r in rows)
+    return trust_sector_library(directory,run,preload,sha(before),sha(after),old,new,plan)
+
+
+def trust_sector_library(directory,run,preload,source_sha,target_sha,old,new,plan,*,force=False,precheck=False,sector_readback=True,planned_resource_budget=True):
+    directory.mkdir()
+    header(directory/'jit_config.h',dict(**ram_jit_values(run),TRUST_USER_CHECK_DIAGNOSTICS=1,TRUST_RESOURCE_CHECK_DIAGNOSTICS=1))
+    if precheck:
+        if not force:raise ValueError('只读检查必须使用独立诊断模板')
+        with (directory/'jit_config.h').open('a') as stream:stream.write('#define TRUST_PRECHECK_ONLY 1\n')
+    rows=plan['rows']
     ram = '/tmp_wbshd/a7r5-trust-'+run
-    header(directory/'trust_config.h', dict(ORIGINAL_SHA=sha(before), CANDIDATE_SHA=sha(after),
+    header(directory/'trust_config.h', dict(ORIGINAL_SHA=source_sha, CANDIDATE_SHA=target_sha, TRUST_FORCE_MODE=int(force),
+        TRUST_FORCE_SECTOR_READBACK=int(force and sector_readback),
+        TRUST_PLANNED_RESOURCE_BUDGET=int(force and sector_readback and planned_resource_budget),
         BEFORE_PATCH_SHA=sha(old), AFTER_PATCH_SHA=sha(new), RAM_DIR=ram,
         JOURNAL_PATH=ram+'/journal', READBACK_PATH=ram+'/partition.logical', EXPECTED_PRELOAD=preload,
         OUTPUT_BEGIN='A7R5_TRUST_BEGIN_'+run+'\n', OUTPUT_END='A7R5_TRUST_END_'+run+'\n', TARGET_PATH='/dev/cnflasha1'))
+    if force:
+        profile=json.loads((ROOT/'engine/profile.json').read_text())
+        with (directory/'trust_config.h').open('a') as stream:
+            for key,row in zip(('FORCE_PRELOAD_A','FORCE_PRELOAD_B'),profile['preload_baselines']):
+                stream.write('#define '+key+' '+json.dumps(bytes.fromhex(row[1]).decode())+'\n')
     with (directory/'trust_config.h').open('a') as stream:
         stream.write('#define PARTITION_BYTES 25100288UL\n#define PATCH_COUNT 258U\n')
-        stream.write('static const unsigned long PATCH_OFFSETS[]={'+','.join(str(r['offset'])+'UL' for r in rows)+'};\n')
-        stream.write('static const unsigned char PATCH_CHECKSUM[]={'+','.join(str(int(r['phase']=='checksum')) for r in rows)+'};\n')
-        for name, raw in [('BEFORE_SECTORS', old), ('AFTER_SECTORS', new)]:
-            stream.write('static const unsigned char '+name+'[]={'+','.join(str(b) for b in raw)+'};\n')
-    return compile_library(directory, ROOT/'sources/trust/libjit-trust.c', run)
+        if not precheck:
+            stream.write('static const unsigned long PATCH_OFFSETS[]={'+','.join(str(r['offset'])+'UL' for r in rows)+'};\n')
+            stream.write('static const unsigned char PATCH_CHECKSUM[]={'+','.join(str(int(r['phase']=='checksum')) for r in rows)+'};\n')
+            for name, raw in [('BEFORE_SECTORS', old), ('AFTER_SECTORS', new)]:
+                stream.write('static const unsigned char '+name+'[]={'+','.join(str(b) for b in raw)+'};\n')
+    source=(ROOT/'sources/trust/libjit-trust.c').read_text().replace(
+        'A7R5_TRUST_PRODUCTION_V2','A7R5_TRUST_PRECHECK_ONLY_V1' if precheck else
+        ('A7R5_TRUST_FORCE_V3_RESOURCE_BUDGET' if sector_readback and planned_resource_budget else
+         'A7R5_TRUST_FORCE_V2_SECTOR_READBACK' if sector_readback else 'A7R5_TRUST_FORCE_V1_RAM_16K') if force
+        else 'A7R5_TRUST_PRODUCTION_V3_RAM_BOOTSTRAP')
+    (directory/'trust-wrapper.c').write_text(source)
+    return compile_library(directory,directory/'trust-wrapper.c',run)
 
 
 def template_record(name, raw, alternate, run, *, hash_value=None):
@@ -176,6 +240,61 @@ def template_record(name, raw, alternate, run, *, hash_value=None):
     return dict(sha256=sha(raw), bytes=len(raw), fields=counts, configuration_matches_compilation=True)
 
 
+def capture_payload():
+    """只更新捕获模板；其他信任、SSH与固件材料保持原样。"""
+    manifest = json.loads((ENGINE/'templates.json').read_text())
+    with tempfile.TemporaryDirectory(prefix='a7r5-capture-build-') as temporary:
+        folder = Path(temporary).resolve()
+        run = secrets.token_hex(16)
+        record = template_record('capture.so', capture_library(folder/'a', MARKER),
+                                 capture_library(folder/'b', run), run)
+        probe_record=template_record('work-probe.so',capture_library(folder/'pa',MARKER,probe=True),
+                                    capture_library(folder/'pb',run,probe=True),run)
+        cleanup_record=template_record('capture-cleanup.so',capture_cleanup_library(folder/'ca',MARKER),
+                                       capture_cleanup_library(folder/'cb',run),run)
+    manifest['files']['capture.so'] = record
+    record['control_layout']='ram-v2'
+    record['capture_format']='ram-16k-v1'
+    probe_record['control_layout']='ram-v2'
+    manifest['files']['work-probe.so']=probe_record
+    cleanup_record['cleanup_policy']='verified-current-ram-v2'
+    manifest['files']['capture-cleanup.so']=cleanup_record
+    save(ENGINE/'templates.json', manifest)
+    print('分块捕获模板编译通过，配置替换与独立编译一致；未访问设备', flush=True)
+
+
+def trust_payload():
+    """使用封存扇区材料重编RAM控制布局，不覆盖原运行材料或放宽前像。"""
+    manifest=json.loads((ENGINE/'templates.json').read_text())
+    sectors=json.loads((ENGINE/'trust-sectors.json').read_text())
+    plan=json.loads((ENGINE/'write-plan.json').read_text())
+    rows=sectors['rows']
+    if len(rows)!=258 or [r['offset'] for r in rows]!=[r['offset'] for r in plan['rows']]:
+        raise ValueError('信任扇区清单不符')
+    raw={}
+    for key in ('before','after'):
+        pieces=[base64.b64decode(row[key],validate=True) for row in rows]
+        if any(len(p)!=512 for p in pieces):raise ValueError('信任扇区长度不符')
+        raw[key]=b''.join(pieces)
+    profile=json.loads((ROOT/'engine/profile.json').read_text())
+    with tempfile.TemporaryDirectory(prefix='a7r5-trust-control-build-') as temporary:
+        folder=Path(temporary).resolve();run=secrets.token_hex(16)
+        for index,(name,preload) in enumerate(profile['preload_baselines']):
+            args=(bytes.fromhex(preload).decode(),sectors['source_sha256'],sectors['target_sha256'],raw['before'],raw['after'],plan)
+            record=template_record('trust-'+name+'.so',
+                trust_sector_library(folder/('a'+str(index)),MARKER,*args),
+                trust_sector_library(folder/('b'+str(index)),run,*args),run)
+            record['control_layout']='ram-v2'
+            manifest['files']['trust-'+name+'.so']=record
+        record=template_record('trust-force.so',
+            trust_sector_library(folder/'fa',MARKER,*args,force=True),
+            trust_sector_library(folder/'fb',run,*args,force=True),run)
+        record.update(control_layout='ram-v2',force_policy='fixed-258-v1',readback_format='planned-sectors-v2',resource_policy='planned-sectors-32m-v1')
+        manifest['files']['trust-force.so']=record
+    save(ENGINE/'templates.json',manifest)
+    print('信任模板RAM控制布局编译通过，配置替换与独立编译一致；未访问设备',flush=True)
+
+
 def payloads():
     sys.path.insert(0, str(PROJECT/'a7r5-updater-trust/src'))
     import trust_recipe, sector_plan
@@ -195,11 +314,28 @@ def payloads():
         folder = Path(temporary).resolve()
         run = secrets.token_hex(16)
         report['capture.so'] = template_record('capture.so', capture_library(folder/'ca', MARKER), capture_library(folder/'cb', run), run)
+        report['capture.so']['control_layout']='ram-v2'
+        report['capture.so']['capture_format']='ram-16k-v1'
+        report['capture-cleanup.so']=template_record('capture-cleanup.so',capture_cleanup_library(folder/'cca',MARKER),
+                                                    capture_cleanup_library(folder/'ccb',run),run)
+        report['capture-cleanup.so']['cleanup_policy']='verified-current-ram-v2'
+        report['work-probe.so']=template_record('work-probe.so',capture_library(folder/'pa',MARKER,probe=True),
+                                               capture_library(folder/'pb',run,probe=True),run)
+        report['work-probe.so']['control_layout']='ram-v2'
+        rows=plan['rows']
+        old=b''.join(before[r['offset']:r['offset']+512] for r in rows)
+        new=b''.join(after[r['offset']:r['offset']+512] for r in rows)
+        args=(bytes.fromhex(profile['preload_baselines'][0][1]).decode(),sha(before),sha(after),old,new,plan)
+        report['trust-force.so']=template_record('trust-force.so',
+            trust_sector_library(folder/'fa',MARKER,*args,force=True),
+            trust_sector_library(folder/'fb',run,*args,force=True),run)
+        report['trust-force.so'].update(control_layout='ram-v2',force_policy='fixed-258-v1',readback_format='planned-sectors-v2',resource_policy='planned-sectors-32m-v1')
         for index, (name, preload) in enumerate(profile['preload_baselines']):
             text = bytes.fromhex(preload).decode()
             report['trust-'+name+'.so'] = template_record('trust-'+name+'.so',
                 trust_library(folder/('ta'+str(index)), MARKER, text, before, after, plan),
                 trust_library(folder/('tb'+str(index)), run, text, before, after, plan), run)
+            report['trust-'+name+'.so']['control_layout']='ram-v2'
         # 编译沿用已核对的原厂libc SDK；运行包不携带SDK或编译器。
         build = module(PROJECT/'a7r5-ssh/libjit-ssh-on-demand/build.py', 'desktop_ssh_builder')
         from types import SimpleNamespace
@@ -340,9 +476,10 @@ def seal():
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('stage', choices=('runtime', 'payloads', 'features', 'seal', 'all'))
+    p.add_argument('stage', choices=('runtime', 'capture', 'payloads', 'features', 'seal', 'all'))
     args = p.parse_args()
     os.umask(0o077)
     ENGINE.mkdir(parents=True, exist_ok=True)
+    if args.stage == 'capture':capture_payload()
     for name, function in [('runtime',runtime), ('payloads',payloads), ('features',feature_patches), ('seal',seal)]:
         if args.stage in (name, 'all'):function()

@@ -60,7 +60,8 @@ def wrapper(script,run):
 
 
 def compile_payload(out,engine,run,script,seconds):
-    prefix='/tmp/jiritsu/a7r5-'+('jit-' if engine=='libjit' else '')+run
+    # libJit仅触发库使用Work；控制文件平铺在既有RAM目录，无需先mkdir。
+    prefix=('/tmp_wbshd/a7r5-jit-' if engine=='libjit' else '/tmp/jiritsu/a7r5-')+run
     config=dict(RUN_ID=run,TASK_SCRIPT=script,STATE_PATH=prefix+'.state',OUTPUT_PATH=prefix+'.output')
     if engine=='libjit':
         config.update(LIBJIT_PATH='/tmp/jiritsu/libJit.so',TICKET_PATH=prefix+'.ticket',
@@ -100,7 +101,7 @@ def compile_payload(out,engine,run,script,seconds):
 
 def risk(engine):
     common='两阶段认证/START，以root执行本次封存脚本；任意脚本可能修改真实系统，超时和输出上限不构成沙箱。stat错误6不证明文件不存在，仍有路径覆盖、持久残留及恢复受限风险。完整成功终态、输出、预加载和重复状态全部通过才一次STOP；异常停止、不重试、不自动断电、不自动清理或恢复。'
-    if engine=='libjit':return common+'libJit票据和固定库各上传一次，写入/tmp/jiritsu/libJit.so即触发；保留既有预加载，不DEBUG。'
+    if engine=='libjit':return common+'libJit票据上传到/tmp_wbshd的本次RAM前缀，固定库写入/tmp/jiritsu/libJit.so即触发，各一次；claim、状态及输出仅存RAM，已接收记录保存在本机result，断电会丢失未取回的RAM证据；保留既有预加载，不DEBUG。'
     return common+'kit只接受精确512换行，上传随机路径库、临时写预加载并一次DEBUG；机内中和至512换行，不覆盖自启指针或未知内容。kit新工具适配仅离线验证。'
 
 
@@ -120,6 +121,12 @@ def prepare(engine,script,seconds=15):
     if engine=='libjit':(materials/'ticket.bin').write_text('A7R5_LIBJIT '+run+'\n')
     profile=json.loads((HERE/'runtime/profile.json').read_text())
     config={k:profile[k] for k in ('interfaces','host_baseline','version_sha256','loader_sha256','loader_bytes','preload_baselines')}
+    if engine=='libjit':
+        # 离线准备不观察设备；实际执行时使用当前连接，旧基线仅供kit使用。
+        del config['host_baseline']
+        config['interfaces']={name:{k:v for k,v in row.items() if k not in ('bus','ports')}
+                              for name,row in config['interfaces'].items()}
+        config.update(control_layout='ram-flat-v1',control_prefix='/tmp_wbshd/a7r5-jit-'+run)
     config.update(run_id=run,engine=engine,task_seconds=seconds,output_limit=32768,
                   expected_output_begin=begin,expected_output_end=end)
     save(directory/'config.json',config)

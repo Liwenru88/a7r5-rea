@@ -4,7 +4,23 @@ import plistlib
 import subprocess
 import time
 
-LOCATION = 0x00100000
+def physical_port(location):
+    """把本次Mac位置转换为libusb总线及端口链，不绑定历史插口。"""
+    if type(location) is not int or not 0 < location <= 0xffffffff:
+        raise ValueError('USB位置未知')
+    ports = []
+    ended = False
+    for shift in (20, 16, 12, 8, 4):
+        value = (location >> shift) & 15
+        if value == 0:
+            ended = True
+        elif ended:
+            raise ValueError('USB端口拓扑不连续')
+        else:
+            ports.append(value)
+    if not ports or location & 15:
+        raise ValueError('无法识别USB端口拓扑')
+    return location >> 24, ports
 
 
 def parse(tree):
@@ -22,10 +38,12 @@ def parse(tree):
         raise ValueError('不能唯一定位Sony设备')
     node = found[0]
     pid = node.get('idProduct')
-    if node.get('locationID') != LOCATION or pid not in (0x0336, 0x096f, 0x0e0a):
-        raise ValueError('物理端口改变或未知USB身份')
+    location = node.get('locationID')
+    physical_port(location)
+    if pid not in (0x0336, 0x096f, 0x0e0a):
+        raise ValueError('未知USB身份，请在相机上选择MSC')
     result = dict(kind={0x0336: 'service', 0x096f: 'transition', 0x0e0a: 'ordinary'}[pid],
-                  location_id=LOCATION, pid=pid, observed_product=node.get('USB Product Name'),
+                  location_id=location, pid=pid, observed_product=node.get('USB Product Name'),
                   media=[], drivers=[])
     if pid != 0x0e0a:
         # 服务态名称只记录；仍需版本和本次nonce终态交叉绑定，不能据此直接STOP。
@@ -63,8 +81,9 @@ def observe(baseline, take, seconds=45, interval=2):
         raise ValueError('观察必须有界')
     media = Counter(tuple(row) for row in baseline['media'])
     drivers = set(baseline['drivers'])
-    if not media or not drivers or baseline['location_id'] != LOCATION:
+    if not media or not drivers:
         raise ValueError('缺少本次完整基线')
+    physical_port(baseline['location_id'])
     start = time.monotonic()
     proof = dict(recovered=False, observations=[], source='host_ioreg_only', camera_protocol_requests=0)
     stable = 0
@@ -76,6 +95,8 @@ def observe(baseline, take, seconds=45, interval=2):
         try:
             value = take(f'host-{number:02}', timeout=min(5, left))
             row['snapshot'] = value
+            if value.get('location_id') not in (None, baseline['location_id']):
+                raise ValueError('本次会话USB端口变化')
             if value['kind'] == 'ordinary':
                 now_media = Counter(tuple(item) for item in value['media'])
                 now_drivers = set(value['drivers'])

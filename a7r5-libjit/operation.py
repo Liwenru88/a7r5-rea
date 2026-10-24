@@ -10,7 +10,10 @@ from transport import Channel,FileResultError,HEADER,READ,wire
 class Operation:
     def __init__(self,bundle,channel_factory=Channel):
         self.bundle=Path(bundle);self.config=json.loads((self.bundle/'config.json').read_text())
-        self.run=self.config['run_id'];self.prefix='/tmp/jiritsu/a7r5-jit-'+self.run
+        self.run=self.config['run_id'];self.prefix='/tmp_wbshd/a7r5-jit-'+self.run
+        if (not re.fullmatch('[0-9a-f]{32}',self.run) or self.config.get('control_layout')!='ram-flat-v1'
+                or self.config.get('control_prefix')!=self.prefix):
+            raise ValueError('libJit RAM控制布局不符，请重新封包，不复用旧库或配置')
         self.payload=(self.bundle/'materials/libJit.so').read_bytes()
         self.ticket=(self.bundle/'materials/ticket.bin').read_bytes()
         self.output=None;self.interfaces_seen=0;self.permitted_packet=None;self.safe_to_stop=False

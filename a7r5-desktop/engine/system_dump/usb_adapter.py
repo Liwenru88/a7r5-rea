@@ -24,10 +24,11 @@ def same_port(device, port):
     return True
 
 
-def claim_interface(device, usb_util, log=None):
-    """接管接口；不显式调用 reset，Darwin 的 detach 内部可能重枚举。"""
+def claim_interface(device, usb_util, log=None, *, allow_settle=False):
+    """仅在服务启动前有界等待同一接口；不重置设备或重新选择设备。"""
     log = log or (lambda *args, **kwargs: None)
     detached = False
+    port = (device.bus, tuple(device.port_numbers or ()))
     try:
         active = device.is_kernel_driver_active(0)
         log("kernel_driver_state", active=active)
@@ -40,22 +41,34 @@ def claim_interface(device, usb_util, log=None):
         # Darwin 后端可能不提供此查询，实际 claim 失败会直接向上传播。
         pass
     try:
-        for attempt in range(1, 2):
+        for attempt in range(1, 4):
+            same_port(device, port)
             log("interface_claim_requested", attempt=attempt)
             try:
                 usb_util.claim_interface(device, 0)
                 break
             except Exception as exc:
-                # 仅在本进程已分离驱动且尚未发出相机协议时，等待插件初始化。
-                if (sys.platform != "darwin" or not detached
-                        or getattr(exc, "backend_error_code", None) != -99 or attempt == 1):
+                log("interface_claim_failed", attempt=attempt, error_type=type(exc).__name__,
+                    message=str(exc), backend_error_code=getattr(exc, "backend_error_code", None),
+                    errno=getattr(exc, "errno", None))
+                # 只等待首次分离驱动后的插件就绪；服务已启动、其他错误和第三次失败均立即停止。
+                if (not allow_settle or sys.platform != "darwin" or not detached
+                        or getattr(exc, "backend_error_code", None) != -99 or attempt == 3):
                     raise
                 log("interface_plugin_wait", attempt=attempt, delay_seconds=0.25)
                 time.sleep(0.25)
         log("interface_claimed")
-    except Exception:
+    except BaseException:
         if detached:
-            device.attach_kernel_driver(0)
+            try:
+                same_port(device, port)
+                log("kernel_driver_reattach_requested")
+                device.attach_kernel_driver(0)
+                log("kernel_driver_reattached")
+            except Exception as cleanup_error:
+                # 回收失败单独记录，保留最初接管异常及其调用栈。
+                log("kernel_driver_reattach_failed", error_type=type(cleanup_error).__name__,
+                    message=str(cleanup_error), backend_error_code=getattr(cleanup_error, "backend_error_code", None))
         raise
     return detached
 

@@ -6,15 +6,23 @@ import re
 import struct
 import time
 from transport import Channel,FileResultError,HEADER,READ,wire
+from host_state import physical_port
 
 class Operation:
-    def __init__(self,bundle,channel_factory=Channel):
+    def __init__(self,bundle,channel_factory=Channel,*,host_baseline=None):
         self.bundle=Path(bundle);self.config=json.loads((self.bundle/'config.json').read_text())
-        self.run=self.config['run_id'];self.prefix='/tmp/jiritsu/a7r5-jit-'+self.run
+        self.run=self.config['run_id'];self.prefix='/tmp_wbshd/a7r5-jit-'+self.run
+        if (not re.fullmatch('[0-9a-f]{32}',self.run) or self.config.get('control_layout')!='ram-flat-v1'
+                or self.config.get('control_prefix')!=self.prefix):
+            raise ValueError('libJit RAM控制布局不符，请重新准备会话，不复用旧库或配置')
         self.payload=(self.bundle/'materials/libJit.so').read_bytes()
         self.ticket=(self.bundle/'materials/ticket.bin').read_bytes()
         self.output=None;self.interfaces_seen=0;self.permitted_packet=None;self.safe_to_stop=False
         self.channel_factory=channel_factory
+        self.expected_port=None
+        if host_baseline is not None:
+            bus,ports=physical_port(host_baseline['location_id'])
+            self.expected_port=(bus,tuple(ports))
         self.reads={'/version.txt':4096,'/usr/lib/libJiritsu.so':self.config['loader_bytes'],
                     '/etc/ld.so.preload':4096,'/tmp/jiritsu/libJit.so':65536,'/tmp/jbusy':64,
                     self.prefix+'.ticket':128,self.prefix+'.claim':128,self.prefix+'.state':512,
@@ -29,7 +37,11 @@ class Operation:
         self.interfaces_seen+=1
         if self.output is None:raise ValueError('缺少输出目录')
         (self.output/f'interface-{self.interfaces_seen}.json').write_text(json.dumps(raw,indent=2))
-        if raw!=self.config['interfaces'].get(f'interface-{self.interfaces_seen}.json'):raise ValueError('接口指纹不符，不换端点')
+        expected=self.config['interfaces'].get(f'interface-{self.interfaces_seen}.json')
+        if getattr(self,'expected_port',None) is not None:
+            if (raw['bus'],tuple(raw['ports']))!=self.expected_port:raise ValueError('本次会话USB端口变化')
+            if expected is not None:expected=dict(expected,bus=self.expected_port[0],ports=list(self.expected_port[1]))
+        if raw!=expected:raise ValueError('接口指纹不符，不换端点')
         (self.output/f'endpoints-{self.interfaces_seen}.json').write_text(json.dumps(dict(incoming=129,outgoing=2,rule='fixed_first_bulk_no_fallback')))
     def guard_packet(self,packet):
         if packet!=self.permitted_packet or len(packet)<HEADER.size+7:raise PermissionError('未经精确授权')

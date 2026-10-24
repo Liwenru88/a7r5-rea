@@ -11,11 +11,13 @@ import struct
 import subprocess
 import sys
 import time
+import traceback
 
 from .core import MODEL, NORMAL_PID, VID
 from .preflight import PREFLIGHT_FILES, assess_preflight, wire_path
 from .supplement import CONTROL_PATHS, SUPPLEMENT_FILES, assess_supplement, control_matches
 from .usb_adapter import HEADER, LIBUSB, ReadOnlyDriver, claim_interface, same_port, validate_target
+from .bulk_reader import StrictReadBackend, file_read_limit
 
 FIXED_FILES = {
     "version.bin": "/version.txt",
@@ -186,7 +188,7 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
     report = {"model": MODEL, "transport": transport, "profile": profile, "firmware_version": "4.00", "firmware_version_source": "historical_user_report_only",
               "first_authentication_passed": False, "second_authentication_passed": False,
               "communication_verified": False, "ordinary_identity_restored": False, "files": [],
-              "service_start_requested": False,
+              "service_start_requested": False, "camera_protocol_requests": 0, "phase": "device_discovery",
               "service_stop_attempts": 0, "service_stop_result": "not_attempted",
               "camera_file_write_commands_sent": False, "debug_commands_sent": False,
               "preload_written": False, "card_formatted": False, "evidence_dir": str(output)}
@@ -198,14 +200,21 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
 
     source_paths = [Path(__file__), Path(__file__).with_name("usb_adapter.py"),
                     Path(__file__).with_name("preflight.py"),
-                    Path(__file__).with_name("supplement.py"),
+                    Path(__file__).with_name("supplement.py"), Path(__file__).with_name("bulk_reader.py"),
                     PMCA / "pmca/usb/sony.py", PMCA / "pmca/usb/constants.py"]
     if transport == "native-host":
         source_paths += [Path(__file__).with_name(n) for n in ("native_host.py", "native_usb.m", "native_usb.dylib")]
     (output / "sources.json").write_text(json.dumps({str(p): hashlib.sha256(p.read_bytes()).hexdigest()
                                                    for p in source_paths}, indent=2) + "\n")
+    # 保留底层IOKit错误；PyUSB的-99本身无法说明插件创建或接口打开失败的原因。
+    os.environ.setdefault("LIBUSB_DEBUG", "3")
     backend = usb.backend.libusb1.get_backend(find_library=lambda _: str(LIBUSB))
     if backend is None: raise RuntimeError("libusb 后端不可用")
+    read_limit=file_read_limit(_operation)
+    report['file_usb_read_limit']=read_limit
+    if getattr(_operation,'strict_usb_reads',False):
+        backend=StrictReadBackend(backend)
+        report['strict_usb_read_status']=True
     current = None
     claimed = False
     detached = False
@@ -256,15 +265,23 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
                 command, salt = struct.unpack_from(">HH", data)
                 if salt or (~command & 0xFFFF) not in (1, 3, 5): raise PermissionError("拒绝其他认证命令")
             if self.phase != "auth": _operation.guard_packet(data)
+            report["camera_protocol_requests"] += 1
+            # 写入失败或回执丢失也可能已经向设备发送命令，不能等成功后才登记。
+            if self.phase == "fixed-read" and data[HEADER.size:HEADER.size+4] == struct.pack("<HH", 0x1001, 0x10):
+                report["camera_file_write_commands_sent"] = True
             count = self.device.write(self.ep_out, data, timeout=timeout())
             if count != len(data): raise IOError("USB 短写；不重试请求")
             return count
         def read(self, length, ep=0, timeout=None):
-            if ep or not 1 <= length <= 4100: raise PermissionError("读取超出本轮端点/长度限制")
-            return bytes(self.device.read(self.ep_in, length, timeout=io_timeout()))
+            # 协议仍按32KiB逻辑块处理；备份可用更小的底层读取拼成同一逻辑块。
+            limit = 32768 if self.phase == "fixed-read" else 4100
+            if ep or not 1 <= length <= limit: raise PermissionError("读取超出本轮端点/长度限制")
+            requested=min(length,read_limit) if self.phase=="fixed-read" else length
+            return bytes(self.device.read(self.ep_in, requested, timeout=io_timeout()))
         def vendorRequestOut(self, request, value, index, data=b""):
             if (request, value, index) not in (START, STOP) or data: raise PermissionError("拒绝其他控制请求")
             try:
+                report["camera_protocol_requests"] += 1
                 self.device.ctrl_transfer(0x43, request, value, index, data, timeout=timeout())
                 log("service_control_returned", operation="start" if value == START[1] else "stop")
             except usb.core.USBError as exc:
@@ -298,6 +315,7 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
 
     def open_driver():
         nonlocal current, claimed, detached
+        report["phase"] = "interface_claim"
         same_port(current, port)
         if transport == "native-host":
             from .native_host import NativeDevice
@@ -309,7 +327,7 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
             log("native_interface_opened", pid=f"{current.idProduct:04x}", physical_port=port)
             return Driver(current)
         driver = Driver(current)
-        detached = claim_interface(current, usb.util, log)
+        detached = claim_interface(current, usb.util, log, allow_settle=not started)
         claimed = True
         return driver
 
@@ -321,12 +339,15 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
         port = (current.bus, tuple(current.port_numbers or ()))
         same_port(current, port)
         log("target_confirmed", product=model, pid=f"{current.idProduct:04x}", physical_port=port)
+        report["phase"] = "host_unmount"
         unmount_camera(current, log)
         driver = open_driver()
         auth = Auth(driver)
         started = True
         report["service_start_requested"] = True
+        report["phase"] = "service_start"
         auth.start()
+        report["phase"] = "authentication"
         auth.authenticate()
         report["first_authentication_passed"] = True
         log("normal_authentication_passed")
@@ -338,11 +359,14 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
         log("service_identity_seen", pid="0336", physical_port=port)
         driver = open_driver()
         auth = Auth(driver)
+        report["phase"] = "service_start"
         auth.start()
+        report["phase"] = "authentication"
         auth.authenticate()
         report["second_authentication_passed"] = True
         log("service_authentication_passed")
         driver.phase = "fixed-read"
+        report["phase"] = "operation"
         if _operation is not None:
             _operation(driver, output, log, report)
         else:
@@ -373,7 +397,10 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
     except (Exception, KeyboardInterrupt) as exc:
         report["failure"] = f"{type(exc).__name__}: {exc}"
         report["backend_error_code"] = getattr(exc, "backend_error_code", None)
-        log("error", message=report["failure"])
+        report["failure_phase"] = report["phase"]
+        report["failure_traceback"] = traceback.format_exc()
+        log("error", message=report["failure"], phase=report["failure_phase"],
+            backend_error_code=report["backend_error_code"], traceback=report["failure_traceback"])
     finally:
         # 独立 5 秒退出上限；停止请求结果不等于正常模式已恢复。
         safe_exit = _operation is None or _operation.safe_to_stop
@@ -389,13 +416,16 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
                 report["service_stop_attempts"] += 1
                 report["service_stop_result"] = "attempting"
                 log("stop_senser_attempted", attempt=report["service_stop_attempts"])
+                report["camera_protocol_requests"] += 1
                 current.ctrl_transfer(0x43, *STOP, b"", timeout=5000)
                 report["service_stop_result"] = "returned"
                 log("stop_senser_control_returned")
             except Exception as exc:
-                report["service_stop_result"] = "error" if report["service_stop_attempts"] else "withheld"
+                code = getattr(exc, "backend_error_code", None)
+                report["service_stop_backend_error_code"] = code
+                report["service_stop_result"] = ("stalled" if code == -9 else "error") if report["service_stop_attempts"] else "withheld"
                 report["service_stop_error"] = type(exc).__name__+": "+str(exc)
-                log("stop_senser_exception", message=str(exc))
+                log("stop_senser_exception", message=str(exc), backend_error_code=code)
         try: release()
         except Exception as exc: log("dispose_error", message=str(exc))
         # 退出后只由外层主机元数据观察器核对；不再libusb枚举。

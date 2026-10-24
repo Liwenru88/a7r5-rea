@@ -23,7 +23,8 @@ def save(path,obj):
 
 def header(run,script,seconds,root='/tmp/jiritsu'):
     if not 1<=seconds<=60:raise ValueError('首验包仅支持1至60秒')
-    prefix=root+'/a7r5-jit-'+run
+    # root仅决定加载库位置；生产与客体测试都将辅助文件独立放入RAM。
+    prefix='/tmp_wbshd/a7r5-jit-'+run
     values=dict(RUN_ID=run,TASK_SCRIPT=script,LIBJIT_PATH=root+'/libJit.so',
                 TICKET_PATH=prefix+'.ticket',TICKET_BYTES='A7R5_LIBJIT '+run+'\n',
                 CLAIM_PATH=prefix+'.claim',STATE_PATH=prefix+'.state',STATE_NEW=prefix+'.state.new',OUTPUT_PATH=prefix+'.output')
@@ -72,7 +73,7 @@ def main():
     shutil.copyfile(HERE/'rebuild_check.py',dest/'rebuild_check.py')
     shutil.copyfile(HERE/'run_offline_tests.py',dest/'run_offline_tests.py')
     # 恢复旧会话的测试留在源码工程，不混入新一次性执行包。
-    shutil.copytree(HERE/'tests',dest/'tests',ignore=shutil.ignore_patterns('__pycache__','*.pyc','test_stream_recovery.py'))
+    shutil.copytree(HERE/'tests',dest/'tests',ignore=shutil.ignore_patterns('__pycache__','*.pyc','test_stream_recovery.py','test_ram_builder.py'))
     (dest/'test-fixtures').mkdir()
     shutil.copyfile(loader_path(),dest/'test-fixtures/libJiritsu.so')
     (dest/'requirements-test.txt').write_text('pytest==9.1.1\n')
@@ -89,6 +90,7 @@ def main():
     config=json.loads((OLD/'config.json').read_text())
     config={k:config[k] for k in ('interfaces','version_sha256')}
     config.update(run_id=run,task_seconds=15,output_limit=32768,host_baseline=deps['host_baseline'],
+                  control_layout='ram-flat-v1',control_prefix='/tmp_wbshd/a7r5-jit-'+run,
                   loader_sha256=static['library_sha256'],loader_bytes=static['library_bytes'],
                   preload_baselines=[('blank-512',('\n'*512).encode().hex()),
                     ('installed-boot-hook',b'/etc/a7r5-autostart-8e94bdaf0bd44e5c82c801ad74a34929/boot.so\n'.hex())],

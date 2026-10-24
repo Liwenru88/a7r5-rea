@@ -85,7 +85,13 @@ class Operation:
             report['fixed_writes_attempted']+=1
             if path=='/tmp/jiritsu/libJit.so':
                 report['trigger_attempts']+=1
-            channel.put(path,data)
+            report.update(upload_stage=self.action,upload_path=path)
+            try:channel.put(path,data)
+            except FileResultError as error:
+                # 保留相机原始错误，禁止把打开失败归因为空间或权限不足。
+                report['upload_failure']=dict(stage=self.action,path=path,action=error.action,
+                    result=f'0x{error.result:08x}',system_errno=None)
+                raise
         def same(label,path,expected):
             if read(label,path)!=expected:
                 raise ValueError('固定内容变化：'+label)

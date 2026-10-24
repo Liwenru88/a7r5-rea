@@ -31,8 +31,10 @@ def parse(tree, location=None):
     if len(found) != 1:raise ValueError('请只连接一台Sony相机')
     node = found[0];observed = node.get('locationID');pid = node.get('idProduct')
     physical_port(observed)
-    if (location is not None and observed != location) or pid not in (0x0e0a, 0x0336, 0x096f):
-        raise ValueError('设备位置变化或USB身份不支持')
+    if pid not in (0x0e0a, 0x0336, 0x096f):
+        raise ValueError('当前USB模式未适配，请在相机上选择MSC')
+    if location is not None and observed != location:
+        raise ValueError('本次检查期间USB位置变化，请重新发起检查')
     result = dict(kind={0x0e0a:'ordinary', 0x0336:'service', 0x096f:'transition'}[pid], location_id=observed,
                   pid=pid, media=[], drivers=[], observed_product=node.get('USB Product Name'))
     if pid != 0x0e0a:return result

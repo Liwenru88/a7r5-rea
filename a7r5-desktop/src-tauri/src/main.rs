@@ -1,6 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 mod runtime;
 mod tasks;
+mod authorization;
+mod backup_output;
 use serde_json::Value;
 use std::{
     path::{Path, PathBuf},
@@ -42,6 +44,10 @@ fn reveal_task(state: tauri::State<AppState>, id: String, guide: bool) -> Result
     tasks::reveal(&state, &id, guide).map_err(|e| e.to_string())
 }
 #[tauri::command]
+fn reveal_backup(state: tauri::State<AppState>, id: String) -> Result<(), String> {
+    tasks::reveal_backup(&state, &id).map_err(|e| e.to_string())
+}
+#[tauri::command]
 async fn choose_path(app: tauri::AppHandle, kind: String) -> Result<Option<String>, String> {
     tauri::async_runtime::spawn_blocking(move || {
         let dialog = app.dialog().file();
@@ -54,6 +60,7 @@ async fn choose_path(app: tauri::AppHandle, kind: String) -> Result<Option<Strin
                 .set_title("选择备份任务中的 result.json")
                 .add_filter("备份记录", &["json"])
                 .blocking_pick_file(),
+            "backup-output" => dialog.set_title("选择备份保存目录").blocking_pick_folder(),
             "output" => dialog
                 .set_title("另存自定义更新包")
                 .set_file_name("BODYDATA.DAT")
@@ -85,6 +92,7 @@ fn cli() -> anyhow::Result<bool> {
             println!("{}", runtime::execute(&root, "selfcheck", None, None)?);
         }
         "--privileged-task" if args.len() == 2 => runtime::privileged(Path::new(&args[1]))?,
+        "--terminal-task" if args.len() == 2 => authorization::terminal_task(Path::new(&args[1]))?,
         "--build-firmware" if args.len() == 3 => {
             let root = runtime::engine()?;
             runtime::verify(&root)?;
@@ -126,7 +134,8 @@ fn main() {
             choose_path,
             recover_task,
             confirm_screen,
-            reveal_task
+            reveal_task,
+            reveal_backup
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {

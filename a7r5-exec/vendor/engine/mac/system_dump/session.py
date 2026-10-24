@@ -320,6 +320,8 @@ def run_session(output, transport="libusb", profile="stage1", *, _operation=None
         validate_target(current.idVendor, current.idProduct, model)
         port = (current.bus, tuple(current.port_numbers or ()))
         same_port(current, port)
+        expected_port = getattr(_operation, "expected_port", None)
+        if expected_port is not None: same_port(current, expected_port)
         log("target_confirmed", product=model, pid=f"{current.idProduct:04x}", physical_port=port)
         unmount_camera(current, log)
         driver = open_driver()

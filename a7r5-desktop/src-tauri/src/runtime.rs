@@ -5,6 +5,7 @@ use std::{
     fs::{self, File, OpenOptions},
     io::{Read, Write},
     os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt},
+    os::unix::process::CommandExt,
     path::{Component, Path, PathBuf},
     process::Command,
 };
@@ -99,6 +100,16 @@ pub fn read_json(path: &Path) -> Result<Value> {
     Ok(serde_json::from_slice(&fs::read(path)?)?)
 }
 
+pub fn publish_json(path: &Path, value: &Value) -> Result<()> {
+    ordinary(path, false)?;
+    let mut file = tempfile::NamedTempFile::new_in(path.parent().context("回执目录无效")?)?;
+    file.write_all(&serde_json::to_vec_pretty(value)?)?;
+    file.as_file().sync_all()?;
+    // 完整写好后原子发布，且拒绝覆盖已有回执；轮询端不会看到半份JSON。
+    file.persist_noclobber(path).map_err(|error| error.error)?;
+    Ok(())
+}
+
 pub fn python(
     root: &Path,
     action: &str,
@@ -122,6 +133,14 @@ pub fn python(
     }
     if let Some(p) = job {
         c.arg(p);
+    }
+    if action == "device" {
+        if unsafe { libc::geteuid() } != 0 {
+            bail!("设备事务需要已完成的macOS管理员授权")
+        }
+        // 系统授权可只设置EUID；USB子进程需在exec前统一实际/有效用户和组身份。
+        // 仅作用于固定设备子进程，助手仍按请求文件原所有者退出root后导出。
+        c.gid(0).uid(0);
     }
     Ok(c)
 }
@@ -175,6 +194,10 @@ pub fn quote(text: &str) -> String {
 }
 
 pub fn lock(path: &Path) -> Result<File> {
+    try_lock(path)?.context("已有一个客户端或设备任务正在运行")
+}
+
+pub fn try_lock(path: &Path) -> Result<Option<File>> {
     let f = OpenOptions::new()
         .create(true)
         .truncate(false)
@@ -185,9 +208,11 @@ pub fn lock(path: &Path) -> Result<File> {
         .open(path)?;
     // 文件句柄在进程内保持存活；非阻塞锁阻止多个窗口或应用副本并行执行。
     if unsafe { libc::flock(f.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) } != 0 {
-        bail!("已有一个客户端或设备任务正在运行")
+        let error = std::io::Error::last_os_error();
+        if error.raw_os_error() == Some(libc::EWOULDBLOCK) { return Ok(None) }
+        return Err(error.into())
     }
-    Ok(f)
+    Ok(Some(f))
 }
 use std::os::fd::AsRawFd;
 
@@ -216,6 +241,8 @@ pub fn privileged(request_path: &Path) -> Result<()> {
     if unsafe { libc::geteuid() } != 0 {
         bail!("此入口需要macOS系统授权")
     }
+    // 终端窗口关闭不应中断已经获授权的固定设备事务。
+    unsafe { libc::signal(libc::SIGHUP, libc::SIG_IGN); }
     ordinary(request_path, true)?;
     let meta = fs::metadata(request_path)?;
     if meta.uid() == 0 || meta.nlink() != 1 || meta.mode() & 0o077 != 0 {
@@ -286,7 +313,7 @@ pub fn privileged(request_path: &Path) -> Result<()> {
     }
     fs::rename(&work, parent.join("device"))
         .with_context(|| format!("导出失败，现场保留于 {}", preserved.display()))?;
-    private_json(&parent.join("privileged-result.json"), &result).with_context(|| {
+    publish_json(&parent.join("privileged-result.json"), &result).with_context(|| {
         format!(
             "导出回执失败，材料保留于 {}，任务目录为 {}",
             preserved.display(),
@@ -301,6 +328,33 @@ pub fn privileged(request_path: &Path) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn device_command_requires_authorized_root() {
+        if unsafe { libc::geteuid() } != 0 {
+            assert!(python(Path::new("/unused"), "device", None, None).is_err());
+        }
+        assert!(python(Path::new("/unused"), "selfcheck", None, None).is_ok());
+    }
+    #[test]
+    #[ignore = "仅在独立的已授权root测试进程运行，不访问USB"]
+    fn device_child_normalizes_authorized_identity() {
+        assert_eq!(unsafe { libc::geteuid() }, 0);
+        let uid: u32 = std::env::var("SUDO_UID").unwrap().parse().unwrap();
+        let gid: u32 = std::env::var("SUDO_GID").unwrap().parse().unwrap();
+        assert_ne!(uid, 0);
+        let executable = std::env::var("A7R5_TEST_PYTHON").unwrap();
+        let folder = tempfile::tempdir().unwrap();
+        fs::create_dir_all(folder.path().join("python/bin")).unwrap();
+        std::os::unix::fs::symlink(executable, folder.path().join("python/bin/python3.14")).unwrap();
+        fs::write(folder.path().join("bootstrap.py"),
+            "import os; print(os.getuid(),os.geteuid(),os.getgid(),os.getegid())").unwrap();
+        // 只改变本次测试进程，模拟系统授权后实际身份与有效身份不一致。
+        assert_eq!(unsafe { libc::setregid(gid, gid) }, 0);
+        assert_eq!(unsafe { libc::setreuid(uid, 0) }, 0);
+        let output = python(folder.path(), "device", None, None).unwrap().output().unwrap();
+        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+        assert_eq!(String::from_utf8_lossy(&output.stdout).trim(), "0 0 0 0");
+    }
     #[test]
     fn quoting_keeps_shell_literals() {
         assert_eq!(quote("a'b;$()"), "'a'\\''b;$()'");
@@ -321,6 +375,17 @@ mod tests {
         private_json(&p, &json!({"ok":true})).unwrap();
         assert_eq!(fs::metadata(&p).unwrap().mode() & 0o777, 0o600);
         assert!(private_json(&p, &json!({})).is_err());
+    }
+    #[test]
+    fn published_receipt_is_complete_private_and_never_overwritten() {
+        let t = tempfile::tempdir().unwrap();
+        let p = t.path().canonicalize().unwrap().join("receipt");
+        let value = json!({"data":"x".repeat(100000)});
+        publish_json(&p, &value).unwrap();
+        assert_eq!(read_json(&p).unwrap(), value);
+        assert_eq!(fs::metadata(&p).unwrap().mode() & 0o777, 0o600);
+        assert!(publish_json(&p, &json!({"replacement":true})).is_err());
+        assert_eq!(read_json(&p).unwrap(), value);
     }
     #[test]
     fn one_process_lock() {

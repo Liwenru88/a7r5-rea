@@ -1,3 +1,26 @@
+#ifndef TRUST_FORCE_MODE
+#define TRUST_FORCE_MODE 0
+#endif
+#if TRUST_FORCE_MODE
+static char force_source_sha[65],force_candidate_sha[65];
+/* 以本次实际内容计算覆盖后的预期摘要，不要求原厂前像。 */
+static int force_hashes(int fd)
+{
+    unsigned char buffer[65536];struct sha_ctx before,after;
+    sha_init(&before);sha_init(&after);
+    for(unsigned long at=0;at<PARTITION_BYTES;at+=sizeof(buffer)){
+        size_t n=PARTITION_BYTES-at;if(n>sizeof(buffer))n=sizeof(buffer);
+        if(pread(fd,buffer,n,(long)at)!=(ssize_t)n)return -1;
+        sha_add(&before,buffer,n);
+        for(unsigned i=0;i<PATCH_COUNT;i++)if(PATCH_OFFSETS[i]>=at&&PATCH_OFFSETS[i]+512<=at+n)
+            memcpy(buffer+PATCH_OFFSETS[i]-at,AFTER_SECTORS+i*512,512);
+        sha_add(&after,buffer,n);
+    }
+    unsigned char extra;if(pread(fd,&extra,1,PARTITION_BYTES)!=0)return -1;
+    sha_end(&before,force_source_sha);sha_end(&after,force_candidate_sha);return 0;
+}
+#endif
+
 static int full_hash(int fd,char out[65],int short_read)
 {
     struct sha_ctx context;
@@ -36,11 +59,19 @@ int trust_apply_fd(int target,int journal,int fault)
         if(i&&PATCH_CHECKSUM[i-1]>PATCH_CHECKSUM[i])return 13;
         for(unsigned j=0;j<i;j++)if(PATCH_OFFSETS[i]==PATCH_OFFSETS[j])return 13;
     }
+#if TRUST_FORCE_MODE
+    if(force_hashes(target))return 14;
+    if(note(journal,"FORCE_PREIMAGE_CAPTURED",0,-1,0))return 15;
+#else
     if(full_hash(target,digest,fault==1)||memcmp(digest,ORIGINAL_SHA,65))return 14;
     if(note(journal,"PREIMAGE_VERIFIED",0,-1,0))return 15;
+#endif
     for(unsigned i=0;i<PATCH_COUNT;i++){
         long offset=(long)PATCH_OFFSETS[i];
-        if(pread(target,sector,512,offset)!=512||memcmp(sector,BEFORE_SECTORS+i*512,512))return 16;
+        if(pread(target,sector,512,offset)!=512)return 16;
+#if !TRUST_FORCE_MODE
+        if(memcmp(sector,BEFORE_SECTORS+i*512,512))return 16;
+#endif
         if(note(journal,"WRITE_BEGIN",completed,offset,0))return 15;
         ssize_t got;
 #ifdef TRUST_HOST_TEST
@@ -65,7 +96,13 @@ int trust_apply_fd(int target,int journal,int fault)
 #ifdef TRUST_HOST_TEST
     if(fault==5)digest[0]=digest[0]=='0'?'1':'0';
 #endif
-    if(memcmp(digest,CANDIDATE_SHA,65))return 20;
+    if(memcmp(digest,
+#if TRUST_FORCE_MODE
+        force_candidate_sha,
+#else
+        CANDIDATE_SHA,
+#endif
+        65))return 20;
     if(note(journal,"FULL_LOGICAL_READBACK_MATCH",completed,-1,0))return 18;
     return 0;
 }

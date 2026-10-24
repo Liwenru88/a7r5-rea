@@ -25,6 +25,7 @@ def bundle(path):
     (path/'materials/libJit.so').write_bytes(b'fixed-payload')
     (path/'materials/ticket.bin').write_bytes(('A7R5_LIBJIT '+RUN+'\n').encode())
     config=dict(run_id=RUN,loader_bytes=len(LIBRARY),loader_sha256=hashlib.sha256(LIBRARY).hexdigest(),
+                control_layout='ram-flat-v1',control_prefix='/tmp_wbshd/a7r5-jit-'+RUN,
                 version_sha256=hashlib.sha256(b'fixed-version').hexdigest(),task_seconds=15,
                 preload_baselines=[('blank',BASELINE.hex())],interfaces={},
                 expected_output_begin='A7R5_LIBJIT_INFO_BEGIN\n',expected_output_end='A7R5_LIBJIT_INFO_END\n')
@@ -58,6 +59,8 @@ class Service:
         raise FileResultError(0x10000006)
     def put(self,path,data):
         self.writes.append((path,data))
+        if self.fault=='ram-full' and path==self.operation.prefix+'.ticket':
+            raise FileResultError(0x10000008)
         if self.fault=='trigger-transport' and len(self.writes)==2:
             self.usable=False;raise OSError('synthetic transfer failure')
 
@@ -71,7 +74,7 @@ def test_completed_fixed_task_allows_one_stop_without_debug_or_preload_write(tmp
     assert (out/'shell-output.bin').read_bytes()==OUTPUT
 
 @pytest.mark.parametrize('case',['version:0','loader:0','baseline:0','existing-library:0','busy:0','stat-other:0',
-    'ticket:1','trigger-transport:2','nonce:2','uid:2','euid:2','disarm:2','descendant:2','exit:2',
+    'ticket:1','ram-full:1','trigger-transport:2','nonce:2','uid:2','euid:2','disarm:2','descendant:2','exit:2',
     'failed:2','timeout:2','length:2','output:2','preload-changed:2','state-changed:2'])
 def test_rejected_evidence_never_opens_stop_gate_or_retries(tmp_path,case):
     fault,count=case.split(':');operation=op.Operation(bundle(tmp_path/'bundle'),Service)

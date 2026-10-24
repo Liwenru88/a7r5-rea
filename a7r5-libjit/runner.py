@@ -8,13 +8,13 @@ from pathlib import Path
 import sys
 
 HERE=Path(__file__).resolve().parent
-RISK=('两阶段USB认证/START；只写本会话票据和固定/tmp/jiritsu/libJit.so，各一次，后者写入即执行root载荷。'
+RISK=('两阶段USB认证/START；只写/tmp_wbshd本会话RAM票据和固定/tmp/jiritsu/libJit.so，各一次，后者写入即执行root载荷。'
       '0x10000006仅证明stat失败，不能排除不可读既有libJit.so或并发创建，接受该固定路径潜在覆盖风险。'
       '不写预加载、不DEBUG、不修改账户、不启动SSH、不操作SD卡；保留现有预加载与服务。'
       '载荷执行15秒固定只读脚本，普通文件上限32KiB，核对自删/票据删除、无活动后代、前后预加载和重复终态；'
       '全部门槛通过后仅一次STOP，随后仅主机元数据核对普通USB与完整媒体，屏幕人工确认。'
       '原厂服务内加载崩溃、USB失步、落盘或自删失败可能需受限恢复，不能保证不中断相机。'
-      '库、票据、claim、状态和输出可能持久残留；不自动清理，不重试触发、不自动断电或重启。')
+      '固定库失败时可能残留Work；票据、claim、状态和输出仅存RAM，已接收历史结果保存本机result，断电会丢失未取回证据；不自动清理，不重试触发、不自动断电或重启。')
 
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()

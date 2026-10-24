@@ -33,11 +33,11 @@ def main():
     result=dict(status='failed',camera_io=False,physical_devices=False,guest_nic='none',vm_evidence=str(vm.out),cases=[])
     try:
         vm.start();print('GUEST_ROOT_READY',flush=True)
-        vm.command('mkdir -p /simulation/libjit /tmp/jiritsu; ulimit -n 4096')
+        vm.command('mkdir -p /simulation/libjit /tmp/jiritsu /tmp_wbshd; ulimit -n 4096')
         put(vm,'/simulation/libjit/loader',loader.read_bytes());vm.command('chmod 700 /simulation/libjit/loader')
         print('LOADER_TRANSFERRED',flush=True)
         # 精确生产库与本次固定脚本；只在模拟器RAM写入同名路径。
-        run=config['run_id'];prefix='/tmp/jiritsu/a7r5-jit-'+run
+        run=config['run_id'];prefix=config['control_prefix']
         put(vm,prefix+'.ticket',(package/'materials/ticket.bin').read_bytes())
         put(vm,'/tmp/jiritsu/libJit.so',(package/'materials/libJit.so').read_bytes())
         proof=vm.command('/simulation/libjit/loader /tmp/jiritsu/libJit.so; cat '+prefix+'.state; cat '+prefix+'.output; test ! -e /tmp/jiritsu/libJit.so; test ! -e '+prefix+'.ticket',timeout=35)
@@ -54,7 +54,7 @@ def main():
                ('state-publication','echo SHOULD_NOT_RUN','NO_TERMINAL','state.new'),
                ('bad-ticket','echo SHOULD_NOT_RUN','NO_TERMINAL','ticket')]
         for i,(name,script,expected,fault) in enumerate(cases):
-            root='/simulation/libjit/case-'+str(i);rid=f'{i+1:032x}';pref=root+'/a7r5-jit-'+rid
+            root='/simulation/libjit/case-'+str(i);rid=f'{i+1:032x}';pref='/tmp_wbshd/a7r5-jit-'+rid
             proof=compile_payload(directory/name,rid,script,1,root)
             vm.command('mkdir '+root)
             ticket=('A7R5_LIBJIT '+rid+'\n').encode()

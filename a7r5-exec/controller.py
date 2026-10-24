@@ -23,12 +23,13 @@ def snapshot_runtime():
     return host_state
 
 
-def camera_session(directory,op):
+def camera_session(directory,op,baseline):
     sys.path[:0]=[str(core.HERE/'runtime'),str(core.HERE/'vendor/engine/libs'),str(core.HERE/'vendor/engine/mac')]
     from system_dump import session
     if op['engine']=='libjit':from libjit_operation import Operation
     else:from kit_operation import Operation
-    operation=Operation(directory);operation.output=directory/'result/session'
+    operation=Operation(directory,host_baseline=baseline) if op['engine']=='libjit' else Operation(directory)
+    operation.output=directory/'result/session'
     return session.run_session(directory/'result/session','libusb',_operation=operation)
 
 
@@ -52,12 +53,22 @@ def execute(directory,device_io=False):
                     debug_commands_sent=False,host_recovery_verified=False,screen_confirmation_pending=not simple,
                     automatic_retry=False,script_is_sandboxed=False)
         try:
-            host=snapshot_runtime();baseline=json.loads((directory/'config.json').read_text())['host_baseline']
+            host=snapshot_runtime()
             initial=host.snapshot(out,'initial')
-            if (initial.get('kind')!='ordinary' or initial['location_id']!=baseline['location_id']
-                    or initial['media']!=baseline['media'] or initial['drivers']!=baseline['drivers']):
-                raise ValueError('普通USB、端口或完整媒体基线不同，不打开USB')
-            report=camera_session(directory,op)
+            if simple:
+                if (initial.get('kind')!='ordinary' or initial.get('model')!='ILCE-7RM5'
+                        or not initial.get('media') or not initial.get('drivers')
+                        or not any(row[0] for row in initial['media'])):
+                    raise ValueError('未识别到A7R5的完整MSC媒体，请在相机上选择MSC')
+                host.physical_port(initial['location_id'])
+                baseline=initial
+                core.save(out/'host-baseline.json',baseline)
+            else:
+                baseline=json.loads((directory/'config.json').read_text())['host_baseline']
+                if (initial.get('kind')!='ordinary' or initial['location_id']!=baseline['location_id']
+                        or initial['media']!=baseline['media'] or initial['drivers']!=baseline['drivers']):
+                    raise ValueError('普通USB、端口或完整媒体基线不同，不打开USB')
+            report=camera_session(directory,op,baseline)
             core.save(out/'session-result.json',report)
             for key in ['protocol_gate_passed','fixed_writes_attempted','trigger_attempts','service_stop_attempts',
                         'preload_written','debug_commands_sent','root_task_done','root_uid','root_euid',

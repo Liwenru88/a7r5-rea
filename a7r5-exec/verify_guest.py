@@ -19,14 +19,14 @@ def verify(jit,kit,output):
     report=dict(status='failed',camera_io=False,guest_nic='none',physical_devices=False,vm_evidence=str(vm.out),cases=[])
     try:
         vm.start();print('GUEST_READY',flush=True)
-        vm.command('mkdir -p /tmp/jiritsu')
+        vm.command('mkdir -p /tmp/jiritsu /tmp_wbshd')
         # 从保留源码构建，不再依赖已删除的研究运行目录。
         put(vm,'/simulation/quick-loader',harness.read_bytes());vm.command('chmod 700 /simulation/quick-loader')
         for engine,directory in [('libjit',jit),('kit',kit)]:
             op=core.load(directory);cfg=json.loads((directory/'config.json').read_text());rid=op['run_id']
             payload=(directory/'materials/payload.so').read_bytes()
             if engine=='libjit':
-                prefix='/tmp/jiritsu/a7r5-jit-'+rid
+                prefix=cfg['control_prefix']
                 put(vm,prefix+'.ticket',(directory/'materials/ticket.bin').read_bytes())
                 put(vm,'/tmp/jiritsu/libJit.so',payload)
                 command='/simulation/quick-loader /tmp/jiritsu/libJit.so'

@@ -11,6 +11,7 @@ import pytest
 
 import core
 import controller
+import host_state
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('exec_entry',ROOT/'exec.py')
@@ -39,14 +40,21 @@ def test_simple_command_runs_again_without_approval_or_recovery_gate(simple_tool
     directories=[];camera_runs=[];results=[]
     baseline=json.loads((tool/'runtime/profile.json').read_text())['host_baseline']
     def snapshot(*args):
-        row=dict(baseline,kind='ordinary')
+        row=dict(baseline,kind='ordinary',location_id=0x01100000 if len(directories)==1 else 0x02230000,
+                 media=[[False,126860918784],[True,126877696000]])
         if len(directories)==1 and first_fault=='host-mismatch':row['location_id']='wrong-port'
         return row
-    host=SimpleNamespace(snapshot=snapshot,observe=lambda *a:dict(recovered=True))
+    def observe(current,*args):
+        assert current==snapshot()
+        return dict(recovered=True)
+    host=SimpleNamespace(snapshot=snapshot,observe=observe,physical_port=host_state.physical_port)
     monkeypatch.setattr(controller,'snapshot_runtime',lambda:host)
-    def camera(directory,op):
+    def camera(directory,op,current):
         camera_runs.append(directory)
+        assert current==snapshot()
+        assert json.loads((directory/'result/host-baseline.json').read_text())==current
         cfg=json.loads((directory/'config.json').read_text())
+        assert 'host_baseline' not in cfg
         session=directory/'result/session';session.mkdir()
         (session/'shell-output.bin').write_bytes((cfg['expected_output_begin']+'hello\n'+cfg['expected_output_end']).encode())
         report=dict(protocol_gate_passed=True,root_task_done=True,trigger_attempts=1,
@@ -96,6 +104,9 @@ def test_prepare_only_never_launches_device_process(simple_tool,monkeypatch,caps
     assert value['offline_only'] is True and value['engine']=='libjit'
     assert 'consent_phrase' not in value
     directory=Path(value['directory'])
+    cfg=json.loads((directory/'config.json').read_text())
+    assert 'host_baseline' not in cfg
+    assert all('bus' not in row and 'ports' not in row for row in cfg['interfaces'].values())
     launcher=shlex.split((directory/'run-once.command').read_text().splitlines()[-1])
     assert launcher[1]==str(Path(sys.executable).absolute())
     assert 'run' in launcher and '--script' in launcher

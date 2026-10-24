@@ -48,10 +48,16 @@ def execute(action, request, job):
         return result
     if action == 'recovery':
         import host
+        from policy import pre_service_failure
         previous = request['previous']
-        if not previous.get('task_complete'):raise ValueError('任务未核实完成，禁止按普通恢复流程重试')
-        proof = host.observe(previous['baseline'], lambda label, timeout=5:host.snapshot(job, label, timeout, previous['baseline']['location_id']))
-        return dict(previous, USB_recovered=proof['recovered'], host_recovery=proof)
+        if previous.get('task_complete') is not True and not pre_service_failure(previous):
+            raise ValueError('服务已启动或阶段证据不全，禁止按普通恢复流程重试')
+        # 跨次检查重新识别唯一A7R5，不把上次端口、媒体或驱动当作本次基线。
+        current = host.snapshot(job, 'current')
+        if current.get('kind') != 'ordinary' or current.get('model') != 'ILCE-7RM5' or not current.get('media') or not current.get('drivers'):
+            raise ValueError('当前未识别到A7R5的MSC连接，请在相机上选择MSC')
+        proof = host.observe(current, lambda label, timeout=5:host.snapshot(job, label, timeout, current['location_id']))
+        return dict(previous, USB_recovered=proof['recovered'], recovery_baseline=current, host_recovery=proof)
     raise ValueError('不支持的动作')
 
 

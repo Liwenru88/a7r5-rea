@@ -50,12 +50,28 @@ static u64 number(char *out,u64 at,s64 value)
     while(n)out[at++]=digits[--n];return at;
 }
 static u64 append(char *out,u64 at,const char *s) { for(u64 i=0;s[i];i++)out[at++]=s[i];return at; }
+#ifdef CAPTURE_CONTROL_DIR
+#include "capture_control.h"
+#endif
+#ifdef TRUST_USER_CHECK_DIAGNOSTICS
+static u64 trust_users_state(char *row,u64 n);
+#endif
+#ifdef TRUST_RESOURCE_CHECK_DIAGNOSTICS
+static u64 trust_resources_state(char *row,u64 n);
+#endif
 static int state(const char *phase,int code,s64 bytes,int unlinked,int children)
 {
     char row[512];u64 n=append(row,0,"A7R5-JIT-1 " RUN_ID " ");n=append(row,n,phase);
     n=append(row,n," ");n=number(row,n,code);n=append(row,n," uid=");n=number(row,n,sc(174,0,0,0,0,0,0));
     n=append(row,n," euid=");n=number(row,n,sc(175,0,0,0,0,0,0));n=append(row,n," bytes=");n=number(row,n,bytes);
-    n=append(row,n," disarmed=");n=number(row,n,unlinked);n=append(row,n," children=");n=number(row,n,children);row[n++]='\n';
+    n=append(row,n," disarmed=");n=number(row,n,unlinked);n=append(row,n," children=");n=number(row,n,children);
+#ifdef TRUST_USER_CHECK_DIAGNOSTICS
+    if(code==47)n=trust_users_state(row,n);
+#endif
+#ifdef TRUST_RESOURCE_CHECK_DIAGNOSTICS
+    if(code==43||code==44)n=trust_resources_state(row,n);
+#endif
+    row[n++]='\n';
     s64 fd=open_file(STATE_NEW,WRONLY|CREATE|EXCL|NOFOLLOW|CLOEXEC);if(fd<0)return -1;
     int failed=write_all(fd,row,n)||sc(82,fd,0,0,0,0,0)<0;if(close_fd(fd)<0)failed=1;
     if(failed)return -1;
@@ -94,8 +110,14 @@ static void worker(void)
 }
 __attribute__((visibility("default"))) void _init(void)
 {
+#ifdef CAPTURE_CONTROL_DIR
+    if(sc(174,0,0,0,0,0,0)||sc(175,0,0,0,0,0,0)||!capture_control_parent_ready())return;
+#endif
     char ticket[128];s64 n=bounded(TICKET_PATH,ticket,sizeof(ticket));
     if(n!=(s64)sizeof(TICKET_BYTES)-1||!same(ticket,TICKET_BYTES,sizeof(TICKET_BYTES)-1))return;
+#ifdef CAPTURE_CONTROL_DIR
+    if(!capture_control_create())return;
+#endif
     if(sc(174,0,0,0,0,0,0)||sc(175,0,0,0,0,0,0)){state("FAILED",97,0,0,-1);return;}
     /* 无任何文件不存在的推断；只有真实 unlink 成功才报告解除加载文件。 */
     if(unlink_file(LIBJIT_PATH)<0){state("FAILED",98,0,0,-1);return;}

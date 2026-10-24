@@ -6,6 +6,25 @@ import re
 BASELINE = b'\n' * 512
 
 
+def pre_service_failure(value):
+    """只接受明确未启动服务的失败回执；兼容旧回执，不从缺失字段推断安全。"""
+    if not isinstance(value, dict) or value.get('task_complete') is not False or value.get('device_IO') is not True:
+        return False
+    report = value.get('report')
+    if not isinstance(report, dict) or not isinstance(report.get('failure'), str) or not report['failure']:
+        return False
+    flags = ('service_start_requested', 'first_authentication_passed', 'second_authentication_passed',
+             'communication_verified', 'camera_file_write_commands_sent', 'debug_commands_sent',
+             'preload_written', 'card_formatted')
+    if any(report.get(key) is not False for key in flags) or report.get('files') != []:
+        return False
+    if type(report.get('service_stop_attempts')) is not int or report['service_stop_attempts'] != 0:
+        return False
+    # 旧版本没有请求计数；已有明确阶段旗标仍需全部通过。新计数不得为未知或非零。
+    return all(key not in report or (type(report[key]) is int and report[key] == 0)
+               for key in ('camera_protocol_requests', 'fixed_writes_attempted', 'trigger_attempts'))
+
+
 def ready(raw, run, seconds):
     pattern = (rb'A7R5_PRIVATE_READY '+run.encode()+rb' parent=(\d+) child=(\d+) uid=0 euid=0 ttl='+
                str(seconds).encode()+rb' parent_unchanged=1 private_account_changed=1 parent_ns=(mnt:\[\d+\]) '
