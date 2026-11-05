@@ -1,0 +1,26 @@
+{
+  "schema": "sony-r5-colorlab-upstream-snapshot/1",
+  "repository": "https://github.com/Hearts-Ace/sony-r5-colorlab",
+  "commit": "fb464bdef54cae7b56092bd35d35dc3542793ff3",
+  "tree": "60616f418fb00e64c895bdc2dba1da8d5de2e531",
+  "import_date": "2026-11-03",
+  "method": "按锁定Git对象逐文件复制，排除.git，保留上游全部跟踪文件及执行权限",
+  "upstream_files": 4082,
+  "upstream_bytes": 124832066,
+  "source_manifest": "SOURCE_MANIFEST.json",
+  "source_manifest_sha256": "d15303615dc2b5a436928a0531e3ae4fda73b8467d029aea892b945da7b2ccd0",
+  "checkout_normalized_files_read_from_git": [
+    "R5ColorLab/启动R5色彩工作台.bat"
+  ],
+  "upstream_modified": false,
+  "local_additions": [
+    "UPSTREAM_SNAPSHOT.json",
+    "SOURCE_MANIFEST.json",
+    "INTEGRATION_CHECK.json",
+    "本地整合说明.md"
+  ],
+  "camera_io": false,
+  "dependencies_installed": false,
+  "firmware_modified": false,
+  "native24_v5_export_added": false
+}

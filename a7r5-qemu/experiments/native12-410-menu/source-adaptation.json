@@ -1,0 +1,38 @@
+{
+  "probe_menu.py": {
+    "source": "experiments/aspect-guide406/probe_menu.py",
+    "source_sha256": "caf4ea282cebbd6472205d2c4999a8d54ab9542b7e7a7d855572ef8584dea328",
+    "target_sha256": "c9b2e55bb19b611ef4ecbd491e9ea7f6f3618d8794579556d79411e8025ba14c",
+    "changes": "仅替换独立VM类、当前名称和证据前缀；输入／Qt／帧链保持"
+  },
+  "qt_research.py": {
+    "source": "experiments/aspect-guide406/qt_research.py",
+    "source_sha256": "de0110d59ca1a5b8f04e7943044322194566f1df6e57db1ab4e407ab9b269dc3",
+    "target_sha256": "f817465004bb0eb4a74a30d86e6131a018a946f3f66d1933cfeccf98818e1f15",
+    "changes": "仅替换独立VM类、当前名称和证据前缀；输入／Qt／帧链保持"
+  },
+  "current_e4_revision": {
+    "scope": "4.11-derived AP, real E4 tracing, strict virtual services, CP sidecar and explicit menu isolation; full startup not verified",
+    "files": {
+      "verify_e4.py": "0464fc1d62d159569ab85eade0889059ed87af6acda62a84b3f84da7e6e93acd",
+      "native12-services.inc": "72c51945ae15541a8cc8f9e5dc0f096ff19ab00066bfa8e3f02a46cec516b1f5",
+      "verify_loading.py": "15a5b3b371b477fb6452499be0ce2b044c0df8d7124929bae05564cc2f1b1ff5",
+      "test_font.py": "1b528c22c318253be0e6f074371ab5912e45be8601fdc6129b54fe39deab9e28",
+      "build_loading.py": "58f9caee3983e09a64a5b7e21c5a7767bdb89210e475a843b9a650bf454aedb7",
+      "qt_research.py": "0f58615c69022e1826f072b5f4487ee9bf622e705f7345fde3e59960362f709e",
+      "test_runtime.py": "b3400bdfe7390c73bb846494a18cd45154384bcdb087a37ce89230edb69e85a4",
+      "test_e4_menu_patch.py": "e403ce7c73a3be8c1df12f8f896671b46c49f9c9fdad47dbf9d3b3c09be02553",
+      "probe_menu.py": "74d2f5448b46f6a9cac1f2514c7649a15278d9bad110aef6cbbc89b6ccf37fd9",
+      "test_e4_services.py": "6d841621d5da976665216e2014b7a01adc0789e3d4e5a4aa6656c1dbcd462340",
+      "cp-receiver.c": "7350a3bdd1395ad30ae5225990383c4948fa222f8637bdc7eeec5c8286fef28e",
+      "e4-trace.inc": "be21673fd92211559e61ee9d0e0696728d3820f1e267d53c13512e7910fd70d9",
+      "verify_run.py": "48ea1061cc6b003ed884e52379a3363ee1096cdf1c18e6dc9d1fb125d453d9aa",
+      "environment.py": "27a71a42af3d87a08f83aba0fc985f1d2ad8f4caf3c374cb483e83c60f298555",
+      "e4-services.inc": "94055813199e04152cae88c9e99375a572aeb2bb426f71734217539793cd0fab",
+      "cp_service.py": "4269dc700838ccab88736f71465e16717e781f134f589a7f062d4d17517a2f84",
+      "hold-frequency.c": "cb67c9cdd9b1e5d3c430b5502fb0f6716f11cfb8fb4cfc57f87adef5a0ae16b9"
+    },
+    "initial_adaptation_entries_are_historical": true,
+    "camera_io": false
+  }
+}

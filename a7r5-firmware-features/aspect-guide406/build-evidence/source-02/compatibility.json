@@ -1,0 +1,16 @@
+{
+  "AP_sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9",
+  "kernel_sha256": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66",
+  "GUI_slots": {
+    "0x57830a8": "0x182b41c",
+    "0x58d2fd0": "0x1d15b50",
+    "0x58d30b0": "0x20cb130",
+    "0x58d3050": "0x20c7bac"
+  },
+  "apply_prologue": "ff0307d1a51c0053fd7b02a9fd830091",
+  "app_init": "0x17feac0",
+  "libObj_sha256": "0d0be8f1e48b3c74330f9afab698ac352b3c2a922f7231ffc836591529a9fdf9",
+  "libObj_screen_bitmap_anchor": "0xf4674",
+  "source_components_modified": false,
+  "complete_menu_verified": false
+}

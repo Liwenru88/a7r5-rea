@@ -119,6 +119,7 @@ def main():
         'peripherals_implemented':['ARM GICv2; 480 IRQ capacity covers original config 0x1d2 and TOMCO IRQ 307; topology incomplete; 0xf13a1000/0xf13a2000',
                                    'PLL0 opaque ROM-profile/request/status protocol; virtual reference and 100us latency, zero unconfigured initial state; not measured POR/frequency/analog lock',
                                    'TOMCO work RAM 0x09000000..0x1fffffff; no MMIO fallback',
+                                   '0xf540/0xf541 module gate and configuration registers from CP read/write sequences; state only, no attached processing hardware',
                                    'I2C clock/reset SCU subset; 5 upstream DesignWare I2C controllers, IRQ429..433; no attached slaves, no ACK synthesis',
                                    'DFS control DATA/SET/CLR subset 0xf1388f48..0xf1388f50; request bits retained, no transition completion/status synthesis',
                                    'PL011 polling UART 0xf1000000; RX IRQ not wired',

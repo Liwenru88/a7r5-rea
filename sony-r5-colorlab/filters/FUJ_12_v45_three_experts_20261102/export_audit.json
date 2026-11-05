@@ -1,0 +1,333 @@
+{
+  "bytes": 29552,
+  "sha256": "b985c0d1e99c33681e5994a282372bc5bf8e7ec0c0811b56e87cd3cbd66b61c8",
+  "grid_sources": [
+    {
+      "number": 1,
+      "kind": "compressed",
+      "job": "e6b05799e31249de8756b85b00659a6f",
+      "key": "79d9eef388e1462d3234e1deb22a6bd353ddb03243a7c6dd378ced7d2d593003",
+      "compression_report_sha256": "0d8e13603c1da97f0dd6b7169b94b6e47ea99e8d0775528012ca544c35589358",
+      "identity": {
+        "teacher_sha256": "8137abd67df643e613ec6057fce1a1bfb622377027aabbcb4c0c80535f463418",
+        "recipe_sha256": "162e32f3e8e1b988bc7db4d19deca55940bca587509b30c65c8baa6e69579bfc",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "7ce4bda60e2d0e6d347d6d47d684a90cb47c10b489f02bc1a4e2a2b1eb8036cd"
+        },
+        "pairs_sha256": "52139966ff5a1b38ddec0fd42db35f69f11fabef8b80aa3dbde9d726220fd560",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 2,
+      "kind": "compressed",
+      "job": "737059d787a74bab9c2ac622f3fb41bb",
+      "key": "2d98f5f41c0c5f09d4cc2777167598bd99c04d7195638d57aff71edc4c0da4e2",
+      "compression_report_sha256": "72d09218b18eba66a494a1735386ae6784c5b9c3f80cddf12bf403e19902a34f",
+      "identity": {
+        "teacher_sha256": "d3bf3d87a08f88cae3cbc6621386d977efe4cc618b04c9be45b245ca6fe2f3bd",
+        "recipe_sha256": "40ae38ecc13269444bd2a0e3c4b9eae3601272a675ef132ca77c7db8fa481716",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "86c09cdc0150f581850ade18a120e61aeb8e2e18d8b20122444d6adec19d92fc"
+        },
+        "pairs_sha256": "66b86875243684d9ea2f7e712d1dd13f9fafb7183f065264b0d809f3afc9bc20",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 3,
+      "kind": "compressed",
+      "job": "36a43c6e500c47c78b47b6743ab2dc3b",
+      "key": "79dbf9f67936daba69aa6ab3521a37c8db07a0f0addcf10bc87d328c310e55d0",
+      "compression_report_sha256": "19cb881bed35599f1de0de41a5e36196f8ebdf06c8db70471469e8bb832e3c99",
+      "identity": {
+        "teacher_sha256": "3c4d6e7185c35871d88d399eeaeb2b4a058f6164172389e9dfebc459495b8e66",
+        "recipe_sha256": "80345a3f8a4381e2c6527bcc0cca0ecdd53efc88bd6db337bf55389f5a2f4d0c",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "b8941ca8fb296c754225e16880fa249c5d102fbede45f344b943e4437718acfb"
+        },
+        "pairs_sha256": "110723a92465c023a71aea88e71ce459eb7bdee3215f4629ea5f62958f871932",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 4,
+      "kind": "compressed",
+      "job": "920be5a7b1a940d19589b36062dba3ff",
+      "key": "cc4e24beb4308e4698e96e102764f929672b3f693340ba1f4d18f5cd88e64692",
+      "compression_report_sha256": "41182115fac0fa054ca265cd4a5eca9d129daa927d1843198d1858f3a48a8f2d",
+      "identity": {
+        "teacher_sha256": "c402fb1dd2789a5df4290d06538c748c7bc3c588ec930d8808e3856ae551ed6e",
+        "recipe_sha256": "737f247a47139878d7f59d38e045dc7a4be590efa00eba0bfbca1681934dbe2e",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "f548c4036c5f9958292d4278f1c03001f4fcedb5507e7fe2bc522b54f918a4d7"
+        },
+        "pairs_sha256": "e8efb9c0cd0751909eba458a5635c520c4651ade67da469c9f0d628e4197b847",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 5,
+      "kind": "compressed",
+      "job": "e448e8eaa00b4305864eed0c503ee742",
+      "key": "08b613b9f3ecbcdb6f088560f1c7477aaa5826b5dba14ce6050fb2e34eb6fb7d",
+      "compression_report_sha256": "ab5e64f8b8d75c39cea37ee491cbdd6c6466293d7f4c09be316f8d12546d98f0",
+      "identity": {
+        "teacher_sha256": "d266953e2520d377f4b177fd7ab3c6a2b0f18bbacadc54eca30aa39cc1351a98",
+        "recipe_sha256": "bc174e796c25f8ac507ef80e7c404b652ba6bd667e58ec1b24bfd2c572d24d6a",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "0b68207fd1c7d238e1750fd7c2895a7b5098f2f4b9483b2f6528ac4023ef912a"
+        },
+        "pairs_sha256": "d776405da9569fb57584d44a676740942351e5a1eb408cec6f3d3bc57a34be43",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 6,
+      "kind": "compressed",
+      "job": "5df8b712bc2144a093f1a9bc81ba4e17",
+      "key": "6ebe895d80e7a61808225675fcd28f71342984cfedd8693cc77d17aa8ba241c2",
+      "compression_report_sha256": "3e72b666504a15c1ccfd359d9c0b44e66cbc9c10cf64ac303b50afb832f5bbc8",
+      "identity": {
+        "teacher_sha256": "a2fe302cce72cf2ef422e0972a10ec2cecbd99d78a3ff26cb1137eed7fbb249b",
+        "recipe_sha256": "37b5cda5e6f60a51e96f9e3a0d2e2297deed3debb3b78b72967fef0331bd62cc",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "d1ec9941d6a1fd3931124cf0eaf5045f117878a901b424877886846592f641a1"
+        },
+        "pairs_sha256": "356b958cc1a516eea79c6170d1e29f0cf6e32225e67bb2a3f0e1449886ee591e",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 7,
+      "kind": "compressed",
+      "job": "61cc07c057f24d9d9243c6e290cef916",
+      "key": "63d66cf428b66c748b4fac704f935d12e2d769a57832ce96d23fabf5a00002a0",
+      "compression_report_sha256": "8216f80a66d3d4939cdafff39392e0c09668475dcd355493ada07c08328c96fe",
+      "identity": {
+        "teacher_sha256": "8cfcea2b48991bf97259edab143a8045554cf62a60b714905298e0da7ecec698",
+        "recipe_sha256": "66c31bcca2bba6a3241af5015c5a160cadadbd7152f410dee1856ac99aea599e",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "c0277e8229dddc921fea6a0b25841c824f9ca47f55c3fb2e14206fd855b1c932"
+        },
+        "pairs_sha256": "f9d4d48b2f268528ea86b614e0cf45a99aa400eb24c335c154cfbd4cd66970dd",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 8,
+      "kind": "compressed",
+      "job": "0c18a1c75489429ebdfaa33d6597c5ac",
+      "key": "82aba2af16f3686001142f2fbee86827a7ff4df66751db0d2409ae4b24804b31",
+      "compression_report_sha256": "d8467edfebdbcd5ae4be6eeafa1bf1437904d42e4f8e99b25f4a09de202643ae",
+      "identity": {
+        "teacher_sha256": "5e944d059b36ec92b2d31b364ee86e79f4d64d3d23510515a13b0e05b673bab5",
+        "recipe_sha256": "f205188c3113b05b202ab3b0b5449fa54dfed9bf5b328a07b22543561ec9205d",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "d8694e298d6db04bc8fe4f662d271c139090ab321cb9ecb865fd29ebb5c9ede9"
+        },
+        "pairs_sha256": "d37dae318faa38e52a6e5abe1bba03c5a7c73fdf794389d71e61d5c6eec52a38",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 9,
+      "kind": "compressed",
+      "job": "6bfa408d069540afa17403fbb48d10c8",
+      "key": "44ce732c1b3893d8afc17da396a8ddb94a38640021eb2b9375cfef764b44675a",
+      "compression_report_sha256": "c49b4a85d16e9eeb8bd8ed46347fcce0e699eb3ec275ebc85b4b665acc36fd8d",
+      "identity": {
+        "teacher_sha256": "5c464b4043fce3e1171bec2e20e69e8ad426300a16576335e722f04bf318a937",
+        "recipe_sha256": "161efe162f8685c789a778592d0844dccc410cc8210399832718c4aaa7108d30",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "f89bd6abee69fa9b0d31557c7bb50a52c8e37ee92ba03e6d4a8f26b80d61daac"
+        },
+        "pairs_sha256": "9f40ce3a0ebbf21a99ee406fff7a0b9445e8c0e27f23ca1d097db4f09e519a4b",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 10,
+      "kind": "compressed",
+      "job": "637f32343b754f378642fa0f01a3ba9e",
+      "key": "eba32298615e2931d183af2ad8f62fcb7bfb42f6d5603dd0f026894420161042",
+      "compression_report_sha256": "0888c14085854ccde1312d59c76d5858c1cc620798636009e2419a945cdf6ad1",
+      "identity": {
+        "teacher_sha256": "1cbf346b793fcbf0d15fcc2e17fdd75ac1fe2d1fe180dce794b703760b7f3496",
+        "recipe_sha256": "7ad5f2fd96a4434d8d126cad29971e1e23c1c531d4aada32475524ef31645af4",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "61d6d4ec23c137de0b02cc34db191e4163ec80955f69c38ebac67fc3ee014c44"
+        },
+        "pairs_sha256": "f13a59e353179399fdc8cc5be8ae9243141d65d847d2d5cc60e97e51f7116dfa",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 11,
+      "kind": "compressed",
+      "job": "a7bd6a2edd8f42d48f963c577a52f44a",
+      "key": "9403c5d83c49084b9811582e2e0ffaeb202c99c9139d6ad2288d676aecd088e6",
+      "compression_report_sha256": "70cab00517364c3a22eaea402d4e35d9ae2159d7502da2a7214fb9ee6f751e56",
+      "identity": {
+        "teacher_sha256": "88b81548842884e500d832611bb8c75eea15261ef4bd2d0d6d5be034b538c94c",
+        "recipe_sha256": "0565681fb7c587e3c06b0123bd874c8fd25c8d68523acf40f6cfd10ac9918f34",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "7dd6ea004d433a33cd908dc56f6a094e229bc4dceda5e65b672bbcaf86a52191"
+        },
+        "pairs_sha256": "b90f7db90a6a3abd4f592ca73c66535251a1349164356bb8d3ae870d0b7e02ad",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    },
+    {
+      "number": 12,
+      "kind": "compressed",
+      "job": "834db8f823294facb12953325ec409eb",
+      "key": "19fb0e6ec987484c67355a028af6e5b1d17707ce09339575e2e2ffe9fc00e178",
+      "compression_report_sha256": "2fe1b735e39ae1a51252ead86197819d79e479ed9f5c1c0a22efe64f86beba53",
+      "identity": {
+        "teacher_sha256": "018b096244ea21e016ac7e86bc3ac704f18aa386381bd0531b8adb43685297bc",
+        "recipe_sha256": "e28cbce702846165bd5a345c2317178bf5b5317794243cd585d982d887f4e8a8",
+        "target_source": {
+          "kind": "chart-image",
+          "sha256": "0f4aae9020cedc14c03bd9f17dd6d1ae80d3eae1f64b06a45fc500b3bd031db5"
+        },
+        "pairs_sha256": "4a1833c4c2051b5b0dafbc4e2488ae2cee37871ff4df54ac457f2e87e4476844",
+        "implementation_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+        "response": {
+          "schema": "r5-measured-grid-response/1",
+          "preset": "r5-paired-20261102-three-experts",
+          "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+          "model": "ILCE-7RM5"
+        },
+        "response_implementation_sha256": "288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1",
+        "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b",
+        "post_gray_refinement": false,
+        "objective": "fuji-target"
+      }
+    }
+  ],
+  "firmware": "4.23",
+  "format_version": 4,
+  "color_accuracy_accepted": false
+}

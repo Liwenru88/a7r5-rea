@@ -1,0 +1,21 @@
+{
+  "latest_guest": "guest-11",
+  "source": "source-02",
+  "source_archive_included": false,
+  "source_kernel_included": false,
+  "original_source_entries": 1254,
+  "all_original_entries_identical": true,
+  "new_simulation_files": [
+    "simulation/firmware-identity.fat",
+    "simulation/firmware-version.dat4",
+    "simulation/headless-osd-export",
+    "simulation/inject-key",
+    "simulation/inspect-date-clock",
+    "simulation/libIMDB-menu-qemu.so",
+    "simulation/menu-observe-a7r5-baseline.so",
+    "simulation/seed-date-clock",
+    "simulation/seed-date-clock406",
+    "simulation/seed-indicator-config",
+    "simulation/seed-power-on"
+  ]
+}

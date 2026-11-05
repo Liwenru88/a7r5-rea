@@ -1,0 +1,125 @@
+{
+  "schema": "incident413-resource-crash/1",
+  "crashes": [
+    {
+      "task": "uxengine_res1",
+      "exception": "Abort",
+      "frames": [
+        {
+          "module": "libc-2.25.so",
+          "offset": "0x32474"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x156654"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x115330"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x11221c"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x122608"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x1333c0"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x1539a4"
+        },
+        {
+          "module": "libosal_utm.so",
+          "offset": "0x1184"
+        },
+        {
+          "module": "libpthread-2.25.so",
+          "offset": "0x7020"
+        },
+        {
+          "module": "libc-2.25.so",
+          "offset": "0xc8dbc"
+        }
+      ],
+      "resource": "image_00_32_IPSX.uxc",
+      "resource_id": "0x2001ea5",
+      "slot": 1,
+      "selected": true,
+      "source_file_offset": "0x97ecf4",
+      "compressed_bytes": 5604,
+      "decoded_bytes": 5600,
+      "output_pages": 2,
+      "decoder_channel": 8,
+      "stream_header": "0f00e015",
+      "stream_sha256": "a7232f40e05bb38ebb41d955cd898d8d0eea7d6976602e74273650a34d3b80b2"
+    },
+    {
+      "task": "uxengine_res1",
+      "exception": "Abort",
+      "frames": [
+        {
+          "module": "libc-2.25.so",
+          "offset": "0x32474"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x156654"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x115330"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x11221c"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x122608"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x1333c0"
+        },
+        {
+          "module": "libObj.so",
+          "offset": "0x1539a4"
+        },
+        {
+          "module": "libosal_utm.so",
+          "offset": "0x1184"
+        },
+        {
+          "module": "libpthread-2.25.so",
+          "offset": "0x7020"
+        },
+        {
+          "module": "libc-2.25.so",
+          "offset": "0xc8dbc"
+        }
+      ],
+      "resource": "image_00_32_IPSX.uxc",
+      "resource_id": "0x2001ea5",
+      "slot": 1,
+      "selected": true,
+      "source_file_offset": "0x97ecf4",
+      "compressed_bytes": 5604,
+      "decoded_bytes": 5600,
+      "output_pages": 2,
+      "decoder_channel": 8,
+      "stream_header": "0f00e015",
+      "stream_sha256": "a7232f40e05bb38ebb41d955cd898d8d0eea7d6976602e74273650a34d3b80b2"
+    }
+  ],
+  "klog_sha256": "f79423f2e2c4a5fe89525ec71e757bb922ab6d025940ef15ad3df9c0c1baddd4",
+  "resource_sha256": "a65afbdb43e4eca063baacdd77f822890b521c509ec383eacfaa8abe20971bc5",
+  "libObj_sha256": "0d0be8f1e48b3c74330f9afab698ac352b3c2a922f7231ffc836591529a9fdf9",
+  "camera_write": false,
+  "new_device_reproduction": false,
+  "boundary": "已证实旧F01选中态长0F块在实机LDEC失败；新F0流仍待实机验收，不断言所有0F块均不受支持"
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "r5-colorlab-bin-import-verification/1",
+  "recorded_at": "2026-11-03T14:39:31.068932+00:00",
+  "behavior": [
+    "严格解码v4十二槽／v5二十四槽BIN，包括稀疏库和有效空库",
+    "导入预览与整库替换确认；取消、坏文件不改变当前配置与草稿",
+    "槽位按配置和草稿差异显示configured／empty／modified，浏览空槽不创建配置",
+    "未保存修改阻止导出；保存或放弃后恢复",
+    "支持移到空槽，拒绝覆盖已有配置或未保存草稿",
+    "导入来源落盘，按SHA256及原始槽号绑定；改名、换槽不改变色彩参数",
+    "重新导出校验四组色彩参数；伪造来源、来源缺失或损坏时拒绝",
+    "保留导入v5格式；v4库新增高槽自动升为v5",
+    "导入后退出旧训练预览并忽略旧任务的异步回写"
+  ],
+  "verification": {
+    "command": "R5_GPU_TRAINING=0 PYTORCH_ENABLE_MPS_FALLBACK=0 PYTHONPATH=sony-r5-colorlab/R5ColorLab/web:sony-r5-colorlab/R5ColorLab/scripts:sony-r5-colorlab/R5ColorLab/tests sony-r5-colorlab/R5ColorLab/.venv/bin/python -m pytest -q sony-r5-colorlab/tests/test_bin_import.py sony-r5-colorlab/tests/test_native24.py sony-r5-colorlab/tests/test_native24_web.py sony-r5-colorlab/R5ColorLab/tests/test_integrated_training.py sony-r5-colorlab/R5ColorLab/tests/test_compression_workflow.py sony-r5-colorlab/R5ColorLab/tests/test_export_policy423.py sony-r5-colorlab/R5ColorLab/tests/test_batch_training.py",
+    "exit_code": 0,
+    "passed": 104,
+    "subtests_passed": 8,
+    "skipped": 1,
+    "skip_reason": "Historical numerical fixture absent",
+    "duration_seconds": 11.65,
+    "node_syntax": {
+      "command": "node --check sony-r5-colorlab/R5ColorLab/web/static/app.js",
+      "exit_code": 0
+    },
+    "static_checks": {
+      "python_ast": "PASS",
+      "html_unique_ids": 176,
+      "local_document_links": "PASS"
+    },
+    "regression_before_fix": [
+      "HTTP导入未支持二进制，因UTF-8解码失败拒绝合法BIN",
+      "网页未提供importBin入口"
+    ]
+  },
+  "browser": {
+    "bind": "127.0.0.1",
+    "isolated_temporary_RUNS": true,
+    "temporary_service_closed": true,
+    "scenarios": [
+      {
+        "kind": "sparse-v5-rename-export",
+        "slots": [
+          1,
+          3,
+          12,
+          24
+        ],
+        "renamed_slot": 24,
+        "color_parameters_unchanged": true,
+        "archive_sha256": "91841ae202832953ddf46c464f32a3ab5865413c555d4f5640e6caa0292b883e"
+      },
+      {
+        "kind": "original-v4-move-to-24-export-v5",
+        "records": 12,
+        "source_slot": 1,
+        "target_slot": 24,
+        "color_parameters_unchanged": true,
+        "archive_sha256": "d9ae4e2302d97f5a3d1b5fdc6a76d7c6ceb5a2c50a7b50d2468329e6d2f46712"
+      },
+      {
+        "kind": "three-slot-states",
+        "configured": 11,
+        "empty": 12,
+        "modified": 1,
+        "export_enabled": false,
+        "discard_restored_configured": 12
+      }
+    ],
+    "console_errors_final": [],
+    "note": "浏览器导出事件等待曾超时；检查页面后改用键盘触发，实际下载与解码验证均通过。断开的其他下载连接产生BrokenPipe，未扩大修改到下载模块。"
+  },
+  "artifacts": [
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/01-import-preview.png",
+      "sha256": "4beb7f778fd33e0e614fc3107b28955f76d2f5fc29ef73c5df34ad313ace9e0f"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/02-imported-slots.png",
+      "sha256": "9474969db75a65bc05a4db9d5a189df3b6c66b3b077d9ed84ee413256fb74e3b"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/03-unsaved-slot.png",
+      "sha256": "5e2aa90f725019a9665ea52e2c00f65319bac7e8cd931cc616e7d4be9620cb5f"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/04-final-slot-states.png",
+      "sha256": "33b4a44172248c5a4ebbc346c2bbf6a4ff2f170f71ccb779e81a2d41e014f7fe"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/R5NATIVE.BIN",
+      "sha256": "244de1c5a1b596a621a409317b609b8219a64b672b54627f92bb049fcc3997c8"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/browser-export.zip",
+      "sha256": "91841ae202832953ddf46c464f32a3ab5865413c555d4f5640e6caa0292b883e"
+    },
+    {
+      "path": ".local/colorlab-bin-import-20261103-01/browser-moved-export.zip",
+      "sha256": "d9ae4e2302d97f5a3d1b5fdc6a76d7c6ceb5a2c50a7b50d2468329e6d2f46712"
+    }
+  ],
+  "limits": [
+    "未连接相机或实体SD卡，未构建、签名固件升级包",
+    "未改变训练数学算法或BIN编解码格式，未重新进行完整高精度训练",
+    "BIN来源验证不代表原厂签名、训练误差或实机成像验收"
+  ],
+  "files": [
+    {
+      "path": "R5ColorLab/web/server.py",
+      "sha256": "7151783649152682cf21a441829dfc4d6fcb7c42c820c0a7a863b9b1394b5068"
+    },
+    {
+      "path": "R5ColorLab/web/export_policy423.py",
+      "sha256": "c25ea1fcad2ed884e88ac4dfd5a80320a4a1fe39b2de966ce588851736761d6e"
+    },
+    {
+      "path": "R5ColorLab/web/static/app.js",
+      "sha256": "7816f9098cc880bdd7354798c117ef94cd530ffccd4440767c0a23a8c34d9927"
+    },
+    {
+      "path": "R5ColorLab/web/static/index.html",
+      "sha256": "2c4a50c45f64fb76ce583002de059ebf98f18f163d3432cd571c3ca2f67af670"
+    },
+    {
+      "path": "R5ColorLab/web/static/style.css",
+      "sha256": "ad21322005241ed60de252497c0dd290e7292df21b74e614172639014ca83f5e"
+    },
+    {
+      "path": "R5ColorLab/README.md",
+      "sha256": "b17ad1afb71f4af12fa1f56d06b95430418e68e6a32da53500db2a3083b83efc"
+    },
+    {
+      "path": "R5NATIVE.BIN使用说明.md",
+      "sha256": "1ef80f4b4345521093d6d977d35a63a3a37409d3fba7a434d5de7f8b7028c23d"
+    },
+    {
+      "path": "tests/test_bin_import.py",
+      "sha256": "35d95cb06d90d5c64cc56b5a331dcbf6d332a5fb668ec6de43bca12966d9ed7f"
+    },
+    {
+      "path": "tests/bin_import_ui.cjs",
+      "sha256": "35dc88adb6b4c99ee7986a6a83eddf147c5afa2baa2f6e28866e01e37df33278"
+    },
+    {
+      "path": "tests/native24_ui.cjs",
+      "sha256": "1571090d006b1d8fe1ff5bb1f6b132389055239cb45c8c87d47e7357283e7f97"
+    },
+    {
+      "path": "tests/unified_training_ui.cjs",
+      "sha256": "43f384f910e1b172f5ef4f69890899ecc87b71bcb5ffdce0312ebd8039f09782"
+    }
+  ]
+}

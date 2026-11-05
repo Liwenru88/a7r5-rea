@@ -1,0 +1,378 @@
+{
+  "schema": "a7r5-fixed-filter-baseline/1",
+  "version": "research-4.06",
+  "dat": {
+    "bytes": 754525608,
+    "sha256": "3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2"
+  },
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "updater_sha256": "c4b18a82eea52a507fb82b86ad50bab6047070b8908d03c28edcce4a9577d348",
+  "plaintext_bytes": 751577088,
+  "tar_entries": 147,
+  "inherited_features": [
+    "FL2_FL3",
+    "six_presets",
+    "joint_gamma_matrix_chroma",
+    "menu_names",
+    "ntsc_prompt",
+    "type1_sound_candidate",
+    "WBI3_marker"
+  ],
+  "target_files": [
+    {
+      "path": "components/usr/lib/appFw.so",
+      "bytes": 97368304,
+      "sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9"
+    },
+    {
+      "path": "components/cpapp-b.bin",
+      "bytes": 17617008,
+      "sha256": "18b265c589eb4201d3b3680857d897b693d06c6dd491d795dbb3a616d6182e97"
+    },
+    {
+      "path": "components/usr/share/app/string_croatian_vertical.uxc",
+      "bytes": 130040,
+      "sha256": "c80ba4ba93f259d6f15e7389c51290b491e3b33bbc9498796b835e50582c25b0"
+    },
+    {
+      "path": "components/usr/share/app/string_canadianfrench_horizontal.uxc",
+      "bytes": 45484,
+      "sha256": "3c00f1c6fd59033888e4e59ffee35a8148b83bb963ce10e150a6ff82ece45a2f"
+    },
+    {
+      "path": "components/usr/share/app/string_danish_horizontal.uxc",
+      "bytes": 125412,
+      "sha256": "a0aceeef1b9eff9c904dcbb1e2464d76634aeee7eab6e2d6eae3cbe439ee5499"
+    },
+    {
+      "path": "components/usr/share/app/string_russian_vertical.uxc",
+      "bytes": 195868,
+      "sha256": "fca02a59035c7d51893b444f83b2818603b906ce86dd903596c40d00f51d74b2"
+    },
+    {
+      "path": "components/usr/share/app/string_finnish_vertical.uxc",
+      "bytes": 125616,
+      "sha256": "1732fe18433378b5e4b2a46e25ee882b4f55591c498370ed6e779c0aed66bf8b"
+    },
+    {
+      "path": "components/usr/share/app/string_hungarian_horizontal.uxc",
+      "bytes": 136708,
+      "sha256": "88726d4239408e7a3b79110e28c6f58db812b73a68c91bc9bc4f899ec1e2bee2"
+    },
+    {
+      "path": "components/usr/share/app/string_english_vertical.uxc",
+      "bytes": 130520,
+      "sha256": "2b6f7daeb5457709f25f2d78773008034dde455791955e4c5945b313de678e30"
+    },
+    {
+      "path": "components/usr/share/app/string_danish_vertical.uxc",
+      "bytes": 125892,
+      "sha256": "01469e821408da747c239f8f54b685baf9313f6bf7b6465292e85b51944fcca6"
+    },
+    {
+      "path": "components/usr/share/app/string_dutch_vertical.uxc",
+      "bytes": 130324,
+      "sha256": "e360cf6270529a2e601e8addf5d991bc7cf76556889b8104fe8f015248e14517"
+    },
+    {
+      "path": "components/usr/share/app/string_indonesia_vertical.uxc",
+      "bytes": 124676,
+      "sha256": "43f780afb74af87324795d5dbe4d2338e68b6a63a1bff6fbaaa18868f323f601"
+    },
+    {
+      "path": "components/usr/share/app/string_hindi_horizontal.uxc",
+      "bytes": 260056,
+      "sha256": "a9927121fd2b549af54e78aa0b11a2058bbad21de94dd6285f3824f2a994b159"
+    },
+    {
+      "path": "components/usr/share/app/string_french_horizontal.uxc",
+      "bytes": 141324,
+      "sha256": "2b33bb8ebcd9a0d4368c07ba4acb35750977a55e90268961bc95e9b19535730c"
+    },
+    {
+      "path": "components/usr/share/app/string_polish_vertical.uxc",
+      "bytes": 130908,
+      "sha256": "3d5963bc921ec099f21a312eb3e2d355ca8e4aaba9a07f86b0bc12ac96af936c"
+    },
+    {
+      "path": "components/usr/share/app/string_japanese_vertical.uxc",
+      "bytes": 167224,
+      "sha256": "d738b783d227ac85f47955079822f1e3d30c169c80f3278cb24a52953f3bb4da"
+    },
+    {
+      "path": "components/usr/share/app/string_simplifiedchinese_vertical.uxc",
+      "bytes": 109380,
+      "sha256": "64ab06e1666b4ecc9e0ba942e8d4eea5a4d2b483d75db7d4cbe009e1e8d596fc"
+    },
+    {
+      "path": "components/usr/share/app/string_ukrainian_vertical.uxc",
+      "bytes": 195320,
+      "sha256": "b7824a6998e8c3839678995032f95ffde5073ee7fffbd4a92e2762d6069e6c1a"
+    },
+    {
+      "path": "components/usr/share/app/string_greek_vertical.uxc",
+      "bytes": 212200,
+      "sha256": "33a8efe64402995e05ffabafde1c4f093323c97ae4608e69faaa0d4dc5c75c43"
+    },
+    {
+      "path": "components/usr/share/app/string_romanian_vertical.uxc",
+      "bytes": 135636,
+      "sha256": "cb0c692090b2ccfd69c4af8f0561a60b65fc57967d22d68446f3d00df31bb48f"
+    },
+    {
+      "path": "components/usr/share/app/string_traditionalchinese_horizontal.uxc",
+      "bytes": 111436,
+      "sha256": "a2c712407289af2965213b5c986953e38e79405d9574f8e2ffc39a9e05feb8e4"
+    },
+    {
+      "path": "components/usr/share/app/string_swedish_horizontal.uxc",
+      "bytes": 124796,
+      "sha256": "a39d4973182c06f5755fd473b1fa413f6fdd042f8cc4d4f66455494255a7e129"
+    },
+    {
+      "path": "components/usr/share/app/string_french_vertical.uxc",
+      "bytes": 142596,
+      "sha256": "e73a10211db584ea2360a24348a88e274f7476b900adeac9e268bfc199f7a63c"
+    },
+    {
+      "path": "components/usr/share/app/string_portuguese_vertical.uxc",
+      "bytes": 133876,
+      "sha256": "9e62b9fec9fa4db34c348dc339dd2b5f40f327ee5ac7f9ca4285cd71079eb29e"
+    },
+    {
+      "path": "components/usr/share/app/string_polish_horizontal.uxc",
+      "bytes": 129064,
+      "sha256": "a4f53419ad402569ab9226f698b2d08c31d9962255cca93ff8fe76d47b324793"
+    },
+    {
+      "path": "components/usr/share/app/string_traditionalchinese_vertical.uxc",
+      "bytes": 111312,
+      "sha256": "67ee9168850d973fe02c7ce29b614ee7398c34f3708fd52dd278155e493c2d2f"
+    },
+    {
+      "path": "components/usr/share/app/string_thai_horizontal.uxc",
+      "bytes": 265116,
+      "sha256": "b61c517d4f8307ef2808089bf2a3eb6e32bc274b7f179ae5478a551e2c52bd58"
+    },
+    {
+      "path": "components/usr/share/app/string_turkish_vertical.uxc",
+      "bytes": 127324,
+      "sha256": "37c9960689f8904c7ce78d1dbddebb03d45146ad5988a9ba9b1c19332c8e965e"
+    },
+    {
+      "path": "components/usr/share/app/string_malay_vertical.uxc",
+      "bytes": 122476,
+      "sha256": "8efe905e71789ebc3582cf0b435b4a6038b6a46d7f46a00bd0eb7d2c2a4eee7c"
+    },
+    {
+      "path": "components/usr/share/app/string_turkish_horizontal.uxc",
+      "bytes": 126032,
+      "sha256": "33148569f97e8f3c2f42db310102ba0502ff52f6100c5942afa6655cf42d2d1b"
+    },
+    {
+      "path": "components/usr/share/app/string_persian_horizontal.uxc",
+      "bytes": 186460,
+      "sha256": "9f98857ea3c8ec53708ca251d24255881e84087a979cb266ff8bac978fc1e702"
+    },
+    {
+      "path": "components/usr/share/app/string_romanian_horizontal.uxc",
+      "bytes": 133988,
+      "sha256": "201158a2dee27573a5a5a8ada38bd28a12223c20544d12206cc51897a8758c61"
+    },
+    {
+      "path": "components/usr/share/app/string_arabic_vertical.uxc",
+      "bytes": 175912,
+      "sha256": "db3d90621c3b4b1fe315ae005b6d9dc47e96a1fe1b5a9d154c8e4192398669ef"
+    },
+    {
+      "path": "components/usr/share/app/string_malay_horizontal.uxc",
+      "bytes": 121892,
+      "sha256": "4d666f1198dc4b01d5486865be8f44c7f8420d927c2a148926d46dd041c6d7e3"
+    },
+    {
+      "path": "components/usr/share/app/string_croatian_horizontal.uxc",
+      "bytes": 129232,
+      "sha256": "cbd18cae7ba962cb9a812cc25f7f7bafd1ff16837623515548cf414536242fae"
+    },
+    {
+      "path": "components/usr/share/app/string_bulgarian_vertical.uxc",
+      "bytes": 195428,
+      "sha256": "48f4f8768e849a215282b6939a133f01b2461fdad1da9b3f1108454594c76c21"
+    },
+    {
+      "path": "components/usr/share/app/string_japanese_horizontal.uxc",
+      "bytes": 167064,
+      "sha256": "e1e2817cb2f75e2cf5cea7491a0a31308fdfc652f7509f0c29d5080e0aefa8a7"
+    },
+    {
+      "path": "components/usr/share/app/string_swedish_vertical.uxc",
+      "bytes": 126368,
+      "sha256": "7987892ed08e629b1e9bf64599d1c1dba0486d975cc74f780c7660ff5fce4fea"
+    },
+    {
+      "path": "components/usr/share/app/string_bulgarian_horizontal.uxc",
+      "bytes": 193232,
+      "sha256": "896efdb2af645bdbc9d60493f3caeeaa1c9f06c4b040ce90eb480ab7c1529723"
+    },
+    {
+      "path": "components/usr/share/app/string_korean_vertical.uxc",
+      "bytes": 142880,
+      "sha256": "79a22448a476babd4c5d7f4ab6ba1ae97ba636de00fa307be373e59bda1d2acb"
+    },
+    {
+      "path": "components/usr/share/app/string_thai_vertical.uxc",
+      "bytes": 268016,
+      "sha256": "48fd21ffdd20b87b59ecb79fd968a3139860b0f6c4f07d645e00cfe3dc999b43"
+    },
+    {
+      "path": "components/usr/share/app/string_indonesia_horizontal.uxc",
+      "bytes": 123920,
+      "sha256": "00e3393d6ebd9e3441e54a6c9d8264313c50459bcaffc7b2de3db3ca9ec66484"
+    },
+    {
+      "path": "components/usr/share/app/string_finnish_horizontal.uxc",
+      "bytes": 124748,
+      "sha256": "c5b73e8c13e77295a296950eb91dbab8457d35b7e7deb750077c71b4b8891232"
+    },
+    {
+      "path": "components/usr/share/app/string_dutch_horizontal.uxc",
+      "bytes": 129636,
+      "sha256": "3b3cf229104ae8e5bc75903752fdd720187f1c85d3791f6acfdee1fb4922a860"
+    },
+    {
+      "path": "components/usr/share/app/string_arabic_horizontal.uxc",
+      "bytes": 175740,
+      "sha256": "f2fdd9fa3b884245f03814e3f118bc2dbf15122aefade7e95e6dc7f2259c7ac9"
+    },
+    {
+      "path": "components/usr/share/app/string_brazilianportuguese_vertical.uxc",
+      "bytes": 134260,
+      "sha256": "b031a2c3096c31ca98ffc4746c4a5147d73e0fe97257474ad8239ed47312d8bd"
+    },
+    {
+      "path": "components/usr/share/app/string_canadianfrench_vertical.uxc",
+      "bytes": 36136,
+      "sha256": "489b2fb4c0613167a6acca599903124e3860bf1a390ef8c49d8414feb758d1d5"
+    },
+    {
+      "path": "components/usr/share/app/string_german_horizontal.uxc",
+      "bytes": 134244,
+      "sha256": "46ee1dc0748fb552aa2aa3d3a58b3f2b899b48b433e8f1d57831b8e74f031e8f"
+    },
+    {
+      "path": "components/usr/share/app/string_czech_horizontal.uxc",
+      "bytes": 132264,
+      "sha256": "b172a791d4f3722c2eeebaf762a4a07dfdff4eb4c82e73ad9d442b40276e8ce6"
+    },
+    {
+      "path": "components/usr/share/app/string_czech_vertical.uxc",
+      "bytes": 133084,
+      "sha256": "bfb78563a292db777513efcc2084c06afc5fcfc16593ac41cc91e4576105c5ff"
+    },
+    {
+      "path": "components/usr/share/app/string_ukrainian_horizontal.uxc",
+      "bytes": 192368,
+      "sha256": "6871b12278e110d6bc9c6bf7ceddc81cdf00a43e81dc08804805fe06b90d7c5f"
+    },
+    {
+      "path": "components/usr/share/app/string_spanish_vertical.uxc",
+      "bytes": 134160,
+      "sha256": "a3820d4415a7713399ce6240697d44c005018a01a857d03e4bafc443679c718a"
+    },
+    {
+      "path": "components/usr/share/app/string_greek_horizontal.uxc",
+      "bytes": 210268,
+      "sha256": "e0b8c1cc5beb2b9247c942b42b2fdf4973d00883d36c22243d89fe0910075717"
+    },
+    {
+      "path": "components/usr/share/app/string_russian_horizontal.uxc",
+      "bytes": 193292,
+      "sha256": "c76a99b9d138734fa464982e2be8e326c495f37649dec4fa0bbd6f80c2479449"
+    },
+    {
+      "path": "components/usr/share/app/string_persian_vertical.uxc",
+      "bytes": 186636,
+      "sha256": "b8b9f655bdc1d995650ca8c679af72400f4cb97d0f10f420eeb015c2f2f63257"
+    },
+    {
+      "path": "components/usr/share/app/string_portuguese_horizontal.uxc",
+      "bytes": 132500,
+      "sha256": "a012cba91b15c8c95f95457b07dc732a0c2230d8bcadb7c60c29f07ee9fc5709"
+    },
+    {
+      "path": "components/usr/share/app/string_english_horizontal.uxc",
+      "bytes": 130004,
+      "sha256": "cced325d921e20084b0f7e4c15d3968b39456cc87a6f2e2ad2e4f8f664815aa8"
+    },
+    {
+      "path": "components/usr/share/app/string_italian_horizontal.uxc",
+      "bytes": 133812,
+      "sha256": "8b1aa23d70d320fdca0403fb73e440abaf4f145cbcf66a01df6df650bb78ca22"
+    },
+    {
+      "path": "components/usr/share/app/string_simplifiedchinese_horizontal.uxc",
+      "bytes": 109288,
+      "sha256": "a71b29af541fdf26a98d20c4ef3d89f3dbc7e4423911ca3d9b7d88235b02af7a"
+    },
+    {
+      "path": "components/usr/share/app/string_german_vertical.uxc",
+      "bytes": 135716,
+      "sha256": "efa8729a5f59df8ca0cc12594debda5b0ca68d1ed32a61e64c684c870f8b5d49"
+    },
+    {
+      "path": "components/usr/share/app/string_norwegian_vertical.uxc",
+      "bytes": 122536,
+      "sha256": "c8ba38f3ea9e2633f2bd89f359c7351c06048825a44e1648694d135016a2ab85"
+    },
+    {
+      "path": "components/usr/share/app/string_norwegian_horizontal.uxc",
+      "bytes": 122236,
+      "sha256": "146679396efa167c638a86fdab4bec52ee91934a03b24ecbf5a38b3708d3633a"
+    },
+    {
+      "path": "components/usr/share/app/string_vietnamese_vertical.uxc",
+      "bytes": 141980,
+      "sha256": "bb9dae060cde53910640fc664cec59a27aff2ad7f6ad09e27d64a93acbd75b13"
+    },
+    {
+      "path": "components/usr/share/app/string_hindi_vertical.uxc",
+      "bytes": 260432,
+      "sha256": "c12d79365c35cd80c9e13249aa862e06a7937b1301941cadb325a3b4468ea517"
+    },
+    {
+      "path": "components/usr/share/app/string_spanish_horizontal.uxc",
+      "bytes": 132548,
+      "sha256": "47e73137ab579a6f4d0cf0982276a454dbc1d78459403e8a9dfd15c5bf7070c2"
+    },
+    {
+      "path": "components/usr/share/app/string_vietnamese_horizontal.uxc",
+      "bytes": 140808,
+      "sha256": "17ac3eef1d7af445acd6666f0e53f499f90853ccf2d7eca1515d8909a4196031"
+    },
+    {
+      "path": "components/usr/share/app/string_korean_horizontal.uxc",
+      "bytes": 142196,
+      "sha256": "66f68aef5eb2a303d9fe7640ff06ba6df9fb85020bdd307399b26b3757349fe4"
+    },
+    {
+      "path": "components/usr/share/app/string_hungarian_vertical.uxc",
+      "bytes": 137980,
+      "sha256": "a1efd10af6b431d6e39c968636d7890373af88eb2ff02905dab5ddc705468ac1"
+    },
+    {
+      "path": "components/usr/share/app/string_italian_vertical.uxc",
+      "bytes": 137164,
+      "sha256": "9883a53548370fcb5a95455f953136c6f8987adda69a9f831441e42e5295283c"
+    },
+    {
+      "path": "components/usr/share/app/string_brazilianportuguese_horizontal.uxc",
+      "bytes": 133396,
+      "sha256": "40aa8aafc678a6ede933754e0ac4e9fe1ebe5fffe56a7025eaeadcf98783adcb"
+    },
+    {
+      "path": "archive/0700_part_image/dev/nflasha5",
+      "bytes": 243789184,
+      "sha256": "eac727efd7af2142ddd9b8ae22387614eaaaba9dc9f04ce0434bf8e7c766d693"
+    }
+  ]
+}

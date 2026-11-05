@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "model": "ILCE-7RM5",
+  "firmware": "4.00",
+  "feature": "A7R5_NATIVE_MENU_REENTRY",
+  "files": {
+    "binary": {
+      "path": "bin/qemu-system-aarch64",
+      "bytes": 35985424,
+      "sha256": "02e51fb137c074364bdfb382160e4239494622e3b2c495692bef6f72fccf2e3f"
+    },
+    "kernel": {
+      "path": "runtime/vmlinux.bin",
+      "bytes": 6610952,
+      "sha256": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66"
+    },
+    "initrd": {
+      "path": "runtime/menu-a95b001d61b77b98.cpio",
+      "bytes": 426196992,
+      "sha256": "a95b001d61b77b980052cd60b24d90496eb92177853634bf8d4d4223de41249a"
+    },
+    "dtb": {
+      "path": "runtime/virt-5aff1e79858f7eef.dtb",
+      "bytes": 9180,
+      "sha256": "5aff1e79858f7eef8862e413d837feb4249adf267c5b484ed3aa65e5df01f6bc"
+    },
+    "gpe": {
+      "path": "sdk/lib/libgpe.so",
+      "bytes": 106520,
+      "sha256": "80fc6236379933f80c2689aa002e0cf39483da8d45e876705d2a427cd1a2a7d1"
+    }
+  }
+}

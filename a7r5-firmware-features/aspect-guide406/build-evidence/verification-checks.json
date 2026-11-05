@@ -1,0 +1,38 @@
+{
+  "DAT_sha256_unchanged": "3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2",
+  "default_manifest_sha256_unchanged": "677fa3ee4fab8767e443da26a82d45fca815700bc330fd300a861e4769b56c18",
+  "python_AST_checked": [
+    "experiments/aspect-guide406/qt_research.py",
+    "experiments/aspect-guide406/test_runtime.py",
+    "experiments/aspect-guide406/probe_menu.py",
+    "experiments/aspect-guide406/verify_run.py",
+    "experiments/aspect-guide406/export_source.py",
+    "experiments/aspect-guide406/build_guest.py",
+    "experiments/aspect-guide406/environment.py"
+  ],
+  "runtime_contract": {
+    "test_methods_passed": 2,
+    "command": ".venv/bin/python -B experiments/aspect-guide406/test_runtime.py"
+  },
+  "native_sandbox": {
+    "test_methods_passed": 1,
+    "command": ".venv/bin/python -B tests/test-native-backend.py NativeContract.test_real_macos_policy_enforces_boundaries"
+  },
+  "original_guest_entries_identical": true,
+  "experiment_source_hashes": {
+    "experiments/aspect-guide406/aspect-guide406.inc": "d355cfc15563df47ca4c6e9b0bb9ce272f8bbcd752bb80f6b744e4bcf10ab048",
+    "experiments/aspect-guide406/qt_research.py": "de0110d59ca1a5b8f04e7943044322194566f1df6e57db1ab4e407ab9b269dc3",
+    "experiments/aspect-guide406/test_runtime.py": "dd9bcb3c27197a809bec69a93aa77e8ef7339af46013cb98eeec6dcff4f66f7c",
+    "experiments/aspect-guide406/seed-date-clock406.c": "91209ba6f54ccd64eb3226cc47c0f4fb8b025083e92354853a14489c5825c4c9",
+    "experiments/aspect-guide406/probe_menu.py": "caf4ea282cebbd6472205d2c4999a8d54ab9542b7e7a7d855572ef8584dea328",
+    "experiments/aspect-guide406/README.md": "324410277c9e6e7be15f59f9e33219bc0bfa53b4e3dc928f058500051b319e69",
+    "experiments/aspect-guide406/verify_run.py": "7c226ec531277d4c630e95cf66fd896f13e5ab6756275f3f57df9c84c76f48d0",
+    "experiments/aspect-guide406/export_source.py": "3996743b10f9117173458447a872b25c8244f3c5519d782a3a9babcc1911fe56",
+    "experiments/aspect-guide406/inspect-date-clock.c": "a2db92d1f7ee6efd4c2894afab7ff66d07ff95b0b5904f55d88d87bf529fbcb1",
+    "experiments/aspect-guide406/build_guest.py": "f8b4a8e7b7466f1939b7236339b9b730c53df14f75bfecc8b6ad49f004997a13",
+    "experiments/aspect-guide406/environment.py": "6c8f123c100ba7f5c0dd4ec4424d679fae08de93c3e844d3efbbe94ad6c7707e"
+  },
+  "firmware_installer_created": false,
+  "camera_io": false,
+  "README_local_links_checked": true
+}

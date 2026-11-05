@@ -1,0 +1,65 @@
+{
+  "schema": "a7r5-aspect-guide406-external-inputs/1",
+  "DAT": {
+    "DAT_bytes": 754525608,
+    "DAT_sha256": "3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2",
+    "AP_bytes": 97368304,
+    "AP_sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9",
+    "model": "ILCE-7RM5",
+    "firmware": "research-4.06"
+  },
+  "qemu_inputs": {
+    "binary": {
+      "path": "bin/qemu-system-aarch64",
+      "bytes": 35985424,
+      "sha256": "02e51fb137c074364bdfb382160e4239494622e3b2c495692bef6f72fccf2e3f"
+    },
+    "gpe": {
+      "path": "sdk/lib/libgpe.so",
+      "bytes": 106520,
+      "sha256": "80fc6236379933f80c2689aa002e0cf39483da8d45e876705d2a427cd1a2a7d1"
+    },
+    "kernel": {
+      "path": "build/aspect-guide406-20261026-01/source-02/vmlinux.bin",
+      "bytes": 6610952,
+      "sha256": "bdb129ad6806e3e33f1a1b9c094c0c97c4940bdea7aa9c09cef18f02e4012e66"
+    },
+    "initrd": {
+      "path": "build/aspect-guide406-20261026-01/guest-11/menu.cpio",
+      "bytes": 434007040,
+      "sha256": "15089fc1b0a65dc7a198a2b11d9a56f6f55c746400e5cdc0122a9b878a768a53"
+    },
+    "dtb": {
+      "path": "build/aspect-guide406-20261026-01/guest-11/virt.dtb",
+      "bytes": 9180,
+      "sha256": "251d59e50cc5e25f0dd493d79246c831347ed85d38f34970a7d4d8329c556d4e"
+    }
+  },
+  "source_cpio": {
+    "sha256": "c01948220e1cced7f4e1d6a6dd28221c587050214d32cc405291cc00d2f1ed80",
+    "bytes": 429577216
+  },
+  "SDK_glibc": {
+    "libc-2.25.so": {
+      "mode": 33279,
+      "bytes": 1283936,
+      "sha256": "f9104526eb7e5d2ea533c1a209bb0b83e69367f569e4c966895c8e106e6382c9"
+    },
+    "libdl-2.25.so": {
+      "mode": 33279,
+      "bytes": 10368,
+      "sha256": "6dde01ab92843eaf8c330f4cbd9b47186b14843c4e1de9f7c68ecacb3414403b"
+    },
+    "libpthread-2.25.so": {
+      "mode": 33279,
+      "bytes": 101888,
+      "sha256": "7394f861930c45dd5076a700da5755faf0f6bed08544b0d60eadb85a14a7d592"
+    },
+    "ld-2.25.so": {
+      "mode": 33279,
+      "bytes": 120616,
+      "sha256": "90b4fe734ba7faa08d4591b1363bff478e7bde399a821fc0b2d021c062a58a9a"
+    }
+  },
+  "rebuild_requires": "restore pinned inputs in an isolated a7r5-qemu project; no unverified default manifest replacement"
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "a7r5-aspect-guide406-research/1",
+  "created_date": "2026-10-26",
+  "feature": "photo-aspect-marker-2.35:1",
+  "baseline": {
+    "DAT_bytes": 754525608,
+    "DAT_sha256": "3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2",
+    "AP_bytes": 97368304,
+    "AP_sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9",
+    "model": "ILCE-7RM5",
+    "firmware": "research-4.06"
+  },
+  "acceptance": {
+    "menu_selection_verified": true,
+    "raw_png_frames_verified_latest": 105,
+    "MENU_cycles_latest": 4,
+    "Qt_clicks_including_stop_latest": 105,
+    "photo_overlay_verified": false,
+    "device_tested": false,
+    "power_cycle_tested": false,
+    "QEMU_as_unique_failure_cause_proven": false
+  },
+  "latest_evidence": "evidence/native-aspect406-ht_s_kjs/frame-audit.json",
+  "QEMU_source_dependencies": {
+    "native_files": 30,
+    "Python_tool_modules": 16
+  },
+  "fully_archived_runs": [
+    "native-aspect406-ht_s_kjs",
+    "native-aspect406-4ayse5ev",
+    "native-aspect406-edowj8gd",
+    "native-aspect406-__bvdmwt",
+    "native-aspect406-0ru1s54d"
+  ],
+  "partial_historical_run": {
+    "name": "native-aspect406-e9x10p_0",
+    "all_frames_included": false,
+    "full_frame_audit_receipt_preserved": true
+  },
+  "input_policy": "exact DAT/AP SHA-256; preserve existing features; reject other input",
+  "file_patch_ready": false,
+  "installable_firmware": false,
+  "camera_io": false,
+  "excluded": [
+    "original firmware DAT/AP/CP/kernel/full CPIO/SDK firmware libraries",
+    "QEMU executable and native host shared libraries",
+    "signing private keys"
+  ],
+  "future_upgrade_excludes": [
+    "IMDB USB/Bluetooth/Hotplug masks",
+    "Bluetooth RET shim",
+    "QEMU GPE/CP emulation",
+    "QEMU clock and FAT identity fixtures",
+    "Qt and key injection",
+    "GUI MENU reentry shims",
+    "observer guide draw hook"
+  ]
+}

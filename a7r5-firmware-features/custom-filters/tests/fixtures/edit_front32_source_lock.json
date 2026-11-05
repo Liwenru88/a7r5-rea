@@ -1,0 +1,15 @@
+{
+  "scope": "固定 PT/5300K 平场 RAW→ITP→SSCS；非完整机身或 sRGB 模型",
+  "files": {
+    ".local/fixed-custom-filters/reference30/files/R5ColorLab/scripts/edit_raw_front.py": "010e0b3af24b1fbac195c62216f3fafed8f7f042215893e7e712f99d2b3c1ab8",
+    ".local/fixed-custom-filters/reference-20/R5ColorLab/scripts/edit_color_pipeline.py": "5d25fc4b93ce9556712fcf2249916da0e86925623c7283955bca25241c84a49c",
+    ".local/fixed-custom-filters/reference-20/R5ColorLab/scripts/edit_native_model.py": "4f7d1af1e05fd38e70264f14f68ed5ea6a8d71ce682b076b5bfab368fb000d8e",
+    ".local/fixed-custom-filters/reference30/pairs-v45.npz": "ff89b472e8a71686bd4ff3d2e3e3fcb1886841a0e39ede91a1878df13310eb53"
+  },
+  "decoded": {
+    "v45-raw.b64": "97e5f10267835e0145787bf7441fde1932ca31098885ed262a79936e161c5559",
+    "v45-settings.b64": "d45c8470ee64287de9c7fa855c5787b91c0cb15f05f454d10c055b8bf9fe21ab"
+  },
+  "formula_commits": ["bf71d789262d53ff5fcd23d87aea5bdc07a46f19", "8b563d46f800679abd3f215950cb541fc81da2a6"],
+  "cache_note": "reference-20 是已锁定工具文本缓存，未声称缓存逐字节等于原 Git blob。测试只执行 AST 选出的纯数值函数，不导入生成器、模拟器或设备模块。"
+}

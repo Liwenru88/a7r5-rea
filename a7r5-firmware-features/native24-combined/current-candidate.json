@@ -1,0 +1,93 @@
+{
+  "schema": "native24-current-candidate/1",
+  "spec": "a7r5-firmware-features/native24-combined/Tab分组交互说明.md",
+  "status": "NOT_VERIFIED",
+  "offline_status": "PARTIAL",
+  "offline_scope": "左键切组和两组成功选择记忆，28项CPU回归及39组QEMU菜单原帧通过。自定义应用成功后的恢复、保存和成像待实机验证。",
+  "build": ".local/native24-tab-memory-20261105-02",
+  "AP_sha256": "27bc6eb0a0d9996e96e3835205d06c1cf03c7ef73421e6781b6e96c4b6ed7962",
+  "CP_sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+  "components": {
+    "appFw.so": {
+      "bytes": 97583104,
+      "sha256": "27bc6eb0a0d9996e96e3835205d06c1cf03c7ef73421e6781b6e96c4b6ed7962"
+    },
+    "cpapp-b.bin": {
+      "bytes": 17617008,
+      "sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300"
+    },
+    "image_00_23_IPSX.uxc": {
+      "bytes": 9611836,
+      "sha256": "6e8c09e8e8a302aa05e7d8dd56f68bdb3675c486ca54a88ba81375b5c02a3bb7"
+    },
+    "image_00_32_IPSX.uxc": {
+      "bytes": 9963512,
+      "sha256": "7e598d75a997c37cea6204e8e35773e9b9ee5e4ce67b0c0ab569011563af3356"
+    }
+  },
+  "CPU_tests": 28,
+  "CPU_offline_status": "PASS",
+  "runtime_evidence": "a7r5-firmware-features/native24-combined/releases/4.17/evidence/runtime-regression.json",
+  "QEMU_proof": "a7r5-firmware-features/native24-combined/releases/4.17/evidence/qemu-proof.json",
+  "new_raw_png_frames": 39,
+  "QEMU_short_navigation_verified": true,
+  "QEMU_factory_row_restore_verified": true,
+  "QEMU_custom_success_memory_verified": false,
+  "QEMU_actual_filter_imaging_verified": false,
+  "DAT_generated": true,
+  "camera_io": false,
+  "installable": false,
+  "installability_confirmed": false,
+  "independent_rebuild_identical": true,
+  "changed_components_vs_416": [
+    "appFw.so"
+  ],
+  "device_status": "4_16_USER_CUSTOM_APPLICATION_WORKS_4_17_RETEST_REQUIRED",
+  "device_report": {
+    "source": "user",
+    "date": "2026-11-05",
+    "version_reported": "4.16",
+    "custom_application_works": true,
+    "first_custom_row_on_down_did_not_preview": true
+  },
+  "update_package": {
+    "version": "4.17",
+    "DAT": "a7r5-firmware-features/native24-combined/releases/4.17/BODYDATA.DAT",
+    "verification": "a7r5-firmware-features/native24-combined/releases/4.17/verification.json",
+    "status": "OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED",
+    "bytes": 754525608,
+    "sha256": "7e68638274e778333bb08cf33c4454c816220fe951ed40a0a1972201d22f81ef",
+    "packaging_tests": 51,
+    "full_frame_count": 736841,
+    "reused_CPU_tests": 28,
+    "reused_QEMU_frames": 39,
+    "current_repair_included": true,
+    "camera_io": false
+  },
+  "package_evidence": "a7r5-firmware-features/native24-combined/releases/4.17/evidence/candidate-417.json",
+  "previous_candidate": {
+    "spec": "a7r5-firmware-features/specs/020-native-ui-sync-idle",
+    "build": ".local/ui-refresh-20261104/fix-02",
+    "AP_sha256": "36ba6c0a9285d2708e74af651a6683d020c50d880d6b35a48cab51bafe2b1438",
+    "CP_sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+    "archive": "a7r5-firmware-features/native24-combined/verification/2026-11-04-ui-sync-01",
+    "bundle": "a7r5-firmware-features/native24-combined/verification/2026-11-04-ui-sync-01.tar.gz",
+    "bundle_sha256": "6b924a4176024cde540c23a6d9068fe11890b7050dcdf5709adbc105b32bc375",
+    "runtime_evidence": "a7r5-firmware-features/native24-combined/verification/2026-11-04-ui-sync-01/evidence/complete-result.json",
+    "QEMU_proof": "a7r5-firmware-features/native24-combined/verification/2026-11-04-ui-sync-01/qemu-build/proof.json",
+    "update_package": {
+      "version": "4.16",
+      "DAT": "a7r5-firmware-features/native24-combined/releases/4.16/BODYDATA.DAT",
+      "verification": "a7r5-firmware-features/native24-combined/releases/4.16/verification.json",
+      "status": "OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED",
+      "bytes": 754525608,
+      "sha256": "178e908fffde92fd703c638178336bec4e81cafa4f8b32ce353376e48e64f32d",
+      "packaging_tests": 51,
+      "full_frame_count": 736841,
+      "reused_CPU_tests": 97,
+      "reused_QEMU_frames": 107,
+      "current_repair_included": true,
+      "camera_io": false
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "baseline_AP_read_only": true,
+  "AP_preimages_checked": 35,
+  "AP_relocation_entries_checked": 3,
+  "inspector_failure_cases": [
+    "truncated AP rejected",
+    "wrong preimage rejected",
+    "overlapping preimage rejected"
+  ],
+  "all_archived_python_AST_valid": true,
+  "entry_document_local_links_valid": true,
+  "source_cpio_sha256_verified": true,
+  "source_files_matched_guest11_build_receipt": true,
+  "all_archived_provenance_hashes_verified": true,
+  "existing_feature_materials_modified": false,
+  "QEMU_started_this_archiving_turn": false,
+  "camera_io": false,
+  "all_five_full_run_file_sets_match": true
+}

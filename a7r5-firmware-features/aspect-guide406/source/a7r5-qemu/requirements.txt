@@ -1,0 +1,6 @@
+Pillow==13.0.0
+pyelftools==0.32
+capstone==5.0.7
+setuptools==84.0.0
+wheel==0.48.0
+packaging==26.3

@@ -1,0 +1,119 @@
+{
+  "schema": "sony-r5-colorlab-native24-adaptation/1",
+  "date": "2026-11-03",
+  "upstream_commit": "fb464bdef54cae7b56092bd35d35dc3542793ff3",
+  "upstream_manifest": "SOURCE_MANIFEST.json",
+  "upstream_manifest_sha256": "d15303615dc2b5a436928a0531e3ae4fda73b8467d029aea892b945da7b2ccd0",
+  "modified_upstream_files": [
+    {
+      "path": "R5ColorLab/README.md",
+      "upstream_sha256": "fae163245517552af2398f3561f02308c764d630509080f41125fa9e9c00dfc9",
+      "local_sha256": "6be082f188f96fde3b12e1d697b6d7db46f9e8bc414c86fd49f32e5b3fcd7517"
+    },
+    {
+      "path": "R5ColorLab/compilers/custom_filter_v4.py",
+      "upstream_sha256": "e99c610ea7092108adf2ecfaa921fe9445baacf2898953e6a0bbbe6dbe0a7b52",
+      "local_sha256": "6f3da5cfa00994fb6d334ac48a03f80806264845b76ccc087f51af125ee9ac62"
+    },
+    {
+      "path": "R5ColorLab/requirements.txt",
+      "upstream_sha256": "590dfb49b904d34fe12794e9e51b2ed114e0a26a39006d5d5854a68eb8dd3107",
+      "local_sha256": "10d20bfb2ddc1ee12cde886f623dcfd5bf914f77e6b320f22a13f2583b30edae"
+    },
+    {
+      "path": "R5ColorLab/web/batch_training.py",
+      "upstream_sha256": "e4d05bd0959eaf4723f7e3d949c5f7e68555c91f04388b10d18c68996b20e445",
+      "local_sha256": "f21ddcbbe6a11888556a30d51f475a7e1944af231dac27a433161524dbfae9d4"
+    },
+    {
+      "path": "R5ColorLab/web/core.py",
+      "upstream_sha256": "32b27168cdc2c865b5d01f6ab89c035f285062b3d531d3f6173db0c1c980bb44",
+      "local_sha256": "5ea9c9d49f9d1e7ca1264881a767e6f708afcdfe56ec05adec8653e9a0166d6d"
+    },
+    {
+      "path": "R5ColorLab/web/export_policy423.py",
+      "upstream_sha256": "3abbbc2a1e1987b46f12ec7c81f4d7ad312258996a0be11475d88b21d175049f",
+      "local_sha256": "e37e7b70ef01c68918240e2420c34afe9173b2cc6d0544f96f2966e74d779ed4"
+    },
+    {
+      "path": "R5ColorLab/web/grid_distillation.py",
+      "upstream_sha256": "7bf050504ee971d4816e82789181d4659fd2859748b01af6e110e0e5b4013dcb",
+      "local_sha256": "127baec2215bddb26d8675aa68aaa132c0c43584a30e64ae7be0e0c64efde213"
+    },
+    {
+      "path": "R5ColorLab/web/server.py",
+      "upstream_sha256": "818378732fb5332fd79387cdb73a7df7c0d20eba0ed183a0af3c2a8752e9ed24",
+      "local_sha256": "a9477343344f44383c342b034b572cb86439b6bc283d60603735e9bcd93593d1"
+    },
+    {
+      "path": "R5ColorLab/web/static/app.js",
+      "upstream_sha256": "7d054eb9eb0c96ba490573658b87f04da223f646d1c2fa24ec2808460be5fab1",
+      "local_sha256": "75a2c25a9f3a42fced1fc844474173ed5f564dfefc6974d8a450f954293c6323"
+    },
+    {
+      "path": "R5ColorLab/web/static/index.html",
+      "upstream_sha256": "1e47ea19cf55e5b4b705f9d02dcf982f892db377c21628d80a1ca98e2e9882cd",
+      "local_sha256": "4e4fa565ceb0d57dcaa393df4eeffc0e5cec7d21125334b6259d49c07cce6f2a"
+    },
+    {
+      "path": "R5GridCalibrator/README.md",
+      "upstream_sha256": "8aa2f59cef93225052f344ea3c35f02c46ff61796e8fee7dcea126f4c11c67a6",
+      "local_sha256": "db43bb2fca37bc5bf9d806096dc3698837e24ab47004471616880151c15a66a6"
+    },
+    {
+      "path": "R5GridCalibrator/bin_v4.py",
+      "upstream_sha256": "d8488ab45fdf0573cae79506b2f80a406076a31232d8e4ec3abc54d56ccc6803",
+      "local_sha256": "39ab99260f00e201668b4ee9e97944fe794cff5da1a55b258f998fc48bf2d3cb"
+    },
+    {
+      "path": "R5GridCalibrator/static/app.js",
+      "upstream_sha256": "103e8c6d7c260ec83fd932d063b5b1384f1de23921804435a6adad32a41166f1",
+      "local_sha256": "b7b2aa31b278e56d8dc52fa01046d3946fd7c3b117590fec6d977fe34dc63790"
+    },
+    {
+      "path": "R5GridCalibrator/static/index.html",
+      "upstream_sha256": "a378189340afb04ce947ea38779ab073a39271bf027851bdc22c0c7280374a65",
+      "local_sha256": "313fa121369e5ac9e45a704d17e4f37b4c78ccdde4a8732750d03a2138f00253"
+    },
+    {
+      "path": "README.md",
+      "upstream_sha256": "e71af96845ede099243f35a2ccb3177977c7cc9c678a2f5de1b94962aaa9c07a",
+      "local_sha256": "22038e1e11e99d0d8f95df658940e870b625ac3760c2c61b4adbc665f40fcb7b"
+    }
+  ],
+  "local_files": [
+    {
+      "path": "本地整合说明.md",
+      "bytes": 4794,
+      "sha256": "8fbd496541d6fb81924de870558db127783983d9eaec40ca1f332aedbf5ca24d"
+    },
+    {
+      "path": "24槽适配说明.md",
+      "bytes": 5125,
+      "sha256": "30c2282837d4732bb3c648c3955556cb5375d2e08858d61f83bed2662e1abeef"
+    },
+    {
+      "path": "tests/test_native24.py",
+      "bytes": 6967,
+      "sha256": "1fbda4e7928f46e94e354c84a9a9e66cd11771faa7bca54acc04d1f9f045bea2"
+    },
+    {
+      "path": "tests/test_native24_web.py",
+      "bytes": 9124,
+      "sha256": "bf9218c8ada55c0409f9e49de8805c13fe93d27530fe7433e6c19b2b67f42816"
+    },
+    {
+      "path": "tests/test_native24_binary.py",
+      "bytes": 2785,
+      "sha256": "266d1e40944b6a11bfe12f1372648dab5a6fa8bc078e202fc29b0c2b3d8e9af5"
+    },
+    {
+      "path": "tests/native24_ui.cjs",
+      "bytes": 1815,
+      "sha256": "b92c4dc5d864399fb13d773386426e9754fa612da12dfaa37b168c54a1cbcdc5"
+    }
+  ],
+  "verification": "NATIVE24_VERIFICATION.json",
+  "firmware_modified": false,
+  "camera_io": false
+}

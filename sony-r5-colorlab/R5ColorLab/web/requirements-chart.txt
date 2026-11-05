@@ -1,0 +1,3 @@
+# TIFF RGB 8/16-bit interchange, including LZW compression.
+tifffile>=2025.5.10,<2027
+imagecodecs>=2025.5.10,<2027

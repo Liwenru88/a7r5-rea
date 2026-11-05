@@ -1,0 +1,3285 @@
+{
+  "schema": "a7r5-aspect-guide406-provenance/1",
+  "original_paths_are_historical": true,
+  "files": [
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/a7r5-gui.inc",
+      "archived": "build-evidence/guest-11/a7r5-gui.inc",
+      "bytes": 7360,
+      "sha256": "673db11001b3ffdfc31cd9e9fe9f3958b0a97e5e1464025c5ee781f0f4ef82b9"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/aspect-guide406.inc",
+      "archived": "build-evidence/guest-11/aspect-guide406.inc",
+      "bytes": 5586,
+      "sha256": "d355cfc15563df47ca4c6e9b0bb9ce272f8bbcd752bb80f6b744e4bcf10ab048"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/build-receipt.json",
+      "archived": "build-evidence/guest-11/build-receipt.json",
+      "bytes": 17490,
+      "sha256": "b0d335bebdbaed408071df7639632a113c2ce8c6ac5c467e0be3eb4f2e51cb13"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-00.log",
+      "archived": "build-evidence/guest-11/compiler-00.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-01.log",
+      "archived": "build-evidence/guest-11/compiler-01.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-02.log",
+      "archived": "build-evidence/guest-11/compiler-02.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-03.log",
+      "archived": "build-evidence/guest-11/compiler-03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-04.log",
+      "archived": "build-evidence/guest-11/compiler-04.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-05.log",
+      "archived": "build-evidence/guest-11/compiler-05.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-06.log",
+      "archived": "build-evidence/guest-11/compiler-06.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/compiler-07.log",
+      "archived": "build-evidence/guest-11/compiler-07.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/manifest.json",
+      "archived": "build-evidence/guest-11/manifest.json",
+      "bytes": 4503,
+      "sha256": "78f7e5eb84fbd8623925c5c1080296065728cade809eeaaddb2ec0c26ac42d64"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/guest-11/menu-observe-native.c",
+      "archived": "build-evidence/guest-11/menu-observe-native.c",
+      "bytes": 173729,
+      "sha256": "ad68bafc20a3e648987b6209a2f805b8926c23ae30e8553738d2f7740398b64c"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/refresh-gate-disassembly.txt",
+      "archived": "build-evidence/refresh-gate-disassembly.txt",
+      "bytes": 2063,
+      "sha256": "029d17fc6499a242037a5dc082cab8595f00ae00b4381ac38c4d22958d951f3b"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/source-02/compatibility.json",
+      "archived": "build-evidence/source-02/compatibility.json",
+      "bytes": 601,
+      "sha256": "2bf9c344ebe0d91a4b29a73d0c44f2c039c9915fe9ae4bf355e5dbd0ba9b552b"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/source-02/source-manifest.json",
+      "archived": "build-evidence/source-02/source-manifest.json",
+      "bytes": 212883,
+      "sha256": "2b314647ae12aad771e9a263b6a0e8b8714238a84bda8c2836bcf7ac6d9f2536"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/source-02/version-source.json",
+      "archived": "build-evidence/source-02/version-source.json",
+      "bytes": 197,
+      "sha256": "c168a038402fa9bd12a1fcf092248ea5ce21e94bfb77a41cd6bfe0197899a631"
+    },
+    {
+      "source": "a7r5-qemu/build/aspect-guide406-20261026-01/verification-checks.json",
+      "archived": "build-evidence/verification-checks.json",
+      "bytes": 2396,
+      "sha256": "671acb1178ba9885c9257881094b208d2b019172a24da431a0ff58c71aa55d6f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/aspect406-menu.json",
+      "archived": "evidence/native-aspect406-0ru1s54d/aspect406-menu.json",
+      "bytes": 519,
+      "sha256": "0a8c18ade977177b6961b2536370dd6a63ec5611d392745b6c0d86c7449315b4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/boot-trace.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/boot-trace.log",
+      "bytes": 6319,
+      "sha256": "c3582100e849355a2871c576ac818ad5613d5ac11db944109cfb4d9323ffcfad"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/console.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/console.log",
+      "bytes": 128484,
+      "sha256": "4e7c5d1acd0832094dd0a9c0c36968a149ccd67263630090fe8ba6ccbec36ffb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/exit.json",
+      "archived": "evidence/native-aspect406-0ru1s54d/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/inputs.json",
+      "archived": "evidence/native-aspect406-0ru1s54d/inputs.json",
+      "bytes": 844,
+      "sha256": "20a607a39e22a63fa079081fc09a6d157fa11a4b832b1b930387cc6874e2eb5d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/latency.jsonl",
+      "archived": "evidence/native-aspect406-0ru1s54d/latency.jsonl",
+      "bytes": 872,
+      "sha256": "a1a3fc225c1dc2dfb77002e10f525b3995615f4a961cfaf5b7c48342fa8e2680"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/native-command.json",
+      "archived": "evidence/native-aspect406-0ru1s54d/native-command.json",
+      "bytes": 2221,
+      "sha256": "913e365519e44430d5c087145ba5568058853d72cd06dbe9293cd318bd19a698"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/native-owner.json",
+      "archived": "evidence/native-aspect406-0ru1s54d/native-owner.json",
+      "bytes": 83,
+      "sha256": "9520d599499679d3ed00ae57f6be385f8580166611b3ebc75f964e066afb5e84"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/native.sb",
+      "archived": "evidence/native-aspect406-0ru1s54d/native.sb",
+      "bytes": 1217,
+      "sha256": "1f4acf61df9605bed13574247e70f47d74a037d2362acbec0ab96419f5461ae5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-00.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-00.log",
+      "bytes": 232,
+      "sha256": "d8dba2d9c91dce6beb4a056163eb358ee52a7e5f9789afebaa2a44a9ad66e95c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-01.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-01.log",
+      "bytes": 399,
+      "sha256": "37ccdb9862c5897d01752fa4b971f37a8f748c70eb491e66a8de3e370ce51ae2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-02.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-02.log",
+      "bytes": 354,
+      "sha256": "aa8a4ae4604a0a29074cfded2ce00f54a514bbf6dc23606e89c0d96c1d5435bc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-03.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-03.log",
+      "bytes": 317,
+      "sha256": "66a7bd7e9f91b31779cdacb1764d7fbbdec76b16012d6dbb6c4f99133339bc96"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-04.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-04.log",
+      "bytes": 321,
+      "sha256": "5784e3ad6a94d4327db930cbfd052efb0df73f2e0973b890215dc07ebb9e647a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-05.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-05.log",
+      "bytes": 312,
+      "sha256": "a12e56487a70be1382e268fca4750f9395d2b95bced26f6c26ae60d7d87540f5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-06.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-06.log",
+      "bytes": 430,
+      "sha256": "ae6539e8912d8a1cb3fb9cc3dd3c2df82c8aed5f7cc6052f25152a6e43d96ef2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-07.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-07.log",
+      "bytes": 311,
+      "sha256": "ffc1219ff78974a412b2300f6aadc6549a55575d766cf87ef61821274266c9cb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-08.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-08.log",
+      "bytes": 314,
+      "sha256": "392233379e5068e5252365e30e5a00eca49aae3c3d958678b555c5b809e99d7d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-09.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-09.log",
+      "bytes": 399,
+      "sha256": "9705977710df94f9cdbaca028d8e2ffcf8d035a1f43bf877d08472a83932b974"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-10.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-10.log",
+      "bytes": 335,
+      "sha256": "27ad4104b5d4790ee1371fb2206d0e3af25fb2de2e1a06b184c12ecfb1c1b4f4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-11.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-11.log",
+      "bytes": 313,
+      "sha256": "9713b414017546fee62803804df9ca1c59e901697c8322ae992274df156fd180"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-12.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-12.log",
+      "bytes": 231,
+      "sha256": "a6573143d6e164998cc2c0e3f8539ddc4c03303a64073599af733f82a2e975c1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-13.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-13.log",
+      "bytes": 570,
+      "sha256": "31ed866a736ec3c2a85e063dec65f725ef436b08971d6428af848a39d4a76edb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-14.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-14.log",
+      "bytes": 1832,
+      "sha256": "3b3f98c2b8e966a5a59df4a0076d3b865cbe18b4af53a857b0ab012b944ddf6d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-15.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-15.log",
+      "bytes": 314,
+      "sha256": "57e14afe3bdca215d0463527e6963c212b62e93ab8d9132592807b50b03fac2f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-16.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-16.log",
+      "bytes": 417,
+      "sha256": "abacd7e01685de7c634c0aedd66571c330becbf94940482b2fb5d1e21168163f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/setup-17.log",
+      "archived": "evidence/native-aspect406-0ru1s54d/setup-17.log",
+      "bytes": 798,
+      "sha256": "9b303284c30c78c9f63cb15f06573ce9c7da62e5157b20c1870f5b6cc744339a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-0ru1s54d/virt.dtb",
+      "archived": "evidence/native-aspect406-0ru1s54d/virt.dtb",
+      "bytes": 9180,
+      "sha256": "a8a3c6558ff67d37eba7c4fdf93a8d60458f87ee69e5bddbd3578bdfb2d88e5c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/aspect406-baseline-menu.bin",
+      "archived": "evidence/native-aspect406-4ayse5ev/aspect406-baseline-menu.bin",
+      "bytes": 639458,
+      "sha256": "58054d7e3d780035018c44d9ae384cff18097eec38f12832ac7de35db9ee8bf3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/aspect406-baseline-menu.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/aspect406-baseline-menu.json",
+      "bytes": 1238,
+      "sha256": "e51ac6e202d8eb144db0c0788376ad0860601d2eb0adddc675ada0aaa3a6f7b0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/aspect406-baseline-menu.png",
+      "archived": "evidence/native-aspect406-4ayse5ev/aspect406-baseline-menu.png",
+      "bytes": 21757,
+      "sha256": "eb52e1cc48912019d13eaedeb828c2c91a88463e8232407387d3580da745d905"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/aspect406-menu.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/aspect406-menu.json",
+      "bytes": 1694,
+      "sha256": "97eb79b4d5542ea068d68aec72fce8eabe8048288cd79087885f17da2095feb2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/boot-trace.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/boot-trace.log",
+      "bytes": 7215,
+      "sha256": "85cd1371821c35b990770c652b47bceeb8f7c6b12a0e8abb577a7d6011b75626"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/console.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/console.log",
+      "bytes": 259131,
+      "sha256": "8a593cbfdef54b73b72535268a430d79b91d6a9730abc1a0944b9199b60a84a0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/exit.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/inputs.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/inputs.json",
+      "bytes": 844,
+      "sha256": "2daf09c6571fe4e3482a680f9fbc3c739ebbb96b1ba80a7c2648fae3e37d0d2d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/latency.jsonl",
+      "archived": "evidence/native-aspect406-4ayse5ev/latency.jsonl",
+      "bytes": 946,
+      "sha256": "fc517ca05c4454699c1f8ce489a72b58338bad196fcd05b870587d8d62c136a8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native-command.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/native-command.json",
+      "bytes": 2221,
+      "sha256": "476850c70af9a6be75ca5f4d6dd015f7820d5825fe0dffa4e6b5ea90b32aa5de"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native-initialization.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/native-initialization.json",
+      "bytes": 506,
+      "sha256": "0f8764b1de355116a8546e1471b49807ac8b59e8c5647f2cc3e88d557fd5f9f5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native-owner.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/native-owner.json",
+      "bytes": 83,
+      "sha256": "af9c56ff853ca4c6c05f1fb5eefe6aaf0d3507bd0bc8f52763e2c8ab58b7a9d1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native-qmp-events.jsonl",
+      "archived": "evidence/native-aspect406-4ayse5ev/native-qmp-events.jsonl",
+      "bytes": 118,
+      "sha256": "57fa693813a84bf86b15c1c3ed3efc60d004e9ee22d32cb85009dfe66968bc9e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native-runtime-state.json",
+      "archived": "evidence/native-aspect406-4ayse5ev/native-runtime-state.json",
+      "bytes": 138,
+      "sha256": "6aa0e86ad7b503d71c3681e6a617679e01abd2504cfa93361286b20df8afd1c5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/native.sb",
+      "archived": "evidence/native-aspect406-4ayse5ev/native.sb",
+      "bytes": 1217,
+      "sha256": "fbd215a0a2d59ba20fce0e74c01677e5ac3926ad24076221b006a56a496a18b9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-00.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-00.log",
+      "bytes": 232,
+      "sha256": "8c9ac4c67ae4fe92d6c5a0c45b227034155282e1f5966ddf69c6667a1cc37b55"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-01.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-01.log",
+      "bytes": 399,
+      "sha256": "5b71b06301000bec66f914e233e77308396ed6ec414551e5eb79414d1fbad228"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-02.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-02.log",
+      "bytes": 354,
+      "sha256": "c9a04d4036207c2cc8440ff4f7197c1be57d4e8ba0f67cdf6734bb9d3f1d1a01"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-03.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-03.log",
+      "bytes": 313,
+      "sha256": "186cf95f4f5651a2a5b4ea9316bb4b3bcd6a8d15d7c67fe74effa56e4c8c344c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-04.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-04.log",
+      "bytes": 321,
+      "sha256": "22c3be6bbc1c50bf74da4d019b42ee335493cdbc838314695a7f235a3723505b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-05.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-05.log",
+      "bytes": 308,
+      "sha256": "ddf88f899ebaca92b545dc2e17e487be08faae4462a4332e8e1aca3437a3bfda"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-06.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-06.log",
+      "bytes": 430,
+      "sha256": "5e98e2996a5396a9a2a31da4ab141918b19074d8445c455a1029a52b91cbbced"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-07.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-07.log",
+      "bytes": 311,
+      "sha256": "79de37537d37f5e78138eead2bd42fe7d3528521dee4e295f7bfa51817e69d3e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-08.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-08.log",
+      "bytes": 314,
+      "sha256": "763b4d5d2ec8ac8f35cebd0b21c95e830957c8476c884430a5680c2f0d27e329"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-09.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-09.log",
+      "bytes": 395,
+      "sha256": "a69bc9f6aede6b19cefe65a94ad874a28e4358bfb6339380d1eef95f22b3b9ba"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-10.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-10.log",
+      "bytes": 335,
+      "sha256": "e13b85de8bcc4e215d01248b38c19a889d29d610ed905dd69973f8cbc2444457"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-11.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-11.log",
+      "bytes": 313,
+      "sha256": "e75f72a4b413298ddeb490299a3865c808761c65ceb51bd2af042c6078e6bd5f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-12.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-12.log",
+      "bytes": 231,
+      "sha256": "0618e28c54b58f08f5810358f16931310400d41b05d66c441a541f449d05e4bb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-13.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-13.log",
+      "bytes": 1371,
+      "sha256": "b1cf3a3ed5a2779463dc3a7cca866b1eaa79b29c0414acd0c731ab006379d67c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-14.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-14.log",
+      "bytes": 1209,
+      "sha256": "c8fa49a0015cbc92aa0452b7519443556699fcf80a2b4b7535a0ab40d6231f1b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-15.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-15.log",
+      "bytes": 310,
+      "sha256": "91943d1a26e11bb3ab8377b6cb15e8aca705eafd9f8373c9c7ef0a7b30a23767"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-16.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-16.log",
+      "bytes": 417,
+      "sha256": "0867942a080e58a930e492b16797ed9fdb5efc08168b425c4a1befca04aba483"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/setup-17.log",
+      "archived": "evidence/native-aspect406-4ayse5ev/setup-17.log",
+      "bytes": 794,
+      "sha256": "a04a7bfd22fba02015ffb20bc11f2b0f0a9d36f974f99febfbe6b8f367382738"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-4ayse5ev/virt.dtb",
+      "archived": "evidence/native-aspect406-4ayse5ev/virt.dtb",
+      "bytes": 9180,
+      "sha256": "a8a3c6558ff67d37eba7c4fdf93a8d60458f87ee69e5bddbd3578bdfb2d88e5c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/aspect406-menu.json",
+      "archived": "evidence/native-aspect406-__bvdmwt/aspect406-menu.json",
+      "bytes": 519,
+      "sha256": "531c9cf0ae94e428af92d47a2598a1463c4c045e1d88b3a05aa72de7ffc1a2ec"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/boot-trace.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/boot-trace.log",
+      "bytes": 6767,
+      "sha256": "563a0c63e2ca4533a3a63f06f46998a98b2c91418be1b256581c9545df7f9214"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/console.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/console.log",
+      "bytes": 131674,
+      "sha256": "9aae28885997981c8274539d408da3c49ec33882283d8fa041d189dbeaa2c92c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/exit.json",
+      "archived": "evidence/native-aspect406-__bvdmwt/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/inputs.json",
+      "archived": "evidence/native-aspect406-__bvdmwt/inputs.json",
+      "bytes": 844,
+      "sha256": "86bc7dcbabb8c8c3739363f9e6eda1853edd6807085895d842d896f52598a870"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/latency.jsonl",
+      "archived": "evidence/native-aspect406-__bvdmwt/latency.jsonl",
+      "bytes": 877,
+      "sha256": "b1d4fee493a28bdfce6460cc9ca3de0fec03a26997e7bbc8df03fd18bfefb604"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/native-command.json",
+      "archived": "evidence/native-aspect406-__bvdmwt/native-command.json",
+      "bytes": 2221,
+      "sha256": "c54d36877f2409b5f5c6dbd3e6da1028280158da3a7ab375db807fed218f92b3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/native-owner.json",
+      "archived": "evidence/native-aspect406-__bvdmwt/native-owner.json",
+      "bytes": 83,
+      "sha256": "0116666bcd724e0a85fe23f51c1a11591a394188a9fc049ebc886b646400526d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/native.sb",
+      "archived": "evidence/native-aspect406-__bvdmwt/native.sb",
+      "bytes": 1217,
+      "sha256": "c75c8b709b48e6e6163e6915dc33f06c78aeb36fed95f9a075170c9264f045e9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-00.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-00.log",
+      "bytes": 232,
+      "sha256": "55461ee7b94c127dd7173dd207952f9f699d64ad33893a531850cdfd6238552e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-01.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-01.log",
+      "bytes": 399,
+      "sha256": "c9cf1ad4b36be9ef66c85f43f74adeaed03569207209636520baa6dee20fc243"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-02.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-02.log",
+      "bytes": 354,
+      "sha256": "d3fce11293d9d234f286d6d735513e0190193704ec8ba1026eae3f22e603b0dd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-03.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-03.log",
+      "bytes": 317,
+      "sha256": "a126689eeb8a15e067c20c2d2ef6066d52c245933628e04e2053e2c5aec2c6f8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-04.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-04.log",
+      "bytes": 317,
+      "sha256": "5f246f5df859aef4a6eeb6304c5efe68a83c23ad110a3ff9862560e567c405aa"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-05.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-05.log",
+      "bytes": 312,
+      "sha256": "6b4c5133c45ba5f70166d4287a947b8c73df8ad2d319f10ac634582dcb0b8cab"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-06.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-06.log",
+      "bytes": 430,
+      "sha256": "592607d4608f26574a7d2930be90121264e0a04526edb682eb91c537b6209aaf"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-07.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-07.log",
+      "bytes": 311,
+      "sha256": "5a94aa8de070b5ec43c5d5fa9b8698215db7d5181ada892b05a4582505a31a7c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-08.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-08.log",
+      "bytes": 314,
+      "sha256": "e25f19ad68704ff96ab58d7947914e088cee93cfb67c19c8dd9bb2a57c028987"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-09.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-09.log",
+      "bytes": 399,
+      "sha256": "3759b5516d16338506a5a74858b7dcb1bc462f33d45d50f5ea95830066bcf68d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-10.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-10.log",
+      "bytes": 335,
+      "sha256": "a77ae4c843307361bc8b8dbe710c1eb9696c1c92e816b1442ce2a7a73a2956ab"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-11.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-11.log",
+      "bytes": 313,
+      "sha256": "c4c4cf3711dac7540a7fcf821cf4db93ae3dca4236b8147dc54f1803c3d2df84"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-12.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-12.log",
+      "bytes": 231,
+      "sha256": "5e5cb7217ffb7681b4bcec86d838a72bf3f3e8eb13afc12d64dc79a231dc26e8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-13.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-13.log",
+      "bytes": 570,
+      "sha256": "3b6d1bb5b5a127d73fd92fab427ee7c362e54fd6e030523a25401fe5640cfb48"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-14.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-14.log",
+      "bytes": 1565,
+      "sha256": "3d20c1cfbc9e33ae4160d32c853d015b97c9fc2cf9c98454c96252c52c9f1dba"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-15.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-15.log",
+      "bytes": 314,
+      "sha256": "a9cc3421a351ea0f85108a69ba275fb0ff4f90459279611891803700c404cf42"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-16.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-16.log",
+      "bytes": 417,
+      "sha256": "ac93a0579edc463ccbf9987c7226a94b9659766c2254942eda1ba44ea8b77c31"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/setup-17.log",
+      "archived": "evidence/native-aspect406-__bvdmwt/setup-17.log",
+      "bytes": 801,
+      "sha256": "9d10d3f2b5a2b1244035cc8ebeefd14671cd239f2e12c57fcbbad915d6e5b44c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-__bvdmwt/virt.dtb",
+      "archived": "evidence/native-aspect406-__bvdmwt/virt.dtb",
+      "bytes": 9180,
+      "sha256": "a8a3c6558ff67d37eba7c4fdf93a8d60458f87ee69e5bddbd3578bdfb2d88e5c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/aspect406-menu.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/aspect406-menu.json",
+      "bytes": 81515,
+      "sha256": "aa3c762be77b411539ddd3e712dce6b32b9246fdc46507eb24c2c2f6b553628b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/exit.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/frame-audit.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/frame-audit.json",
+      "bytes": 8981,
+      "sha256": "197ebbe55a6d8c12da357615b54ab98baae2126d488c6f7b9ea9fd258faf08e4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/qt-research.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/qt-research.json",
+      "bytes": 5404,
+      "sha256": "915a1438e44667a574763997c999dca3abb86f654a58eb18594240d78c089f63"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-011-MODE_M.bin",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-011-MODE_M.bin",
+      "bytes": 639458,
+      "sha256": "a73c2ab1c5f7e877b2e12a82fc0c3cb459b0658e7d6c31ed6c1bf204c847072a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-011-MODE_M.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-011-MODE_M.json",
+      "bytes": 1237,
+      "sha256": "a93f2a4537c0cd41a9c0e11202f733b8289d67cb6bf55247b0b57e55a7fc94d7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-011-MODE_M.png",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-011-MODE_M.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-039-MENU.bin",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-039-MENU.bin",
+      "bytes": 639458,
+      "sha256": "92cc40283b8d867af160aa213971ba44bea599f129d28752ae2567c23c7a1fc1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-039-MENU.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-039-MENU.json",
+      "bytes": 1239,
+      "sha256": "272f85cbd8e96ad59ee52c6e82a5f94732ec742f86dc7ee114fdea24589c72b4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-039-MENU.png",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-039-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-e9x10p_0/research-actions.json",
+      "archived": "evidence/native-aspect406-e9x10p_0/research-actions.json",
+      "bytes": 76315,
+      "sha256": "cf9166a8a2d96d7ed9781d7d8dd05ff0192362efa70027a15dfac6a0d33dd5dc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/aspect406-kernel.json",
+      "archived": "evidence/native-aspect406-edowj8gd/aspect406-kernel.json",
+      "bytes": 392,
+      "sha256": "070f47624668f4dad39704a67608591fb375595a19ac19e0f144aef71cba7fda"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/boot-trace.log",
+      "archived": "evidence/native-aspect406-edowj8gd/boot-trace.log",
+      "bytes": 2679,
+      "sha256": "093f5bc43abeb3ec6b7a15509a6d2ac68901ff0546881a0120c328c7572f1ad7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/console.log",
+      "archived": "evidence/native-aspect406-edowj8gd/console.log",
+      "bytes": 63182,
+      "sha256": "8d5d43ac24399bebd8620d0fb803c8c51c796cf65f075228a978d61870bb5acb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/exit.json",
+      "archived": "evidence/native-aspect406-edowj8gd/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/inputs.json",
+      "archived": "evidence/native-aspect406-edowj8gd/inputs.json",
+      "bytes": 847,
+      "sha256": "0542895ba61e8283b529b6d58155120a3b6632c76ef8f3a8fe57780027833d03"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/latency.jsonl",
+      "archived": "evidence/native-aspect406-edowj8gd/latency.jsonl",
+      "bytes": 48,
+      "sha256": "0b2acc6a29c6fe83bf90005f5d8e73935dd6fe9a7cc4adbcb3820d26325ed7dd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/native-command.json",
+      "archived": "evidence/native-aspect406-edowj8gd/native-command.json",
+      "bytes": 2227,
+      "sha256": "7cf4b30a0b67073a747aa396723ab6dea99a44998af605e975969c15b5b30311"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/native-owner.json",
+      "archived": "evidence/native-aspect406-edowj8gd/native-owner.json",
+      "bytes": 83,
+      "sha256": "70249746fe74d6ff77f0062db4542ddbd5138f03d24691c889efaa4fa8f922d1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/native.sb",
+      "archived": "evidence/native-aspect406-edowj8gd/native.sb",
+      "bytes": 1220,
+      "sha256": "dea673aa5f3d774c13d81dce66d7a2e8445cc993a46350d1a0ae2930ff26d081"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/source-check.log",
+      "archived": "evidence/native-aspect406-edowj8gd/source-check.log",
+      "bytes": 350,
+      "sha256": "f2b2d8bd4d0dc4b44ad5b696085f6d55f6ab869590e7143edee9c15f5c8a19b1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-edowj8gd/virt.dtb",
+      "archived": "evidence/native-aspect406-edowj8gd/virt.dtb",
+      "bytes": 9180,
+      "sha256": "f9c68ce2ffd308937ddfd3224688652028a53e2a32635d6865aaa81a5908e43a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/aspect406-baseline-menu.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/aspect406-baseline-menu.bin",
+      "bytes": 639458,
+      "sha256": "3a7f8a7a8e81f32a5bff16849f3157ab78b3d8e5e7c347564bb7d16e80f41b02"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/aspect406-baseline-menu.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/aspect406-baseline-menu.json",
+      "bytes": 1238,
+      "sha256": "704cb7858dc77116ab0dcb2bf0a154b509a2f01e0187e225a990ee49fbb7781c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/aspect406-baseline-menu.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/aspect406-baseline-menu.png",
+      "bytes": 21761,
+      "sha256": "070e4053c71f9ea0f16e6071287bd714ff7d6cb56361d2d1eda34faeb2ce1e33"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/aspect406-menu.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/aspect406-menu.json",
+      "bytes": 174560,
+      "sha256": "657f68c93d4c2258f2f63fc0f325a56a0a1aea3d3c7ff9dab55f66924b72e030"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/boot-trace.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/boot-trace.log",
+      "bytes": 46975,
+      "sha256": "98396dd744842b00aab4cf43cf8f6409ec5743b25dce85aa08c9e4bd83c64370"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/console.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/console.log",
+      "bytes": 9640581,
+      "sha256": "a2a53f921cf1898eb2857eb645aca9481ca5230808ae02712b3c4d90bd80026f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/exit.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/exit.json",
+      "bytes": 45,
+      "sha256": "33c8d4a967717528fba2e06ffad5d022cb5070bfe415ea1f4c6ef94dc54623c8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/frame-audit.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/frame-audit.json",
+      "bytes": 18219,
+      "sha256": "101eac83878b1e38ee240ae87bae5f7acbd9e01896c214c41156c31567cf6185"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/inputs.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/inputs.json",
+      "bytes": 844,
+      "sha256": "55d58b311c433659a162c17939e2452d991e97fef84e7a42ab68982bce5d3f33"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/latency.jsonl",
+      "archived": "evidence/native-aspect406-ht_s_kjs/latency.jsonl",
+      "bytes": 15241,
+      "sha256": "c92421759bdac65d9711add4ed50bd216be7c0e91350448ebda1a84c4920a5fb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native-command.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native-command.json",
+      "bytes": 2221,
+      "sha256": "ce01d241d5072513a9eec84c8594752941d14b3a31984919b952d04a05ba33c9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native-initialization.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native-initialization.json",
+      "bytes": 506,
+      "sha256": "0f8764b1de355116a8546e1471b49807ac8b59e8c5647f2cc3e88d557fd5f9f5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native-owner.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native-owner.json",
+      "bytes": 83,
+      "sha256": "a3eb97ec55fa989a81958fc3e8d7d0b1cfb73991061d627b812d05cef1edd445"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native-qmp-events.jsonl",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native-qmp-events.jsonl",
+      "bytes": 24697,
+      "sha256": "44daabe212c5236a86af504c76f8caf3c070a80f56af1f4d42aaf2a6b23c22bc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native-runtime-state.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native-runtime-state.json",
+      "bytes": 138,
+      "sha256": "9ebe0640c27700c5f8649250c86e89ecb67b261a71b482e0396e0800ccbf2564"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/native.sb",
+      "archived": "evidence/native-aspect406-ht_s_kjs/native.sb",
+      "bytes": 1217,
+      "sha256": "6dfbc3eb32948395bc9baf79448ad9e48b35ed2c7403840618b90573b3f7ed95"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/qt-research-window.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/qt-research-window.png",
+      "bytes": 33808,
+      "sha256": "ced4908c28b76636a21fbc884b852fe7da4448ca47b7a5f58db822a46ac340f8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/qt-research.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/qt-research.json",
+      "bytes": 11281,
+      "sha256": "f1065db15809f888c9e54be6f11028102ae29654815ea57aa509a925981c34ad"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-000-PRIVACY.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-000-PRIVACY.bin",
+      "bytes": 639458,
+      "sha256": "41e6ef4d97cf821d423975ffe022ba9c3e93c9e24be8091d7734918353ffe900"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-000-PRIVACY.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-000-PRIVACY.json",
+      "bytes": 1239,
+      "sha256": "451af56bab4f9359f846561be3fe7a01b11491bfa8af1d8bbbb9e4025dc65400"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-000-PRIVACY.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-000-PRIVACY.png",
+      "bytes": 24011,
+      "sha256": "286e03280e8fe397ee35fa83b5315dbc1d49134fd6f758359e9a154e1094b247"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-001-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-001-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "55eb2c755093c9a15fa405872211bb2783b05e1305f5b86695987a96f5e972ca"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-001-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-001-ENTER.json",
+      "bytes": 1238,
+      "sha256": "e91f4db7551bd49f2c866b2245bd26ff9f427499fe082fd09e9bd07c9c301530"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-001-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-001-ENTER.png",
+      "bytes": 23765,
+      "sha256": "8ab1c016755c9bf2628c709c603c81930b0b50db8ff2cdfb4311de55c9ce9dfa"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-002-C4.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-002-C4.bin",
+      "bytes": 639458,
+      "sha256": "62557416e342bda6729b09d5e51412cd2f1190c80956db67ab1c50c24ff4ad51"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-002-C4.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-002-C4.json",
+      "bytes": 1238,
+      "sha256": "df249e4c28b6eced47fd205aac350bb4c3ca8d9e3f552193fdfa16afcb9b7db9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-002-C4.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-002-C4.png",
+      "bytes": 8178,
+      "sha256": "dc891f305ae31f000eb9caf2add2fd1d5c8c6e3d3f36bc377c3f1f372244dc46"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-003-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-003-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "bac04f2d50db177e845258cdf5391200ef67dfcd2ed10342b4af20997d060931"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-003-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-003-ENTER.json",
+      "bytes": 1238,
+      "sha256": "d10faac1ba48427e0c28aecf61bdf632ea805d37af9e06c28344913a4c6c4695"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-003-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-003-ENTER.png",
+      "bytes": 14724,
+      "sha256": "5df4344409e59fbd2ef9b3da674b50019efb7daf81b21a1d9315d1d184cfaa40"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-004-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-004-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "bdca6986ce503ca08e4ba8a0fa89f06333ef99aabc491f4d32712d6239843db0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-004-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-004-ENTER.json",
+      "bytes": 1238,
+      "sha256": "1a5b2b41ccb55f1e94d36ac78d10d46b48f42142ac98dca12fb2d612b83601b0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-004-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-004-ENTER.png",
+      "bytes": 11036,
+      "sha256": "97c4290dadc516f9598910e4bad1d90b89179133ca8d41ea46b148b2637cc39a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-005-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-005-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "5535bdad52ef71e158520ff916d7abe6f71871ea5d2368def80ff067efd9fd2d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-005-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-005-ENTER.json",
+      "bytes": 1238,
+      "sha256": "24dd792e3b0958d29982c1a9a5b1f495f18cbc07fae9f87e9e49703a10806fbe"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-005-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-005-ENTER.png",
+      "bytes": 13523,
+      "sha256": "a271bbe52b73bf116d5af0e684bb81439f5693f43d600cf20c648760c4751f67"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-006-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-006-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "338e45aac55d95d178ef31315e30f91f0ec0f56fa3271fdfb8c2744f1ad0d3b1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-006-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-006-ENTER.json",
+      "bytes": 1238,
+      "sha256": "5ce530618eef7e007540a10843096b37f40e35f777f5db4b3d8f88cbb9d0cd67"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-006-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-006-ENTER.png",
+      "bytes": 19749,
+      "sha256": "972ad5895f259569afd839c5c5a083e721bd2b88b300781eb75a5773f435b1d7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-007-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-007-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "7541aba7cd076c8c003657beec05907cc65ca7763c111e186568fa1b7162f2f3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-007-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-007-DOWN.json",
+      "bytes": 1238,
+      "sha256": "ef44ebb4b4b785acec5d397efa089b51c5f36bcb8532951fb9aa875b69bb0341"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-007-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-007-DOWN.png",
+      "bytes": 19849,
+      "sha256": "fec5b94e4a0db2e9d8263989501c2844ecc8572548521a6148a42e10c53fc9b3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-008-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-008-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "ee04d1c648ea115034f6eeb99381ba8f0d575c9766982b62a506f8e901afe2f2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-008-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-008-ENTER.json",
+      "bytes": 1238,
+      "sha256": "6a87165d30e956dd9219701d757ec91258faa1217f1bb1a42e4c24014e9420af"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-008-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-008-ENTER.png",
+      "bytes": 22901,
+      "sha256": "a5a8d94a4d0849b7a91780c9a002b802226e2670a5f014c9403e257feb43c8c6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-009-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-009-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "6b7b897373e015c0a600db2e6619e85602bfb0c824e99bb08138f95c0ac0f63c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-009-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-009-ENTER.json",
+      "bytes": 1236,
+      "sha256": "621c0917f72e7cdbea89d6a29c029d966ac48a4be530f706bb9a1e3cea8e7451"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-009-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-009-ENTER.png",
+      "bytes": 1271,
+      "sha256": "d614f328a8a46a034df38fffe6a0c492754871e086b3a75d517ec7494cc6a340"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-010-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-010-MENU.bin",
+      "bytes": 639458,
+      "sha256": "09e7a4ae587812912d59e866cb8dc810d44ba417b8aa056f9b72371466589e56"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-010-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-010-MENU.json",
+      "bytes": 1238,
+      "sha256": "e0e559ef483e9e16548e47e4e40498852caab6d75eb9f157e7fb68fb746b51d0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-010-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-010-MENU.png",
+      "bytes": 21761,
+      "sha256": "070e4053c71f9ea0f16e6071287bd714ff7d6cb56361d2d1eda34faeb2ce1e33"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-011-MODE_M.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-011-MODE_M.bin",
+      "bytes": 639458,
+      "sha256": "5fddd55340ece9d00136f3b0a1498fcddb276b713026d9a9b14b7e651e08f44c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-011-MODE_M.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-011-MODE_M.json",
+      "bytes": 1237,
+      "sha256": "462289d2d287b5396e00f6fe0825adb55f253a4155cf8bf7f26740dd23ec2fcc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-011-MODE_M.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-011-MODE_M.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-012-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-012-MENU.bin",
+      "bytes": 639458,
+      "sha256": "224d425e7f9743936c14bfefbbab430363df5daeda3f7a0e5ae87c2797919f5a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-012-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-012-MENU.json",
+      "bytes": 1238,
+      "sha256": "59e3ac560620c14a0abce01382520e9038c4c82fe8735964664b7cd410a39ca5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-012-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-012-MENU.png",
+      "bytes": 21761,
+      "sha256": "070e4053c71f9ea0f16e6071287bd714ff7d6cb56361d2d1eda34faeb2ce1e33"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-013-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-013-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "d7f1a249e29b2e8430458e6b53cd23791cc157535eac761201510ee9cf39a606"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-013-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-013-LEFT.json",
+      "bytes": 1238,
+      "sha256": "dc64951bf9f565bee16a8c4148d7f03a242563da50b20eac03317009888bcf35"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-013-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-013-LEFT.png",
+      "bytes": 20724,
+      "sha256": "056e32811a0d608329aaac67fd69fb7ae7ec455b6fde89bd46db261ec21168a5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-014-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-014-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "657422fbf565a6f5cc3cc6e71417e7be8cb082b9bcd236cb54aca30327ce05e7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-014-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-014-LEFT.json",
+      "bytes": 1238,
+      "sha256": "75bab22dd6d56e48021874eb3878ff7921cdfcf197335b8e6c25988a19c23e60"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-014-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-014-LEFT.png",
+      "bytes": 19696,
+      "sha256": "92cda8921d54657d1f051e890d7ccea0599b691ba7dccb2d32f2a79ef59dd2a5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-015-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-015-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "1fd0d3c3bc60be9466a76912b3ff941f658f61b438f34ac99bc55f54f20483b8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-015-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-015-DOWN.json",
+      "bytes": 1238,
+      "sha256": "2ec5eb5273a8bbbc501f74c9043423b776ede9d32939099faa4c63cf55baa004"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-015-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-015-DOWN.png",
+      "bytes": 22444,
+      "sha256": "f6d6a49e3392de341adc320e348e10e3fbe0a0deaf1dff4356e2f6852f6d4f3d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-016-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-016-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "f0b03c4482a4be1637de43f98aee995c333f7382d64196ba3ca245e07635b818"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-016-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-016-DOWN.json",
+      "bytes": 1239,
+      "sha256": "425f1531b1a5b7e3c7ba6a5afe7fb6b6d5f7619f2210e16a76eca4e7e43579b9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-016-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-016-DOWN.png",
+      "bytes": 31335,
+      "sha256": "df60fe94e02ab81de257864b9617d14af56cb2ab01d7ddaad4c53a07dc68beab"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-017-RIGHT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-017-RIGHT.bin",
+      "bytes": 639458,
+      "sha256": "aae5d0d78e35078de7d64b5ae549739be79b78b84147741b5de29a7e42671ffb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-017-RIGHT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-017-RIGHT.json",
+      "bytes": 1239,
+      "sha256": "1ed705646d32b78d366cb70f2b6149b762721d0b17124a09a0ba47ac0ffcc53c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-017-RIGHT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-017-RIGHT.png",
+      "bytes": 34212,
+      "sha256": "566033b86ec1bd0c9c9b60efa8264879a1792ed3f4294b6cde1c53cbc2af300a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-018-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-018-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "3d23df8e991b62565f4fc3b210d2c41a6ff1dc6abbd6fdfba192a8c5376200f7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-018-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-018-DOWN.json",
+      "bytes": 1238,
+      "sha256": "70944423673fb99d851a7729abf97791f412a8320dce3d12760bb62065dffc89"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-018-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-018-DOWN.png",
+      "bytes": 30230,
+      "sha256": "8396da9c8fef349f0893f28cbb58da1a5a93c5eec21f13dc23602af347c6a862"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-019-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-019-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "31b8688e52db23c0062f3ee05a4933bac3a99ad2c1e88c2d3539359baddfca51"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-019-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-019-DOWN.json",
+      "bytes": 1239,
+      "sha256": "6dd2bdfffd986751063cc86f721edf19256b557c0334b5a7d1696301ffd709b0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-019-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-019-DOWN.png",
+      "bytes": 32191,
+      "sha256": "5ccc876fb521de6b46bc173846235f66f5c57e932cb4f0ad869ce2c537dec6a2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-020-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-020-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "d6acc6c130efa9c6ee0a4ad633b226a1627acc499bba47c9a7620e54afc9bca5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-020-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-020-DOWN.json",
+      "bytes": 1238,
+      "sha256": "1bed139ed00afb915b4dbbe2ddac766879e59dd8376edbc5a57004a862aaadeb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-020-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-020-DOWN.png",
+      "bytes": 31778,
+      "sha256": "d8209e32f0351ec3e8f6408f05951e1496ec5351ae61e13f7b4ac1494a0918cb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-021-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-021-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "7cbcbb5741c1c1174251377a7f4e7e1353d59a3810115453351e089c99dc1f35"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-021-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-021-DOWN.json",
+      "bytes": 1238,
+      "sha256": "1774cc6c1a83353e9b2a6ad196b90e2197c2e508999145bda9be2bec8d92696e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-021-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-021-DOWN.png",
+      "bytes": 29747,
+      "sha256": "7f01ea13f9db39a383b5574004b1af29547b6b4d1e0f7f92b7acc99d28b8e88a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-022-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-022-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "45220f87fc698a021b0f5f0afa369ebc4dc0c89107ba08e03f7083cc8b95ac07"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-022-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-022-DOWN.json",
+      "bytes": 1239,
+      "sha256": "01683c1156305a208ebd813a24999f9721ebf1eeaa35c8f0786ad8013996bf81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-022-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-022-DOWN.png",
+      "bytes": 32547,
+      "sha256": "32a1a0d4bc3765fa090047c84a343cb76639b1101fe12f777a47c1a7e210052d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-023-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-023-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "24d6c14604c6b5bcb228991256bd44e92cbba41109005b4b92f619468312bb1b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-023-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-023-DOWN.json",
+      "bytes": 1238,
+      "sha256": "00e1f18c0e493282f575ee7e48a83c809c4487b72018324f4787037fdc1e5b03"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-023-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-023-DOWN.png",
+      "bytes": 29494,
+      "sha256": "1a5e573a1284fae089a75a94a28ed2e66c82a4e53cc413b97d12871e9a3beaea"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-024-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-024-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "0696ffd66c696ed4d48d5751a50b0df4617628707e765594c78bfc01868cdbff"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-024-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-024-DOWN.json",
+      "bytes": 1238,
+      "sha256": "7fc5316c25df7b367fcbfa6307817c0459dbd9ae409550f381e962c0c0478914"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-024-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-024-DOWN.png",
+      "bytes": 24292,
+      "sha256": "d61cae81761bc9dd2f7d1b65bc283d06d07aed3e82b802acca7215e1350e92e4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-025-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-025-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "9c93e3bacf2452c904b08aa4f1b9da971dfe811cb5671f81bfb95c3b62927c17"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-025-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-025-DOWN.json",
+      "bytes": 1238,
+      "sha256": "b0fe255f243ee47c892ebf1dfaa8d43cdb8c83934ce96d4b9027e2acce8f16d2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-025-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-025-DOWN.png",
+      "bytes": 23941,
+      "sha256": "ca58cd721b0e8f05a66793235b3181205cf18a22b9a677c42de35ea3bffe207a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-026-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-026-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "383ded692a9590a0ad1f907368f8382a4fe999d79d0fdb5fa77e4ed2e6d5b8e2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-026-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-026-DOWN.json",
+      "bytes": 1238,
+      "sha256": "8f4793b4e6b90c397042984052a2783671467490e3b272cec8614e48a19d41b2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-026-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-026-DOWN.png",
+      "bytes": 23754,
+      "sha256": "8511d1af22e99bc6ed2f851c5606b0658108f519d569a0c5398032424412a63b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-027-RIGHT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-027-RIGHT.bin",
+      "bytes": 639458,
+      "sha256": "86f18bb311a96d67297f948cef8390a8fed4973613d1488db8c9aa01e1e8a1cc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-027-RIGHT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-027-RIGHT.json",
+      "bytes": 1238,
+      "sha256": "23a6973468c7fad3749c2375af0b1e7b29682a22b13cdbcf3e8b528cf3d15e4d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-027-RIGHT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-027-RIGHT.png",
+      "bytes": 23697,
+      "sha256": "d76c5d6947f3f7581dee5bb3fc6a82647a7f4e2c040cb6c248210ec3cec95c56"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-028-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-028-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "d6182099c84d4d60c9c5209d59e4fc0675af968f0901edeef1c4cf344cf041dc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-028-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-028-ENTER.json",
+      "bytes": 1238,
+      "sha256": "7c8ad9937da6ed5671fe20b3223c0dc27628d0fd87af0e02a6b64f848e6deece"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-028-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-028-ENTER.png",
+      "bytes": 12804,
+      "sha256": "d48f576ad15a56a4086795ed808d5b97c6d4f30d649f039296a0fbb698ee1c67"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-029-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-029-UP.bin",
+      "bytes": 639458,
+      "sha256": "9a5117473ff2519de9a900bba1bc86dd3797986f1733e4c1c35435e378bbf4b2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-029-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-029-UP.json",
+      "bytes": 1238,
+      "sha256": "d9eabb456b8e8b064a341c06c39e0552e80d7deb24455e07c293ff4375bb82d8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-029-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-029-UP.png",
+      "bytes": 12840,
+      "sha256": "f9a53ce16936e5f22b9ae943affdf4c7fca4f4da8c34834a8dbcb85a48556441"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-030-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-030-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "5823d2e463b1a43c240e02010ce9a2434a61c49bcac9122e179fb1a6fbaa09d2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-030-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-030-ENTER.json",
+      "bytes": 1238,
+      "sha256": "8b554d30d64a2513607e8c653d435e55c044c0856864d5fad3cd906d6c6e2534"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-030-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-030-ENTER.png",
+      "bytes": 23739,
+      "sha256": "5df1dd2b9a829966447049d92d2b1861cd03b2828e439cec8b43f5f1b6515caf"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-031-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-031-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "f5e098660009ff938a0d0db9e1d7ed190587c74f4a28e3baddc798ddf4c255d9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-031-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-031-DOWN.json",
+      "bytes": 1238,
+      "sha256": "7a668c6b6f8517a61eb28784e618e7f26df33ebaa56c6f99e27e0495670def5d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-031-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-031-DOWN.png",
+      "bytes": 23731,
+      "sha256": "0aebb236fb91a589e030795ed1c10e67abd51bceba5c5123a65867c57ced9862"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-032-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-032-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "6c3b26b9747d759a45332fc432eb94149cdfc126e9585908bfdf69e1193db126"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-032-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-032-ENTER.json",
+      "bytes": 1238,
+      "sha256": "d2bc677fb863121cee7c01225dce10e2e1ddf72847f2eac9f98cbbb6e72de5d7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-032-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-032-ENTER.png",
+      "bytes": 16528,
+      "sha256": "44fd2d915e1040fadba9eba48d2412165fb3a514c208c1469ee540a3e78c088a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-033-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-033-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "7b944fcecdad60427caf510706f79c166385166a7bc6ab00b65a4e6acd12229e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-033-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-033-DOWN.json",
+      "bytes": 1238,
+      "sha256": "554efed7622a1dd3b62aeacef47f8a847e31e75614380cdf127e55dd43df839e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-033-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-033-DOWN.png",
+      "bytes": 16723,
+      "sha256": "c18b6a30f6c8fe41e547308831cf5e0ca068398638e911913db827f184b176d8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-034-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-034-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "c030f5808e9eb18592e9c7bc00bc46e015f0b1f2fe8ed0eafb2a3eebfffe8097"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-034-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-034-DOWN.json",
+      "bytes": 1240,
+      "sha256": "819eaeeebdc77f139ec90649cc79ccaaf486c8bcd29e68a35814aed48b07f83e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-034-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-034-DOWN.png",
+      "bytes": 16761,
+      "sha256": "cf1cb5445f2611a37d6c79ce8920ef683a70fb84c521b7e0c2fbb1ede37d51f1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-035-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-035-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "5ac2525c66a475fd3a26fe6e5e91732a677b0e87b4bc54e4c291178bb1d4fed7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-035-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-035-DOWN.json",
+      "bytes": 1240,
+      "sha256": "3160717373a4edcd0744acb0f18a48e8e7a84d863b56245446c74e4aa5e0bc4f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-035-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-035-DOWN.png",
+      "bytes": 16867,
+      "sha256": "8c05bff73f6d1b090a2e6576ed0a9c78a96aaed1e48425303f01bce4403fbf87"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-036-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-036-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "427a54586a5cedd9b7fadb0cc035b32152416c0ddcde9b7746b76fe49f3b273d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-036-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-036-DOWN.json",
+      "bytes": 1240,
+      "sha256": "d1482592385c34ea0600bc2f597f3e0e4a6bd3333d94cac1f0b8398d17384a42"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-036-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-036-DOWN.png",
+      "bytes": 16712,
+      "sha256": "106f312ad490ad0045decdbf88a4c9133c3b442838ec8ff6a4ec03e6e848ff56"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-037-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-037-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "2fa21e16ae20f349341c922e3ff2c7d62e824f52f455746f6dbfd3e47987a4b1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-037-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-037-DOWN.json",
+      "bytes": 1240,
+      "sha256": "a435d9d3e89428257b66ec2fae87d8d3b891bd8d2d3efc76c809d062b6b8f484"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-037-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-037-DOWN.png",
+      "bytes": 16946,
+      "sha256": "af48dfc04dbaabf5bc78157e112f601b0d825aa400f6a7f0410aab3f56423276"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-038-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-038-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "3227a429ff71792c1a76c7a138aeb439f92cb3d7edd965675747d8c266eb6af3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-038-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-038-ENTER.json",
+      "bytes": 1240,
+      "sha256": "f11ba68cf8ba5cd990757a0b87cee78a783370abdaba725d901331aed0bee2bb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-038-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-038-ENTER.png",
+      "bytes": 24405,
+      "sha256": "b81c539120d0197329e6d35fd1cd0d995dc55c08259efddfb61124d5b57d9c57"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-039-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-039-MENU.bin",
+      "bytes": 639458,
+      "sha256": "542a0138465ed9b6e4300d0cac55ce57d75c3abf2efe9afec0531b73b632116f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-039-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-039-MENU.json",
+      "bytes": 1239,
+      "sha256": "72798e3f3e3f8b4478d4b79ee0bd4b5a902218848dd1efb5c887ee206338f47a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-039-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-039-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-040-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-040-MENU.bin",
+      "bytes": 639458,
+      "sha256": "4c31249e6935e870ca800f5864a30f34290baa812a2ce84ecc63fcde0c088b29"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-040-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-040-MENU.json",
+      "bytes": 1240,
+      "sha256": "af9200a5abc12a9adbd9b119578c174dc5f72d0e5b3bbb24c8405ea86abcb961"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-040-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-040-MENU.png",
+      "bytes": 24405,
+      "sha256": "b81c539120d0197329e6d35fd1cd0d995dc55c08259efddfb61124d5b57d9c57"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-041-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-041-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "27e932515c694141adc03b38e737014f7ad520783da05ac77f032df2a488051c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-041-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-041-DOWN.json",
+      "bytes": 1240,
+      "sha256": "ccc43efe25a310c831e54b47f42e784d4d37ee87b748f59e20977d99074c21d7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-041-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-041-DOWN.png",
+      "bytes": 24406,
+      "sha256": "8ea1d913177185332ea8d4000865993c981724cb8b64a2e0e92094dbd709435f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-042-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-042-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "cc889f1fe3bfae011a062fc4b91a3bd54e53dad942d32290d0a38513afbb0a3c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-042-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-042-ENTER.json",
+      "bytes": 1240,
+      "sha256": "f38216f6c5ab909d39e642d81c0cc332de7796d1e7b9da98d726eaf57c037d7f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-042-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-042-ENTER.png",
+      "bytes": 15002,
+      "sha256": "5b8606e84419cc3033bce2c851e99872546ba00f29f77422097c7de5f382864c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-043-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-043-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "a7cbf74b809cf7c37fbf207dcd06688f2ff4ac06caa42d775fe7495b2aa6c955"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-043-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-043-LEFT.json",
+      "bytes": 1240,
+      "sha256": "058e9d6284c88780f8107a1c8310f2c3b947068ddd4c0036d7e646fee269bbd4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-043-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-043-LEFT.png",
+      "bytes": 14654,
+      "sha256": "ba3b0a516aa79a39046f59ffda9c115a2caa1e3334bdfd41a960dd2f106e56e3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-044-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-044-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "00f85e7256f272647cbe1003ca9a5ca506db6042ce3cd9cc7882a5c8889e751f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-044-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-044-LEFT.json",
+      "bytes": 1240,
+      "sha256": "280147a41f02b342177e6cbc212732447b8d36ca5625035ab33a0056054317cd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-044-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-044-LEFT.png",
+      "bytes": 15440,
+      "sha256": "d032362d63af78cb0fcaf6df91b4b8736e17ec148fa5384d6e43ec734203af54"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-045-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-045-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "87f45e20a570f054792de274c164aed5782ff8e2ae85205490ef299797ef04e1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-045-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-045-LEFT.json",
+      "bytes": 1240,
+      "sha256": "73db0df25c90cf9c5f2613872346d21ba76d9b06783c7cc4ccd8b9fc9bc810be"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-045-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-045-LEFT.png",
+      "bytes": 15479,
+      "sha256": "57ab91bf6a136f84eba31e44def610d228967d40174dbc4a23aa814881ac1e00"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-046-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-046-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "b1a6a3780475532431a7caf6262fe63576a6209f33cfc4fa02344551c134e787"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-046-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-046-LEFT.json",
+      "bytes": 1240,
+      "sha256": "6db9b32785df1a877c84f245abca70b544698cce35b9ecffb4e30fb235429f5f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-046-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-046-LEFT.png",
+      "bytes": 15542,
+      "sha256": "d301758cc7568109d1626a50fdf943cea6a4547a38bf8b668947e9cad99e052e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-047-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-047-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "32883f4c90509337833329be887b4213e471b0c2ad0c0d37c4661ff8d569973e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-047-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-047-ENTER.json",
+      "bytes": 1240,
+      "sha256": "626cf868a09df53b5ca2a7555b765ac24ae53a6f8fa12ffc0668da094c652935"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-047-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-047-ENTER.png",
+      "bytes": 24446,
+      "sha256": "299c4c90edf92238f696fbcd28b9b91cd24e3432bc877d3e5b334f2d7a61ba97"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-048-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-048-MENU.bin",
+      "bytes": 639458,
+      "sha256": "fa34137ec47fbc6402a85a49d2dd8841c8039598ba276b0dda7e8f23eb9f1812"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-048-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-048-MENU.json",
+      "bytes": 1239,
+      "sha256": "077785dacc9caa8e5cdaca405792332ad9f9553fd5f1a3abd7eb75f55774d411"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-048-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-048-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-049-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-049-MENU.bin",
+      "bytes": 639458,
+      "sha256": "f04cad0f831960a56e909711bab0eb9fd6dda40756f6189ae2daaebad6c41a0e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-049-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-049-MENU.json",
+      "bytes": 1240,
+      "sha256": "82df3ac201b391a2876eaf0e422a53c5b2fb89fb30ec239bb3107990d1b72ec7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-049-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-049-MENU.png",
+      "bytes": 24446,
+      "sha256": "299c4c90edf92238f696fbcd28b9b91cd24e3432bc877d3e5b334f2d7a61ba97"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-050-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-050-UP.bin",
+      "bytes": 639458,
+      "sha256": "92478b390a5dab41dd3478c6ed7bb032680b9f91834fe9f238ed81dabd2db5d0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-050-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-050-UP.json",
+      "bytes": 1240,
+      "sha256": "cf34a14104d5548f756ce1fa706bbba2de24a95d94bc3c7857068479b85e1a85"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-050-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-050-UP.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-051-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-051-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "9440dcca4c84a7e459b79610eb3d3eecefe85f5414b3af34cf131f58a001f369"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-051-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-051-ENTER.json",
+      "bytes": 1240,
+      "sha256": "016d820099daded21891d7dbe5388a60817041a70b003398ca22ee514987eb3a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-051-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-051-ENTER.png",
+      "bytes": 17362,
+      "sha256": "1beb193a8958363793179415c25a9e8029a2c00e0be7683ce4e70282d1e62ab2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-052-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-052-UP.bin",
+      "bytes": 639458,
+      "sha256": "8e2dbc71b9d45da50ee01e88f4eee48f69a0a1bff16444287d986e08ca27b65c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-052-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-052-UP.json",
+      "bytes": 1240,
+      "sha256": "780fe06b56c7ac88db031a79aa8b380ffd0e765fc2369fa695590d2cc3ab9589"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-052-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-052-UP.png",
+      "bytes": 17167,
+      "sha256": "b87712171df8834d924f7b9d624386cca564dbff37dc949451cee82549810ca6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-053-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-053-UP.bin",
+      "bytes": 639458,
+      "sha256": "b1d7216260f9ec5828c1632f4742b1b84ff6d9fa8c5b467650cd884df2cca7d0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-053-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-053-UP.json",
+      "bytes": 1240,
+      "sha256": "52416b4489278c19bc214cea61610a70da61e94bd60b738302b94b80c77e133b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-053-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-053-UP.png",
+      "bytes": 17323,
+      "sha256": "4e51e4016e914ac2ff2c76f57a22ee4247963f60fe48a11ace49f1410179a432"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-054-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-054-UP.bin",
+      "bytes": 639458,
+      "sha256": "9d14a30a06783ecf75870f1d06b2a68358b7e1b074575e46d328197e21350ec4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-054-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-054-UP.json",
+      "bytes": 1240,
+      "sha256": "85a1abbf7c73720c5559552f10b3879e86d3a5441d7b0e4f8746dff4ff63acea"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-054-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-054-UP.png",
+      "bytes": 17214,
+      "sha256": "41a2537d903d11ce751bd3f0fc7478f1e3ab17ddb80d108a6436641027c0b95d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-055-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-055-UP.bin",
+      "bytes": 639458,
+      "sha256": "45300d2abff75e3d1910350b6eed2775f83441fb581af9f8d501f2924dec0d89"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-055-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-055-UP.json",
+      "bytes": 1240,
+      "sha256": "390e9e19fef40e3cf44fe68a82fefadcdabbdccff1b2bb3b45a6a7a75615c45f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-055-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-055-UP.png",
+      "bytes": 17196,
+      "sha256": "ff71c4d12804b7d305d608687eb823bb2064493ab6f56a1da4a98cd28c402ec1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-056-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-056-UP.bin",
+      "bytes": 639458,
+      "sha256": "ddce2d12cf4555e399acae31e804d43e0c5f73501dd095ea369bf9733e8d3132"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-056-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-056-UP.json",
+      "bytes": 1240,
+      "sha256": "a3437e2c3e19923116e3943cb107a47c631b1de8bd6412705f0799be74c1d6fd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-056-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-056-UP.png",
+      "bytes": 17010,
+      "sha256": "5eef50b1db6479a2bfa3f1f40fe20501f700cac9e0c4e72acfedca4a027629b8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-057-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-057-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "8cb38c6faa3fe7f841ff1c72e3f9210b98eb5d01154293f15daac1816f806185"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-057-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-057-ENTER.json",
+      "bytes": 1240,
+      "sha256": "dcad67743891b233dfc7699868b769e6554658ba1a9e7405189fa66d44f027e2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-057-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-057-ENTER.png",
+      "bytes": 23774,
+      "sha256": "a18962cab40b47fba65b292f101410c55453c15d4c0618c4ad5ba09cef5a17b7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-058-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-058-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "38f9d917ae782e399b8ba5a97f7bbdb2bae5f09df21bbbcf0b73a27fea6fd85d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-058-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-058-DOWN.json",
+      "bytes": 1240,
+      "sha256": "1ed980d0ee09f2eabc833198a6198eb23be3f0edf35d02293cc4a3d213f9d005"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-058-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-058-DOWN.png",
+      "bytes": 23761,
+      "sha256": "ba783896361e5a5efadff55a34fe2666358416e703f4d268ad5135ceacbc1db5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-059-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-059-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "e4f62bd223e3f14ddbe717d9a374406602c5efdf7d2f3f96f5c2631e31026678"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-059-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-059-DOWN.json",
+      "bytes": 1240,
+      "sha256": "c37e3873714695e7104186e4a0cb5273073a9c125d8f3a6daca5f1f8e6b02707"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-059-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-059-DOWN.png",
+      "bytes": 26175,
+      "sha256": "1a2e162481ca22caea6ce28d271f093d7fb4c5223930fe62972820d72cabb836"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-060-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-060-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "3f3dc86b62acae84687260490aafe5cc9743c6556d4012514bfe1b6a439f365c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-060-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-060-DOWN.json",
+      "bytes": 1240,
+      "sha256": "6b3f3101ad81ccbd463d22de3e6032d8a8fc1b2cefbd423a371c31273259da41"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-060-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-060-DOWN.png",
+      "bytes": 25860,
+      "sha256": "1be732eb6ad5eb298a5f8f3a461ffc1e0b733f147a1dee99d099131d4e02a660"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-061-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-061-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "f425e0a2a2ff033506ce10532492632e3c2b4947083b88d583e4ee7f4efa0732"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-061-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-061-DOWN.json",
+      "bytes": 1240,
+      "sha256": "ffd54257fbfabb43a3e114f1eb07cd0892e3033c268c6a00301f9a841de7f87f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-061-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-061-DOWN.png",
+      "bytes": 26160,
+      "sha256": "0aa4a7b2d11cd920359a90e46868f0d81109415404d07ca3127bc27661e8602e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-062-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-062-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "a64ba753cd0a4a1e3d63c09765ac75fc39ce641ad96d858789ba305da783d76d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-062-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-062-DOWN.json",
+      "bytes": 1240,
+      "sha256": "e43de0460fa94b1b122976dce9b1c4885bd5ce53769bbfc1f1c7494122f3c858"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-062-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-062-DOWN.png",
+      "bytes": 26468,
+      "sha256": "89467614823984ad4bac69148438cffd4bf18230717ffc9cda0193346335a2bf"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-063-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-063-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "4b709e11a3553d949e0eb21ae3b2732b1f7649814ac1af502806650cc7d36b78"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-063-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-063-ENTER.json",
+      "bytes": 1240,
+      "sha256": "d9135532881b6a2d8e9bd5923e4039183672aeeab26fe87d678028006bda663f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-063-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-063-ENTER.png",
+      "bytes": 11418,
+      "sha256": "db4e7e8150126e01526eb35127cf5ba7942e5498197e0391a853459dfc1159cb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-064-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-064-MENU.bin",
+      "bytes": 639458,
+      "sha256": "edfd9d658a8d1afaa43ab75ab5c3a5f56d2d47da3815cb034083c64de4117b7b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-064-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-064-MENU.json",
+      "bytes": 1239,
+      "sha256": "dca145f0e4c86db8dea477e50c274173b71b8bb001424283d24eb97b3f3790a6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-064-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-064-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-065-DISP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-065-DISP.bin",
+      "bytes": 639458,
+      "sha256": "b437a2495b612a0452675999861575af4cb160152401b84108f49b33ff8993eb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-065-DISP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-065-DISP.json",
+      "bytes": 1239,
+      "sha256": "23ea6d5425d4df20c3b6b9046838af7045d6eb4d2523cc72db1cabe0f5b2f7c3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-065-DISP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-065-DISP.png",
+      "bytes": 6442,
+      "sha256": "c29b2488beb51e563f8cca908f115e916788bd4ad5365c0c3af6e46c01285b4a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-066-DISP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-066-DISP.bin",
+      "bytes": 639458,
+      "sha256": "9fc26cae6f3b34a84ba87d682e6a2deb243a1bc337a69e666d6c60cb7c6f61d6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-066-DISP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-066-DISP.json",
+      "bytes": 1239,
+      "sha256": "34587d661fbe3d8365b5c4bad5d81eafec8179fbf36a0d5b413bf7ccaa583b8d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-066-DISP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-066-DISP.png",
+      "bytes": 5972,
+      "sha256": "777303c18c6f64cbb20dd140712c9cc604bbbf59cd528fc05a8b5b9ca79438b8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-067-DISP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-067-DISP.bin",
+      "bytes": 639458,
+      "sha256": "e3d6e5fa06f447fdad0c8ed82d1602b77f0541015d7e3039410ff8cd7a54ab38"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-067-DISP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-067-DISP.json",
+      "bytes": 1239,
+      "sha256": "37b1d57265b94b09d3d317ec8e497d4b08be7aea1d8ff65c1c88b1ad769f34aa"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-067-DISP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-067-DISP.png",
+      "bytes": 7772,
+      "sha256": "8401f7d525c6fad55cf91abd4de004b1084a4402813f39ffc20618e89daeed34"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-068-DISP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-068-DISP.bin",
+      "bytes": 639458,
+      "sha256": "aa1f70bbbbfcdf19c7a72cda5f7c03e467061fad169f9f66ae1c6aecd5de2911"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-068-DISP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-068-DISP.json",
+      "bytes": 1240,
+      "sha256": "596b48f41177f3f883a437d8f0addc4ded28dcdada6c8f45a4e35f10ed885ce2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-068-DISP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-068-DISP.png",
+      "bytes": 31351,
+      "sha256": "a8d0c91bd3f459980918a0e1cb801b36b484236cb2b29328b018f866e2c7b763"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-069-DISP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-069-DISP.bin",
+      "bytes": 639458,
+      "sha256": "64c6eaffb7f62f08c7da51f933d0a0c7563c529fda3df5b44792346084f9a575"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-069-DISP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-069-DISP.json",
+      "bytes": 1239,
+      "sha256": "ebc79aae13defb989dec0b3ea8f2df5bbf6b07eba81acd3b6f36d2d78d0d2ee7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-069-DISP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-069-DISP.png",
+      "bytes": 18463,
+      "sha256": "e0a16d76b5beae55493a174593d8af22e878bdd5566405973e3ce421d9fdaa7d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-070-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-070-MENU.bin",
+      "bytes": 639458,
+      "sha256": "8c40affdd4c9ac66911b08bf60d4aa244fd4fb4c444e35241ee6088ccf378738"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-070-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-070-MENU.json",
+      "bytes": 1240,
+      "sha256": "5c4f9cd34de727a1786f9cfb409fd6aa7c15898b1bead20bee0c686f5573bfc5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-070-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-070-MENU.png",
+      "bytes": 26468,
+      "sha256": "89467614823984ad4bac69148438cffd4bf18230717ffc9cda0193346335a2bf"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-071-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-071-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "8d4580db8a14eb58fd32ee1df936e7e2060c4d96e092f93922b006e7dbfb6539"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-071-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-071-LEFT.json",
+      "bytes": 1240,
+      "sha256": "0149412f728a1892972ef7ab0bedb12f300b7468b06824a193e3c427e2425361"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-071-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-071-LEFT.png",
+      "bytes": 28742,
+      "sha256": "928cebb923789f6228bb93cfcbdd3eb62541f7521468c641213857a5aae93072"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-072-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-072-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "920a949e8194869f163854b97642e86fd27ffdfd53ea317eca4a99551244ed48"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-072-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-072-LEFT.json",
+      "bytes": 1240,
+      "sha256": "aa2753fc9426292a4c7a0ec647588be598a6ba9c15f2743e859815c5fa667759"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-072-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-072-LEFT.png",
+      "bytes": 26024,
+      "sha256": "717257ce535bbd34c93f85cc68501e8fbf2859e337e3d522707199a6aeb4d32c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-073-UP.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-073-UP.bin",
+      "bytes": 639458,
+      "sha256": "0c877a170d124c4e85a9604b6759f962a8dbc0dc317f18c9efc97b3628843028"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-073-UP.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-073-UP.json",
+      "bytes": 1241,
+      "sha256": "f8a08c6115c579358561524c17151f7dc57b6a20e591519e12c254e3fb785d62"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-073-UP.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-073-UP.png",
+      "bytes": 31335,
+      "sha256": "df60fe94e02ab81de257864b9617d14af56cb2ab01d7ddaad4c53a07dc68beab"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-074-RIGHT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-074-RIGHT.bin",
+      "bytes": 639458,
+      "sha256": "010d1a6553726a51c4e5864a8d85a63cf56c1d97eef1bc4c3681a35b40feedf6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-074-RIGHT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-074-RIGHT.json",
+      "bytes": 1241,
+      "sha256": "2636c9799540121cbcad935978b99e71b378afc97fc10a2a5f0ea894025918bc"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-074-RIGHT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-074-RIGHT.png",
+      "bytes": 34212,
+      "sha256": "566033b86ec1bd0c9c9b60efa8264879a1792ed3f4294b6cde1c53cbc2af300a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-075-RIGHT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-075-RIGHT.bin",
+      "bytes": 639458,
+      "sha256": "28f0419758afe358d393d39d4f57e6d71c2706dff64bddc78e7afe400f9bfb45"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-075-RIGHT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-075-RIGHT.json",
+      "bytes": 1241,
+      "sha256": "0e0a7c80a6b126bafd5a12c62e78bb51472d2589825f16ffc6673d960fe266d5"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-075-RIGHT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-075-RIGHT.png",
+      "bytes": 34945,
+      "sha256": "a54063bf4898b35a3b2cb2e8e770b5ffece17bb2bff9c746deb301449d7f756f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-076-LEFT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-076-LEFT.bin",
+      "bytes": 639458,
+      "sha256": "88c306877d58767816eafcb7a39bb62aa172343d06fa890cff1633c8b99e9c57"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-076-LEFT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-076-LEFT.json",
+      "bytes": 1241,
+      "sha256": "4aa3031ca91d5edb78b12c62fe833ed82b08867da0f97d9ec2f09b46b241f0aa"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-076-LEFT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-076-LEFT.png",
+      "bytes": 34212,
+      "sha256": "566033b86ec1bd0c9c9b60efa8264879a1792ed3f4294b6cde1c53cbc2af300a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-077-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-077-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "56a73cf95dcf05e48a5934bf747d200fc2333551afc1eeb8fc20143205b45a11"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-077-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-077-DOWN.json",
+      "bytes": 1240,
+      "sha256": "68b4da545dfa6e845a88e59acc0c293b7785a1a91a23ce0d70ef86c75a7ccd85"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-077-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-077-DOWN.png",
+      "bytes": 30230,
+      "sha256": "8396da9c8fef349f0893f28cbb58da1a5a93c5eec21f13dc23602af347c6a862"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-078-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-078-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "c1b34e9ca0593c5f263c246896848f88d3cb0e85522b4cd99283978a364cae22"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-078-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-078-DOWN.json",
+      "bytes": 1241,
+      "sha256": "3baf7b887d90d034a45da211e7e617446d4213fc4eb1ef2fcbdab9c3fa841e2b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-078-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-078-DOWN.png",
+      "bytes": 32191,
+      "sha256": "5ccc876fb521de6b46bc173846235f66f5c57e932cb4f0ad869ce2c537dec6a2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-079-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-079-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "7d5fd438248eb11c9d587c992910d90d2f1beab8927ef036c0ac951a3236f502"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-079-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-079-DOWN.json",
+      "bytes": 1240,
+      "sha256": "aad7c706c6bf3faeeff98fa8986f4e7387db806ef84d74ea6776aae4644b6a4a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-079-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-079-DOWN.png",
+      "bytes": 31778,
+      "sha256": "d8209e32f0351ec3e8f6408f05951e1496ec5351ae61e13f7b4ac1494a0918cb"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-080-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-080-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "2ff67b4b26a0bcd8b161fea0973cdc6ae8fa61af03f3d16b1a17433ac765ed89"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-080-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-080-DOWN.json",
+      "bytes": 1240,
+      "sha256": "801b36445893345a610b719535405b26b0c3a1eeac9d321ffd694ad5afdd62e2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-080-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-080-DOWN.png",
+      "bytes": 29747,
+      "sha256": "7f01ea13f9db39a383b5574004b1af29547b6b4d1e0f7f92b7acc99d28b8e88a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-081-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-081-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "50ca6f1199c05cfe847d40b702683bb5e4e6ae60f1e5a101a158eb6f21dc89e4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-081-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-081-DOWN.json",
+      "bytes": 1241,
+      "sha256": "7e611a4df259ad29145532bfcdf96a705072d7294b2abad7422cbd156070c892"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-081-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-081-DOWN.png",
+      "bytes": 32547,
+      "sha256": "32a1a0d4bc3765fa090047c84a343cb76639b1101fe12f777a47c1a7e210052d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-082-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-082-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "3d013961ecdc335287dce90db2dea08df2ce13cf2114db7933b5b240c8afd68e"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-082-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-082-DOWN.json",
+      "bytes": 1240,
+      "sha256": "328a2e1063d336fff195c03ccf75bb9ea192b1ce0d73b3c782983888222ca07c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-082-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-082-DOWN.png",
+      "bytes": 29494,
+      "sha256": "1a5e573a1284fae089a75a94a28ed2e66c82a4e53cc413b97d12871e9a3beaea"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-083-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-083-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "81784caa965a762616e6b8092a283b80cd56d9d3fc837d6897e256f24a138f0a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-083-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-083-DOWN.json",
+      "bytes": 1240,
+      "sha256": "0b3b9e38f4a560872f5ae939fd854b78a291f247ea1cd548d4ced5d617e08407"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-083-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-083-DOWN.png",
+      "bytes": 24292,
+      "sha256": "d61cae81761bc9dd2f7d1b65bc283d06d07aed3e82b802acca7215e1350e92e4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-084-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-084-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "425cacc96ec9be8d0e866c601fbd8446b94e967ecc63af66bb280d4380c29b43"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-084-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-084-DOWN.json",
+      "bytes": 1240,
+      "sha256": "41a23ec6744c1381ace7334473b94fb4729ebee70d4edd6e6ae02c259f028ba6"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-084-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-084-DOWN.png",
+      "bytes": 23941,
+      "sha256": "ca58cd721b0e8f05a66793235b3181205cf18a22b9a677c42de35ea3bffe207a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-085-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-085-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "a54571c781e452aab53ee7f06898a620bfc04b0ad080801782a2818db36d19d7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-085-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-085-DOWN.json",
+      "bytes": 1240,
+      "sha256": "76e10159649fe4ea087b51aa38d77880af706dc591f3e748dc0fe2464daab78d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-085-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-085-DOWN.png",
+      "bytes": 23754,
+      "sha256": "8511d1af22e99bc6ed2f851c5606b0658108f519d569a0c5398032424412a63b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-086-RIGHT.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-086-RIGHT.bin",
+      "bytes": 639458,
+      "sha256": "b535e69c7a6f40e2173ac98327edf84f2a618078a0f1f8cd4970ef464d9d36c4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-086-RIGHT.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-086-RIGHT.json",
+      "bytes": 1240,
+      "sha256": "a2cbb6b57a62fe93877148938a1ff1b1b59941858d316c1249f6ff73670c7d7a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-086-RIGHT.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-086-RIGHT.png",
+      "bytes": 23783,
+      "sha256": "0d1a87f4f500f3d4d34c32bf71d1f349ca7dcef69b7ab6b5a31b0e44a31716c2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-087-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-087-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "70c4250d677e3b7c28be0cfc47d5f3ce4c8c7ba2c3ccffe6aeca4c1e1053b4d1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-087-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-087-DOWN.json",
+      "bytes": 1240,
+      "sha256": "29f7b4ecf00627421e7e53b05434e787ec7acd09e7ac54ca045d684d340ab611"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-087-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-087-DOWN.png",
+      "bytes": 23774,
+      "sha256": "a18962cab40b47fba65b292f101410c55453c15d4c0618c4ad5ba09cef5a17b7"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-088-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-088-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "19b980dd20bed248d5d22e9134c0beca1d742055b182ff24acf67f21bc0dd6f9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-088-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-088-ENTER.json",
+      "bytes": 1240,
+      "sha256": "bbb2e7f85ee0b9eb77c2192550ac5157f1d252c344ec12b89fa0a821b34db048"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-088-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-088-ENTER.png",
+      "bytes": 16551,
+      "sha256": "ebd5648260cb0e5267daf8599c9882627b6d6ff201161051906b936cf48df382"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-089-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-089-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "b8655def10224c9015b64a77313f16c284145f4bb969fb48bcee2b9c91338b3c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-089-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-089-DOWN.json",
+      "bytes": 1240,
+      "sha256": "0346c6887469121a0879b264db33896ec3513eb0c9eb08bb46c3f3baf624479f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-089-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-089-DOWN.png",
+      "bytes": 16766,
+      "sha256": "640d0ab31001c28e404ac7f1a5645d95b5fa097d5f52fc75a8e192e7e2602dde"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-090-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-090-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "c76dd27d66c04caaf4a4d3d9bdd46d766b10e7c5c2c921f25bc7703c3bf9019f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-090-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-090-DOWN.json",
+      "bytes": 1240,
+      "sha256": "e6074f16c3fd81fd02da06f9f242e6cfcfaf813c3c9f56af75b4686db046243b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-090-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-090-DOWN.png",
+      "bytes": 16783,
+      "sha256": "717a18ca88197faa05fd0d4efcdf4d67a38edc492709c29ac2dd0c90438ff49b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-091-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-091-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "f0287d0487e34bcaaa86b1e76d530e3437d9cdf1b2e5e1acdb8eaf6405d40086"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-091-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-091-DOWN.json",
+      "bytes": 1240,
+      "sha256": "0c33889d499be8b20fb3d04a4d094e5423366ca3152359fc1592c22cfa281dbd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-091-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-091-DOWN.png",
+      "bytes": 16891,
+      "sha256": "47c09da8b51670579feead90387e78e72cb7d81c10cf29c60b163cf9101da3e9"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-092-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-092-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "41dd52a7ea82fcc649993e9ea9e7d757504474072f11a6e5376dc12761d04c24"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-092-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-092-DOWN.json",
+      "bytes": 1240,
+      "sha256": "c92f314c7320adbf402f29f46287079c59d41c396b9a39a6645d4ce254e11c4f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-092-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-092-DOWN.png",
+      "bytes": 16736,
+      "sha256": "4b22ef147b61f5aa14547acfba2ab01a2c66a1e38bf8413ed7638f5ed9e820ed"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-093-DOWN.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-093-DOWN.bin",
+      "bytes": 639458,
+      "sha256": "ca5ea2fcc5d30659ed41a4662f8b8117aea2e367233f0942f8e8f8e0b1d0555c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-093-DOWN.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-093-DOWN.json",
+      "bytes": 1240,
+      "sha256": "3c7ee5fff56b4a82febff6da347434739592452d998ad301adeea6e7c3bc1169"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-093-DOWN.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-093-DOWN.png",
+      "bytes": 16969,
+      "sha256": "5ce248fe398be244d9deb660e3ce5bad4e0ea0aa89e9ae7e88db9c4d99b93108"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-094-ENTER.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-094-ENTER.bin",
+      "bytes": 639458,
+      "sha256": "eaaad48904140a036822f8f2e26713885ec49751b61f05a6593301811afadcce"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-094-ENTER.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-094-ENTER.json",
+      "bytes": 1240,
+      "sha256": "2f383540609733f006c566fb42cbdb1015d60f02a1fe1ae8ba7a3b8d0f66f353"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-094-ENTER.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-094-ENTER.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-095-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-095-MENU.bin",
+      "bytes": 639458,
+      "sha256": "79df9619fa32c7aac31683c5755c1d72b2b45c110d48551b9115936fa56ce7e2"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-095-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-095-MENU.json",
+      "bytes": 1239,
+      "sha256": "f356478c2f8009b9dd045b1fe801283927022f2f4de0b630ab68e0d7c90ade6f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-095-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-095-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-096-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-096-MENU.bin",
+      "bytes": 639458,
+      "sha256": "d9bab2db191e4a2aafbd3f829327c29322deaaed38f304ce0d4e6228983f5b1a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-096-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-096-MENU.json",
+      "bytes": 1240,
+      "sha256": "33787702d5ee467f62961690355bf1c8efb7b2cbee4844301ad583f0e9ad116a"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-096-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-096-MENU.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-097-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-097-MENU.bin",
+      "bytes": 639458,
+      "sha256": "7bb40b213a694fec6350b5feb85750706af5437ecba716046de7d946ef9dec66"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-097-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-097-MENU.json",
+      "bytes": 1239,
+      "sha256": "152043abe8a011c0e700c7555b9f7d6913c321857384f155f9e6e3b23c1273ba"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-097-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-097-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-098-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-098-MENU.bin",
+      "bytes": 639458,
+      "sha256": "237c27d3ecf5bc4c9d1ea67cade7714fd80ee30b7d945f5e4cb209ade4e9d2f4"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-098-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-098-MENU.json",
+      "bytes": 1240,
+      "sha256": "ff65b0416a458ae4f7d7535dd095129b0f299aa8345ae5e3e1a380b0d9d32e2b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-098-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-098-MENU.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-099-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-099-MENU.bin",
+      "bytes": 639458,
+      "sha256": "58abe43d3ebd4979974180765d4d5395a6499835006bc84d6948315a01f9e79b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-099-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-099-MENU.json",
+      "bytes": 1239,
+      "sha256": "dd7506bfd2c1b754972762c91da2d01293875f800a0dccdda9e80fdb0a814207"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-099-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-099-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-100-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-100-MENU.bin",
+      "bytes": 639458,
+      "sha256": "a6b321f196dcb9ad644961b0b937ae28bf452bbc4c6749c60d86dafa6905e9d8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-100-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-100-MENU.json",
+      "bytes": 1240,
+      "sha256": "e0c176999721da55342cce1ed1fb7e21391ef83958c98de625668a99829c78e8"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-100-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-100-MENU.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-101-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-101-MENU.bin",
+      "bytes": 639458,
+      "sha256": "c7a379fe03582134e6c35bf695edd70a1f5a5f19f745e2341140502f08a2993b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-101-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-101-MENU.json",
+      "bytes": 1239,
+      "sha256": "6f1cbb89a0f55732d42f3763b89c6d0df6289ee42e4288872cf998c3c9d1d194"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-101-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-101-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-102-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-102-MENU.bin",
+      "bytes": 639458,
+      "sha256": "3edced32c26e10f0a3d828726856da9d82a95f41bcba8e0b2eb2c636aa0c2efd"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-102-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-102-MENU.json",
+      "bytes": 1240,
+      "sha256": "a238e851a574af2cb6d5dde4bde4306d6f48917fe38744ff9e15571a8e31c99c"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-102-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-102-MENU.png",
+      "bytes": 24448,
+      "sha256": "d1dc20b8aebf5e88eec5ddc852886173de6a5299255503db521efb7cd5f7ae68"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-103-MENU.bin",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-103-MENU.bin",
+      "bytes": 639458,
+      "sha256": "302a59197239cebd9c6bfd227f74de8414cadc66dfae5a8000e4b557d6188e03"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-103-MENU.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-103-MENU.json",
+      "bytes": 1239,
+      "sha256": "67f7368eaf32c2c6d31729302fd13b83ebe8dcb4aad65b3a9fac91e8289c9698"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-103-MENU.png",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-103-MENU.png",
+      "bytes": 20324,
+      "sha256": "3c2c2e5aacc04bd7b2b31a9b5808851e2094e288799d20994518e8a53c922d81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/research-actions.json",
+      "archived": "evidence/native-aspect406-ht_s_kjs/research-actions.json",
+      "bytes": 165328,
+      "sha256": "a6d6e29e0e66ae4a66aa64fd929cf41b6c19fee28812735f7305c2b8891b2b5d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-00.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-00.log",
+      "bytes": 232,
+      "sha256": "65ef60989acfc8c848948b4730ae4859c2db02f75579035e28f53822343a3a5f"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-01.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-01.log",
+      "bytes": 399,
+      "sha256": "9fc8f6bedb9f4e451706497fc5798af9a58cd05865c4d40ccd2b07d0633984f3"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-02.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-02.log",
+      "bytes": 354,
+      "sha256": "c87730ccd2fe81a5051f837667ec4548b2f5d13f8933962bddd160fafc6afbed"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-03.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-03.log",
+      "bytes": 317,
+      "sha256": "1514fdc8ea84143fcf13d95677302300edc97fdef0d9ba70f80458d84432a43d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-04.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-04.log",
+      "bytes": 321,
+      "sha256": "20429d1195cdec6abc4f4f5266e5c3600c00f8f8865d816586db5e90b8f7e345"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-05.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-05.log",
+      "bytes": 312,
+      "sha256": "0521f66aeca859c045956be48c1ba48ae269647aec717ca6b10c1598bc3acf69"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-06.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-06.log",
+      "bytes": 430,
+      "sha256": "5a2eb2054fe2efe15ff10a3850424ebf7d1e00ee6500a84f446c216c0a8cca6d"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-07.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-07.log",
+      "bytes": 311,
+      "sha256": "14096114236b6f22c9d87f396aeda72dae3fb6d91dbb9e1baa0dd8075a321d3b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-08.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-08.log",
+      "bytes": 314,
+      "sha256": "f7f58416da3fc68719a3539d99a08c4ad19a1478025c38271d1c9cbe4b0067be"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-09.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-09.log",
+      "bytes": 399,
+      "sha256": "92b6ebf822eef961034523aeb7870e0bf1b9cd8fcbf64ae2d4d7994888ab6161"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-10.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-10.log",
+      "bytes": 335,
+      "sha256": "abfebd145bb14dc38705aafbc2d54c1260345e86f1a4e91573aaecc5def43e81"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-11.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-11.log",
+      "bytes": 309,
+      "sha256": "4cf50d115a86092baee26e26923858aff8ebc1f6a6579b8b13262d65f29e3af0"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-12.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-12.log",
+      "bytes": 231,
+      "sha256": "afb3bcdc3a1ca5e68a2e0a78e73afc6d43ca4b8b4fef154f6311c0926f308142"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-13.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-13.log",
+      "bytes": 1371,
+      "sha256": "9db453fab2d807de1a83a368c332109330d16c9d0d2a9b41cb4023354c1880d1"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-14.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-14.log",
+      "bytes": 1209,
+      "sha256": "94358a9b9e93a8146e7368ccf750efb1aea138f4a4e6a5b24c1a443662851842"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-15.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-15.log",
+      "bytes": 314,
+      "sha256": "d5be0c07d06facfe501ca913b12878f1df639f507928cdfaa3e5956408d2f763"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-16.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-16.log",
+      "bytes": 417,
+      "sha256": "880a97799901ba55caac5beacbd8369104e02477a1db2316fa17eb64d066974b"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/setup-17.log",
+      "archived": "evidence/native-aspect406-ht_s_kjs/setup-17.log",
+      "bytes": 905,
+      "sha256": "0a3d7d516eee0a7ad5115395ed7e371e907c866804e3e3abbe8a9b6b10dd2060"
+    },
+    {
+      "source": "a7r5-qemu/runs/native-aspect406-ht_s_kjs/virt.dtb",
+      "archived": "evidence/native-aspect406-ht_s_kjs/virt.dtb",
+      "bytes": 9180,
+      "sha256": "251d59e50cc5e25f0dd493d79246c831347ed85d38f34970a7d4d8329c556d4e"
+    },
+    {
+      "source": "LICENSE",
+      "archived": "licenses/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "archived": "licenses/THIRD_PARTY_NOTICES.md",
+      "bytes": 1857,
+      "sha256": "66f99c394dc474a92d6e84a37547a33ec70752bdfd57b4395ae169053c59bdf3"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/README.md",
+      "archived": "research-report.md",
+      "bytes": 10342,
+      "sha256": "f0fa592c8f71b59dffbea6820396733c569aee48011f1da7b90cc17c4ad3187a"
+    },
+    {
+      "source": "a7r5-qemu/AGENTS.md",
+      "archived": "source/a7r5-qemu/AGENTS.md",
+      "bytes": 2484,
+      "sha256": "7bc19ffa2cc5fbfa5bb7d2fa9cec72018ede5949802391b2e7f43e2c829659e8"
+    },
+    {
+      "source": "a7r5-qemu/config/controls.json",
+      "archived": "source/a7r5-qemu/config/controls.json",
+      "bytes": 22843,
+      "sha256": "0e6dfcaaea18e97dc4b536a6a490422dbf87a2d82c47f2a0cc7e9e6c35295a94"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/README.md",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/README.md",
+      "bytes": 10381,
+      "sha256": "324410277c9e6e7be15f59f9e33219bc0bfa53b4e3dc928f058500051b319e69"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/aspect-guide406.inc",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/aspect-guide406.inc",
+      "bytes": 5586,
+      "sha256": "d355cfc15563df47ca4c6e9b0bb9ce272f8bbcd752bb80f6b744e4bcf10ab048"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/build_guest.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/build_guest.py",
+      "bytes": 14422,
+      "sha256": "f8b4a8e7b7466f1939b7236339b9b730c53df14f75bfecc8b6ad49f004997a13"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/environment.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/environment.py",
+      "bytes": 7088,
+      "sha256": "6c8f123c100ba7f5c0dd4ec4424d679fae08de93c3e844d3efbbe94ad6c7707e"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/export_source.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/export_source.py",
+      "bytes": 6300,
+      "sha256": "3996743b10f9117173458447a872b25c8244f3c5519d782a3a9babcc1911fe56"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/inspect-date-clock.c",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/inspect-date-clock.c",
+      "bytes": 1031,
+      "sha256": "a2db92d1f7ee6efd4c2894afab7ff66d07ff95b0b5904f55d88d87bf529fbcb1"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/probe_menu.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/probe_menu.py",
+      "bytes": 6891,
+      "sha256": "caf4ea282cebbd6472205d2c4999a8d54ab9542b7e7a7d855572ef8584dea328"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/qt_research.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/qt_research.py",
+      "bytes": 3997,
+      "sha256": "de0110d59ca1a5b8f04e7943044322194566f1df6e57db1ab4e407ab9b269dc3"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/seed-date-clock406.c",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/seed-date-clock406.c",
+      "bytes": 2627,
+      "sha256": "91209ba6f54ccd64eb3226cc47c0f4fb8b025083e92354853a14489c5825c4c9"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/test_runtime.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/test_runtime.py",
+      "bytes": 3225,
+      "sha256": "dd9bcb3c27197a809bec69a93aa77e8ef7339af46013cb98eeec6dcff4f66f7c"
+    },
+    {
+      "source": "a7r5-qemu/experiments/aspect-guide406/verify_run.py",
+      "archived": "source/a7r5-qemu/experiments/aspect-guide406/verify_run.py",
+      "bytes": 4454,
+      "sha256": "7c226ec531277d4c630e95cf66fd896f13e5ab6756275f3f57df9c84c76f48d0"
+    },
+    {
+      "source": "a7r5-qemu/requirements-desktop.txt",
+      "archived": "source/a7r5-qemu/requirements-desktop.txt",
+      "bytes": 79,
+      "sha256": "b7144e56dfe7c5b73eace7be6d9a34868f6eafc2c41cbceada653c86dfd56536"
+    },
+    {
+      "source": "a7r5-qemu/requirements.txt",
+      "archived": "source/a7r5-qemu/requirements.txt",
+      "bytes": 97,
+      "sha256": "ea6d295e64b64021322b5190b25ce5ab27378121088067e8c21de8120164df4f"
+    },
+    {
+      "source": "a7r5-qemu/runtime/manifest.json",
+      "archived": "source/a7r5-qemu/runtime/manifest.json",
+      "bytes": 981,
+      "sha256": "677fa3ee4fab8767e443da26a82d45fca815700bc330fd300a861e4769b56c18"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-gui.inc",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-gui.inc",
+      "bytes": 7032,
+      "sha256": "68e415fb83e587838984f8186b0f0b7382034ff0676f2c215da1a210d6c10b01"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-input-trace.inc",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-input-trace.inc",
+      "bytes": 13045,
+      "sha256": "debe0feec4618a449d938e4bb3f5616ca9842f44644cd17cb74c8eb8e7b049b1"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-lease-retry.h",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-lease-retry.h",
+      "bytes": 510,
+      "sha256": "d6fa21d166450b3f42a7a5d689d8aff1ae8c4c44cc1f92630d339644b8408b7f"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-model-trace.inc",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-model-trace.inc",
+      "bytes": 4989,
+      "sha256": "1f55372c85972f9c0a9a574fb19a16b5e57ed16937ba81b952872b94bb865012"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-privacy-policy.h",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-privacy-policy.h",
+      "bytes": 268,
+      "sha256": "13c3d31b17d79ef0b85664c3c4f184cd2667afc33f1e94f9f58e79d040c10f1a"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-services.c",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-services.c",
+      "bytes": 3158,
+      "sha256": "86fa2693347dddfde37362eca17de725205a4c38bfde4969294dc1a46ecceac4"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/a7r5-services.h",
+      "archived": "source/a7r5-qemu/source/guest/a7r5-services.h",
+      "bytes": 313,
+      "sha256": "a5d17034d60e792540ea4645d64337fc74beb3a2a0359a4246538cd5797ae5b2"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/capid-service.c",
+      "archived": "source/a7r5-qemu/source/guest/capid-service.c",
+      "bytes": 5076,
+      "sha256": "45b787c1e078cc8970d026a913b5294a7a9f2f6f79a14050830e01a00d14f157"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/capid-service.h",
+      "archived": "source/a7r5-qemu/source/guest/capid-service.h",
+      "bytes": 519,
+      "sha256": "b881c2008cef00c4ac6f973e79fe071aeea5cdd58993d1326f107a8276899970"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/dmm-service.c",
+      "archived": "source/a7r5-qemu/source/guest/dmm-service.c",
+      "bytes": 5322,
+      "sha256": "5e1cfa89a268ae05d294b8aa570d49f82a0dd15df099b94876ad844a14059ad1"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/dmm-service.h",
+      "archived": "source/a7r5-qemu/source/guest/dmm-service.h",
+      "bytes": 438,
+      "sha256": "67385b1335e46f1d0d4e5161205f8f7d738ca2aab960abd6f8cca90db71facd7"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/gpe-copy.h",
+      "archived": "source/a7r5-qemu/source/guest/gpe-copy.h",
+      "bytes": 481,
+      "sha256": "6b7b54705cd8770cfaecf73d28d4e7c919d632bc90ab21e795c031d744fc4b00"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/gpe-raster.c",
+      "archived": "source/a7r5-qemu/source/guest/gpe-raster.c",
+      "bytes": 5366,
+      "sha256": "2801954265ed4b9da5e81d2b07d1100147df63e65365ecf1405ea249fa5af4fa"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/gpe-sprite.c",
+      "archived": "source/a7r5-qemu/source/guest/gpe-sprite.c",
+      "bytes": 6875,
+      "sha256": "4f3169c27a95bd16958b2b530d116e64ffde4bcb956d945093f103ef10939832"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/gpe-sprite.h",
+      "archived": "source/a7r5-qemu/source/guest/gpe-sprite.h",
+      "bytes": 598,
+      "sha256": "991033c3ab7e1521fc5a8578fc60518868b3cc41b9b16350da9fcb68699f6819"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/hdmi-format-service.c",
+      "archived": "source/a7r5-qemu/source/guest/hdmi-format-service.c",
+      "bytes": 15564,
+      "sha256": "b45dd0bdbdcd0743021213cb2a11f31d2adda8450186aea32025c91b305badfd"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/hdmi-format-service.h",
+      "archived": "source/a7r5-qemu/source/guest/hdmi-format-service.h",
+      "bytes": 1188,
+      "sha256": "51228811bd91596538a22d789fb16264508c69cd43789e2b095f05ba7c13fa4d"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/headless-osd-a7r5.c",
+      "archived": "source/a7r5-qemu/source/guest/headless-osd-a7r5.c",
+      "bytes": 18541,
+      "sha256": "3f0990aae5b5bcad368301a03985935290bc4e6b198576ea5a1b2e2bc32d5497"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/headless-osd-export.c",
+      "archived": "source/a7r5-qemu/source/guest/headless-osd-export.c",
+      "bytes": 6688,
+      "sha256": "c02e4b9185f48c31d8bc7257e8d084de59d70fa5d0e0aeacca87182e76611cbe"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/headless-osd.h",
+      "archived": "source/a7r5-qemu/source/guest/headless-osd.h",
+      "bytes": 2952,
+      "sha256": "b408c13cfe820d72a91c98858a0ea86efbffbd5681c8ec4be04774a4c62db4a7"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/inject-key.c",
+      "archived": "source/a7r5-qemu/source/guest/inject-key.c",
+      "bytes": 2530,
+      "sha256": "4723084b461d804890168d04427caeb0e800dfccae679d0416595bbf4e01ddaa"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/menu-observe-a7r5-baseline.c",
+      "archived": "source/a7r5-qemu/source/guest/menu-observe-a7r5-baseline.c",
+      "bytes": 173252,
+      "sha256": "65678f0afaba6d24f4ae33bcda3612878488fde1cd5b15a13884436aa79884f8"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/native-menu-reentry.inc",
+      "archived": "source/a7r5-qemu/source/guest/native-menu-reentry.inc",
+      "bytes": 4214,
+      "sha256": "d52b1c640fbd3c3066210d93e74173dfe629bc2cde4588747a90a9d8648f132e"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/native-privacy-notice.inc",
+      "archived": "source/a7r5-qemu/source/guest/native-privacy-notice.inc",
+      "bytes": 2035,
+      "sha256": "c5c30dca91d33fc614e788b659610d0f213f404b2c0f8b00011db32dd01aa2e9"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/sa-address-service.c",
+      "archived": "source/a7r5-qemu/source/guest/sa-address-service.c",
+      "bytes": 3118,
+      "sha256": "65269b039c0ab058fd1606aad46b97214afb737cf1c19a77c2f42f05563e6496"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/seed-date-clock.c",
+      "archived": "source/a7r5-qemu/source/guest/seed-date-clock.c",
+      "bytes": 4270,
+      "sha256": "e63d76cb4648980aa6b53f8dbc6cbfb1a3b01b7cfddc09e132c6cfff496eb380"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/seed-indicator-config.c",
+      "archived": "source/a7r5-qemu/source/guest/seed-indicator-config.c",
+      "bytes": 2090,
+      "sha256": "c04e98783fff50d0a6364a6ae11777a3821557428346b37c70eae09db5c7f608"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/seed-power-on.c",
+      "archived": "source/a7r5-qemu/source/guest/seed-power-on.c",
+      "bytes": 2162,
+      "sha256": "129663a5148f255cc9667fe9d996fb0f262cdcb422b598a2f182b4d4fce79c5c"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/sony-lz77.c",
+      "archived": "source/a7r5-qemu/source/guest/sony-lz77.c",
+      "bytes": 3687,
+      "sha256": "cad2ac49979f08dd93cf7bd498ef66691dce35b924eccf5986eda03824328bbf"
+    },
+    {
+      "source": "a7r5-qemu/source/guest/sony-lz77.h",
+      "archived": "source/a7r5-qemu/source/guest/sony-lz77.h",
+      "bytes": 231,
+      "sha256": "d11d5730a66867e564aeccc3020e4e6fa9ba63eda50885d73da47273bd9606ab"
+    },
+    {
+      "source": "a7r5-qemu/source/qemu/licenses/QEMU-LICENSE.txt",
+      "archived": "source/a7r5-qemu/source/qemu/licenses/QEMU-LICENSE.txt",
+      "bytes": 1177,
+      "sha256": "139c64b7a9ae62858ff969aae622ecfcf4f1519655bd92d2e70a1a2fb615690e"
+    },
+    {
+      "source": "a7r5-qemu/tools/app_paths.py",
+      "archived": "source/a7r5-qemu/tools/app_paths.py",
+      "bytes": 2142,
+      "sha256": "64aa19deae02528004be53b09154e815b381e493e470ff2ef7d1283d024821a2"
+    },
+    {
+      "source": "a7r5-qemu/tools/control_actions.py",
+      "archived": "source/a7r5-qemu/tools/control_actions.py",
+      "bytes": 1671,
+      "sha256": "42a60b732480ef398db141bdcdd56f0b13dbff58c853a315cf19f3b70f875758"
+    },
+    {
+      "source": "a7r5-qemu/tools/cpio_inputs.py",
+      "archived": "source/a7r5-qemu/tools/cpio_inputs.py",
+      "bytes": 1761,
+      "sha256": "0d7b1a5016d700d4a6f835c1b710088b5173bbd3685c804b9de88e763dbc5779"
+    },
+    {
+      "source": "a7r5-qemu/tools/headless_osd_capture.py",
+      "archived": "source/a7r5-qemu/tools/headless_osd_capture.py",
+      "bytes": 5771,
+      "sha256": "e8e3200b0d8f635d9e2427bca0a58f143871d7d5b5d031fd84c2974bd625ba22"
+    },
+    {
+      "source": "a7r5-qemu/tools/input_completion.py",
+      "archived": "source/a7r5-qemu/tools/input_completion.py",
+      "bytes": 1685,
+      "sha256": "f79592e1974b5328c0c115a25c10365c7ea7864fe7c1240a4beabe258a4b2cda"
+    },
+    {
+      "source": "a7r5-qemu/tools/input_context.py",
+      "archived": "source/a7r5-qemu/tools/input_context.py",
+      "bytes": 6878,
+      "sha256": "cbece5ae68fb7f97d0b554ef603103c8f2039a2b6ebf4ae7a53308da739676f0"
+    },
+    {
+      "source": "a7r5-qemu/tools/input_registry.py",
+      "archived": "source/a7r5-qemu/tools/input_registry.py",
+      "bytes": 2412,
+      "sha256": "52b54cf0acb23176aedba904d86560f32a07846fd5a662a768cefb49c20c7a53"
+    },
+    {
+      "source": "a7r5-qemu/tools/latency.py",
+      "archived": "source/a7r5-qemu/tools/latency.py",
+      "bytes": 486,
+      "sha256": "15f0e86800bce0c6e2ecb81514b6e9066005d50b6fc22410533b07d7a114e219"
+    },
+    {
+      "source": "a7r5-qemu/tools/media_candidate.py",
+      "archived": "source/a7r5-qemu/tools/media_candidate.py",
+      "bytes": 10506,
+      "sha256": "1b90aaedb2b9a92e2ff00dd42044cf02b92728c2426784dc003dbd8c52df93b1"
+    },
+    {
+      "source": "a7r5-qemu/tools/menu_bridge.py",
+      "archived": "source/a7r5-qemu/tools/menu_bridge.py",
+      "bytes": 9749,
+      "sha256": "1be2589cef09dd71091541bc3b44021d901b3c37d43113f63e9683fe8a3e4376"
+    },
+    {
+      "source": "a7r5-qemu/tools/menu_live.py",
+      "archived": "source/a7r5-qemu/tools/menu_live.py",
+      "bytes": 7761,
+      "sha256": "51ac74eb20705a9e8edcc98216cc67fe4e2f18ed0932d05cc797fc3922373070"
+    },
+    {
+      "source": "a7r5-qemu/tools/mode_state.py",
+      "archived": "source/a7r5-qemu/tools/mode_state.py",
+      "bytes": 1993,
+      "sha256": "176388515186c3a14854f00a943582057715b3bbe4849158b71e836049bc2f88"
+    },
+    {
+      "source": "a7r5-qemu/tools/native_vm.py",
+      "archived": "source/a7r5-qemu/tools/native_vm.py",
+      "bytes": 12576,
+      "sha256": "da8586732e9e9f9834a57d2b8d346901e025eaeca8c7575077c1f3b717729b39"
+    },
+    {
+      "source": "a7r5-qemu/tools/runtime_manifest.py",
+      "archived": "source/a7r5-qemu/tools/runtime_manifest.py",
+      "bytes": 3204,
+      "sha256": "af19e9d23e8965af894db98806d93d68886d2dfe6c4f1aba74cd6716f6cea856"
+    },
+    {
+      "source": "a7r5-qemu/tools/virtual_fat.py",
+      "archived": "source/a7r5-qemu/tools/virtual_fat.py",
+      "bytes": 5620,
+      "sha256": "1d809536e7e052fefa08439ad282027be4087001ecf9e7022667f4ffc7416ff2"
+    },
+    {
+      "source": "a7r5-qemu/tools/vm_session.py",
+      "archived": "source/a7r5-qemu/tools/vm_session.py",
+      "bytes": 3143,
+      "sha256": "b74a52ceed93af051068b01c8c2943fd443b7d8b6c1c7e6756dd60b873d2caf5"
+    }
+  ],
+  "copied_source_content_identical": true,
+  "research_report_links_rebased": true,
+  "research_report_is_derived_not_byte_identical": true
+}

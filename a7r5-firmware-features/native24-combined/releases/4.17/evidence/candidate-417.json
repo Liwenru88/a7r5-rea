@@ -1,0 +1,13 @@
+{
+  "components": {
+    "appFw.so": "27bc6eb0a0d9996e96e3835205d06c1cf03c7ef73421e6781b6e96c4b6ed7962",
+    "cpapp-b.bin": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+    "image_00_23_IPSX.uxc": "6e8c09e8e8a302aa05e7d8dd56f68bdb3675c486ca54a88ba81375b5c02a3bb7",
+    "image_00_32_IPSX.uxc": "7e598d75a997c37cea6204e8e35773e9b9ee5e4ce67b0c0ab569011563af3356"
+  },
+  "independent_rebuild_identical": true,
+  "reused_CPU_tests": 28,
+  "reused_QEMU_frames": 39,
+  "E4_application_completed": false,
+  "camera_io": false
+}

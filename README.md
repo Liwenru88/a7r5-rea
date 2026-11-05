@@ -8,7 +8,8 @@
 
 > 当前客户端为本地测试版，最低构建目标为 macOS 14，实际验证环境为 macOS 27.0.1 / Apple Silicon。客户端运行不依赖 QEMU、Homebrew、Node 或开发虚拟环境。容器验签、离线回归和模拟结果不能证明相机升级接纳、功能效果或断电恢复；当前客户端未完成实机验收。
 
-2026-10-24 最新本地客户端批次为 `client-update-20261024-01`，输出位于 `a7r5-desktop/dist/client-update-20261024-01/`。该批次包含实时 USB 定位、失败记录处理、备份目录选择、16KiB 完整备份分块，以及强制安装的9块回读与独立32MiB资源预算。更新内容、使用方式和验证边界见[本次客户端更新说明](a7r5-desktop/docs/updates-20261024.md)；旧 `dist/final/` 是保留的历史包。
+- **桌面客户端。** `client-update-20261024-01` 的改动和离线验证见 [2026-10-24 更新记录](a7r5-desktop/docs/updates-20261024.md)。需要该批次对应的功能时，可从当前源码启动或按下文构建客户端。
+- **固件研究。** 当前整合版本为 **4.17**。源码、构建手册和离线验收记录从[固件功能索引](a7r5-firmware-features/README.md)进入。
 
 ## 目录
 
@@ -81,12 +82,14 @@ Tauri 和部分 Python 依赖具备跨平台能力，但本工程仍包含 macOS
 | 开发时直接启动最新源码，无需生成安装包 | [启动A7R5客户端.command](启动A7R5客户端.command) | 启动与离线自检不需要；设备动作需手动发起 |
 | 阅读、验签、解包、重新打包 DAT | `a7r5-dat-tool/dattool` | 不需要 |
 | 应用四项功能的整合配方或单独关闭 NTSC 提示 | `a7r5-firmware-features/materials/reproduce.py` | 不需要，只修改解包工作副本 |
+| 查看或离线复现 4.17 研究更新包 | [4.17 实施与复现手册](a7r5-firmware-features/native24-combined/实施与复现手册.md) | 不需要 |
 | 从完整分区前像重建信任候选、分类本地现场 | `a7r5-updater-trust/trust_tool.py` | 不需要 |
 | 在相机内执行短命令或固定脚本 | `a7r5-exec/libjit.sh` | 默认会连接相机；`--prepare-only` 仅本机准备 |
 | 使用旧 SSH 分阶段入口 | `a7r5-ssh/quick-ssh.sh` | 默认只读本地状态；显式执行才访问相机 |
 | 研究一次性转存或受限 root 执行流程 | `a7r5-implementation-kit/kit.py` | 准备不需要；执行、取回和恢复按模块清单进行 |
 | 研究 libJit 加载、分块响应和中断恢复 | `a7r5-libjit/` | 依所选入口；源码测试可以不接设备 |
 | 模拟原厂菜单、研究输入和创意外观 | `a7r5-qemu/` | 不需要；必须补齐固定客体材料 |
+| 拟合自定义滤镜、导入或导出 R5NATIVE.BIN | [Color Lab 操作手册](sony-r5-colorlab/R5NATIVE.BIN使用说明.md) | 不需要。支持 v4 十二槽和 v5 二十四槽格式 |
 
 本文命令默认在**仓库根目录**执行。`/path/to/...`、`CAMERA_IP`、批准短语和随机会话目录均为占位符。帮助命令、源码测试和本地构建不代表已经批准任何设备操作。
 
@@ -96,13 +99,14 @@ Tauri 和部分 Python 依赖具备跨平台能力，但本工程仍包含 macOS
 .
 ├── a7r5-desktop/               Rust + Tauri 客户端、Python 引擎及独立应用构建
 ├── a7r5-dat-tool/              DAT 解析、验签、组件替换、签名封包
-├── a7r5-firmware-features/     四项功能说明、整合配方和源码材料
+├── a7r5-firmware-features/     4.17 固件研究主线、早期组合配方和验证材料
 ├── a7r5-updater-trust/         更新器信任算法、本地候选及专用部署器
 ├── a7r5-exec/                  libJit / kit 两种短任务执行入口
 ├── a7r5-libjit/                一次性加载器、传输协议和恢复研究
 ├── a7r5-ssh/                   SSH 载荷、按需服务及旧实现源码
 ├── a7r5-implementation-kit/    固件转存、root 任务和主机校验流程
 ├── a7r5-qemu/                  可选原厂菜单与 CP / 创意外观模拟研究
+├── sony-r5-colorlab/           色彩训练、BIN v4／v5 编解码、24槽适配及固定上游来源
 ├── a7r5-firmware-images/       本地固件原件与分区镜像，不进入 Git
 ├── scripts/                   环境准备、本地输入检查和发布检查
 ├── tests/                     发布边界回归测试
@@ -266,6 +270,8 @@ a7r5-desktop/dist/local-build/
 
 `prepared/engine/` 是生成的运行材料，`src-tauri/target/` 是 Cargo 构建产物，`dist/` 是安装包，三者均不进入 Git。`web/` 是直接嵌入的 HTML/CSS/JavaScript，不运行前端依赖安装。
 
+2026-11-05 工作区清理已移出 Rust 的 `target/debug/`、`target/release/` 和普通开发缓存。下次需要编译时，Cargo 会重新生成对应产物。准备材料和已封装的应用分别存放在 `prepared/engine/` 和 `dist/`。
+
 ### 3. 检查构建结果
 
 ```sh
@@ -281,7 +287,7 @@ codesign --verify --deep --strict 'a7r5-desktop/dist/local-build/A7R5 Studio.app
 
 ### 1. 启动与准备
 
-取得完整应用后，先正常退出旧客户端，再解压 ZIP，双击 `A7R5 Studio.app`。最新本地包保存在 `a7r5-desktop/dist/client-update-20261024-01/`，旧包与现有记录保留；包不包含在 Git 源码中，也没有在本工程创建公开下载地址。新包的批次、源码摘要、ZIP 摘要和离线自检见同目录 `package.json` 与 `offline-verification.json`。
+取得完整应用后，先正常退出旧客户端，再解压 ZIP，双击 `A7R5 Studio.app`。当前工作区的 `dist/` 中保留了 `usb-fix-20261023-202623` 历史测试包。`client-update-20261024-01` 的包目录当前缺失，可使用[源码启动入口](启动A7R5客户端.command)或按[客户端构建步骤](#构建客户端)生成新包。每批包的版本和验证范围以随包的 `package.json` 与 `offline-verification.json` 为准。
 
 应用启动时不枚举相机。只有点击设备动作、阅读准备提示并继续后，才申请管理员权限、定位唯一相机并校验型号、接口、版本、端口和相关内容摘要。未知状态会停止。
 
@@ -405,7 +411,9 @@ mkdir -p .local/examples
 
 ### a7r5-firmware-features：功能配方与研究材料
 
-包含四项功能的实现说明、定长补丁、资源修改和组合所需材料。日常自由组合使用客户端；独立 `reproduce.py` 只提供 `all` 和 `ntsc-only` 两种配方入口，不是 16 组合命令行界面。
+**4.17 研究固件**包含二十四槽运行时、十二款随包配方和创意外观分组记忆。离线校验覆盖封装、独立回读、CPU 回归和 QEMU 客体原帧。自定义滤镜成功应用后的记忆和自动保存仍待实机复验。交付件 `BODYDATA.DAT` 和 `R5NATIVE.BIN` 存于本地 `native24-combined/releases/4.17/`，克隆源码时需另行准备。构建与验收范围见 [4.17 交付说明](a7r5-firmware-features/native24-combined/releases/4.17/README.md)和[实施与复现手册](a7r5-firmware-features/native24-combined/实施与复现手册.md)。
+
+**早期四项功能配方**供桌面客户端的 16 种功能组合及独立复现使用。独立 `reproduce.py` 支持 `all` 和 `ntsc-only` 两种入口。
 
 ```sh
 # 先用 DAT 工具从指定官方原包生成全新工作目录。
@@ -538,6 +546,8 @@ uv pip install --python a7r5-qemu/.venv/bin/python \
 
 还需要固定 QEMU 源码包、内核、初始化归档、DTB、SDK 库。当前本地清单中的 initrd 和 DTB 已缺失，输入不全时会停止；仓库不提供自动补齐方案。补齐并通过清单校验后，才可以在模块目录运行 `tools/build-native.py`、`tools/build-guest.py` 或 `client/main.py`。
 
+部分研究实验还依赖 `build/` 中固定的照片标记客体基底和 CP 模拟器。当前工作区缺少这些产物，`runs/` 也缺少原始运行回执。复现时需先按相应实验的清单恢复或重建固定输入。照片标记实验源码及其归档见[照片标记研究包](a7r5-firmware-features/aspect-guide406/README.md)。
+
 Qt 源码入口为 `a7r5-qemu/client/main.py`；网页与终端入口见 [模块说明](a7r5-qemu/README.md)。旧 `.app` 路径和旧验收数字属于历史记录，不能直接作为当前源码副本可启动的证明。不要绕过沙箱和输入摘要校验。
 
 ## 测试与验证
@@ -553,7 +563,7 @@ Qt 源码入口为 `a7r5-qemu/client/main.py`；网页与终端入口见 [模块
 
 客户端测试依赖 `prepared/engine/` 的模板、扇区计划和 PMCA 源码，普通文件测试还需要精确分区前像。正常完成客户端材料准备后再运行。
 
-2026-10-24 最新客户端代码已通过250项离线回归；界面13项成功证据与相同网页源码对应。本次打包另验证发布编译、签名、ZIP 解压和脱离工程的受限离线自检，具体结果以[本次更新说明](a7r5-desktop/docs/updates-20261024.md)及包内回执为准。这些证据不代表新资源预算下的相机安装或USB超时已实机验收。
+2026-10-24 客户端批次通过 250 项离线回归和 13 项界面验证，并检查了发布编译、签名、ZIP 解压及脱离工程的受限离线自检。对应源码和证据见[该批次更新记录](a7r5-desktop/docs/updates-20261024.md)。新资源预算下的相机安装和 USB 超时行为仍待实机验收。
 
 2026-10-23 已有本机回归、独立源码副本重建与应用自检记录，见 [发布整理验证](docs/verification.md)。本次英文目录迁移又通过发布边界、功能配方、客户端引擎和 QEMU 路径测试，见 [迁移验证](docs/module-renaming.md)。这些结果与真实相机操作分开记录。
 

@@ -21,7 +21,7 @@
  */
 #include "sony-lz77.h"
 
-static int walk(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long capacity) {
+static int walk(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long capacity, int pages) {
     static const unsigned char lengths[16] = {3,4,5,6,7,8,9,10,11,12,13,14,15,16,32,64};
     unsigned long in = 0, out = 0;
     while (in < size) {
@@ -58,15 +58,27 @@ static int walk(const unsigned char *src, unsigned long size, unsigned char *dst
                 }
             }
         } else return 5;
+        /* 原厂图像以4KiB输出块组织；末块可短，每块独立字典。
+         * 这是原资源兼容性门禁，不是完整LDEC硬件仿真。 */
+        if (pages && (out == block_start || out - block_start > 4096 ||
+                      (in < size && out - block_start != 4096))) return 5;
     }
     return out == capacity ? 0 : 5;
 }
 
-int sony_lz77_decode(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long output_size) {
+static int decode(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long output_size, int pages) {
     if (!src || !size || size > 0x1000000 || !output_size || output_size > 0x1000000) return 5;
     unsigned long s = (unsigned long)src, d = (unsigned long)dst;
     if (s + size < s || (dst && (d + output_size < d || (s < d + output_size && d < s + size)))) return 5;
     /* Validate first: malformed immutable input cannot partially overwrite the destination. */
-    if (walk(src, size, 0, output_size)) return 5;
-    return dst ? walk(src, size, dst, output_size) : 0;
+    if (walk(src, size, 0, output_size, pages)) return 5;
+    return dst ? walk(src, size, dst, output_size, pages) : 0;
+}
+
+int sony_lz77_decode(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long output_size) {
+    return decode(src, size, dst, output_size, 0);
+}
+
+int sony_lz77_decode_pages(const unsigned char *src, unsigned long size, unsigned char *dst, unsigned long output_size) {
+    return decode(src, size, dst, output_size, 1);
 }

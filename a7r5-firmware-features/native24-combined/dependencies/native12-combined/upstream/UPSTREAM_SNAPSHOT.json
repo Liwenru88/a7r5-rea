@@ -1,0 +1,1332 @@
+{
+  "commit": "47f8f022628aef8de382a613ea4d11cd51d0a965",
+  "files": {
+    ".gitignore": {
+      "bytes": 546,
+      "sha256": "3103ef5266d4144fdb4b5eb0dc6c8893d544dc0fc3ed6f970ae0606ecaf69bf3"
+    },
+    "LICENSE": {
+      "bytes": 1305,
+      "sha256": "0032a12e5c600a0915b41a3b41587893446b2b32026f0153b958e349957bac2d"
+    },
+    "PUBLICATION.md": {
+      "bytes": 11124,
+      "sha256": "597cc013fd5692f32c347b2a79d5249db2817566953e0a0d0d1319c4dab90ec7"
+    },
+    "R5FlashWorkbench/.gitignore": {
+      "bytes": 62,
+      "sha256": "da0e176fcc45f85b49815be3a910ce55a03d3127ae792926a019a9f496eb233d"
+    },
+    "R5FlashWorkbench/AGENTS.md": {
+      "bytes": 1051,
+      "sha256": "9052ef68906cf872091bf0b0a0d5402770d6908cb30c1e22a8b4e0ef7f9856f1"
+    },
+    "R5FlashWorkbench/AI_GUIDE.md": {
+      "bytes": 3963,
+      "sha256": "2aca45397528102f9fb2bfa183dd14d3f64ac1e09553f1057207b4b0dbe28157"
+    },
+    "R5FlashWorkbench/README.md": {
+      "bytes": 6712,
+      "sha256": "a773fbeb52e2aac9eb7b89a4ae71b7bf58fb7565e4c229e62205f2d961bf66f2"
+    },
+    "R5FlashWorkbench/REFERENCE.json": {
+      "bytes": 9199,
+      "sha256": "acc38a987e180f5066340c7475148004a6fa20cb01e8d4aa36c7bc570e8f3305"
+    },
+    "R5FlashWorkbench/THIRD_PARTY_NOTICES.md": {
+      "bytes": 1753,
+      "sha256": "223735629aa6bf89629e6a6c222f0fa7ae2a3f47e10ed26a2f3c42fcc43ab593"
+    },
+    "R5FlashWorkbench/engine/agent-manifest.json": {
+      "bytes": 2547,
+      "sha256": "200bfae7a42d8f8efc826dadb9dff9a55a90664877b9241d74bf1c6e925a8caf"
+    },
+    "R5FlashWorkbench/engine/assistant.py": {
+      "bytes": 6897,
+      "sha256": "095542e616c470fe0ab7bd7a95f591952180f0aa982081451007a82fd50c6a0e"
+    },
+    "R5FlashWorkbench/engine/bootstrap.py": {
+      "bytes": 11485,
+      "sha256": "0afb958629b887e3699f278b58f7e80f72f959ba2f70dbf5238ee1a9edbe306f"
+    },
+    "R5FlashWorkbench/engine/capture_operation.py": {
+      "bytes": 16718,
+      "sha256": "f731245d84d5fcfae3ea9c1fd35313af14bbc44a6ff180feb0f4dd05aa82946c"
+    },
+    "R5FlashWorkbench/engine/card.py": {
+      "bytes": 5678,
+      "sha256": "c341f754a2772f9572c3025033795ba618958527140891f0a439e1d1174d6918"
+    },
+    "R5FlashWorkbench/engine/common.py": {
+      "bytes": 3539,
+      "sha256": "2af6ad0affb97aae53c5d37f7b3d8547dad823e8902118a050d1ca3e292965b6"
+    },
+    "R5FlashWorkbench/engine/device.py": {
+      "bytes": 4751,
+      "sha256": "1a5827390dd3422d132e10082fefe3b1fb88b05d9d1fba886278991519ea19f8"
+    },
+    "R5FlashWorkbench/engine/filters/R5NATIVE.BIN": {
+      "bytes": 29552,
+      "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "R5FlashWorkbench/engine/filters/manifest.json": {
+      "bytes": 1555,
+      "sha256": "cdeb3b2694775a35b4fd0abf26d073412324a2539aa824ba96a85ae1d3f6dc7c"
+    },
+    "R5FlashWorkbench/engine/host.py": {
+      "bytes": 4104,
+      "sha256": "9b3db71c448fa56526b668310dd310a18331dc23573ecc878a6686e36193f116"
+    },
+    "R5FlashWorkbench/engine/libjit_operation.py": {
+      "bytes": 8116,
+      "sha256": "715bd44366f56be4b4e94d984f419f9764ee282e53211e7296791866dee2ae40"
+    },
+    "R5FlashWorkbench/engine/original_inputs.py": {
+      "bytes": 6225,
+      "sha256": "c5d1bb4f40ca02e96e519863196bfc0f8044e9c8ba1dddf974de24c3e54e2c2c"
+    },
+    "R5FlashWorkbench/engine/policy.py": {
+      "bytes": 4030,
+      "sha256": "19527691acd80ba14e2735520d7a64bf27a32b146e0315161444e61cafedc0be"
+    },
+    "R5FlashWorkbench/engine/preparation.py": {
+      "bytes": 4890,
+      "sha256": "97b40b153dccfa6a5ac0fceb4b0e3160c2561528973086e6196f9e3825a8cbe3"
+    },
+    "R5FlashWorkbench/engine/profile.json": {
+      "bytes": 3648,
+      "sha256": "25bec21ff1925d27fef968b9a4b633a58fcf9cab483a156943018bec641fc089"
+    },
+    "R5FlashWorkbench/engine/site/usb/__init__.py": {
+      "bytes": 4018,
+      "sha256": "273b5fba3dfeb5f9092224cfcc3f9f4f0e005ff9b7b4c5510558c81b0f3d825d"
+    },
+    "R5FlashWorkbench/engine/site/usb/_debug.py": {
+      "bytes": 3297,
+      "sha256": "77e2a76d02f096424adc3aad2e23b097598fec04b7c444591a481a46e61893b3"
+    },
+    "R5FlashWorkbench/engine/site/usb/_interop.py": {
+      "bytes": 2726,
+      "sha256": "4a216f41bebf83dfa6fa05169db5589f29c343c2742eb7137ea4f431968870c2"
+    },
+    "R5FlashWorkbench/engine/site/usb/_lookup.py": {
+      "bytes": 3364,
+      "sha256": "eb7d197159682ea97064852ad4467f8ffac4b461313f23198ce53decb0e82e41"
+    },
+    "R5FlashWorkbench/engine/site/usb/_objfinalizer.py": {
+      "bytes": 4804,
+      "sha256": "9322135c71ce5968140352873396ad0106d2a7027670cbe3b4622fb859e8e68f"
+    },
+    "R5FlashWorkbench/engine/site/usb/_version.py": {
+      "bytes": 411,
+      "sha256": "70e54f0af0f68761bfd8a07a1b775dade6242107c09d2e96aa002417faa018e4"
+    },
+    "R5FlashWorkbench/engine/site/usb/backend/__init__.py": {
+      "bytes": 16284,
+      "sha256": "99bf9cb97ea16ce320fa78bbfd48d74b8a124525a3dc583e7161aa3fb985e4cc"
+    },
+    "R5FlashWorkbench/engine/site/usb/backend/libusb0.py": {
+      "bytes": 27061,
+      "sha256": "b5d9b62922c1ff2de932a4d3bb1658c1a7cecf01f8871d921fbc2a124aa89291"
+    },
+    "R5FlashWorkbench/engine/site/usb/backend/libusb1.py": {
+      "bytes": 36215,
+      "sha256": "ea13c99dbe9667904ad1d3f364a147cf75bfdf98111b3426ceec20d055f3203d"
+    },
+    "R5FlashWorkbench/engine/site/usb/backend/openusb.py": {
+      "bytes": 28529,
+      "sha256": "ea83a409baf45edc708741b427ec9bb6e4420c35aac5619b98e50efb47c747da"
+    },
+    "R5FlashWorkbench/engine/site/usb/control.py": {
+      "bytes": 8947,
+      "sha256": "037e0030c3c1ba3cb108f45d9d754fd4b4b9e2c0e1953cf5660645c84396f0ba"
+    },
+    "R5FlashWorkbench/engine/site/usb/core.py": {
+      "bytes": 48671,
+      "sha256": "aa6089accb592aecb18e1eb8bba9ea62b0a1eee7df4e564b8d4b5a0877bc7c7c"
+    },
+    "R5FlashWorkbench/engine/site/usb/legacy.py": {
+      "bytes": 12840,
+      "sha256": "5d3c418e0c712a186b1e769b6b7b7a24af88301c283bc07cebd61bf7b880bbe0"
+    },
+    "R5FlashWorkbench/engine/site/usb/libloader.py": {
+      "bytes": 7536,
+      "sha256": "0347789cec30a0b32540a9bc09785a7f46a84107472a5b30f3600f835618ad03"
+    },
+    "R5FlashWorkbench/engine/site/usb/util.py": {
+      "bytes": 12094,
+      "sha256": "4be8a03d725fb82f773ed79b890ba3167781e9cee722015228d369c25cd19294"
+    },
+    "R5FlashWorkbench/engine/system_dump/__init__.py": {
+      "bytes": 86,
+      "sha256": "4870d21f5ade558862fa5c434b0a3ca9d2e453d9327cc2a29fbf43e71d3d3339"
+    },
+    "R5FlashWorkbench/engine/system_dump/bulk_reader.py": {
+      "bytes": 1545,
+      "sha256": "26ca821eace0c9a5e849d0a68937e43d1d2c312c9a5445c991c2b72966e7872a"
+    },
+    "R5FlashWorkbench/engine/system_dump/core.py": {
+      "bytes": 99,
+      "sha256": "aa6001825f920392cde521a5c7b8df8e72df96689e56349da7a0db6ddad2c745"
+    },
+    "R5FlashWorkbench/engine/system_dump/environment.py": {
+      "bytes": 154,
+      "sha256": "11bfb5b29ba842e86de0b4798eb6d42b6f1ce7e385daed528636463d64410870"
+    },
+    "R5FlashWorkbench/engine/system_dump/preflight.py": {
+      "bytes": 2952,
+      "sha256": "d3585c87c652d09147604b60d517922e30d64ddb99fdb71bcdc90017416fb5ec"
+    },
+    "R5FlashWorkbench/engine/system_dump/session.py": {
+      "bytes": 24038,
+      "sha256": "dc0b0350d29f18ea1cd0de13038b5040017bbd1c77fec17325a47ce81a9f6abe"
+    },
+    "R5FlashWorkbench/engine/system_dump/supplement.py": {
+      "bytes": 2230,
+      "sha256": "0fd56753d42b306c078bbeb86cf7058ef8c7ace75067af713ef9d23cc438172f"
+    },
+    "R5FlashWorkbench/engine/system_dump/usb_adapter.py": {
+      "bytes": 5202,
+      "sha256": "bac3118b4b9aca72bb5e15124d0d9cfd295d9d222397b893a4fc80196a8b00ce"
+    },
+    "R5FlashWorkbench/engine/templates.json": {
+      "bytes": 1341,
+      "sha256": "e03da01a52fec0d68735bf8a3e5b4e496e756616c1e220d6b70b519a84de701d"
+    },
+    "R5FlashWorkbench/engine/templates/capture-cleanup.so": {
+      "bytes": 20464,
+      "sha256": "0643b270768673a706bfdb3d30e9c3efeafb3fce72a4d2c239b7f44bf74fdfa7"
+    },
+    "R5FlashWorkbench/engine/templates/capture.so": {
+      "bytes": 17096,
+      "sha256": "2dc7f28f192e886b0e57c9b7d0791da2c26b9bb37f2393e32cff096602e79a7f"
+    },
+    "R5FlashWorkbench/engine/templates/trust-blank-512.so": {
+      "bytes": 52960,
+      "sha256": "cfd98c8aca65661f18a139749e6f7db43fee8237b052ccc33455986d92e0fbb7"
+    },
+    "R5FlashWorkbench/engine/templates/trust-installed-boot-hook.so": {
+      "bytes": 52504,
+      "sha256": "f2f2d3a548ae77b3c1fc9ff46121f66b9ef6ffeb1c0855cc25bfec215df151fd"
+    },
+    "R5FlashWorkbench/engine/transport.py": {
+      "bytes": 7033,
+      "sha256": "fa5671e1e1cad505aeb209eadc6d1ea65a8561d8ed29eddd99435cca562f7593"
+    },
+    "R5FlashWorkbench/engine/trust-sectors.json": {
+      "bytes": 37539,
+      "sha256": "ec7370837736e7789232af6787999b092b835b20765a8508f4a1fd785cfb535f"
+    },
+    "R5FlashWorkbench/engine/trust_operation.py": {
+      "bytes": 19150,
+      "sha256": "8fc9559f16458dfbe292ac9ab704e9e4a33c0325b54e30943afb92d8e87398e8"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/__init__.py": {
+      "bytes": 4235,
+      "sha256": "f4c856b505a6c62bf841bb6f662990ba1ea12b46e7984430463bea4dca60eae6"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/constants.py": {
+      "bytes": 12380,
+      "sha256": "345f0184fe0127b61cd8ef6f861c513e43468b6f8f926304eda960450870a912"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/crypto.py": {
+      "bytes": 1468,
+      "sha256": "4cae5195d85d20142f674c7073c7c5ae34c10b39fb834a6851f0b77fc55236b5"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/driver/__init__.py": {
+      "bytes": 1395,
+      "sha256": "bd855bc35a812e56e2ce9810390e75d5444890a47825d11ae6a51090b97bdbec"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/driver/generic/__init__.py": {
+      "bytes": 7019,
+      "sha256": "4a521b34a320e2dc062977e81811b5f277faf87f5f4a928532ecc370a1ba167a"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/usb/sony.py": {
+      "bytes": 37090,
+      "sha256": "4ac3abcd796f5ca6bcf18179065bddef1cc0e2d7201fc6a458fc6c53bdaf541c"
+    },
+    "R5FlashWorkbench/engine/vendor/pmca_source/pmca/util/__init__.py": {
+      "bytes": 1548,
+      "sha256": "26b5d9bfb2155197edb949ec25f39fc62a87c6318f6a0057ad159331480ca493"
+    },
+    "R5FlashWorkbench/engine/write-plan.json": {
+      "bytes": 7880,
+      "sha256": "b8b148700c79f8c68371fbe3df496efeda77113e98653d6b28446d52e76c5132"
+    },
+    "R5FlashWorkbench/licenses/PMCA-LICENSE.txt": {
+      "bytes": 1093,
+      "sha256": "f40fa84ebd3c1329fc6f4b75c11af9df6b19ae9a0485a02e85a5eeb476fcd94e"
+    },
+    "R5FlashWorkbench/licenses/a7r5-rea-LICENSE": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "R5FlashWorkbench/licenses/a7r5-rea-README.md": {
+      "bytes": 47786,
+      "sha256": "728379f9cc693a7a80825f7d8b95056248582856e6cb30ada682b40dc5978d48"
+    },
+    "R5FlashWorkbench/licenses/a7r5-rea-THIRD_PARTY_NOTICES.md": {
+      "bytes": 1857,
+      "sha256": "66f99c394dc474a92d6e84a37547a33ec70752bdfd57b4395ae169053c59bdf3"
+    },
+    "R5FlashWorkbench/licenses/exec/pycryptodomex-LICENSE.rst": {
+      "bytes": 2926,
+      "sha256": "4e04660d77c1c64e89d79537919fb8240fa21484a7e3db29f358b2c7f84ea073"
+    },
+    "R5FlashWorkbench/licenses/exec/pyelftools-LICENSE": {
+      "bytes": 1534,
+      "sha256": "ae18bf4cb82f92af7547259177bc28bc48e4fc732518bcedfe690226288d3445"
+    },
+    "R5FlashWorkbench/licenses/exec/pyusb-LICENSE": {
+      "bytes": 1513,
+      "sha256": "03e39fdcee9c18f2f9d0c3500a993ddeac050695eb81070ea41347587c76a7fe"
+    },
+    "R5FlashWorkbench/licenses/libusb-COPYING": {
+      "bytes": 26436,
+      "sha256": "5df07007198989c622f5d41de8d703e7bef3d0e79d62e24332ee739a452af62a"
+    },
+    "R5FlashWorkbench/licenses/trust/pycryptodomex-3.24.1.dist-info-LICENSE.rst": {
+      "bytes": 2926,
+      "sha256": "4e04660d77c1c64e89d79537919fb8240fa21484a7e3db29f358b2c7f84ea073"
+    },
+    "R5FlashWorkbench/native/CLI.c": {
+      "bytes": 1120,
+      "sha256": "42f00ad35f0c741c49641fb8c3a62d565203b162dd2fa94d95a62b46dcacccf3"
+    },
+    "R5FlashWorkbench/native/Workbench.swift": {
+      "bytes": 27781,
+      "sha256": "084ee92b6334e8d57d61263cf77506944cd0efa808a08955a7e936c359eeee78"
+    },
+    "R5FlashWorkbench/requirements.txt": {
+      "bytes": 158,
+      "sha256": "1054e34086c7f336c5d638bd51dac308ad4b46a256a6e86580f6de06e6955da2"
+    },
+    "R5FlashWorkbench/scripts/import_reference.py": {
+      "bytes": 7006,
+      "sha256": "a61e5d413c39c64f30017ffdf6cc44548e7f2e0d05e7cab1ec87428d53d0cb33"
+    },
+    "R5FlashWorkbench/scripts/package.py": {
+      "bytes": 7753,
+      "sha256": "1e6db2d75ed0d09c4e86142c5e07255023fdd7d9e416ccc5764ea3e8333c543e"
+    },
+    "R5FlashWorkbench/scripts/prepare_payloads.py": {
+      "bytes": 3087,
+      "sha256": "42195d7e6ce89f6dc94742384d84f257acba934cfbbc3d46d73259ca16a36ad1"
+    },
+    "R5FlashWorkbench/scripts/reference_compile.py": {
+      "bytes": 12793,
+      "sha256": "0fe427cbd886ea587b434260b5c68abd5d2c85ca08cef8bafa62e951b3588bc3"
+    },
+    "R5FlashWorkbench/sources/trust/capture_cleanup.c": {
+      "bytes": 7822,
+      "sha256": "5540f1fe2aedd08bff6e17a89acb3ea1b37831b5517ded857c4e2e53621dfa2c"
+    },
+    "R5FlashWorkbench/sources/trust/capture_control.h": {
+      "bytes": 1545,
+      "sha256": "81dbbfef3e6458b7aa9fa23178a7b808f6d2488cd24b889464e2fe190fb86119"
+    },
+    "R5FlashWorkbench/sources/trust/capture_gate.c": {
+      "bytes": 5077,
+      "sha256": "bfa3db4349114ed55608535b8fab63927dc2d2f255d384271ffad4dff237415a"
+    },
+    "R5FlashWorkbench/sources/trust/libjit-base.c.txt": {
+      "bytes": 7487,
+      "sha256": "c3b3a3555ded5ba456eb7db71462d2094eb221baaef1a38ade48efdddc63713b"
+    },
+    "R5FlashWorkbench/sources/trust/libjit-trust.c": {
+      "bytes": 6170,
+      "sha256": "5d8952e1d28098da1354d733d69169bbc41f433feb36f921fc66ebb5c0fc9815"
+    },
+    "R5FlashWorkbench/sources/trust/native_gate.c": {
+      "bytes": 20824,
+      "sha256": "1676a0b03df683989b9a5f1dd7d6b52bc2b8c0ec70d58bbb95e8403ee852080f"
+    },
+    "R5FlashWorkbench/sources/trust/sector_core.inc": {
+      "bytes": 4247,
+      "sha256": "2892f93e421f5a50f02d637ab0ffcb14e5b17f6e5275539c97fdb72fd223c998"
+    },
+    "R5FlashWorkbench/sources/trust/sha256.h": {
+      "bytes": 2654,
+      "sha256": "a722054413f721c841f6cb2bca7a34db646599250fa5525d7cc6783da82037d4"
+    },
+    "R5FlashWorkbench/sources/trust/work_probe.c": {
+      "bytes": 4470,
+      "sha256": "e2e70c4249ce9bcfafacb01076549d6d798672ab7972cf7771ee99ea3a41d325"
+    },
+    "R5FlashWorkbench/tests/test_backup_session.py": {
+      "bytes": 8653,
+      "sha256": "a8fbf01e84c5b6c9cf655541c58a860508e210881377b5acd43b97dc07830b24"
+    },
+    "R5FlashWorkbench/tests/test_card_cli.py": {
+      "bytes": 6219,
+      "sha256": "251876d426fcba451d9234bc810e5b201f1dbd2693513c9cadabe2b92035b9d1"
+    },
+    "R5FlashWorkbench/tests/test_workbench.py": {
+      "bytes": 10435,
+      "sha256": "1254a11a416b1aaf79d17bacd546d4ba3da6f5ab1522777cfa2d3ed7028b9087"
+    },
+    "README.md": {
+      "bytes": 3670,
+      "sha256": "93adaa977fcb4db4bf90d4b45c62e3172f127375a5e24d7655583cf421dcd2ab"
+    },
+    "SOURCE_MANIFEST.json": {
+      "bytes": 640,
+      "sha256": "1c6b0e54c0e3b3f8f3544d7a33e366ba788b38c6432cd0d84fcafb6c1f39cecb"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "bytes": 2011,
+      "sha256": "eea35334b7c2fef8487185ffd3de580d94d7916a1867e5af57e98c8281644f1b"
+    },
+    "analysis/r5_icon434_evidence_20261028/README.md": {
+      "bytes": 4445,
+      "sha256": "98d5ca8d282c710fd63444b6e15ee4f6d7410c82b4de55bb3bdd5a7cba14b0eb"
+    },
+    "analysis/r5_icon434_evidence_20261028/finalize_evidence.py": {
+      "bytes": 4120,
+      "sha256": "877869c0968008533f74c70f420fe3b50fe83921950f41389bc3fe91872500a7"
+    },
+    "analysis/r5_icon434_evidence_20261028/frozen_manifest.json": {
+      "bytes": 4752,
+      "sha256": "a87079b5a3d5a33895aa7cffbbe7fbd283530961524f9a0ff207b354d8198d14"
+    },
+    "analysis/r5_icon434_evidence_20261028/image_resources.json": {
+      "bytes": 52102,
+      "sha256": "254c73e290390a5cc94e59645366052d1ef428c908760f0090f360534ca1887a"
+    },
+    "analysis/r5_icon434_evidence_20261028/look_mapping.json": {
+      "bytes": 4371,
+      "sha256": "5a34bbaa2a9d330835f697abe94f76927939bd48e5ef5c0f3fdf7e58b412b2f8"
+    },
+    "analysis/r5_icon434_evidence_20261028/replay_stock_icons.py": {
+      "bytes": 3253,
+      "sha256": "ff1bea397374acfdd14580f49de5256e7f60140c66e95797ba5381e9e53d70f8"
+    },
+    "analysis/r5_icon434_evidence_20261028/stock_icons.json": {
+      "bytes": 416856,
+      "sha256": "170fdbd464fa49061f8dd56452f8cc0031f7dc6b6fa7c2ceb0251fef3e54bed0"
+    },
+    "analysis/r5_icon434_evidence_20261028/verification.json": {
+      "bytes": 325,
+      "sha256": "b2e4ca1eab58d7d46a42a1286c6ca944da8842d593f1e6112cc2f19edc7d0862"
+    },
+    "analysis/r5_icon434_evidence_20261028/verify_image_resources.py": {
+      "bytes": 13513,
+      "sha256": "f46eb96d46105179b9a70e4b84fe1ddabe5c14312d9996b81de3f99cbcc2b082"
+    },
+    "analysis/r5_live_system_20261014/host_tools/configure_fastboot_usb.c": {
+      "bytes": 1543,
+      "sha256": "95e4f953c0935b6fc5f8d7bf71a77a87ccf6f4bf66c05f73f22ddb498c9d4be8"
+    },
+    "analysis/r5_live_system_20261014/host_tools/read_fastboot_usb.c": {
+      "bytes": 4105,
+      "sha256": "13a69c2ff23a8646f19f6912258c123c20288db49a61e202601a4b44145b8811"
+    },
+    "analysis/r5_live_system_20261014/host_tools/read_fastboot_usb_all.c": {
+      "bytes": 4539,
+      "sha256": "ba8e6bcd568aa438b95784164dae242a76905864d5b2ef49d5ce356118c203ef"
+    },
+    "analysis/r5_partition1_flash_20261014/partition1_usb.c": {
+      "bytes": 6272,
+      "sha256": "6078acbd8ac7500df9ad3ccf10151216d441fe60668c5d71b7a75763332953f7"
+    },
+    "analysis/r5_verifykey_skip_flash_20261014/partition1_usb.c": {
+      "bytes": 6190,
+      "sha256": "bbf3faa3e45d04ec7f1231587721c70cbcea31f42846656d5bf21cc0fbb3b0c3"
+    },
+    "filters/FUJ_12_v45/R5NATIVE.BIN": {
+      "bytes": 29552,
+      "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "filters/FUJ_12_v45/README.md": {
+      "bytes": 418,
+      "sha256": "eb368d0386f65c750aa0fca4a61151f9bb23701cdbfb7aa236f4ae9194da44ef"
+    },
+    "firmware/r5/.gitignore": {
+      "bytes": 63,
+      "sha256": "c3a38f254eb0b2444b71daef6f0d5ddd3eef303bca1e471a066fca3cd8d833ad"
+    },
+    "firmware/r5/LICENSE.fwtool": {
+      "bytes": 1072,
+      "sha256": "a485f27d0b22eb7fd9b9419795695d0a1750ea32c961d11c1dd8ddade564dedf"
+    },
+    "firmware/r5/README.md": {
+      "bytes": 5890,
+      "sha256": "9a644484eb286649ffed1aa8ccf4223dd6d0c4bfa841a5059b2b9de50bd75e84"
+    },
+    "firmware/r5/REPRODUCTION.json": {
+      "bytes": 1556,
+      "sha256": "33ed18127e89c9321730e7ee4a91374704d93336815efccd9b96a37bba802ec7"
+    },
+    "firmware/r5/build.py": {
+      "bytes": 9593,
+      "sha256": "ea449abafae78eba0f7817f8a6613833cd9160188f9dbcccbe7ff62f355c77c0"
+    },
+    "firmware/r5/expected_outputs.json": {
+      "bytes": 560,
+      "sha256": "4ef7bba9635bd2525111b5fab964a0fd9aafb2edf153f05e1925408727e7f791"
+    },
+    "firmware/r5/inputs.example.json": {
+      "bytes": 706,
+      "sha256": "b08ee6ddc18a60f1d4177ee83322717e4e344c4b52f2cf3cb1ab80c70fdc28fc"
+    },
+    "firmware/r5/inputs.lock.json": {
+      "bytes": 1412,
+      "sha256": "c6a8d54a17122bf9535a265303b20bbc24bdd14568bba426c4ffa12bca833f44"
+    },
+    "firmware/r5/requirements.txt": {
+      "bytes": 80,
+      "sha256": "40e2598e69b94e1f7fdbbb6db7325b28ed328f6475e9c0abf4b75bf19c5a1f5f"
+    },
+    "firmware/r5/source_provenance.json": {
+      "bytes": 80422,
+      "sha256": "139754300358c533bde006a94f69b4b8003634fe83d9b1121258e0c480ce4042"
+    },
+    "firmware/r5/sources.lock.json": {
+      "bytes": 19421,
+      "sha256": "96c1a6f1df5c3b51e7daa06a0e547d02c55a1ada4bbd95cccc6b3098b32b31b2"
+    },
+    "firmware/r5/src/cp/b13_gate.S": {
+      "bytes": 847,
+      "sha256": "6298a5387f74eb516a6e561d93bbe8e7ae5ffac29a96881ae15707710b418194"
+    },
+    "firmware/r5/src/cp/build_cp.py": {
+      "bytes": 9294,
+      "sha256": "7246998227b04aeabcbcef7fb197fae04be0b514540851690436b3bc3ddeb899"
+    },
+    "firmware/r5/src/cp/cc1_gate.S": {
+      "bytes": 531,
+      "sha256": "b556dff897c12050b0f99a85edd37403d40e444337218083c65a1c6476a9ffc1"
+    },
+    "firmware/r5/src/cp/cp_stage413_gate.S": {
+      "bytes": 737,
+      "sha256": "23012255b4115820ed6c3b3c7b1a0e981b12f2a409c8eb685da220a661092bd9"
+    },
+    "firmware/r5/src/cp/cp_stage413_probe.c": {
+      "bytes": 8333,
+      "sha256": "3f70e6d4cfb5ef7d2482854edefa5b4a6c3812e5a235a720423a54d1d91de923"
+    },
+    "firmware/r5/src/cp/cp_transfer.c": {
+      "bytes": 7563,
+      "sha256": "46e08aa860c7b398e42367b1843974e056cb655faec398287a4366428d2c0605"
+    },
+    "firmware/r5/src/cp/custom_filter423.c": {
+      "bytes": 1959,
+      "sha256": "193cce35637d2e2d1834860efd522210744b49b924f0a49556298f79d1c9d015"
+    },
+    "firmware/r5/src/cp/grid_observe.S": {
+      "bytes": 827,
+      "sha256": "346a96e99d05fa0535b49cb044366d6697cc443c98862b186173d87d0d0c5483"
+    },
+    "firmware/r5/src/cp/native_color.c": {
+      "bytes": 11639,
+      "sha256": "6a0305ed95d77951d7c726dacc53abb5f18f14c9f3f92a66326b664b4d48da9c"
+    },
+    "firmware/r5/src/cp/r5_stage413_probe.h": {
+      "bytes": 1122,
+      "sha256": "244c009417e7a163ba056a51ef9df35c00c87d4ba9327e95da14d23fb932e987"
+    },
+    "firmware/r5/src/cp_include/r5_aa_snapshot.h": {
+      "bytes": 114,
+      "sha256": "d36ceca0a2082cddc493d44590d5381a4470d927a3ca664a9310bd645b1cc79a"
+    },
+    "firmware/r5/src/cp_include/r5_ap_activation.h": {
+      "bytes": 116,
+      "sha256": "3a435fc88d8ed6685b60e9adeae79bacb09c5ccfb002dd18b29eef1bde52553f"
+    },
+    "firmware/r5/src/cp_include/r5_ap_terminal.h": {
+      "bytes": 114,
+      "sha256": "3410cea848bd309257437009490795baa87b9b455585e201bc839776ef854728"
+    },
+    "firmware/r5/src/cp_include/r5_async_import.h": {
+      "bytes": 115,
+      "sha256": "586498f394ebc9d934525ffd7725515fea61b3928f1c0a6b163499910cf8dfd1"
+    },
+    "firmware/r5/src/cp_include/r5_boot_bank.h": {
+      "bytes": 112,
+      "sha256": "58f8e86cd497166f6da71e86501bfa81229f7256b44bcf5f563f923ec5440215"
+    },
+    "firmware/r5/src/cp_include/r5_boot_coordinator.h": {
+      "bytes": 119,
+      "sha256": "9d3c9c9eee8d706afb6f681ebc1f39d55d0fbd5d7bfc1bac8a0c06755b86d153"
+    },
+    "firmware/r5/src/cp_include/r5_boot_media_bridge.h": {
+      "bytes": 120,
+      "sha256": "9875e38eb4c1f911cd371b3200315aa70f038d81e568faea5c9f46c960456811"
+    },
+    "firmware/r5/src/cp_include/r5_boot_runtime.h": {
+      "bytes": 115,
+      "sha256": "8261a2e1cb252b6978daccc19fa026da771bd996dece6838e0db6f72110b6fbd"
+    },
+    "firmware/r5/src/cp_include/r5_boot_services.h": {
+      "bytes": 116,
+      "sha256": "345e1d2d7f9a7fc63be19a6e3ad4ca62ac8c50085ed822ca4fc8ffd7726135db"
+    },
+    "firmware/r5/src/cp_include/r5_boot_transaction.h": {
+      "bytes": 119,
+      "sha256": "4826639c8508d5fda8f5ab5500dabd76e6f860400791f5002423cbe785cfc7a6"
+    },
+    "firmware/r5/src/cp_include/r5_boot_transfer_adapter.h": {
+      "bytes": 124,
+      "sha256": "dea1e12f374593adfa7197d7f7c3237a5202f2c14d143960f3db5d05e82e110e"
+    },
+    "firmware/r5/src/cp_include/r5_color_consumer.h": {
+      "bytes": 117,
+      "sha256": "00c39c9cfa7a8471fde03df84341c89894e4143f8b449159cf981756b72c06e8"
+    },
+    "firmware/r5/src/cp_include/r5_color_q_carrier.h": {
+      "bytes": 118,
+      "sha256": "07caacd78bf9c1536b7d71ce4582b32c49d77ffd0192f20f483212d1320cdf1a"
+    },
+    "firmware/r5/src/cp_include/r5_color_shadow.h": {
+      "bytes": 115,
+      "sha256": "04d04a4af69f0533940b3e8f2f2a23e7c6c16aa88b834e56c471e50ef3017a44"
+    },
+    "firmware/r5/src/cp_include/r5_custom_filter423.h": {
+      "bytes": 119,
+      "sha256": "b93c3a027b7e4e5974964936b708743cc14b11e442531b0594841c6ed0619ccc"
+    },
+    "firmware/r5/src/cp_include/r5_dedicated_worker.h": {
+      "bytes": 119,
+      "sha256": "e410c917a515f2bfd18d00e3b7c165d4e8a8594e347fc4ef2b945e9658f8f8bc"
+    },
+    "firmware/r5/src/cp_include/r5_direct_pthread.h": {
+      "bytes": 117,
+      "sha256": "e1805db21147a4be6075f9fc7b98d1121374a1a28d2866f63d88d57f0f3fbc06"
+    },
+    "firmware/r5/src/cp_include/r5_filter423.h": {
+      "bytes": 112,
+      "sha256": "47a7aa2d56969d80ddbefc9ffd58ca90aa9a0a989f5278b60da3ef7598090a2e"
+    },
+    "firmware/r5/src/cp_include/r5_filter_runtime423.h": {
+      "bytes": 120,
+      "sha256": "fb00a8f2f3342d54ad671a3b048d376ce760e412d0d7dc409a230e50bfd51988"
+    },
+    "firmware/r5/src/cp_include/r5_filter_selection423.h": {
+      "bytes": 122,
+      "sha256": "4b158305f5c2177d203de43b44f588e8ce43651802b675dcb5c7ca558e965720"
+    },
+    "firmware/r5/src/cp_include/r5_fsys_adapter.h": {
+      "bytes": 115,
+      "sha256": "e531a14d54c477c70bfa38068a24a1eeb89a2b3e3b872770e41c871a32b9d59f"
+    },
+    "firmware/r5/src/cp_include/r5_gamma_identity.h": {
+      "bytes": 117,
+      "sha256": "b03b75d8bc5e88a20547ab0f41bc073086eaf141a18583d2341060fe59e72107"
+    },
+    "firmware/r5/src/cp_include/r5_gamma_qualification.h": {
+      "bytes": 122,
+      "sha256": "9cc3893227d9accfb84e96fb373f2fc6167728ba4e19d6614a21b7074d448583"
+    },
+    "firmware/r5/src/cp_include/r5_grid422.h": {
+      "bytes": 110,
+      "sha256": "f89f65132a680f24686e139dbef685b88d632e7aa9cf59239e5ccd219244b4c3"
+    },
+    "firmware/r5/src/cp_include/r5_grid_diagnostics.h": {
+      "bytes": 119,
+      "sha256": "f2a558a58d7cbfcbe85f0c8d56da02a4fe15e4f07928da68ded3b922fb78a36b"
+    },
+    "firmware/r5/src/cp_include/r5_isp_carrier.h": {
+      "bytes": 114,
+      "sha256": "7e236a443b35ac1538f0d5fffb3c3003f2d4bef0844e29e19665cb3b59e0e7ca"
+    },
+    "firmware/r5/src/cp_include/r5_lifecycle.h": {
+      "bytes": 112,
+      "sha256": "98ce20da5b5a490ec5db1c84e6398b496aaf877658e8a1afabb14030d3d5f887"
+    },
+    "firmware/r5/src/cp_include/r5_look_transfer.h": {
+      "bytes": 116,
+      "sha256": "5af34045a938516e812b9ff71d79c0557b0fbb3bd021d2bff04d19eb85674035"
+    },
+    "firmware/r5/src/cp_include/r5_lut_directory.h": {
+      "bytes": 116,
+      "sha256": "4380c35a6bff0b2d29bcffbb3a1953aa447202422492b12d633477025e0461ea"
+    },
+    "firmware/r5/src/cp_include/r5_lut_mount_guard.h": {
+      "bytes": 118,
+      "sha256": "2575b41010119ed4ada1927e2b70b7c26ec78a4f99951ca5ef528b8d1cc8b8cc"
+    },
+    "firmware/r5/src/cp_include/r5_lut_mount_reader.h": {
+      "bytes": 119,
+      "sha256": "635ba63e9f7147f871e166a37a9852b1071c25ac46b7e8ea347f335755295132"
+    },
+    "firmware/r5/src/cp_include/r5_native_lut_directory.h": {
+      "bytes": 123,
+      "sha256": "1b9b035341687e80979777d0fc728be667455af232169de0c50424856f701bee"
+    },
+    "firmware/r5/src/cp_include/r5_native_readonly_services.h": {
+      "bytes": 127,
+      "sha256": "90cac913f9c1055e3a3d84b0cc3ab1dfd07d210076bfb41e0f5b7a2c54e329fb"
+    },
+    "firmware/r5/src/cp_include/r5_native_transport.h": {
+      "bytes": 119,
+      "sha256": "2aec03eabe58cf57e485158279bc8d135ab8cf06a85e7e7ee89141c6803079e1"
+    },
+    "firmware/r5/src/cp_include/r5_posix_persist.h": {
+      "bytes": 116,
+      "sha256": "e1c3cf3de1c46946624feb1e849022db1a8174995c3ec59928cfaf90655f6ead"
+    },
+    "firmware/r5/src/cp_include/r5_posix_stage.h": {
+      "bytes": 114,
+      "sha256": "e132161d632a453499a6c616d32c070eee303f6cea592aaa8a880e220aeccd66"
+    },
+    "firmware/r5/src/cp_include/r5_preview.h": {
+      "bytes": 110,
+      "sha256": "00271596480e635c1b7069d3af0ef2bed230281dba76033eb52d87228c50317b"
+    },
+    "firmware/r5/src/cp_include/r5_render_binding.h": {
+      "bytes": 117,
+      "sha256": "1d1cf5c0cd5647a1c4cc0b1b5eb205b078f330bb02589b4fbc78f1a891cecbd6"
+    },
+    "firmware/r5/src/cp_include/r5_runtime_session.h": {
+      "bytes": 118,
+      "sha256": "45b8727bf6b04acfc7745c95282bc202a614a366ab4535c6e8f96b296618eb31"
+    },
+    "firmware/r5/src/cp_include/r5_scan_gate.h": {
+      "bytes": 112,
+      "sha256": "94d65cba3fbb73671a106889a69a55da856157d58b336cdcbd18d59ba461902a"
+    },
+    "firmware/r5/src/cp_include/sd_native_look.h": {
+      "bytes": 114,
+      "sha256": "b8ae2260489584e8020c1827888d5f2260c41ff486cbe369a3a239d21d3596f7"
+    },
+    "firmware/r5/src/cp_include/sd_native_persist.h": {
+      "bytes": 117,
+      "sha256": "a0e7df8eb4f62e1a0742ef475163b42a53e6b66503e1ee7b69cd3c7071016ec7"
+    },
+    "firmware/r5/src/cp_include/sd_native_store.h": {
+      "bytes": 115,
+      "sha256": "b2e24ef286cbb969ed7d7397cfcdb7e80075c089c25d227090f7cc9413cf65bb"
+    },
+    "firmware/r5/src/dependencies/baseline_recipes.json": {
+      "bytes": 31650,
+      "sha256": "676ee0ffd8f8011c7780bf8101ee3438354cba5eaba272c697235a4b2c8605fc"
+    },
+    "firmware/r5/src/dependencies/colour_fields.json": {
+      "bytes": 6822,
+      "sha256": "7ceb15461b5b0d7aaa79dd46d05f60b96aeb5c1ffaf7ae54fe1df40cba9dec4e"
+    },
+    "firmware/r5/src/dependencies/native_bindings.json": {
+      "bytes": 444,
+      "sha256": "ed826b7d7e1b32c77dfb197bc70b04253097e5c20f9ae7d4acb708d3893adbfd"
+    },
+    "firmware/r5/src/dependencies/remapping.json": {
+      "bytes": 962,
+      "sha256": "d0de998bf1c8822903f941669795a4b3e7fbc4950a230d55670daf0baae99d17"
+    },
+    "firmware/r5/src/fn/patch_fn434.py": {
+      "bytes": 3117,
+      "sha256": "2252b95936116b8e18810d5c6e7577fae7d0b3a87f20adc8fc12ebfb1a122a42"
+    },
+    "firmware/r5/src/gamma/getter_gates.py": {
+      "bytes": 4196,
+      "sha256": "417a59642ae40b40b47ba882cc23236798116fe02f24cab86d2985ca5ad4e425"
+    },
+    "firmware/r5/src/gamma/native_gamma.c": {
+      "bytes": 2854,
+      "sha256": "62756abe47f11415bd52f67fe197c0fe0e408d0fd621d52672a2dffe6b1262f9"
+    },
+    "firmware/r5/src/gamma/native_gamma.h": {
+      "bytes": 1097,
+      "sha256": "4cb7d46106400be79fee5cfb03023e8f1deac2b9166d52966c19383632344f5b"
+    },
+    "firmware/r5/src/import/build_ap_image.py": {
+      "bytes": 6418,
+      "sha256": "20c10ad19208ce245bacebb1a9657ed9ac365304741d89614a8fd8546a71bd06"
+    },
+    "firmware/r5/src/import/build_ap_module.py": {
+      "bytes": 4773,
+      "sha256": "e50590f71a9710ae7111808265c758f5bd911cdf2be651c7725588dbaec74651"
+    },
+    "firmware/r5/src/import/native_extra425.json": {
+      "bytes": 957,
+      "sha256": "ea9ef3477c8bb8f12fa5899c7cdb75cc16ec38ecb142c09fd869ba2c2ccaf1f7"
+    },
+    "firmware/r5/src/import/r5_aa_snapshot.h": {
+      "bytes": 644,
+      "sha256": "5e5ee6593234c2e35dc7b483ccb20a503db0a4079330d622e4f8867980705905"
+    },
+    "firmware/r5/src/import/r5_ap_activation.h": {
+      "bytes": 906,
+      "sha256": "b12245559e6dad1bbe05651f6b7b334df1bb33fcdd299ffcd8033a275fbc3292"
+    },
+    "firmware/r5/src/import/r5_ap_terminal.h": {
+      "bytes": 1112,
+      "sha256": "d040c23ab4c8a9c28c6707fee0760bc782d295daa0cea24628db265140805e12"
+    },
+    "firmware/r5/src/import/r5_async_import.h": {
+      "bytes": 1618,
+      "sha256": "2d7cee5b8d61bb8660038f8f402066b9bcc04b27f5017ff05c363d765ae5946f"
+    },
+    "firmware/r5/src/import/r5_boot_bank.h": {
+      "bytes": 1929,
+      "sha256": "b04fcb762993329b2e6f0e44504af95ec87eeaed0dd7d2cdc6708109bbc09e8e"
+    },
+    "firmware/r5/src/import/r5_boot_coordinator.h": {
+      "bytes": 2994,
+      "sha256": "9ca01f71c88b7cb1fece3ddf6863318011501987a222fb69a7a7bec9e52279e3"
+    },
+    "firmware/r5/src/import/r5_boot_media_bridge.h": {
+      "bytes": 1633,
+      "sha256": "320df3f42dcb8ab9dc2f9ad33783861b1837f058e1a09816ddedcc2fdac64c0c"
+    },
+    "firmware/r5/src/import/r5_boot_runtime.h": {
+      "bytes": 2485,
+      "sha256": "8ac1a1b1c0a939cfed43f0310b8641c342ef9edb71febe81b7bf543ae6b66840"
+    },
+    "firmware/r5/src/import/r5_boot_services.h": {
+      "bytes": 1363,
+      "sha256": "436c0bed03856009409e7dca97bd405e13f3dc895664ce7076f029c2d7ba7b54"
+    },
+    "firmware/r5/src/import/r5_boot_transaction.h": {
+      "bytes": 3623,
+      "sha256": "e5ee3dd11f1109eff2ff6bfa6dba93c4f9d5933ced135b25241dd926821f5b44"
+    },
+    "firmware/r5/src/import/r5_boot_transfer_adapter.h": {
+      "bytes": 1652,
+      "sha256": "bc3bdc8207ab492b9afd3062252354a08bdede505d3d1f94019740682bdc293d"
+    },
+    "firmware/r5/src/import/r5_color_consumer.h": {
+      "bytes": 900,
+      "sha256": "be94d154620ea1a0648148d7c92f0a434f59078c8fe69abd597edbe5b4481db8"
+    },
+    "firmware/r5/src/import/r5_color_q_carrier.h": {
+      "bytes": 382,
+      "sha256": "46408fed44e198819597afe22b5189f70a548d6e5ce32eb8760a8602e1e17870"
+    },
+    "firmware/r5/src/import/r5_color_shadow.h": {
+      "bytes": 1253,
+      "sha256": "99d9558c962030f32553fe264b5f29db28d2c9892dcf13d6cfe8661cdc54d5b8"
+    },
+    "firmware/r5/src/import/r5_custom_filter423.h": {
+      "bytes": 1887,
+      "sha256": "4459e5ba65d5bbbf4615a39139e8e225976342a6c70f327ae0ce87cb824f3909"
+    },
+    "firmware/r5/src/import/r5_dedicated_worker.h": {
+      "bytes": 2935,
+      "sha256": "0fdb68688ef5b14349f9837fdd66940085b23c26caf69433516e3a4f6be2e109"
+    },
+    "firmware/r5/src/import/r5_direct_pthread.h": {
+      "bytes": 1366,
+      "sha256": "6ee7d46003ad6af6817cfdbd21b44445e0e018c96b2734279f140fc9529daabc"
+    },
+    "firmware/r5/src/import/r5_filter423.h": {
+      "bytes": 761,
+      "sha256": "f306f8621547cc44a4ebe82c2a5377e9788e154604eae34662eec9810ea2ff0a"
+    },
+    "firmware/r5/src/import/r5_filter_names423.c": {
+      "bytes": 1983,
+      "sha256": "801bde8843b1c8ac35a49bc53f57c337c58dbdd35938c9752d15fcc3aaeeab7d"
+    },
+    "firmware/r5/src/import/r5_filter_runtime423.c": {
+      "bytes": 11909,
+      "sha256": "067523ac6bdac655f74b75de8c54afe89358fe3f1384b42c6166312ba4a891fe"
+    },
+    "firmware/r5/src/import/r5_filter_runtime423.h": {
+      "bytes": 814,
+      "sha256": "47eb53ce63d3c226cf1cb7cfc66ac99d4548f0aaa1f99e32592dfc64227254b8"
+    },
+    "firmware/r5/src/import/r5_filter_selection423.c": {
+      "bytes": 4538,
+      "sha256": "8aea5b711f39c7ad67b85dd6c216af5f9f221fb23c6a61695d489797ca9e5bcc"
+    },
+    "firmware/r5/src/import/r5_filter_selection423.h": {
+      "bytes": 1745,
+      "sha256": "5bdd8079e562ce996384b180da5cc789759af839be2b9446e7dc464abbed54f0"
+    },
+    "firmware/r5/src/import/r5_fsys_adapter.c": {
+      "bytes": 2473,
+      "sha256": "02016da2f9e50c6d04947fd0e570c2b004e8689c2a89e50bf1a05163d77baa3b"
+    },
+    "firmware/r5/src/import/r5_fsys_adapter.h": {
+      "bytes": 1603,
+      "sha256": "b6038bbd5422fb559f4305801215087b378f2453e89d63ca9b1a1682768f5fae"
+    },
+    "firmware/r5/src/import/r5_gamma_identity.h": {
+      "bytes": 2581,
+      "sha256": "09190d689af74f307f333b97369fd022e80774b1c9e20bf7d7aaa05e537acca3"
+    },
+    "firmware/r5/src/import/r5_gamma_qualification.h": {
+      "bytes": 488,
+      "sha256": "ae24eddf783c8a75f59262fbb224c96cdc9ba55578b3f6518ee1e9135b7b1980"
+    },
+    "firmware/r5/src/import/r5_grid420_log.c": {
+      "bytes": 6013,
+      "sha256": "135eee41d89c8cda07fe11cbd60b9087388f3f96de24f50ee5a97eec34053896"
+    },
+    "firmware/r5/src/import/r5_grid422.h": {
+      "bytes": 1673,
+      "sha256": "aa570b921b7d890d7abbd169a6756e0f7168e577d17438534f23db03ee46a5f0"
+    },
+    "firmware/r5/src/import/r5_grid_diagnostics.h": {
+      "bytes": 957,
+      "sha256": "cbdcc091835fdacd16d3938667b39697af864b3fe17576be410c706942232078"
+    },
+    "firmware/r5/src/import/r5_isp_carrier.h": {
+      "bytes": 491,
+      "sha256": "11127dfc7c3644ff62af46a556f74c7d0265ca1bcf01725a86c0c2744c4a2de9"
+    },
+    "firmware/r5/src/import/r5_lifecycle.h": {
+      "bytes": 1190,
+      "sha256": "ec75906fd92038114f6d691c89ae78bbeb04cdf878daa171104927cfe6d45fb6"
+    },
+    "firmware/r5/src/import/r5_look_transfer.h": {
+      "bytes": 2977,
+      "sha256": "ec6cdbdca8e6789bd0fce188e7866933f87f01fb763272af83e1649b364eb805"
+    },
+    "firmware/r5/src/import/r5_lut_directory.c": {
+      "bytes": 7642,
+      "sha256": "6becb278134c984b98d514d3a11c92b333646a42b6bb578836fd08e91ce6d41f"
+    },
+    "firmware/r5/src/import/r5_lut_directory.h": {
+      "bytes": 2503,
+      "sha256": "e8ed9746378b768179bff63c8e91e3fe658cf313e2e08f5cbd38ed32b482c188"
+    },
+    "firmware/r5/src/import/r5_lut_mount_guard.c": {
+      "bytes": 2305,
+      "sha256": "f2a2934e12e7f6e7108eba40d5ab74c7f044fffeaf6e8f81977b2ae5d26c09ac"
+    },
+    "firmware/r5/src/import/r5_lut_mount_guard.h": {
+      "bytes": 699,
+      "sha256": "ec7f65e67edb817cff953cd48b5b03165d3b10f92822b9c9702f80a7f17c1fea"
+    },
+    "firmware/r5/src/import/r5_lut_mount_reader.h": {
+      "bytes": 699,
+      "sha256": "f7f70f3948c42a79b685bfea8bc00e3ffb33cd0123248c8d12a3041611a350b7"
+    },
+    "firmware/r5/src/import/r5_native_lut_directory.c": {
+      "bytes": 1634,
+      "sha256": "376b8c200c28f5d9f86ac434e46ba136dfce68adcf08ba0d996a4cf3f90fd691"
+    },
+    "firmware/r5/src/import/r5_native_lut_directory.h": {
+      "bytes": 414,
+      "sha256": "0ca38d1291541852bc25175abe55cfdc0ae01b512f3a19d27e6758c813840408"
+    },
+    "firmware/r5/src/import/r5_native_readonly_services.h": {
+      "bytes": 470,
+      "sha256": "b22a7cf70e563ea4312e1c00ccd7b571c20378c42a7db1d73307cbafa4e8aeea"
+    },
+    "firmware/r5/src/import/r5_native_transport.h": {
+      "bytes": 397,
+      "sha256": "4f55864941aa28bbe3054224ee90fd381b28df81e5387905fb5e5e81d2079e35"
+    },
+    "firmware/r5/src/import/r5_native_transport_pie.c": {
+      "bytes": 887,
+      "sha256": "ecd7dddd3b57afb99f892ff24cd31a3f2a675af412ed9547b5e0ae3a0081cbe1"
+    },
+    "firmware/r5/src/import/r5_posix_persist.h": {
+      "bytes": 977,
+      "sha256": "ce341a9e792a5fdbbd3ddd5bf3f5051aabf9ec99cdef6c3b3c34ed65071abbce"
+    },
+    "firmware/r5/src/import/r5_posix_stage.h": {
+      "bytes": 1016,
+      "sha256": "51495add0df53ad22088c489cf2764763b950cfa6cb73819725111c78eb5b7c2"
+    },
+    "firmware/r5/src/import/r5_preview.h": {
+      "bytes": 878,
+      "sha256": "25c62139aa472af6b77e03cf8b346213de58d865c56ef74d950bea205f36fb61"
+    },
+    "firmware/r5/src/import/r5_render_binding.h": {
+      "bytes": 1101,
+      "sha256": "fb3d6b5e2b892703e7abf86607c0126b44348d281652d52bc83ca6e17f6ef589"
+    },
+    "firmware/r5/src/import/r5_runtime_session.c": {
+      "bytes": 3651,
+      "sha256": "27d46b8d261694a03cad216604c1f76822068db9f4805ea26264103a1862c83b"
+    },
+    "firmware/r5/src/import/r5_runtime_session.h": {
+      "bytes": 786,
+      "sha256": "a1695ade13c99797812f96d9948a0f7e45d8997a0dd5e7cceec3c2f80659472a"
+    },
+    "firmware/r5/src/import/r5_scan_gate.c": {
+      "bytes": 1183,
+      "sha256": "7c1964fede43354e7bae3a85e64f40fd779a439858ba07600c29897c5afb5bf3"
+    },
+    "firmware/r5/src/import/r5_scan_gate.h": {
+      "bytes": 1304,
+      "sha256": "d65b0030bed4350b68b946c1acaeab9c582e83e3e3348be0e444adc92678f524"
+    },
+    "firmware/r5/src/import/r5_stage410_codec.c": {
+      "bytes": 9328,
+      "sha256": "305f6f2037b649c4d5453ae2882ef8616cce9f52de543b6373299e7b8e95ea64"
+    },
+    "firmware/r5/src/import/r5_stage411_hooks.c": {
+      "bytes": 3172,
+      "sha256": "bfdcbcecf85e774754d29171dd7c2adaa1a6048be721e222a3f463cafd5fd728"
+    },
+    "firmware/r5/src/import/r5_stage413_probe.c": {
+      "bytes": 6388,
+      "sha256": "92b8f9b44edb352af79141eb0deda2f936c27191e1b6f964fd70e017608687eb"
+    },
+    "firmware/r5/src/import/r5_stage413_thread.c": {
+      "bytes": 18663,
+      "sha256": "1ce79aa4f533c17f2b278c805129c617a06e50d11e374cf0fd8db196edf58ee9"
+    },
+    "firmware/r5/src/import/r5_stage413_transfer.c": {
+      "bytes": 5799,
+      "sha256": "ee2244697cdb36909cf627cb4cc18fb6c7184872034721088f9a4a1fe647a287"
+    },
+    "firmware/r5/src/import/r5_stage413_transfer_core.c": {
+      "bytes": 3902,
+      "sha256": "e952a53c46e0854ae7e97af412f11fdaf39f0e6dc2b692578752d63f73d22569"
+    },
+    "firmware/r5/src/import/r5_stage423_codec.c": {
+      "bytes": 103,
+      "sha256": "a5a5eccaf405dc9d555cc900a70c32ebc688cc5006ed5ca78354780c8bb7b659"
+    },
+    "firmware/r5/src/import/sd_native_look.h": {
+      "bytes": 3123,
+      "sha256": "56201f26cc28dc60629391d9aaa6f7d82eb8fda0089710d3b8d5e09ae4c1e72f"
+    },
+    "firmware/r5/src/import/sd_native_persist.c": {
+      "bytes": 4118,
+      "sha256": "ef1a7d599308bcdeddd1a96d263c72c1f088fe8e334d18283423908fbaa65a64"
+    },
+    "firmware/r5/src/import/sd_native_persist.h": {
+      "bytes": 2480,
+      "sha256": "57a6672f94b258ad52d54cf2baa4edfb640fe49779f68584945ab4c75fdd76f8"
+    },
+    "firmware/r5/src/import/sd_native_store.c": {
+      "bytes": 1404,
+      "sha256": "b91c0c43bba888f354e7ea5e8326aadd721ecf1f21b58325d3254ce239243efb"
+    },
+    "firmware/r5/src/import/sd_native_store.h": {
+      "bytes": 1697,
+      "sha256": "31eb6ad3d6ce0ea34833d6cf57dad163e8c3d98d6ea7406dcd7b8e35a14653e2"
+    },
+    "firmware/r5/src/lib/arm_ops.py": {
+      "bytes": 1015,
+      "sha256": "a2a95d370ee934be16bb26db1aa40a114944f289b7b3d66b190420a41ca8cb98"
+    },
+    "firmware/r5/src/lib/ext2read.py": {
+      "bytes": 5437,
+      "sha256": "ba8fdfd5dfb6367d9d58f3571bb87ee40d94e9d46f10878d8f42b8342ebfd776"
+    },
+    "firmware/r5/src/lib/fat_reader.py": {
+      "bytes": 2464,
+      "sha256": "a24e86423804532991d24fe8e93878197d2f09ceade479bde307d70199cad1df"
+    },
+    "firmware/r5/src/lib/fdat_encrypt.py": {
+      "bytes": 6499,
+      "sha256": "6f8317a3fbb7b94dbc57fa04c415b1139f2b768d27e4d517466c3f995f422603"
+    },
+    "firmware/r5/src/lib/fwtool/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "firmware/r5/src/lib/fwtool/archive/__init__.py": {
+      "bytes": 711,
+      "sha256": "01e99b6b3e86184e397c1328d92a38b53db6058721819d64a62cb0d45ece526a"
+    },
+    "firmware/r5/src/lib/fwtool/archive/axfs.py": {
+      "bytes": 3572,
+      "sha256": "a87616bd803f1ee145f37cbaf117e81e463ba38359e4f009bc7f882c78240920"
+    },
+    "firmware/r5/src/lib/fwtool/archive/cpio.py": {
+      "bytes": 1443,
+      "sha256": "22b97142da05d6d23520deaefa370d5cae4cb5304e2e733aca07941f0db66c25"
+    },
+    "firmware/r5/src/lib/fwtool/archive/cramfs.py": {
+      "bytes": 5239,
+      "sha256": "0dccfc895ab0635b7ebbd134fb38f4ed5ab34580b27d0b17c4a51d3ce975affd"
+    },
+    "firmware/r5/src/lib/fwtool/archive/ext2.py": {
+      "bytes": 3177,
+      "sha256": "eff6223e786a260c6329db2c1aeeedbe80fe8ce96a012aa02dc6870ddd813591"
+    },
+    "firmware/r5/src/lib/fwtool/archive/fat.py": {
+      "bytes": 8247,
+      "sha256": "1430374a905ea2e55f2813b4c8c3b7a050798e1c03a0ecc95eb6d20228e84828"
+    },
+    "firmware/r5/src/lib/fwtool/archive/gz.py": {
+      "bytes": 633,
+      "sha256": "aeb66c01e272a81cc5ca54b9e679359353430addc044170acfb2751c62263319"
+    },
+    "firmware/r5/src/lib/fwtool/archive/lzpt.py": {
+      "bytes": 1468,
+      "sha256": "771f6a8197f8b16c0a6fd2816ca4b8aae550a78d5a0c116e9097a26ba83a1f4b"
+    },
+    "firmware/r5/src/lib/fwtool/archive/squashfs.py": {
+      "bytes": 7864,
+      "sha256": "0b39db150ae4ce02191736b2dfaaa5e65e075136c308d7140922f5d1f5163324"
+    },
+    "firmware/r5/src/lib/fwtool/archive/tar.py": {
+      "bytes": 1139,
+      "sha256": "e42b1d2c1c996e5fa2b2242e62efdf080aa74bc3a1537f9dccb42093641c9318"
+    },
+    "firmware/r5/src/lib/fwtool/io/__init__.py": {
+      "bytes": 1942,
+      "sha256": "6981352a7a39e1427555468e11ef301b7e4bc3e40ae02b09e86e05a2d96e6963"
+    },
+    "firmware/r5/src/lib/fwtool/lz77/__init__.py": {
+      "bytes": 838,
+      "sha256": "dc1407237c002545b08530b96d4efc1eadd24021ae6efc54688408850584c197"
+    },
+    "firmware/r5/src/lib/fwtool/lzh/__init__.py": {
+      "bytes": 1140,
+      "sha256": "8fb5a451128f7e8996a7d452b2eb846896c7c394638eec50e5add6a3077aa489"
+    },
+    "firmware/r5/src/lib/fwtool/mbr/__init__.py": {
+      "bytes": 1541,
+      "sha256": "565771758632031048768d2135976c2cd97b36799bd25bdc4f16901934c04a5f"
+    },
+    "firmware/r5/src/lib/fwtool/pe/__init__.py": {
+      "bytes": 1372,
+      "sha256": "1053d39910a1be15fb048cfedf913ec8498428fe81bce91d0d96ef2dc9edf7d0"
+    },
+    "firmware/r5/src/lib/fwtool/sony/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "firmware/r5/src/lib/fwtool/sony/ash.py": {
+      "bytes": 1372,
+      "sha256": "20a6e6299e3512f7257a2b91a27d12ff33c5b6f33e51b7335f8ec011e2d2ef09"
+    },
+    "firmware/r5/src/lib/fwtool/sony/bootloader.py": {
+      "bytes": 1867,
+      "sha256": "161d9ccbd680d947c318a07e6706b3ce279f46c59a82d38bbbf5af38823c1504"
+    },
+    "firmware/r5/src/lib/fwtool/sony/constants.py": {
+      "bytes": 2161,
+      "sha256": "beaed6b7beb90d8dc513b53640535d5594855fcfaeb183b9504ea22286378cb3"
+    },
+    "firmware/r5/src/lib/fwtool/sony/dat.py": {
+      "bytes": 4538,
+      "sha256": "5f5c1324649ee6c1719b14d5fc3b829741daf904c5f79da2ddcab10ef17f8d8e"
+    },
+    "firmware/r5/src/lib/fwtool/sony/dslr.py": {
+      "bytes": 2095,
+      "sha256": "67b3d70ab002cbf3e3297293e0023c380c238d9a35e22a861d57a361057b9e01"
+    },
+    "firmware/r5/src/lib/fwtool/sony/fdat.py": {
+      "bytes": 9700,
+      "sha256": "962b570e68a407d5ca1b5d47923641ca0ae8d7e33b2e03348bae0b1187b6b64d"
+    },
+    "firmware/r5/src/lib/fwtool/sony/flash.py": {
+      "bytes": 1896,
+      "sha256": "a1a8dd928091f4004995879ef897947bff010940a4c79c91e464c45f853d571c"
+    },
+    "firmware/r5/src/lib/fwtool/sony/msfirm.py": {
+      "bytes": 5542,
+      "sha256": "491a3693c69c7c85de0484ad07163a44536589ede00fa7b3c729879d85e9524e"
+    },
+    "firmware/r5/src/lib/fwtool/sony/wbi.py": {
+      "bytes": 2124,
+      "sha256": "21b672eafc5f6f71fd02e87b3e5444047c5df34971a951877c4b80b79f5c6dc1"
+    },
+    "firmware/r5/src/lib/fwtool/sony/xor55.py": {
+      "bytes": 653,
+      "sha256": "de2436b832be580ff1955df9ad507b2e0c4bb96e6e93380ec0c90a0399962224"
+    },
+    "firmware/r5/src/lib/fwtool/util/__init__.py": {
+      "bytes": 1934,
+      "sha256": "befbfdb6f5a096f4cc33ca68a5cd5690dbc67b630aa0a56e007fec90f45596b6"
+    },
+    "firmware/r5/src/lib/fwtool/zip/__init__.py": {
+      "bytes": 1241,
+      "sha256": "d6b0e01525654301adbf1668ef27b801761e7230f8753b09c2ca96c8b569c165"
+    },
+    "firmware/r5/src/lib/image_io.py": {
+      "bytes": 3153,
+      "sha256": "a2064c0b85274a5a2642cc241895ebb15e6b4e0b2fa78277b1f97d74f5bdee10"
+    },
+    "firmware/r5/src/lib/overlay.py": {
+      "bytes": 1188,
+      "sha256": "2d19f2fc563dc3d9c7a3ce35106d5cea55d88274b795e04b4e5756c4c7cd2b81"
+    },
+    "firmware/r5/src/lib/package.py": {
+      "bytes": 12159,
+      "sha256": "c8233ed52c079ce35cf9915db05018dc6abb8f84f08348d8717f3bac258a642e"
+    },
+    "firmware/r5/src/lib/signature.py": {
+      "bytes": 3895,
+      "sha256": "285496c313926ec22acf1e126e6278ceb34b64fc84c6e3d2a3d1fdfbaf0800cb"
+    },
+    "firmware/r5/src/lib/sony_bk4.py": {
+      "bytes": 4348,
+      "sha256": "da9a920d767eeaa8ba8965cc106397e7d1de409fff34c39c73c9debbc631c717"
+    },
+    "firmware/r5/src/lib/strict_ap_link.py": {
+      "bytes": 5756,
+      "sha256": "bf6010c22e7c08484568d040cdf6f4a52eee984e53dd41c4775c1497116daa34"
+    },
+    "firmware/r5/src/lib/thumb_link.py": {
+      "bytes": 1345,
+      "sha256": "89a3782a3dd6f2c44462fe12b9eb094d192575a72ae774346b057bb1b9f0d86e"
+    },
+    "firmware/r5/src/lib/thumb_ops.py": {
+      "bytes": 1561,
+      "sha256": "2d27a76f72432bf96d61ff12e152463326bb317d96fceea9b438a9146d8a40fe"
+    },
+    "firmware/r5/src/menu_parent423.py": {
+      "bytes": 5685,
+      "sha256": "0651750376d5173092d027b0000eaf6413a5f1c7d3806fdb2e8b1559dd08da0e"
+    },
+    "firmware/r5/src/menu_research/menu_hooks.json": {
+      "bytes": 3536,
+      "sha256": "74260cde562e66de538801a3ab484d77d2faad24e6d753ac49796f474261a9cf"
+    },
+    "firmware/r5/src/menu_research/native_extra425.json": {
+      "bytes": 482,
+      "sha256": "b3e7b5da385ac70bb751b1aebca9b309bfc390ecafde32ea5dac90dcc49102d4"
+    },
+    "firmware/r5/src/menu_research/r5_filter_menu423.c": {
+      "bytes": 6480,
+      "sha256": "1b1cf220126dc3467fec733c6cf0166a08cd7fa75b8d225bcf5c50318d255b10"
+    },
+    "firmware/r5/src/menu_research/r5_filter_menu423.h": {
+      "bytes": 1197,
+      "sha256": "f24dc35ed16e4b682407eaaf7d8eb59cf7fd9a8731bfd9045d6c7c317a497c47"
+    },
+    "firmware/r5/src/menu_research/r5_filter_menu_icon434.S": {
+      "bytes": 611,
+      "sha256": "8bc2126ef491004d830ee862845829c78c5441e52ff291935320dbea7d0ebcc9"
+    },
+    "firmware/r5/src/menu_research/r5_filter_page425.c": {
+      "bytes": 17306,
+      "sha256": "315cf3226f13bf1b8eb73bb89a0476e0f3f155c33079a8b4d71416289dafa440"
+    },
+    "firmware/r5/src/menu_research/r5_filter_renderer423.S": {
+      "bytes": 571,
+      "sha256": "07072985be98bdc75abd4a8e2ce77dcfc0aa0eea108abc1870831468ad7994e2"
+    },
+    "firmware/r5/src/menu_research/r5_filter_renderer423.c": {
+      "bytes": 3653,
+      "sha256": "01d0c2034f0930abcff705d1a551ffd0f2279c5ce436a8e4881f8af72ac7690d"
+    },
+    "firmware/r5/src/templates/prepare_templates.py": {
+      "bytes": 14456,
+      "sha256": "922183422b6663e41cc63f394db5b6d282b9417c507a7ebd6cf222be3bbd9270"
+    },
+    "licenses/Colour-BSD-3-Clause.txt": {
+      "bytes": 1465,
+      "sha256": "cd9efcd4b6ac5218189d90ffc25f9766f8411e62c5526c452145e1cc8b19baf7"
+    },
+    "licenses/Erlla-MIT.txt": {
+      "bytes": 1392,
+      "sha256": "a5aafd5c1a36bd33e8098371f499eb5a3f2bd935abf933a545c2519915f94a96"
+    },
+    "licenses/Raw-Alchemy-AGPL-3.0.txt": {
+      "bytes": 34523,
+      "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef"
+    },
+    "licenses/a7c2-fl23-MIT.txt": {
+      "bytes": 1234,
+      "sha256": "c592870a8504689cbe03449c2ae582ba6517716c9e0cd2f880cea50c187d16e9"
+    },
+    "licenses/fwtool-MIT.txt": {
+      "bytes": 1072,
+      "sha256": "a485f27d0b22eb7fd9b9419795695d0a1750ea32c961d11c1dd8ddade564dedf"
+    },
+    "publication/4.24/RELEASE_NOTES.md": {
+      "bytes": 1316,
+      "sha256": "f853d155376deae3d64149040b9307267b37dd8fa6a4413b0c20f26c17f6101b"
+    },
+    "publication/4.24/checks.json": {
+      "bytes": 771,
+      "sha256": "f87efcfb10e9e9c81b88945d1def94484c70352fb510c11007c0413991ca520a"
+    },
+    "publication/4.28/RELEASE_NOTES.md": {
+      "bytes": 1099,
+      "sha256": "ac479c3c9256356c20e21e42b154a04e6d8ec0f6f3dd14bd55b2c1513ec96581"
+    },
+    "publication/4.28/SHA256SUMS": {
+      "bytes": 420,
+      "sha256": "60b20037020a1e2caad0dd894289e65bd2a7c2324abe2db2e3d935abbc4dabdd"
+    },
+    "publication/4.28/checks.json": {
+      "bytes": 356,
+      "sha256": "08043f9e6a48a6d8801c0fc966f38258f19a8882155a64a2e5b4793c4f64e369"
+    },
+    "publication/4.28/filter_verification.json": {
+      "bytes": 2565,
+      "sha256": "7cc71964bdee46a740c3e80975e980b726d8212d4816b238a0a56831a2b1ed74"
+    },
+    "publication/4.28/firmware_delivery_verified.json": {
+      "bytes": 1350,
+      "sha256": "d887b7c2af8869fb833fd4cea5cd64e68accf8ddb242756fc4db2dd8846a05b1"
+    },
+    "publication/4.32/RELEASE_NOTES.md": {
+      "bytes": 1424,
+      "sha256": "c47c1a22bac4b5ad2de28a673928f1ea5d69d952d4f0ce36b0cccae49d5007c2"
+    },
+    "publication/4.32/SHA256SUMS": {
+      "bytes": 436,
+      "sha256": "b0a8d2e7722f4e2e603374b057a3cbede9db6c9f2e06f9457fd091b3ce41d54e"
+    },
+    "publication/4.32/cleanup_result.json": {
+      "bytes": 249,
+      "sha256": "08b648a4d6305ee73c34ec05b046a0fca2aecf28352f5aca8af4affc2a72e8f6"
+    },
+    "publication/4.32/firmware_delivery_verified.json": {
+      "bytes": 2517,
+      "sha256": "b010b217b2febe2ed9101eabb73c3e2ecf2f7461b75e477bba947a1f197e6e15"
+    },
+    "publication/4.32/source_manifest.json": {
+      "bytes": 105310,
+      "sha256": "2997a3987618a75412ea2c03770d1cec2efacd15e2253a75fa812630a73d60ef"
+    },
+    "publication/4.32/source_mapping.json": {
+      "bytes": 251329,
+      "sha256": "979f600f208b9c122ebf269b5c5ec434529a87341beaf0121eaa5092d2bd6da6"
+    },
+    "publication/4.34/RELEASE_NOTES.md": {
+      "bytes": 1641,
+      "sha256": "e4a239899b50b41534a937d858f4a521aecb25cd88077807f039cffdeb9dc3c9"
+    },
+    "publication/4.34/SHA256SUMS": {
+      "bytes": 528,
+      "sha256": "422bc8384928b33e6299b8780222ac7ba0c7e9536b5c2c8987bbe077364c5d01"
+    },
+    "publication/4.34/firmware_delivery_verified.json": {
+      "bytes": 8015,
+      "sha256": "afacef3217501aa47039374e410c821ffd7f0f2e429063e32baf2c4e4e9da655"
+    },
+    "publication/4.34/source_manifest.json": {
+      "bytes": 130698,
+      "sha256": "7300366b0e33ec76997203fdb441c630247ce3c05110e2be74f90a6f6ea2839d"
+    },
+    "publication/4.34/source_mapping.json": {
+      "bytes": 167561,
+      "sha256": "ba6e169199e81240a4bb6c6653fbd00379ed37fcaa828badbcb12753f9fbc19f"
+    },
+    "publication/4.34/standalone_components_verified.json": {
+      "bytes": 893,
+      "sha256": "65140ecfe3d3f3df70d8854cfdfc2348c9a4e92d30e06006bd451178bab43a61"
+    },
+    "publication/4.34/unified_build_retired_paths.json": {
+      "bytes": 164196,
+      "sha256": "1687c82a156e73e7d596a9c10bf3d3bbd3eee37f8386bf6751486bebbbd759e3"
+    },
+    "publication/4.34/workspace_consolidation.json": {
+      "bytes": 485,
+      "sha256": "445e75f004797fd8d015fee1c4b08d7784c97969a0bf77c8962e1821b213f5e5"
+    },
+    "publication/4.35/validation.json": {
+      "bytes": 1024,
+      "sha256": "9e501c8c44b282cad631c9d7d55e7cf827cd770bafac5413acfbfd951e7cfb43"
+    },
+    "publication/4.35/workbench_sources.json": {
+      "bytes": 9339,
+      "sha256": "cddf9f04f1fd5adc0d2b282a151adb8208b7d8b968e2837c72b7b7fe99556e36"
+    },
+    "publication/4.36/validation.json": {
+      "bytes": 1436,
+      "sha256": "4285279f9ed7778e97952d1b82c05462852e44bf6c5dd72c8ba15cc995071d66"
+    },
+    "publication/4.36/workbench_sources.json": {
+      "bytes": 9339,
+      "sha256": "955bf3f8878a9101f3c7de303f4049ea32a7c8f486987b24ea4d5a78ea5e36f6"
+    },
+    "requirements.txt": {
+      "bytes": 174,
+      "sha256": "f75108eee2c2a902f3859dcb4ed66f848a319f4e8d62be31f5983b10281c3604"
+    }
+  },
+  "git_metadata_included": false,
+  "repository": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware",
+  "schema": "a7r5-upstream-source-snapshot/1"
+}

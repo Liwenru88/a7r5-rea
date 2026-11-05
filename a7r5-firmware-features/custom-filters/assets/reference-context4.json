@@ -1,0 +1,243 @@
+{
+  "scope": "fixed public numeric reference asset; not camera calibration or executable firmware",
+  "origin_repository": "Hearts-Ace/sony-a7r5-custom-firmware",
+  "origin_commit": "8b563d46f800679abd3f215950cb541fc81da2a6",
+  "context": 4,
+  "capture_report_sha256": "9e8ebb61859515ea5d473110209ceb71e4bd212eda8f43a4eb4cdd049b376e1e",
+  "original_capture_files": [
+    {
+      "name": "1304-color-build-runtime-4.bin",
+      "bytes": 670656,
+      "sha256": "082d904742375cf85c04b181e79353a5864026c56e9a55ee25c3a8ee777bf60e"
+    },
+    {
+      "name": "1305-color-build-raw-4.bin",
+      "bytes": 5120,
+      "sha256": "986cbbf413a72d196e4ba64d2ca08503c66706338beed7267acd5c69fb2b1acc"
+    },
+    {
+      "name": "1306-color-build-settings-4.bin",
+      "bytes": 768,
+      "sha256": "3724592c0560014db0acf6f5cdd39b1ebb8d152b69654668044ac0995c66fd98"
+    }
+  ],
+  "source_fixtures": [
+    {
+      "path": "a7r5-firmware-features/custom-filters/tests/fixtures/edit_reference_context4.json",
+      "bytes": 305658,
+      "sha256": "661771bc9ecd693f3c075322577f3843ba548695c3281674ffc11811a4a4f830"
+    },
+    {
+      "path": "a7r5-firmware-features/custom-filters/tests/fixtures/edit_gamma_axis_bridge.json",
+      "bytes": 3337,
+      "sha256": "7ff77b36c44527918b90fc8159fdc501e522b9ef47b5cfdd8400ad0aab4b5c14"
+    },
+    {
+      "path": "a7r5-firmware-features/custom-filters/tests/fixtures/edit_matrix_table_context4.json",
+      "bytes": 2654,
+      "sha256": "49b0665441cde19eccd7342e98f4bf68939687e127d40de8254a1f74410d7695"
+    }
+  ],
+  "asset_bytes": 377304,
+  "asset_sha256": "2da825a272466e38c2d93055db412d4fce32454a864d5ed219cc82a712ee745f",
+  "segments": [
+    {
+      "name": "baseline_matrix_table",
+      "offset": 0,
+      "bytes": 73728,
+      "sha256": "930860e16b56d60baf44056bc89d7dc349f444eef45c3a0fa883079d3b699069"
+    },
+    {
+      "name": "matrix_angles",
+      "offset": 73728,
+      "bytes": 2048,
+      "sha256": "3c643c336f38caac7ef543afe8e64ab63d9ca7f1e23a96e1471b5dc50155248a"
+    },
+    {
+      "name": "baseline_main_gamma",
+      "offset": 75776,
+      "bytes": 131072,
+      "sha256": "3a5ed56fa716af1eb51ce4045c101c58aabf7faa1f19bf5227b917f289769d3f"
+    },
+    {
+      "name": "secondary_inverse",
+      "offset": 206848,
+      "bytes": 32768,
+      "sha256": "0bd231fa0ad6a0c805267aeb20abf3c3dae2a26c78120f934143a9f7c6ce0521"
+    },
+    {
+      "name": "secondary_gamma",
+      "offset": 239616,
+      "bytes": 131072,
+      "sha256": "f8499a24df6ab137f23e10928cb464695411667bac4183a9e4ec3471ff6cfb10"
+    },
+    {
+      "name": "gamma_axis",
+      "offset": 370688,
+      "bytes": 512,
+      "sha256": "f1eefbfa90e5c0b5322512b83a70a892ef8514ac3c880eda13a12354c2e3c0fa"
+    },
+    {
+      "name": "gamma_values",
+      "offset": 371200,
+      "bytes": 512,
+      "sha256": "07611c5edeb6869dd3f5dd83a75934657290e9db874820af9ca60ee8dc50a449"
+    },
+    {
+      "name": "contrast",
+      "offset": 371712,
+      "bytes": 4100,
+      "sha256": "0de0274b973d87b2b3dfeefa116b228cca9f7efd29f0290719bf82d7abfac500"
+    },
+    {
+      "name": "matrix_payload",
+      "offset": 375812,
+      "bytes": 276,
+      "sha256": "9a3811fea413b06b23d0dbd25cdd99b8901b869a475464a124fdcdd48d23f5ab"
+    },
+    {
+      "name": "selected_cc1",
+      "offset": 376088,
+      "bytes": 16,
+      "sha256": "2d3f656b0612fb43fe427057077d2e9568ea2a68597bd02efbe2de9749f0cc16"
+    },
+    {
+      "name": "cp_gamma_record",
+      "offset": 376104,
+      "bytes": 576,
+      "sha256": "f4e9f31bce38b4c705721a501c7597705852e671bc39baf60b02dac8b88f95ac"
+    },
+    {
+      "name": "cp_matrix_endpoints",
+      "offset": 376680,
+      "bytes": 576,
+      "sha256": "8e1389747320727fa862211de0864b8bf2d919beba30067c0fc35570440273bf"
+    },
+    {
+      "name": "cp_cc1_endpoints",
+      "offset": 377256,
+      "bytes": 48,
+      "sha256": "17948b0016048d0405910e86f78696b0dc6ba4466c0b6d119b0903873709fa30"
+    }
+  ],
+  "scalars": {
+    "matrix_parameters": {
+      "enabled": 1,
+      "luma_smooth": 1,
+      "chroma_smooth": 1,
+      "scale_chroma": 0,
+      "quadratic": 1,
+      "thresholds": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "cc1": [
+      -51,
+      -184,
+      -252,
+      -396,
+      818,
+      840,
+      934,
+      1126
+    ],
+    "luma": [
+      2432,
+      4864,
+      896
+    ],
+    "keep_unclipped": 0,
+    "area_parameters": {
+      "coefficients": [
+        0.0,
+        0.0,
+        -72.0,
+        54.0,
+        0.25,
+        -0.53125,
+        0.109375,
+        -0.828125,
+        -0.765625,
+        -0.328125,
+        0.359375,
+        0.9375,
+        0.234375,
+        0.28125,
+        0.0,
+        0.0
+      ],
+      "selector": 1
+    },
+    "chroma_expected": {
+      "high_cutoff": 15356,
+      "low_cutoff": 0,
+      "high_slope": 512,
+      "low_slope": 512
+    },
+    "chroma_source": {
+      "slopes": [
+        512,
+        112,
+        128
+      ],
+      "thresholds": [
+        15360,
+        15360,
+        15360
+      ],
+      "low_slope": 512,
+      "low_threshold": 0,
+      "gain_raw": 64,
+      "exposure_300": 0,
+      "look_rule": "raw look 0x186 outside the 0..21 override range; resolved source remains raw values"
+    },
+    "y_parameters": {
+      "black_level": 0,
+      "white_level": 0,
+      "pivot": 0,
+      "gain": 1.0546875
+    },
+    "matrix_domain": {
+      "schema": 1,
+      "calibration_identity": 1,
+      "output_gamut_mode": 3,
+      "trailing_padding": [
+        255,
+        255
+      ]
+    },
+    "main_inverse_initial_zero": 65451,
+    "matrix_weights": [
+      256,
+      0,
+      0,
+      0
+    ],
+    "cc1_weights": [
+      256,
+      0,
+      0,
+      0
+    ]
+  },
+  "canonical_scalar_json_bytes": 971,
+  "canonical_scalar_sha256": "8677f7b891e5a264ce9eb97abb1146b0aed0bc81d9ba1669ce8305b019b2bae0",
+  "aliases": {
+    "baseline_y_gamma": "secondary_gamma+65536, 65536bytes"
+  },
+  "omitted_rebuildable": {
+    "main_inverse": "only initial_zero required; complete inverse rebuilt by af_edit_gamma_main_inverse",
+    "baseline_matrix_config": "rebuilt from matrix_payload by af_edit_matrix_table"
+  },
+  "source_code_executed": false,
+  "camera_io": false,
+  "target_code_executed": false,
+  "asset_file": "reference-context4.bin",
+  "license_notice": "R5ColorLab code is AGPL-3.0; source numeric data and third-party materials retain their original rights. This numeric repack grants no additional license, includes no upstream Python/C source, full firmware, keys or user photographs.",
+  "source_urls": [
+    "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/tree/8b563d46f800679abd3f215950cb541fc81da2a6/R5ColorLab/data/model/capture",
+    "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/8b563d46f800679abd3f215950cb541fc81da2a6/R5ColorLab/data/static_tables.json"
+  ]
+}

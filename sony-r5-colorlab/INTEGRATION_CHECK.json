@@ -1,0 +1,61 @@
+{
+  "schema": "sony-r5-colorlab-integration-check/1",
+  "date": "2026-11-03",
+  "status": "PASS",
+  "scope": "本地源码整合、数据完整性及标准库BIN编解码验证；未完成训练运行验收",
+  "commit": "fb464bdef54cae7b56092bd35d35dc3542793ff3",
+  "upstream_files_verified": 4082,
+  "upstream_bytes_verified": 124832066,
+  "upstream_sha256_git_blob_and_modes": "PASS",
+  "source_manifest_sha256": "d15303615dc2b5a436928a0531e3ae4fda73b8467d029aea892b945da7b2ccd0",
+  "nested_git": false,
+  "python_ast_files": 158,
+  "model_data_files_verified": 3849,
+  "bin_roundtrips": [
+    {
+      "path": "sony-r5-colorlab/filters/FUJ_12_v45_three_experts_20261102/R5NATIVE.BIN",
+      "bytes": 29552,
+      "sha256": "b985c0d1e99c33681e5994a282372bc5bf8e7ec0c0811b56e87cd3cbd66b61c8",
+      "entries": 12,
+      "roundtrip_identical": true,
+      "crc_rejection": true,
+      "invalid_slot_with_repaired_crc_rejection": true
+    },
+    {
+      "path": "a7r5-firmware-features/native12-combined/releases/4.11/R5NATIVE.BIN",
+      "bytes": 29552,
+      "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6",
+      "entries": 12,
+      "roundtrip_identical": true,
+      "crc_rejection": true,
+      "invalid_slot_with_repaired_crc_rejection": true
+    }
+  ],
+  "cli_compile": {
+    "status": "PASS",
+    "input_policy": "另存仅五个标准顶层字段的配方副本，原export_sources审计保留",
+    "output_matches_historical_bin": true,
+    "receipt": ".local/colorlab-integration-20261103-01/compiler-command.json"
+  },
+  "launcher_check": {
+    "status": "BLOCKED_MISSING_DEPENDENCIES",
+    "exit_code": 1,
+    "missing": [
+      "numpy",
+      "scipy",
+      "PIL",
+      "rawpy"
+    ],
+    "receipt": ".local/colorlab-integration-20261103-01/launcher-check.json"
+  },
+  "new_document_local_links_checked": 14,
+  "git_ignored_files": 3815,
+  "git_ignored_note": "原有Git忽略规则保留；此快照完整存在本机，未提交或发布。跨机恢复需核对来源清单。",
+  "training_tests_run": false,
+  "web_started": false,
+  "gpu_tested": false,
+  "dependencies_installed": false,
+  "firmware_modified": false,
+  "native24_v5_export_added": false,
+  "camera_io": false
+}

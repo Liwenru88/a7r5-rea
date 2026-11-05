@@ -1,0 +1,10 @@
+{
+  "status": "baseline-and-preimages-verified",
+  "AP_sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9",
+  "file_preimages_checked": 35,
+  "support_writes_planned": 28,
+  "registrations_planned": 3,
+  "modified_AP_written": false,
+  "installable_firmware_created": false,
+  "camera_io": false
+}

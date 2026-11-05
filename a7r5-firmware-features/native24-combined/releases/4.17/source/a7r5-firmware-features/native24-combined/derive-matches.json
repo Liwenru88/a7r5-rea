@@ -1,0 +1,537 @@
+[
+  {
+    "path": "import/sd_native_look.h",
+    "before": "#define R5_LOOK_SLOTS 12u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_names423.c",
+    "before": "[16][12]",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_names423.c",
+    "before": "4095u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_names423.c",
+    "before": "i<12;",
+    "count": 3
+  },
+  {
+    "path": "import/r5_filter_names423.c",
+    "before": "number>12",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_runtime423.c",
+    "before": "4095u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_runtime423.c",
+    "before": "n>12",
+    "count": 2
+  },
+  {
+    "path": "import/r5_filter_runtime423.c",
+    "before": "n<=12",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_selection423.h",
+    "before": "0x53463552u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_selection423.c",
+    "before": "p[1]=1;",
+    "count": 1
+  },
+  {
+    "path": "import/r5_filter_selection423.c",
+    "before": "p[1]!=1",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "48796u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "50896u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "301840u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "522152u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "0x53463552u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": ":28768u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "+13u*",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "<=51780u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_custom_filter423.h",
+    "before": "+11u*",
+    "count": 1
+  },
+  {
+    "path": "import/r5_grid422.h",
+    "before": "52352u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_grid422.h",
+    "before": "SLOTS 12u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_grid422.h",
+    "before": "207880u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_grid422.h",
+    "before": "301840u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "4095u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "<=12",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "return 13;",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "==13",
+    "count": 4
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "p[7]=='X'",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "p[7]='X'",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "p[1]=3;",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer_core.c",
+    "before": "p[1]!=3",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "4095u",
+    "count": 3
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "<=12",
+    "count": 3
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "return 13;",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "==13",
+    "count": 2
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "p[7]=='X'",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "p[7]='X'",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "p[1]=3;",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": "p[1]!=3",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_transfer.c",
+    "before": ">12",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer.c",
+    "before": "4095u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer.c",
+    "before": "3000u",
+    "count": 4
+  },
+  {
+    "path": "import/r5_stage413_transfer.c",
+    "before": "poll<40",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer.c",
+    "before": "poll==39",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_transfer.c",
+    "before": "s->sends>=14",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "4095u",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "p[7]=='2'",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "p[7]='2'",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "p[1]=1;",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "p[1]!=1",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "0x420",
+    "count": 1
+  },
+  {
+    "path": "import/r5_stage413_probe.c",
+    "before": "28768u",
+    "count": 1
+  },
+  {
+    "path": "cp/r5_stage413_probe.h",
+    "before": "VERSION 1u",
+    "count": 1
+  },
+  {
+    "path": "cp/r5_stage413_probe.h",
+    "before": "0x32503552u",
+    "count": 1
+  },
+  {
+    "path": "cp/r5_stage413_probe.h",
+    "before": "0x420u",
+    "count": 1
+  },
+  {
+    "path": "cp/r5_stage413_probe.h",
+    "before": "28768u",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "28768u",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "52252u",
+    "count": 2
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "52348u",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "4095u",
+    "count": 2
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "i<12;",
+    "count": 2
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "p[1]==3",
+    "count": 1
+  },
+  {
+    "path": "cp/cp_stage413_probe.c",
+    "before": "put(reply,12,0x420)",
+    "count": 1
+  },
+  {
+    "path": "cp/custom_filter423.c",
+    "before": "selected>12",
+    "count": 1
+  },
+  {
+    "path": "cp/custom_filter423.c",
+    "before": "28768u",
+    "count": 1
+  },
+  {
+    "path": "cp/custom_filter423.c",
+    "before": "p[1]!=1",
+    "count": 1
+  },
+  {
+    "path": "cp/native_color.c",
+    "before": "selected>12",
+    "count": 1
+  },
+  {
+    "path": "cp/native_color.c",
+    "before": "n<=12;",
+    "count": 1
+  },
+  {
+    "path": "cp/native_color.c",
+    "before": "n<12;n++)if(b->expected_mask",
+    "count": 1
+  },
+  {
+    "path": "cp/native_color.c",
+    "before": "52252u",
+    "count": 3
+  },
+  {
+    "path": "import/r5_grid420_log.c",
+    "before": "selected<=12",
+    "count": 2
+  },
+  {
+    "path": "import/r5_grid420_log.c",
+    "before": "0x420",
+    "count": 2
+  },
+  {
+    "path": "import/build_ap_module.py",
+    "before": "memory<=196608",
+    "count": 1
+  },
+  {
+    "path": "import/build_ap_module.py",
+    "before": "'-fno-stack-protector'",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "'-Oz','-fno-jump-tables'",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "522152",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "52352",
+    "count": 2
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "52360",
+    "count": 2
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "155520",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "207880",
+    "count": 2
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "207888",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "301840",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "28768",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "[0,12]",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "view_offset':50896",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "'views':13",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "48796",
+    "count": 1
+  },
+  {
+    "path": "cp/build_cp.py",
+    "before": "8354432",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_menu423.h",
+    "before": "ROW_COUNT 13u",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "list[13]",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "i<=12",
+    "count": 2
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "selected>12",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "g.focus>12",
+    "count": 2
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "i<13;",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "n==12",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_page425.c",
+    "before": "if(!owned(c))return",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_menu423.c",
+    "before": "extern void name_char(void *,const char *);",
+    "count": 1
+  },
+  {
+    "path": "menu_research/r5_filter_menu423.c",
+    "before": "if(s)name_char(sprite,s);",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "#define COUNT 12u",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "n12_rows[31]",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "selector<31",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "+16*phase",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "n=code&15",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "code>=80",
+    "count": 1
+  },
+  {
+    "path": "unified-look.c",
+    "before": "code>>4",
+    "count": 4
+  },
+  {
+    "path": "unified-look.c",
+    "before": "<=31)",
+    "count": 1
+  }
+]

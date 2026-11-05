@@ -1,0 +1,198 @@
+{
+  "schema": "sony-r5-colorlab-native24-verification/1",
+  "date": "2026-11-03",
+  "status": "PASS",
+  "scope": "离线配方格式和工具链；不代表完整训练或机身成像验收",
+  "adaptation_sha256": "028ca60719f299bb892d18fd1a52dd3ba1548043f06871d64b6cf539f459c071",
+  "upstream_unchanged_files": 4067,
+  "modified_upstream_files": 15,
+  "unchanged_model_data_files": 3849,
+  "regression": {
+    "passed": 102,
+    "skipped": 1,
+    "subtests_passed": 26,
+    "junit_entries_include_subtests": true,
+    "skip_reason": "未分发的历史数值样本",
+    "receipt": {
+      "path": ".local/colorlab-native24-verify-20261103-01/related-regression.xml",
+      "sha256": "2d92f32e655e5f972743706897c6f4767429d6d27d0ed4a807f3f09d27e984f5",
+      "tests": 129,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    }
+  },
+  "actual_AArch64_AP_codec": {
+    "passed": 4,
+    "receipt": {
+      "path": ".local/colorlab-native24-verify-20261103-01/actual-ap.xml",
+      "sha256": "46dd2fe885897c26b401b86e04b2e6daaa7adb184a54e7195f3a5ad87abc6071",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "success_stubs": false,
+    "hardware_stubs": false
+  },
+  "other_receipts": {
+    "related-regression.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/related-regression.xml",
+      "sha256": "2d92f32e655e5f972743706897c6f4767429d6d27d0ed4a807f3f09d27e984f5",
+      "tests": 129,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "actual-ap.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/actual-ap.xml",
+      "sha256": "46dd2fe885897c26b401b86e04b2e6daaa7adb184a54e7195f3a5ad87abc6071",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "codec.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/codec.xml",
+      "sha256": "da5193bfad9cbce8e401e9cb3681c0a6280da9ecf78b685e5901bc9da2cc5958",
+      "tests": 59,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "web-directed-02.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/web-directed-02.xml",
+      "sha256": "0810c60b9c7634a2281b3494abe6c1e42ae0b8c64173c53de5ab2298267022d1",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "conversion.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/conversion.xml",
+      "sha256": "54e8841b8b40a5efab61f72a28b630f25bb49f061aa9cd846e639e0afe17a991",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dependency-regression.xml": {
+      "path": ".local/colorlab-native24-verify-20261103-01/dependency-regression.xml",
+      "sha256": "00e66c6bbe5e7358d8434959872da2e9c00b1ccff5135e8c9a17fbcbe711c58a",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "synthetic_cli_artifact": {
+    "path": ".local/colorlab-native24-verify-20261103-01/synthetic-fixtures/R5NATIVE24.synthetic.test.BIN",
+    "bytes": 58976,
+    "sha256": "2656cc7da4b7a25a5f6fe774d4883472ac76df9d2ddb10ddf3174055de1a2c4a",
+    "new_finished_filters": false,
+    "command": [
+      ".venv/bin/python",
+      "sony-r5-colorlab/R5ColorLab/compilers/custom_filter_v4.py",
+      ".local/colorlab-native24-verify-20261103-01/synthetic-fixtures/native24.synthetic.json",
+      "--output",
+      ".local/colorlab-native24-verify-20261103-01/synthetic-fixtures/R5NATIVE24.synthetic.test.BIN"
+    ],
+    "stdout": "{\"bytes\": 58976, \"sha256\": \"2656cc7da4b7a25a5f6fe774d4883472ac76df9d2ddb10ddf3174055de1a2c4a\", \"version\": 5, \"firmware\": \"native24-combined\"}\n"
+  },
+  "environment": {
+    "python": ".local/colorlab-native24-verify-20261103-01/.venv/bin/python",
+    "packages": ".local/colorlab-native24-verify-20261103-01/environment.txt",
+    "root_environment_modified": false
+  },
+  "firmware": {
+    "candidate_sha256": "4ae85fd923f91da320172ad2c5e31578e954b9d8e88fb4c61c530136431850b0",
+    "AP_sha256": "e0ef19eae2be9873946e61ddf52ae72f60cef767b1cea4325268a7f1bfa8d165",
+    "CP_sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+    "bundle_sha256": "4e6bde0421db5661c20275b7fea5f692d1a610e9a455829a8b17196e842a7546",
+    "owned_source_files_verified": 22,
+    "modified": false
+  },
+  "formats": {
+    "legacy": 4,
+    "expanded": 5,
+    "max_slots": 24,
+    "old_twelve_bytes_preserved": true,
+    "old_firmware_rejects_v5": true
+  },
+  "dependency_fix": "原训练代码已使用threadpoolctl，补齐遗漏的3.6.0声明",
+  "QEMU_run": false,
+  "DAT_generated": false,
+  "camera_io": false,
+  "full_precision_training_run": false,
+  "GPU_verified": false,
+  "verification_commands": [
+    {
+      "env": {
+        "PYTHONPATH": "sony-r5-colorlab/R5ColorLab/web:sony-r5-colorlab/R5ColorLab/scripts:sony-r5-colorlab/R5ColorLab/tests"
+      },
+      "argv": [
+        ".local/colorlab-native24-verify-20261103-01/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "sony-r5-colorlab/tests/test_native24.py",
+        "sony-r5-colorlab/tests/test_native24_web.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_custom_filter423.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_portable.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_export_policy423.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_batch_training.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_compression_workflow.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_file_storage.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_integrated_training.py",
+        "sony-r5-colorlab/R5ColorLab/tests/test_optimizer_policy.py",
+        "--tb=short",
+        "--junitxml=.local/colorlab-native24-verify-20261103-01/related-regression.xml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "sony-r5-colorlab/tests/test_native24_binary.py",
+        "--tb=short",
+        "--junitxml=.local/colorlab-native24-verify-20261103-01/actual-ap.xml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        ".local/colorlab-native24-verify-20261103-01/.venv/bin/python",
+        "sony-r5-colorlab/R5ColorLab/launcher.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "--check",
+        "sony-r5-colorlab/R5ColorLab/web/static/app.js"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "--check",
+        "sony-r5-colorlab/R5GridCalibrator/static/app.js"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "static_checks": {
+    "python_ast": "PASS",
+    "source_and_local_hashes": "PASS",
+    "markdown_links": "PASS",
+    "git_diff_check": "PASS",
+    "python_ast_files": 161,
+    "markdown_local_links": 39
+  }
+}

@@ -1,0 +1,62 @@
+# 实施任务
+
+- Feature ID: `002-native12-combined-firmware`
+- Updated: `2026-11-02`
+
+- [x] T001 固定上游、准备只读官方输入，重建并审计远端基线。
+  - _Requirements: REQ-001, REQ-005, REQ-006_
+  - _Acceptance: AC-001, AC-005, AC-006_
+  - _Verification: 原始输入／源码摘要、真实编译和原版目标身份；工具链差异须定位_
+  - _Depends: none_
+  - _Boundary: 新目录、仅本机；不读取远端私钥或改变信任策略_
+- [x] T002 合入四项功能并验证冲突拒绝、原版保持和参数语义。
+  - _Requirements: REQ-001, REQ-002, REQ-003_
+  - _Acceptance: AC-001, AC-002, AC-003_
+  - _Verification: 功能定向测试、真实组件窗口／ELF审计及精确逆还原_
+  - _Depends: T001_
+  - _Boundary: 不混入旧六款／32槽／旧UXD资源，不放宽未知前像检查_
+- [x] T003 生成新版本分区及完整研究签名DAT，独立解包并交付。
+  - _Requirements: REQ-004, REQ-005, REQ-006_
+  - _Acceptance: AC-004, AC-005, AC-006_
+  - _Verification: 完整签名／逐帧／独立成员审计、输入SHA保持及最终回执_
+  - _Depends: T002_
+  - _Boundary: 只交付本地未实机验收候选；不写卡、不部署、不宣称照片叠加或机身通过_
+- [x] T004 按用户要求重封4.10，验证与4.37功能内容相同并更新交付入口。
+  - _Requirements: REQ-004, REQ-005, REQ-006_
+  - _Acceptance: AC-004, AC-005, AC-006_
+  - _Verification: 新包正常签名／完整解包；BCD版本04/10；明文头仅版本／CRC变化，TAR／组件／BIN与旧包相同_
+  - _Depends: T003_
+  - _Boundary: 新目录，不覆盖旧4.37或操作相机；沿用原实机未验收边界_
+- [x] T005 集中4.10交付、证据及固定上游源码，更新总入口与复现路径。
+  - _Requirements: REQ-007, REQ-006_
+  - _Acceptance: AC-007, AC-006_
+  - _Verification: 复制前后SHA、快照188源码锁及篡改拒绝、现有集成回归、文档引用和归档清单_
+  - _Depends: T004_
+  - _Boundary: 仅新增归档和必要路径兼容；旧来源／回执保留，不复制私钥／原厂镜像，不改变固件内容_
+- [x] T006 建立当前产物的运行时覆盖清单，补充真实来源绑定的离线回放。
+  - _Requirements: REQ-008, REQ-001, REQ-002_
+  - _Acceptance: AC-008, AC-001, AC-002_
+  - _Verification: 按运行时行为分组的实际宿主／CPU结果及服务边界，记录源码和产物指纹_
+  - _Depends: T005_
+  - _Boundary: 不执行设备或硬件模型；不以mock服务成功证明实际硬件成功_
+- [x] T007 复现并最小修复运行时或兼容性失败，记录回归。
+  - _Requirements: REQ-008, REQ-003, REQ-006_
+  - _Acceptance: AC-008, AC-003, AC-006_
+  - _Verification: 先失败复现、修复后对应回归；关联路径复验，源码覆盖不绕过来源锁_
+  - _Depends: T006_
+  - _Boundary: 固定上游不直接改写，旧交付不覆盖；范围变化先更新规格_
+- [x] T008 完成集中离线回归、必要的新候选封包及验证报告。
+  - _Requirements: REQ-008, REQ-004, REQ-005_
+  - _Acceptance: AC-008, AC-004, AC-005_
+  - _Verification: 覆盖表、当前代码回归和失败路径；如二进制变化则新修订签名／逐帧／独立解包；明确尚未证明的硬件项_
+  - _Depends: T007_
+  - _Boundary: 保持研究版本4.10及本地签名身份，不执行安装／相机验收_
+
+T006～T008结果：最终101项离线回归通过。未复现需改变固件内容的兼容缺陷；已修复C测试服务未进入验证来源清单的缺口。当前4.10另重新验签、逐帧检查并独立解包，组件及12份模板对应通过，因此不另重签或覆盖旧包。证据见`offline-runtime.md`、`runtime-fix.md`及`native12-combined/verification/2026-11-02-runtime/`。所有实机项目仍为MANUAL_REQUIRED。
+
+- [x] T009 当前4.10独立QEMU菜单截图、原始帧复核和发现项报告。
+  - _Requirements: REQ-009, REQ-006_
+  - _Acceptance: AC-009, AC-006_
+  - _Verification: 103次真实Qt／103帧PNG逐像素核对、四轮MENU、worker／QMP退出0；输入拒绝及真实沙箱测试；截图归档和当前包摘要_
+  - _Depends: T008_
+  - _Boundary: 不修改固件／默认模拟器，不接设备，不注入名称；中文方框FAIL、十二款加载NOT_RUN、照片叠加NOT_VERIFIED另列，不以截图交付完成冒充这些功能通过_

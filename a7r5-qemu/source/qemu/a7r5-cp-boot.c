@@ -27,6 +27,8 @@ typedef struct CPPCIeState {
     CPGPIO gpio[2];
     CPSCU scu;
     MemoryRegion scu_regs;
+    CPClockGates clock_gates;
+    MemoryRegion clock_gate_regs;
     DeviceState *i2c[5];
     qemu_irq irq;
     uint64_t ram_size;
@@ -195,6 +197,36 @@ static const MemoryRegionOps cp_scu_ops = {
     .valid={ .min_access_size=4, .max_access_size=4 },
 };
 
+static MemTxResult cp_clock_gate_read(void *opaque, hwaddr addr, uint64_t *value,
+                                       unsigned size, MemTxAttrs attrs)
+{
+    uint32_t state = 0;
+    if (size != 4 || !cp_clock_gates_access(opaque, addr, false, &state)) {
+        qemu_log_mask(LOG_GUEST_ERROR, "CP_MODULE rejected read off=0x%" HWADDR_PRIx "\n", addr);
+        return MEMTX_DECODE_ERROR;
+    }
+    *value = state;
+    return MEMTX_OK;
+}
+
+static MemTxResult cp_clock_gate_write(void *opaque, hwaddr addr, uint64_t value,
+                                        unsigned size, MemTxAttrs attrs)
+{
+    uint32_t request = value;
+    if (size != 4 || !cp_clock_gates_access(opaque, addr, true, &request)) {
+        qemu_log_mask(LOG_GUEST_ERROR, "CP_MODULE rejected write off=0x%" HWADDR_PRIx
+                      " value=0x%08x\n", addr, request);
+        return MEMTX_DECODE_ERROR;
+    }
+    return MEMTX_OK;
+}
+
+static const MemoryRegionOps cp_clock_gate_ops = {
+    .read_with_attrs = cp_clock_gate_read, .write_with_attrs = cp_clock_gate_write,
+    .endianness = DEVICE_LITTLE_ENDIAN,
+    .valid = { .min_access_size = 4, .max_access_size = 4 },
+};
+
 static void a7r5_cp_boot_init(MachineState *machine)
 {
     DeviceState *cpus[4];
@@ -242,6 +274,9 @@ static void a7r5_cp_boot_init(MachineState *machine)
     memory_region_init_io(&pcie->scu_regs,OBJECT(machine),&cp_scu_ops,
                           pcie,"cp-clock-reset-control-subset",0xf54);
     memory_region_add_subregion(get_system_memory(),0xf1388000,&pcie->scu_regs);
+    memory_region_init_io(&pcie->clock_gate_regs, OBJECT(machine), &cp_clock_gate_ops,
+                          &pcie->clock_gates, "cp-module-clock-gates", 0x1101c);
+    memory_region_add_subregion(get_system_memory(), 0xf5400000, &pcie->clock_gate_regs);
     /* 原厂 PCIDMA_INIT 参数中的 GIC INTID=403；QEMU 外部输入从 INTID32 开始。 */
     pcie->irq = qdev_get_gpio_in(gic, 403 - 32);
     cp_edma_init(&pcie->dma, cp_pcie_copy, cp_pcie_read, pcie);

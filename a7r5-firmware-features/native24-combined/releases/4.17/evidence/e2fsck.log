@@ -1,0 +1,7 @@
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/Users/wenruli/code/project/sony/a7r5-rea/.local/native24-update417-20261105-01/patched/nflasha15: 1053/100352 files (3.9% non-contiguous), 381469/401028 blocks
+e2fsck 1.47.4 (6-Mar-2025)

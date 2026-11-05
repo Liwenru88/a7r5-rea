@@ -1,0 +1,21 @@
+{
+  "schema": "r5-stock04-training-reference/1",
+  "property": "02a40004",
+  "filename": "r5-stock-02a40004.raw.bin",
+  "bytes": 1215,
+  "sha256": "783d2e58e24bfd04515ff04ed07bcf26049ade990781c5f8770bc3a30da032ba",
+  "shape": [
+    3,
+    5,
+    9,
+    9
+  ],
+  "signed8_planar": true,
+  "source": "unpacked/r5/firmware/0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin",
+  "source_sha256": "84406c970097c6ceb46f2001528a08d3f1d5aad6cc926b0dbf5850e68a8901ec",
+  "source_file_offset": 1809196,
+  "original_CP_sha256": "3269bf62426339791fcfbe8529698cd4accbe6c3d2ea61cd7c368a90ab7ee7c8",
+  "native_full_strength_parity_bank_sha256": "728010abe7a27c813b20103cb7180a8fc840109b1fe014e51c95b0ea9291908c",
+  "native_input_index_to_parity_position_uint16_sha256": "7073168e25aad9fbb9c6924dad4ebdbd1ac187a7807ebdabbc04bfb47bb49bc1",
+  "scope": "mathematical table, interpolation and packed layout validation only; does not establish native ISP pixel coordinates, interpolation or Edit equivalence"
+}

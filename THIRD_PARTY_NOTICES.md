@@ -11,6 +11,7 @@
 - 信任模块：[第三方说明](a7r5-updater-trust/THIRD_PARTY_NOTICES.md)、[上游许可证](a7r5-updater-trust/reference-LICENSE)、[其他许可证](a7r5-updater-trust/licenses/)。
 - 四项功能：[材料说明](a7r5-firmware-features/materials/NOTICE.txt)；配方不赋予原厂固件或商标的所有权。
 - QEMU：[固定源码清单](a7r5-qemu/source/qemu/manifest.json)、[许可证目录](a7r5-qemu/source/qemu/licenses/)及源码补丁；原始源码压缩包仅保留本地。
+- 色彩工具：[固定上游来源](sony-r5-colorlab/UPSTREAM_SNAPSHOT.json)、[上游许可说明](sony-r5-colorlab/THIRD_PARTY_NOTICES.md)、[许可证目录](sony-r5-colorlab/licenses/)。R5ColorLab 与 R5GridCalibrator 使用 GNU AGPL v3，其余材料遵循各自许可；本仓库的用途声明不覆盖这些上游授权。
 - Rust 依赖版本保存在 `a7r5-desktop/src-tauri/Cargo.lock`，Python 依赖保存在各 requirements 文件中。最终应用版权汇总由 `a7r5-desktop/scripts/notices.py` 在本地生成。
 
 完整 Sony 升级包、提取分区/库、设备快照和本地测试安装包不属于本次 Git 候选文件集。对外分发这些材料前，需要另行确认相应分发条件；公开源码仓库不携带它们。

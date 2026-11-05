@@ -1,0 +1,67 @@
+{
+  "library_sha256": "1986525ba65519a00ee5f41fbf40d2651bfcccb518bbb1e7e8e7fc0a58db7c5b",
+  "virtual_span": 1443560,
+  "helper_reads": {
+    "code": [
+      {
+        "name": "PFVOL_InitModule",
+        "offset": 541628,
+        "hex": "fd7bbda902e784d2fd030091f35301a9"
+      },
+      {
+        "name": "PFVOL_setcode",
+        "offset": 546440,
+        "hex": "fd7bbda9fd030091f35301a9b3010090"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_OEM2Unicode",
+        "offset": 607324,
+        "hex": "0200403903040091a20138365f7c0371"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_Unicode2OEM",
+        "offset": 607684,
+        "hex": "02004079e6ff9a12040800914300060b"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_OEMCharWidth",
+        "offset": 607980,
+        "hex": "fd7bbea9fd030091a16300911247fe97"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_isOEMMBchar",
+        "offset": 608020,
+        "hex": "3f040071001c0053c000005461000034"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_UnicodeCharWidth",
+        "offset": 608080,
+        "hex": "fd7bbea9fd030091a1630091a13ffe97"
+      },
+      {
+        "name": "PFEX_PFCODE_UTF8_isUnicodeMBchar",
+        "offset": 608120,
+        "hex": "00008052c0035fd6"
+      }
+    ],
+    "got": {
+      "offset": 761448,
+      "bytes": 8,
+      "expected_relative_pointer": 869400
+    },
+    "module": {
+      "offset": 869400,
+      "bytes": 72,
+      "initialized_offset": 0,
+      "converters_offset": 24,
+      "converter_offsets": [
+        607324,
+        607684,
+        607980,
+        608020,
+        608080,
+        608120
+      ]
+    }
+  }
+}

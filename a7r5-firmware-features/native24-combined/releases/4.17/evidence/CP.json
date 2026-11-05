@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "component_sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+  "source_sha256": "9e1cd2371ecdc09b1ecfa67931a210b008838e9bb7b75428719bc7f1899f7c3d",
+  "target_sha256": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d",
+  "unrelated_bytes_exact": true
+}

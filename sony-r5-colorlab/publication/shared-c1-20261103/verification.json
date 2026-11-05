@@ -1,0 +1,20 @@
+{
+  "standard": "no-expert shared C1 + native-operator constraints",
+  "preset": "r5-paired-20261102-shared-c1-c50",
+  "model_sha256": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552",
+  "colorlab_tests": {
+    "run": 142,
+    "skipped": 4,
+    "passed": true
+  },
+  "calibrator_tests": {
+    "run": 74,
+    "passed": true
+  },
+  "javascript_syntax": "both workbenches passed",
+  "tensor_backend_tested": "CPU torch; Metal parity recorded during local adoption, not rerun for this publication",
+  "formal_batch": "c29ff1d3ef314d718ab370cf6ed2bfb6",
+  "formal_batch_status": "done",
+  "formal_bin_sha256": "2e9c60c1f7858940e366aa1b0f2c0c089347445c9c286c0c938a40a35610caee",
+  "scope": "Source, defaults and pinned response model; historical filter directories remain unchanged"
+}

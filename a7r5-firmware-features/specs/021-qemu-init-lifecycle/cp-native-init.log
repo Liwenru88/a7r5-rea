@@ -1,0 +1,20 @@
+NATIVE_CONTEXT_POINTERS ['0x1653c68', '0x1654a28', '0x1654a80', '0x1654ad8', '0x1656268', '0x1657240', '0x16575b8', '0x16574ec', '0x1657650', '0x16572f0', '0x1657660', '0x1657680', '0x1657778', '0x1657aa8', '0x1657c10', '0x0']
+RECEIVE 2400 050063400400008005000240
+NATIVE_CP_TX 0x90040193 0x90030001 12 050003d00000000001000000
+NATIVE_CP_TX 0x90040193 0x90030001 16 050006d0000000000000000400000000
+NATIVE_CP_TX 0x8f013a 0x8f013a 69 02000300020000002500000000000000cd48206b65090000
+NATIVE_CP_TX 0x900302d9 0x0 32 000000000683000000000000000000000000000000000000
+NATIVE_CP_TX 0x8f013a 0x8f013a 44 02000300000000000c00000000000000e9fa266b65090000
+NATIVE_CP_TX 0x8f013a 0x8f013a 44 02000300000000000c00000000000000cd9b276b65090000
+NATIVE_CP_TX 0x8f013a 0x8f013a 44 02000300000000000c0000000000000024b2276b65090000
+FAULT 19 0x40 4 pc 0x5bd770 lr 0xadf9e9 history ['0xb0ca68', '0xb0ca6a', '0xb0ca6c', '0x53bb54', '0xb0ca70', '0xb0cab8', '0xb0caba', '0xb0cabe', '0xb0d196', '0xb0d198', '0xadf9d0', '0xadf9d2', '0xadf9d4', '0xadf9d8', '0xadf9dc', '0xadf9de', '0xadf9e2', '0xadf9e4', '0x5bd744', '0x5bd748', '0x5bd74c', '0x5bd750', '0x5bd754', '0x5bd758', '0x5bd75c', '0x5bd760', '0x5bd764', '0x5bd768', '0x5bd76c', '0x5bd770']
+Traceback (most recent call last):
+  File "/Users/wenruli/code/project/sony/a7r5-rea/a7r5-firmware-features/specs/021-qemu-init-lifecycle/cp_receive_probe.py", line 118, in <module>
+    receive(init_request)
+    ~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/wenruli/code/project/sony/a7r5-rea/a7r5-firmware-features/specs/021-qemu-init-lifecycle/cp_receive_probe.py", line 79, in receive
+    cp.cpu.emu_start(0x496019,0x49606e,count=1000000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/wenruli/code/project/sony/a7r5-rea/.venv/lib/python3.14/site-packages/unicorn/unicorn_py3/unicorn.py", line 766, in emu_start
+    raise UcError(status)
+unicorn.unicorn_py3.unicorn.UcError: Invalid memory read (UC_ERR_READ_UNMAPPED)

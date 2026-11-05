@@ -2785,7 +2785,7 @@ static unsigned long software_lz_decode(void *object) {
         record("RESOURCE_LZ_CPU_FAIL ", "input stream getter does not match verified pure getter"); return 0;
     }
     const unsigned char *input = *(const unsigned char *const *)((const unsigned char *)stream + 0x10);
-    if (sony_lz77_decode(input, input_size, 0, size)) {
+    if (sony_lz77_decode_pages(input, input_size, 0, size)) {
         record("RESOURCE_LZ_CPU_FAIL ", "compressed stream failed bounded validation"); return 0;
     }
     unsigned long image_table = *(unsigned long *)image;
@@ -2800,7 +2800,7 @@ static unsigned long software_lz_decode(void *object) {
     ((size_t_fn)*(unsigned long *)(image_table + 0x58))(image, &output_width, &output_height);
     int result = 5;
     if (stride == row_bytes && output_width >= width && output_height >= height)
-        result = sony_lz77_decode(input, input_size, output, size);
+        result = sony_lz77_decode_pages(input, input_size, output, size);
     unsigned long nonzero = 0;
     if (!result) for (unsigned long i = 0; i < size; ++i) nonzero += ((const unsigned char *)output)[i] != 0;
     ((unlock_t)(osd_libobj_base + 0x12c8c8))(image);

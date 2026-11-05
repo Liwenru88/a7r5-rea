@@ -1,0 +1,11 @@
+FAULT 19 0x4 1 pc 0x88e454 lr 0x88c3c9 history ['0x7195b0', '0x7195b4', '0x7195b8', '0x7195bc', '0x7195c0', '0x7195c4', '0x7195c6', '0x7195ca', '0xabbbf6', '0xabbbfa', '0xabbbfe', '0xabbc02', '0xabbc06', '0xabbc08', '0xabbc0c', '0x9075ac', '0x9075b0', '0x9075b4', '0x9075b8', '0x9075bc', '0x9075c0', '0x9075c2', '0x9075c6', '0x88c3b6', '0x88c3b8', '0x88c3ba', '0x88c3be', '0x88c3c2', '0x88c3c4', '0x88e454']
+Traceback (most recent call last):
+  File "/Users/wenruli/code/project/sony/a7r5-rea/a7r5-firmware-features/specs/021-qemu-init-lifecycle/cp_receive_probe.py", line 110, in <module>
+    pointers = [cp.call(getter) for getter in getters]
+                ~~~~~~~^^^^^^^^
+  File "/Users/wenruli/code/project/sony/a7r5-rea/a7r5-firmware-features/native12-combined/tests/runtime_support.py", line 92, in call
+    self.cpu.emu_start(target, self.STOP, count=count)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/wenruli/code/project/sony/a7r5-rea/.venv/lib/python3.14/site-packages/unicorn/unicorn_py3/unicorn.py", line 766, in emu_start
+    raise UcError(status)
+unicorn.unicorn_py3.unicorn.UcError: Invalid memory read (UC_ERR_READ_UNMAPPED)

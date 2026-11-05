@@ -1,0 +1,12 @@
+{
+  "version": "4.17",
+  "runtime_status": "NOT_VERIFIED",
+  "camera_io": false,
+  "installability_confirmed": false,
+  "factory_row_restore_verified_in_QEMU": true,
+  "custom_success_memory_verified_in_QEMU": false,
+  "selection_persistence_verified_in_QEMU": false,
+  "QEMU_actual_E4_success_verified": false,
+  "imaging_verified": false,
+  "group_memory_persistent_across_power_cycle": false
+}

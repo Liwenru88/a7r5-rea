@@ -1,0 +1,38 @@
+{
+  "status": "OFFLINE_PACK_VERIFIED_DEVICE_UNTESTED",
+  "bytes": 754525608,
+  "sha256": "7e68638274e778333bb08cf33c4454c816220fe951ed40a0a1972201d22f81ef",
+  "crc32": "0333a89f",
+  "source": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "changed_archive_members": [
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin",
+    "0111_backup_sum/backup.sum",
+    "0700_part_image/dev/nflasha15",
+    "0700_part_image/dev/nflasha5",
+    "0700_part_image/dev/nflasha8",
+    "0701_part_image_sum/part_image.sum"
+  ],
+  "changed_components": [],
+  "plaintext_sha256": "13d7ecf9f10695af468d8702e5c50b25a31663e38d96f7eb163d0d8fa0f1e966",
+  "plaintext_bytes": 751577088,
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "signature_verified": true,
+  "independent_decryption_exact": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

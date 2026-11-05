@@ -1,0 +1,98 @@
+/* 同一AP内的PIC启动垫片。没有数据目录/设备访问；失败委派原初始化。 */
+.text
+.global af_ctor_bootstrap_start
+.type af_ctor_bootstrap_start,%function
+af_ctor_bootstrap_start:
+ sub sp,sp,#0x2e0
+ stp x0,x1,[sp]
+ stp x2,x3,[sp,#0x10]
+ stp x4,x5,[sp,#0x20]
+ stp x6,x7,[sp,#0x30]
+ stp x8,x9,[sp,#0x40]
+ stp x10,x11,[sp,#0x50]
+ stp x12,x13,[sp,#0x60]
+ stp x14,x15,[sp,#0x70]
+ stp x16,x17,[sp,#0x80]
+ stp x18,x30,[sp,#0x90]
+ mrs x9,nzcv
+ str x9,[sp,#0xa0]
+ mrs x9,fpcr
+ str x9,[sp,#0xa8]
+ mrs x9,fpsr
+ str x9,[sp,#0xb0]
+ stp q0,q1,[sp,#0xc0]
+ stp q2,q3,[sp,#0xe0]
+ stp q4,q5,[sp,#0x100]
+ stp q6,q7,[sp,#0x120]
+ stp q8,q9,[sp,#0x140]
+ stp q10,q11,[sp,#0x160]
+ stp q12,q13,[sp,#0x180]
+ stp q14,q15,[sp,#0x1a0]
+ stp q16,q17,[sp,#0x1c0]
+ stp q18,q19,[sp,#0x1e0]
+ stp q20,q21,[sp,#0x200]
+ stp q22,q23,[sp,#0x220]
+ stp q24,q25,[sp,#0x240]
+ stp q26,q27,[sp,#0x260]
+ stp q28,q29,[sp,#0x280]
+ stp q30,q31,[sp,#0x2a0]
+ str x19,[sp,#0x2c0]
+ str x20,[sp,#0x2c8]
+ adr x19,af_ctor_bootstrap_start
+ movz x9,#:abs_g0_nc:af_ctor_bootstrap_start
+ movk x9,#:abs_g1_nc:af_ctor_bootstrap_start
+ sub x19,x19,x9
+ adr x0,bootstrap_path
+ mov w1,#2
+ bl af_bootstrap_dlopen
+ cbz x0,restore
+ mov x20,x0
+ adr x1,bootstrap_symbol
+ bl af_bootstrap_dlsym
+ cbz x0,restore
+ mov x9,x0
+ mov x0,x19
+ blr x9
+restore:
+ ldr x19,[sp,#0x2c0]
+ ldr x20,[sp,#0x2c8]
+ ldr x9,[sp,#0xa8]
+ msr fpcr,x9
+ ldr x9,[sp,#0xb0]
+ msr fpsr,x9
+ ldp q0,q1,[sp,#0xc0]
+ ldp q2,q3,[sp,#0xe0]
+ ldp q4,q5,[sp,#0x100]
+ ldp q6,q7,[sp,#0x120]
+ ldp q8,q9,[sp,#0x140]
+ ldp q10,q11,[sp,#0x160]
+ ldp q12,q13,[sp,#0x180]
+ ldp q14,q15,[sp,#0x1a0]
+ ldp q16,q17,[sp,#0x1c0]
+ ldp q18,q19,[sp,#0x1e0]
+ ldp q20,q21,[sp,#0x200]
+ ldp q22,q23,[sp,#0x220]
+ ldp q24,q25,[sp,#0x240]
+ ldp q26,q27,[sp,#0x260]
+ ldp q28,q29,[sp,#0x280]
+ ldp q30,q31,[sp,#0x2a0]
+ ldr x9,[sp,#0xa0]
+ msr nzcv,x9
+ ldp x0,x1,[sp]
+ ldp x2,x3,[sp,#0x10]
+ ldp x4,x5,[sp,#0x20]
+ ldp x6,x7,[sp,#0x30]
+ ldp x8,x9,[sp,#0x40]
+ ldp x10,x11,[sp,#0x50]
+ ldp x12,x13,[sp,#0x60]
+ ldp x14,x15,[sp,#0x70]
+ ldp x16,x17,[sp,#0x80]
+ ldp x18,x30,[sp,#0x90]
+ add sp,sp,#0x2e0
+ b af_ctor_original_return
+.size af_ctor_bootstrap_start,.-af_ctor_bootstrap_start
+bootstrap_path: .asciz "/usr/lib/libaf_bootstrap406.so"
+bootstrap_symbol: .asciz "af_bootstrap406_early"
+.balign 4
+.global af_ctor_bootstrap_end
+af_ctor_bootstrap_end:
