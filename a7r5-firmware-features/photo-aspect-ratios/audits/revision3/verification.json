@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "module": "photo-aspect-ratios",
+  "revision": 3,
+  "status": "OFFLINE_REGRESSION_AND_PARTITIONS_VERIFIED",
+  "camera_io": false,
+  "device_tested": false,
+  "DAT_generated": false,
+  "source_files_unchanged_during_final_validation": 64,
+  "base_DAT_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "input_origin": "previously signature-verified original 4.00 extraction; component/partition hashes rechecked locally",
+  "tests": {
+    "standalone-tests.xml": {
+      "passed": 56,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "combined-tests.xml": {
+      "passed": 56,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "cross-regression.xml": {
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "variants": {
+    "standalone": {
+      "components": {
+        "appFw.so": {
+          "bytes": 97452032,
+          "sha256": "dd4a75b39ea6f6e575d97e9a109157b4703b1befc21f9b585e7c512a81860e8a"
+        },
+        "cpapp-b.bin": {
+          "bytes": 17617008,
+          "sha256": "8b78810767e9a80196f03fe09fe0b3fea314cac75930b8409f23e53d55b4c045"
+        },
+        "AV-CAM.BIN": {
+          "bytes": 12959080,
+          "sha256": "23fb43cb2e5d79aad19414d375c9bb6df97ef3042ecb696e8424243e64ff55bc"
+        },
+        "libmpr.so": {
+          "bytes": 3606596,
+          "sha256": "46fad4e180a90006e5df246400fd4b281c7da5643701ed38d6ab645417efd236"
+        }
+      },
+      "partition_readback_files": 74,
+      "usr_audited_paths": 1043,
+      "usr_e2fsck_readonly_passed": true,
+      "unrelated_paths_exact": true,
+      "avcam_allocation_chain_unchanged": true,
+      "avcam_allocated_bytes": 12959744,
+      "avcam_target_bytes": 12959080
+    },
+    "combined": {
+      "components": {
+        "appFw.so": {
+          "bytes": 97583104,
+          "sha256": "6939b0d1e79ac34972ddf658f8ee368a7e8c6cdec7f1b87267df94fd549b9768"
+        },
+        "cpapp-b.bin": {
+          "bytes": 17617008,
+          "sha256": "c655d87d7addf6733fa5e04040e490a3ae10d00a9b8df4fe8da30c1ceb838713"
+        },
+        "AV-CAM.BIN": {
+          "bytes": 12959080,
+          "sha256": "23fb43cb2e5d79aad19414d375c9bb6df97ef3042ecb696e8424243e64ff55bc"
+        },
+        "libmpr.so": {
+          "bytes": 3606596,
+          "sha256": "46fad4e180a90006e5df246400fd4b281c7da5643701ed38d6ab645417efd236"
+        }
+      },
+      "partition_readback_files": 74,
+      "usr_audited_paths": 1043,
+      "usr_e2fsck_readonly_passed": true,
+      "unrelated_paths_exact": true,
+      "avcam_allocation_chain_unchanged": true,
+      "avcam_allocated_bytes": 12959744,
+      "avcam_target_bytes": 12959080
+    }
+  },
+  "native_RAW_header_cases_per_variant": 144,
+  "retained": [
+    "ten ratios and e0..e5 protocol",
+    "per-task snapshot and clone/reset lifecycle",
+    "full RAW Bayer/DefaultCrop/SonyCrop",
+    "native full-source AF/MF coordinate domain"
+  ],
+  "checks": [
+    "Fn capture/browse/cancel and stale epoch protection",
+    "native mode-gate delegation",
+    "cold first-wire restore and volatile/SIMD ABI",
+    "atomic save faults and last-request drain",
+    "RAW-only and paired HEIF/JPEG local previews",
+    "JPEG complete native writer/cache/Exif parity",
+    "bounded RAW private TIFF declarations",
+    "HEIF scene classification",
+    "AP per-file icons, pixels, zoom policy scope",
+    "all six horizontal/portrait native mask bounds",
+    "full source task unchanged for focus consumers",
+    "actual FAT/USR write, e2fsck and independent readback"
+  ],
+  "limits": [
+    "No camera installation/startup or physical LCD/EVF acceptance",
+    "No hardware image encoding or captured ARW/JPEG/HEIF files",
+    "Dynamic MF zoom, AF point movement, eye tracking and hardware scheduling remain device acceptance items",
+    "Existing malformed photo metadata is not rewritten",
+    "Native AF range stays full-source; no crop-only AF movement restriction"
+  ],
+  "artifacts": {
+    "combined-CP.json": "c6a5d9b7e942713a6ad3934daba593abba866d0f2ae8ee2f46a9fd1b2a897b7c",
+    "combined-USR.json": "6cbd48ca2a2a8dba72ed60d04fa7ae0f1bab814b2ac5ec05e7a4b36e4e548fdd",
+    "combined-build.json": "b8d85144b092b69b01e00b9ef286045833ff73965b04478f71ffd0e77cac11d2",
+    "combined-e2fsck.log": "9f91bdc0ae9fa90ea09bd72e2cd9a05401c3161f6f182b7a109d071bd1d8bcf9",
+    "combined-tests.xml": "a8bff217ad200711d27b8fba615fa747492e96842e8864a717db9addb4ef9a2f",
+    "combined-verification.json": "068361572fdca6e014cf1efa096968267ee88892b2442b7cccb77e3267c7ec87",
+    "cross-regression.xml": "425d82db742027a5f7c350a1829de906eba7c815dadfeac77435ef24660a5128",
+    "sources.json": "608cc47d16dd643323117bd129a54ca2e2fdc3535a984e3e677ca5975f5e735e",
+    "standalone-CP.json": "0eaa7d75bdbab22acd8223c71fd11cf7e00282b46934df97b3ec11667f962a52",
+    "standalone-USR.json": "c4de0bd138206698f7a3bbf8893b092e8aefbe062deff1a1d334624026d73505",
+    "standalone-build.json": "0beef54f32e6ecb190ae40f07cff8d31f008a50e4090ec493273ce484a36b915",
+    "standalone-e2fsck.log": "c2f6a0e865b5e0ebe709e0b54fdef37b59dfe43bde50e0c962f500c6b99398ed",
+    "standalone-tests.xml": "af48135cbbf79c26e60c4541563827ce9a085cc13976eae73d607acb6c3f13f1",
+    "standalone-verification.json": "d750414a04d240cde576338590d49601578bcff4c4f1bff9a5efe7dd88df6bc1"
+  },
+  "passed": true
+}

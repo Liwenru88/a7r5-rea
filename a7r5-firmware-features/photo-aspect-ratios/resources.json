@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "base": "ilce-7rm5-4.00",
+  "mpr": {
+    "path": "/lib/libmpr.so",
+    "bytes": 3541784,
+    "sha256": "ba1aa289a142c2d0b41d0864a57a0d72a2c796de89c5caf215ebaf124143e9af"
+  },
+  "avcam": {
+    "image": "0700_part_image/dev/nflasha3",
+    "image_sha256": "7f5a573ce2d491035238f3a676562b49ae51eb6f21e4f6e92bacf4793f7bdce4",
+    "path": "/AV-CAM.BIN",
+    "bytes": 12956536,
+    "sha256": "640740f3bbd7e20cf49be3288f496415b1d045020c5b9a46ea77fb187699ab04"
+  }
+}

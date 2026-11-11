@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "profile": "native24-stock",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "version": "4.19",
+  "base_public_key": "sony-original-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha15",
+      "delta": "00.delta.gz",
+      "delta_sha256": "176bc235d38c29bd8c2776c9683a09b705d3773c4d27b2d744a1617cf15f2d92",
+      "bytes": 410652672,
+      "before_sha256": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5",
+      "after_sha256": "d37464557e56ccd7ad0499e8ffec4de2264e43d341a9a188a24885d9955971f0"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha5",
+      "delta": "01.delta.gz",
+      "delta_sha256": "85c1284c0de45680778e05c4b65143617b4ea180bc8a6f21042241cf0a05bf36",
+      "bytes": 243789184,
+      "before_sha256": "15020d1afe7f1cf40b3822ea0a7426c5c9b40f6330f163d72cf82fb08b1363e8",
+      "after_sha256": "9f20893ec28a1780701bb42a6eaad3e2574623c62ba4d733d19e12ef0479650b"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha8",
+      "delta": "02.delta.gz",
+      "delta_sha256": "a5ff6c64373671fe4b1e860d11c6d21598cc2262813ed5882abe29b0d43924bf",
+      "bytes": 24531968,
+      "before_sha256": "a625468fbbd6b0e053e1974a3a0f7e9b9151bc88aaf6261aea21813f9e1f8f46",
+      "after_sha256": "dc7cc2de4cc654cd9c49cf442da649f7c7453c2742af24613db0c4fab64543ce"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha15": "d37464557e56ccd7ad0499e8ffec4de2264e43d341a9a188a24885d9955971f0",
+    "0700_part_image/dev/nflasha5": "9f20893ec28a1780701bb42a6eaad3e2574623c62ba4d733d19e12ef0479650b",
+    "0700_part_image/dev/nflasha8": "dc7cc2de4cc654cd9c49cf442da649f7c7453c2742af24613db0c4fab64543ce",
+    "0701_part_image_sum/part_image.sum": "eb65e1d36cf8a15e6fa698b6661cb13bacbeb28807200ccccf92f37a4da9e0f1"
+  },
+  "expected_dat_sha256": "8cb7eb10d0d4af35ea96681d1fc95f36a2034dd2bcffe47bbe13ebd81df0dabc",
+  "companion": {
+    "file": "R5NATIVE.BIN",
+    "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+  }
+}

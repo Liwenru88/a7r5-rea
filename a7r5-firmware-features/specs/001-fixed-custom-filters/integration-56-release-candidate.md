@@ -1,5 +1,7 @@
 # 第56批：整合最新修复的完整研究测试候选
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 日期：2026-11-02。本轮已完成T11j56：将第55批Gamma选表修复写入新的CP/FAT，与现有AP、四个产品库和资源组成完整DAT，并完成严格封装与独立内容核对。没有连接、修改或更新相机，没有CP／ISP硬件模拟。整项功能和实机验收仍未完成。
 
 ## 交付身份
@@ -11,7 +13,7 @@
 | 长度 | 754525608字节 |
 | DAT SHA-256 | `3e3d7e5759e39a0c8018e055e6309292eeb7c5ea742dd186b35e388bc180c158` |
 | CP SHA-256 | `ef616a6581dac99106380a4f56da9d88093680cf524f72b0eb0b502cea58fc99` |
-| 固定输入 | `/Users/wenruli/Desktop/索尼/BODYDATA.DAT`，修改版4.06，SHA `3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2` |
+| 固定输入 | `${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT`，修改版4.06，SHA `3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2` |
 | 最终总回执 | [verification.json](../../../.local/fixed-custom-filters/integration56-final/verification.json) |
 
 旧第53批4.10包仍保留，SHA `36cf5ff87c9e1f2baac0ac531e22abbaf50c70cf7b5443dc156c9cc31f59619a`，不含第55批修复。两包版本字符串相同，必须用修订目录和完整SHA区分，不以显示“4.10”识别新内容。没有增加同版本重装或降级能力。

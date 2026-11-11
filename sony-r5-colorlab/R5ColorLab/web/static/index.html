@@ -42,7 +42,7 @@
   </div>
   <label hidden>LUT 输入色域<select id="gamut"><option>S-Gamut3</option><option>S-Gamut3.Cine</option></select></label>
   <label>训练模式<select id="speedPriority"><option value="standard" selected>标准</option><option value="fast">快速</option></select></label>
-  <p id="trainingModeHint" class="hint">标准模式使用完整搜索，并在导出前做纯整数网格微调和灰阶、饱和度过渡验收。</p>
+  <p id="trainingModeHint" class="hint">标准模式使用上游完整搜索，最终网格直接拟合目标颜色。</p>
   <div class="training-actions"><button id="fit" class="primary full" type="button">训练并生成滤镜 <span>↗</span></button></div>
   <p class="hint">完成后可预览效果、保存到所选槽位，再导出 BIN。</p>
   <p id="compressionTrainingStatus" class="hint" aria-live="polite"></p>
@@ -57,8 +57,8 @@
       <canvas id="trainingLossChart" width="800" height="220" role="img" aria-label="当前与最佳 Loss 随评估次数变化"></canvas>
     </div>
     <div id="trainingGridRounds" hidden>
-      <h3>纯整数网格微调</h3>
-      <p class="hint">色差来自验证集。灰阶和双输入域饱和度以微调前网格为上限。</p>
+      <h3>历史任务 · 纯整数网格微调</h3>
+      <p class="hint">下表保留旧任务记录，色差来自该任务的验证集。</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>轮次</th><th>搜索接受</th><th>最终保留</th><th>RGB RMSE</th><th>平均 ΔE00</th><th>灰阶</th><th>饱和度</th><th>未通过候选</th></tr></thead>
@@ -92,16 +92,9 @@
       <label>输出连续性强度<input id="outputContinuity" type="number" min="0" max="100" step="1" value="30" aria-describedby="outputContinuityHint"></label>
       <p class="hint" id="outputContinuityHint">默认 30，范围 0–100。检查相邻输入的输出颜色是否突然跳变。调高会更重视两个输入域中的暗部、曝光、色相和饱和度过渡。</p>
       <label>感知色差权重<input id="perceptualWeight" type="number" min="0" max="2" step="0.05" value="0.35" aria-describedby="perceptualWeightHint"></label>
-      <p class="hint" id="perceptualWeightHint">默认 0.35，范围 0–2。浮点拟合使用 Lab 色差近似，候选评分使用 ΔE00。调高会更重视人眼感知的色差，RGB RMSE 可能上升。</p>
+      <p class="hint" id="perceptualWeightHint">默认 0.35，范围 0–2。原生初始化使用 Lab 色差近似，末段联合拟合使用连续 ΔE00 平方，候选评分使用量化后的 ΔE00。调高会更重视人眼感知的色差，RGB RMSE 可能上升。</p>
     </div>
-    <h3>GPU 预优化</h3>
-    <div class="grid2">
-      <label>MPS 起点预优化 · Adam 学习率<input id="adamLearningRate" type="number" min="0.0001" max="0.1" step="any" value="0.015" aria-describedby="adamLearningRateHint"></label>
-      <p class="hint" id="adamLearningRateHint">默认 0.015，范围 0.0001–0.1。控制每步更新的幅度。调高通常走得更快，也更容易震荡，调低则可能需要更多步。</p>
-      <label>MPS 起点预优化 · Adam 步数<input id="adamSteps" type="number" min="1" max="2000" step="1" value="2000" aria-describedby="adamStepsHint"></label>
-      <p class="hint" id="adamStepsHint">默认 2000，范围 1–2000，仅接受整数。控制 GPU 起点预优化的更新次数，影响起点和耗时。后续矩阵求解和整数网格微调各有自己的预算。</p>
-    </div>
-    <p class="hint">MPS 按所设学习率和步数进行一次 Adam 预优化。量化后的候选仍须通过灰阶、双域过渡和验证集色差验收。</p>
+    <p class="hint">MPS 起点预优化沿用上游 Adam 学习率 0.015。标准模式的步数取 600 与每阶段求解评估上限中的较小值，快速模式为 600 步。</p>
     <button id="resetWeights" class="secondary" type="button">恢复高级设置默认值</button>
   </details>
 
@@ -109,12 +102,12 @@
     <summary>实验与求解</summary>
     <h3>实验设置</h3>
     <label><input id="wbTraining" type="checkbox" aria-describedby="wbTrainingHint">白平衡与原生参数联合训练</label>
-    <p class="hint" id="wbTrainingHint">默认关闭。开启后会同时搜索色温和色调偏移，并重新拟合原生参数。偏移只用于电脑预览，BIN 不保存它。拟合出非零偏移时会跳过默认的整数网格微调，批量训练始终关闭此项。</p>
+    <p class="hint" id="wbTrainingHint">默认关闭。开启后会同时搜索色温和色调偏移，并重新拟合原生参数。偏移用于电脑预览，BIN 保存原生配方与网格。批量训练始终关闭此项。</p>
     <h3>求解与导出参数</h3>
     <p id="computeBackend" class="hint">正在读取服务计算方式…</p>
     <div class="grid2">
       <label>每阶段求解评估上限<input id="evaluations" type="number" value="2000" min="1" max="2000" aria-describedby="evaluationsHint"></label>
-      <p class="hint" id="evaluationsHint">默认 2000，范围 1–2000。控制原生浮点求解单阶段最多评估多少次。求解收敛时可提前结束，部分阶段还有更低的独立上限。MPS Adam 步数在高级设置中单独设置。</p>
+      <p class="hint" id="evaluationsHint">默认 2000，范围 1–2000。控制原生浮点求解单阶段最多评估多少次。求解收敛时可提前结束，部分阶段还有更低的独立上限。</p>
       <label>搜索起点数<input id="searchStarts" type="number" min="2" max="12" step="1" value="12" aria-describedby="searchStartsHint"></label>
       <p class="hint" id="searchStartsHint">默认 12，范围 2–12。标准模式用不同的初始参数搜索候选。起点越多，越有机会找到更好的解，耗时也可能增加。快速模式取得 GPU 起点后会跳过额外的多起点搜索。</p>
       <label>Gamma 与 CC1/block13 交替轮数<input id="gammaColorRounds" type="number" min="0" max="12" step="1" value="3" aria-describedby="gammaColorRoundsHint"></label>
@@ -161,12 +154,45 @@
 <section class="card"><div class="section-title"><h2>目标与拟合结果 · 直方图重合对比</h2><span id="histMean" class="tag">等待结果</span></div><p class="hint">所选亮度分区 · RGB 每通道 256 桶 · 各自归一化。实线为 目标颜色，虚线为拟合结果，阴影为重合部分。重合率仅比较分布，不代表同一输入的颜色准确度。</p><label>8 位亮度分区<select id="comparisonMode"><option value="all">全部</option><option value="shadows">阴影 · 目标亮度小于 85</option><option value="midtones">中间调 · 85 至小于 170</option><option value="highlights">高光 · 170 及以上</option></select></label><p class="hint">两侧均裁剪到 0–1，再四舍五入为 0–255 的 8 位 RGB，不扣黑、不拉伸。按目标编码亮度 Y′ = 0.2126R + 0.7152G + 0.0722B 分区，同一配对样本不换组。此分区是输出码值区间，不代表场景曝光档位。</p><p class="hint">ΔE00、L* 亮度误差与 a*b* 染色误差均按页面 sRGB 显示解释、D65 白点和双方实际 8 位输出计算，属于显示对比，不代表相机实测色度校准。</p><div id="tonalMetrics" class="table-wrap"></div><div class="histograms"><div><h3 id="histRedTitle">红色通道</h3><canvas id="histRed" width="800" height="230"></canvas></div><div><h3 id="histGreenTitle">绿色通道</h3><canvas id="histGreen" width="800" height="230"></canvas></div><div><h3 id="histBlueTitle">蓝色通道</h3><canvas id="histBlue" width="800" height="230"></canvas></div></div><p id="histStatus" class="hint" aria-live="polite">完成拟合或载入历史任务后生成。</p></section>
 
 <section class="card" id="photoPreview"><div class="section-title"><div><p class="eyebrow">PHOTO PREVIEW</p><h2>照片效果预览</h2></div><span class="tag">同一张照片</span></div>
-<p class="hint">选择 ARW、JPG、PNG 或 TIFF，生成参考图和配方效果图。第三栏可导入同一张照片的实际软件导出图。</p>
+<p class="hint">用当前槽位或训练结果生成照片预览，并与同一张照片的目标图、机内直出 JPEG 对照。</p>
 <label id="photoSourceModeLabel" hidden>配方来源<select id="photoSourceMode"><option value="slot">当前已保存槽位</option><option value="job">当前训练任务</option></select></label>
 <label><input id="photoGridEffect" type="checkbox" checked>在效果图中启用网格</label><p id="photoGridHint" class="hint">在上方选择“压缩后单网格”可预览导出配方的网格效果。切换网格时，如果原生参数相同，可直接复用照片缓存。</p>
-<label class="secondary import-button">选择照片（ARW / JPG / PNG / TIFF）<input id="photoInput" type="file" accept=".arw,.jpg,.jpeg,.png,.tif,.tiff"></label><p id="photoName" class="hint">尚未选择照片</p><button id="photoRender" class="primary full" disabled>生成参考图和拟合图</button><p id="photoStatus" class="hint" aria-live="polite">请先完成拟合或载入历史任务。</p>
-<div id="photoResults" hidden><label>两图同步缩放<select id="photoZoom"><option value="1">适应窗口</option><option value="2">放大 2 倍</option><option value="4">放大 4 倍</option></select></label><div class="photo-pair"><div><h3 id="photoReferenceTitle">参考图</h3><div class="photo-scroll"><img id="photoLut" alt="当前照片的参考图"></div><a id="photoLutDownload" class="text-link" download="参考图.png">下载参考图 ↓</a></div><div><h3 id="photoModelTitle">拟合结果 · 前端近似</h3><div class="photo-scroll"><img id="photoModel" alt="当前 RAW 的拟合颜色模型模拟"></div><a id="photoModelDownload" class="text-link" download="拟合模型模拟.png">下载模拟结果图 ↓</a></div><div><h3>Edit 软件实际导出图</h3><div class="photo-scroll"><img id="photoActual" alt="导入的 Edit 实际导出图" hidden><p id="photoActualEmpty" class="hint">导入同一 RAW 在 Edit 中导出的 JPG / PNG 作对照。</p></div><label class="secondary import-button">导入软件导出图<input id="photoActualInput" type="file" accept="image/jpeg,image/png"></label><button id="photoActualClear" class="text-button" hidden>移除对照图</button><p id="photoActualName" class="hint">此栏为实际软件输出，不由模拟函数生成。</p></div></div><p id="photoProvenance" class="hint"></p><a id="photoAudit" class="text-link" download="渲染记录.json">下载渲染记录 ↓</a></div>
-<details><summary>参考图怎么生成</summary><p class="hint">Sony A7R V 全尺寸 ARW 使用本地 LibRaw 解码。色卡任务以同一张 ARW 的任务基线作参考，LUT 任务以该 LUT 的渲染结果作参考。</p><p class="hint">普通 RGB JPG、PNG、TIFF 使用原图作为参考。拟合图根据 sRGB 近似模拟，保留照片方向和比例，长边最多 3840 像素。第三栏可用于实际软件输出对照。</p></details></section>
+<label class="photo-check"><input id="photoRawCalibration" type="checkbox" aria-describedby="photoCalibrationHint">同时生成 RAW 校准对照</label>
+<p id="photoCalibrationHint" class="hint">仅用于 A7R V ARW。采用在 Vision3 250D 和 Portra 160 上复验过的共用亮度与 RGB 增益修正，两张效果图使用同一配方和网格，长边 1536 像素。</p>
+<label class="secondary import-button">选择照片（ARW / JPG / PNG / TIFF）<input id="photoInput" type="file" accept=".arw,.jpg,.jpeg,.png,.tif,.tiff"></label><p id="photoName" class="hint">尚未选择照片</p>
+<button id="photoRender" class="primary full" disabled>生成照片预览</button><p id="photoStatus" class="hint" aria-live="polite">请先完成拟合或载入历史任务。</p>
+<div id="photoResults" hidden>
+  <label>对照图同步缩放<select id="photoZoom"><option value="1">适应窗口</option><option value="2">放大 2 倍</option><option value="4">放大 4 倍</option></select></label>
+  <div class="photo-metrics">
+    <div class="photo-metrics-head"><h3>与目标图的色差</h3><div>
+      <button id="photoSelectRegion" class="secondary" type="button" aria-pressed="false" disabled>框选区域</button>
+      <button id="photoWholeImage" class="secondary" type="button" disabled>查看整图</button>
+    </div></div>
+    <p id="photoMetricsStatus" class="hint" role="status">导入目标图后显示统计。</p>
+    <div class="table-wrap"><table aria-label="与目标图的色差">
+      <thead><tr><th scope="col">对比图</th><th scope="col">RGB RMSE</th><th scope="col">平均 ΔE00</th><th scope="col">ΔE00 P95</th></tr></thead>
+      <tbody id="photoMetricsRows"></tbody>
+    </table></div>
+    <p class="hint">按 8 位 sRGB 像素统计，P95 为 ΔE00 的第 95 百分位。请使用同次拍摄、相同裁切的图像，位置错位也会计入色差。</p>
+  </div>
+  <div class="photo-pair">
+    <div><h3 id="photoModelTitle">配方效果</h3><div class="photo-scroll"><img id="photoModel" alt="配方效果预览"></div><a id="photoModelDownload" class="text-link" download="配方效果.png">下载模拟图 ↓</a></div>
+    <div id="photoCalibratedPanel" hidden><h3>校准后 RAW 预览</h3><div class="photo-scroll"><img id="photoCalibrated" alt="同一配方经 RAW 前端校准后的预览"></div><a id="photoCalibratedDownload" class="text-link" download="校准后RAW预览.png">下载校准预览 ↓</a></div>
+    <div><h3>目标图</h3><div class="photo-scroll"><div id="photoTargetFrame"><img id="photoActual" alt="导入的目标图" draggable="false" hidden><div id="photoRegionBox" aria-hidden="true" hidden></div></div><p id="photoActualEmpty" class="hint">导入同一 RAW 在 SpektraLab 或其他软件中导出的目标图。</p></div>
+      <label class="secondary import-button">导入目标图（TIFF / JPG / PNG）<input id="photoActualInput" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png"></label><button id="photoActualClear" class="text-button" type="button" hidden>移除目标图</button><p id="photoActualName" class="hint" aria-live="polite"></p></div>
+  </div>
+  <div class="photo-pair">
+    <div><h3 id="photoReferenceTitle">参考图</h3><div class="photo-scroll"><img id="photoLut" alt="当前照片的参考图"></div><a id="photoLutDownload" class="text-link" download="参考图.png">下载参考图 ↓</a></div>
+    <div><h3>机内直出 JPEG</h3><div class="photo-scroll"><img id="photoCamera" alt="导入的机内直出 JPEG" hidden><p id="photoCameraEmpty" class="hint">导入与 ARW 同次拍摄、使用对应配方的机内 JPEG。</p></div>
+      <label class="secondary import-button">导入机内 JPEG<input id="photoCameraInput" type="file" accept=".jpg,.jpeg"></label><button id="photoCameraClear" class="text-button" type="button" hidden>移除机内图</button><p id="photoCameraName" class="hint" aria-live="polite"></p></div>
+  </div>
+  <p class="hint">请确认照片来自同一次拍摄，裁切和方向一致。对照图按嵌入 ICC 转为 sRGB 显示。</p>
+  <p id="photoProvenance" class="hint"></p><a id="photoAudit" class="text-link" download="渲染记录.json">下载渲染记录 ↓</a>
+</div>
+<details><summary>预览和实拍怎么对照</summary>
+  <p class="hint">色卡任务的参考图来自任务基线，LUT 任务的参考图来自 LUT。RGB 照片使用输入图作参考，经 sRGB 近似模拟配方。普通预览长边最多 3840 像素。</p>
+  <p class="hint">实拍时固定曝光、白平衡和构图，用 ST 和待测配方各拍一组 ARW + JPEG。将待测配方同次拍摄的 ARW 在目标软件中导出，关闭自动测光并记录白平衡设置，再分别导入目标图和机内 JPEG。RAW 校准只参与离线预览。</p>
+</details></section>
 <section class="card"><div class="section-title"><h2>03 原生参数编辑</h2><button id="add" class="secondary">加入导出集 ＋</button></div><label>导出使用的原厂 5×9×9 网格<select id="stockGrid"><option value="">请选择原厂网格，或使用压缩结果</option></select></label><p id="gridSourceStatus" class="hint" aria-live="polite"></p><div class="tabs" role="tablist"><button data-tab="gamma" class="active" role="tab">伽马曲线</button><button data-tab="cc1" role="tab">色度校正三端点</button><button data-tab="matrix" role="tab">16 色相矩阵</button><button data-tab="grid" role="tab">5×9×9 网格</button></div>
 <div id="gamma" class="tab-panel"><div class="chart-head"><span class="hint">129 点伽马曲线 · 纵轴 0–131071</span><button id="gammaLast" class="text-button" type="button">编辑最后一点</button><button id="gammaReset" class="text-button">恢复基线曲线</button></div><canvas id="gammaChart" width="1000" height="300" aria-label="Gamma 曲线；点击选择节点"></canvas><div class="point-editor"><label>点序号<input id="gammaIndex" type="number" min="0" max="128" value="64"></label><label>原生值<input id="gammaValue" type="number" min="0" max="131071"></label><span class="hint">可点击曲线选点；导出前检查零起点及单调性。</span></div></div>
 <div id="cc1" class="tab-panel" hidden><p class="hint">B 为基值；A1−B、A2−B 为差分。前 4 项有效绝对值 −1024…1023，后 4 项 0…1023。</p><div class="table-wrap"><table id="ccTable"></table></div></div>
@@ -192,10 +218,17 @@
   <button id="workspaceCopy" class="secondary full">复制到空槽</button>
 </section><section class="card export-card"><p class="eyebrow">YOUR FILTER COLLECTION</p><h2>导出集</h2><p class="hint">支持24个自定义槽。新建库仅用1～12号自动导出v4，出现13～24号使用v5；导入的v5库保留v5格式。导入时完整替换，未列出的槽会清除；空配置可清空全部。</p><div id="collection" class="collection"></div><p class="hint">支持 v4／v5。每项配置必须明确选择原厂 5×9×9 网格、绑定完成的压缩结果，或保持已校验的导入 BIN 色彩参数。手动改动压缩参数后需重新压缩，或重新选择原厂网格；空集仍可用于清空。</p><button id="export" class="primary full">导出配置包 ↓</button><button id="saveProject" class="secondary full">保存配置 JSON</button><label class="secondary import-button">导入 R5NATIVE.BIN<input id="importBin" type="file" accept=".bin,.BIN"></label><p class="hint">支持十二槽 v4 与二十四槽 v5，校验后预览并确认替换页面配置库。导入 BIN 可改名称和槽号；色彩参数改变后需恢复、重新训练或选择原厂网格。</p><label class="secondary import-button">导入配置 JSON<input id="importProject" type="file" accept=".json"></label><p id="exportStatus" class="hint" aria-live="polite"></p><hr><h3>配置包包含</h3><p class="hint">R5NATIVE.BIN<br>native_config.json<br>export_audit.json</p><h3>使用方式</h3><p class="hint">需要 4.23 固件，旧格式不兼容。将 BIN 放入 SD 根目录，重新开机导入。在“自定义滤镜”中选择配置，选择即保存；“关闭”恢复原厂参数。原厂“创意外观”单独选择，附加处理与 Gamma 尾部保留。</p></section><div class="notice"><strong>当前精度边界</strong><p>拟合器的最终 LUT 颜色精度尚未通过。数值误差、模型色块和文件校验不能替代实际颜色验收。BW / SE 仍保留黑白 / 棕褐语义。</p><p>FL2 / FL3 基线为现有 FX2 参数适配；其余为 R5 原生普通场景参数。</p></div></aside>
 </div>
-</main><footer>R5 COLOR LAB <span>所有计算与文件处理均在本机进行</span></footer><div id="toast" role="status" hidden></div><script src="/workspace.js"></script><script src="/app.js"></script>
+</main><footer>R5 COLOR LAB <span>所有计算与文件处理均在本机进行</span></footer><div id="toast" role="status" hidden></div><script src="/workspace.js"></script><script src="/photo-metrics.js"></script><script src="/app.js"></script>
 <dialog id="importDialog" aria-labelledby="importTitle"><h2 id="importTitle">确认导入配置库</h2><p id="importPreview" class="import-preview"></p><div class="dialog-actions"><button id="cancelImport" class="secondary" type="button">取消，保留当前内容</button><button id="workspaceMerge" class="secondary" type="button" hidden>合并到空槽</button><button id="confirmImport" class="primary" type="button">确认替换页面配置</button></div></dialog><dialog id="workspaceExportDialog" aria-labelledby="workspaceExportTitle">
   <h2 id="workspaceExportTitle">导出 R5NATIVE.BIN</h2>
   <p>BIN 包含已保存槽位，会在导入时替换机内配方库。工程草稿可以单独保留。</p>
+  <label>光源端点<select id="exportEndpointMode">
+    <option value="standard">按工程配方导出</option>
+    <option value="shared-st">原厂 ST 共享增量（实验）</option>
+    <option value="median-offset">原厂多外观通用偏差（实验）</option>
+  </select></label>
+  <p id="sharedEndpointHint" class="hint" hidden>以配方的 B 端点为基准，把同一组增量叠加到原厂 ST 的 B／A1／A2。超范围时会限幅，并在下方标出受影响的槽位。转换只用于本次导出，多光源实拍效果待验证。</p>
+  <p id="medianEndpointHint" class="hint" hidden>使用八款原厂彩色外观的中位数偏差生成 A1／A2，保留 B、Gamma 和网格。限幅槽位会在下方列出。适合只拟合过 B 的新配方做对照，转换只用于本次导出。</p>
   <label id="exportReferenceLabel" hidden>比较原始 BIN<select id="exportReference"></select></label>
   <div id="exportPreview" aria-live="polite"></div>
   <div class="dialog-actions"><form method="dialog"><button class="secondary">取消</button></form>

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "look24-selection-restore",
+  "label": "跨开机选择恢复",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [
+    "look24-core"
+  ],
+  "conflicts": [],
+  "claims": [
+    "native24.selection-restore"
+  ],
+  "changes": [
+    {
+      "builder": "native24-option",
+      "option": "selection-restore"
+    }
+  ],
+  "reference": "independent/profiles/native24-stock/resources.json"
+}

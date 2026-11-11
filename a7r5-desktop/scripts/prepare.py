@@ -398,6 +398,32 @@ def feature_patches(*, engine=None, receipt=None):
         save(receipt or ROOT/'verification/feature-build.json', dict(combinations=manifest, camera_IO=False))
 
 
+def native24_patches(*, engine=None):
+    preset = module(ROOT/'engine/native24_preset.py', 'desktop_native24_preset')
+    delivery = Path(os.environ.get(
+        'A7R5_NATIVE24_DELIVERY', PROJECT/'.local/native24-relative417-20261105-01/delivery')).absolute()
+    original = PROJECT/'a7r5-firmware-images/官方升级包/BODYDATA.DAT'
+    candidate = delivery/'BODYDATA.DAT'
+    if not candidate.is_file() or preset.sha(candidate) != preset.DAT_SHA256:
+        raise ValueError('请用 A7R5_NATIVE24_DELIVERY 指向已校验的 4.17 相对偏移交付目录')
+    if preset.sha(original) != preset.SOURCE_SHA256:
+        raise ValueError('4.17 预设需要指定的官方 4.00 原包')
+    destination = Path(engine) if engine is not None else ENGINE
+    dat = PROJECT/'a7r5-dat-tool'
+    with tempfile.TemporaryDirectory(prefix='a7r5-native24-prepare-') as temporary:
+        work = Path(temporary).resolve()
+        for source, key, target in ((original, 'sony-original-public.pem', 'original'),
+                                    (candidate, 'research-public.pem', 'candidate')):
+            subprocess.run([str(dat/'.venv/bin/python'), '-B', str(dat/'dattool.py'), 'unpack',
+                            str(source), '--public-key', str(dat/'keys'/key), '--output', str(work/target)],
+                           check=True, stdout=subprocess.DEVNULL)
+        assets = work/'native24'
+        assets.mkdir()
+        preset.prepare(work/'original', work/'candidate', delivery/preset.FILTER_NAME, assets)
+        copy_tree(assets, destination/'native24')
+    print('4.17 预设材料准备完成', flush=True)
+
+
 def relocate_macho(path, library_dir, copied):
     path = Path(path)
     result = subprocess.run(['/usr/bin/otool', '-L', str(path)], capture_output=True, text=True, check=True)
@@ -476,10 +502,11 @@ def seal():
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('stage', choices=('runtime', 'capture', 'payloads', 'features', 'seal', 'all'))
+    p.add_argument('stage', choices=('runtime', 'capture', 'payloads', 'features', 'native24', 'seal', 'all'))
     args = p.parse_args()
     os.umask(0o077)
     ENGINE.mkdir(parents=True, exist_ok=True)
     if args.stage == 'capture':capture_payload()
-    for name, function in [('runtime',runtime), ('payloads',payloads), ('features',feature_patches), ('seal',seal)]:
+    for name, function in [('runtime',runtime), ('payloads',payloads), ('features',feature_patches),
+                           ('native24',native24_patches), ('seal',seal)]:
         if args.stage in (name, 'all'):function()

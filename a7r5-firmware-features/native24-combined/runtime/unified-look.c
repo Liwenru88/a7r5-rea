@@ -6,10 +6,14 @@ extern unsigned r5_filter_selected(void),r5_filter_available_mask(void);
 extern uint32_t r5_filter_bank_crc(void);
 extern unsigned r5_filter_pending(void),r5_filter_command_state(void),r5_filter_command_sequence(void);
 extern int r5_filter_request(unsigned),usleep(unsigned);
+extern int r5_filter_recovery_retry(void);
 extern unsigned r5_filter_recovery_required(void),r5_filter_factory_reset_needed(void);
 extern unsigned r5_filter_recovering(void);
+extern unsigned r5_filter_e4_stalled(void),r5_tune_slot_full(unsigned);
 extern int r5_tune_seed(unsigned,const int32_t *),r5_tune_value(unsigned,unsigned,int *),r5_tune_default(unsigned,unsigned,int *);
 extern int r5_tune_edit(unsigned,unsigned,int),r5_tune_reset(unsigned),r5_tune_overlay(uint8_t *,W);
+extern int r5_tune_offset(unsigned,unsigned,int *),r5_tune_offset_edit(unsigned,unsigned,int);
+extern unsigned r5_tune_offset_limit(unsigned);
 extern unsigned r5_tune_observe425(const uint8_t *,W,unsigned *),r5_osal_msg_size(const void *);
 extern void r5_tune_sent425(unsigned,unsigned,int);
 extern unsigned r5_tune_changed(unsigned),r5_tune_pending_changed(unsigned),r5_tune_status(void);
@@ -38,6 +42,8 @@ extern void n12_stock_parameter_labels(void *);
 #define TEXT 0x02ff4301u
 #define TITLE 0x02ff4601u
 #define TAB_TEXT 0x02ff4a00u
+#define CENTER 0x201000cu
+#define MENU 0x201000fu
 unsigned char n12_rows[43][128] __attribute__((aligned(8)));
 static W pairs[COUNT][2];
 static unsigned prepared,initializing,base_value,last_slot,last_menu;
@@ -46,10 +52,11 @@ static struct {
     unsigned queued,next_slot,next_row;
     unsigned failed,failed_row,failed_sequence,ready_row,processing,leaving;
 } flow;
+static struct {unsigned page,row,bank;} confirm;
 /* 诊断只读，不作为事务完成位。 */
 unsigned n12_last_status,n12_last_sequence;
 static char titles[COUNT][192];
-static unsigned seen_state,seen_sequence,seen_selected,seen_menu,seen_mask,seen_layout,status_only;
+static unsigned seen_state,seen_sequence,seen_selected,seen_menu,seen_mask,seen_layout,seen_stalled,status_only;
 static unsigned tune_refresh;
 static unsigned last_applied_factory,last_applied_custom;
 static uint32_t last_applied_bank;
@@ -72,6 +79,9 @@ static int parameter_locked(void){return r5_filter_recovery_required() || r5_fil
 static int restricted(void){return ((unsigned (*)(void))A(0x17ffd84))()==1 || r32(((W (*)(void))A(0x28bfdcc))())!=0;}
 static int allowed(unsigned slot){return slot && slot<=COUNT && !restricted() && (r5_filter_available_mask()&(1u<<(slot-1)));}
 static unsigned tab_group(unsigned menu){return extra(menu)?1u:0u;}
+static int failed_current(unsigned menu){
+    return flow.failed && flow.failed_row==menu && flow.failed_sequence==r5_filter_command_sequence();
+}
 static int factory_eligible(unsigned menu){
     return factory(menu) && ((unsigned (*)(unsigned))A(0x1bd5a80))(menu) &&
         ((unsigned (*)(unsigned))A(0x1bd5ab0))(menu);
@@ -95,7 +105,12 @@ unsigned n12_tabs_state(unsigned field){
     case 3:return tabs.browse;
     case 6:return mid();case 7:return tabs.revision;case 8:return r5_filter_command_sequence();default:return 0;}
 }
-unsigned n12_group_title(unsigned menu){return tabs.active?TAB_TEXT+tabs.group:((unsigned (*)(unsigned))A(0x1bd54d8))(menu);}
+unsigned n12_group_title(unsigned menu){
+    if(!tabs.active)return ((unsigned (*)(unsigned))A(0x1bd54d8))(menu);
+    if(r5_filter_e4_stalled())return TAB_TEXT+2+tabs.group;
+    if(!tabs.group && failed_current(mid()))return TAB_TEXT+5;
+    return TAB_TEXT+tabs.group;
+}
 /* 只包住D9的两处投影，不改变全局注册树／Fn可见性。 */
 void n12_list_projection(void *model,void *map,const void *params){
     unsigned old=tabs.scope;tabs.scope=tabs.active?1:old;
@@ -154,11 +169,13 @@ unsigned n12_current(void){
     return n && n<=COUNT?18+n:((unsigned (*)(void))A(0x1c05f18))();
 }
 static void failed(unsigned row,unsigned sequence){
+    if(!failed_current(row))tune_refresh=1;
     flow.failed=1;flow.failed_row=row;flow.failed_sequence=sequence;n12_last_status=3;
 }
 static void cancel(void){
     /* 只退休UI意图，不写后台状态，不取消已接收的CP/E4/文件事务。 */
     flow.queued=0;flow.active=0;flow.ready_row=0;flow.failed=0;last_menu=0;n12_last_status=0;
+    confirm.page=0;
 }
 static void settle(void){
     unsigned s;if(!flow.active)return;
@@ -260,17 +277,22 @@ static unsigned phase(unsigned slot){
         if(state!=2 || r5_filter_selected()!=slot)return 3;
     }
     if(flow.failed && flow.failed_row==row && flow.failed_sequence==r5_filter_command_sequence())return 3;
+    if(r5_tune_slot_full(slot))return 5;
     return r5_filter_selected()==slot?0:2;
 }
 unsigned n12_title_name(unsigned menu){return extra(menu)?TITLE+menu-FIRST+32*phase(menu-FIRST+1):((unsigned (*)(unsigned))A(0x1bd5508))(menu);}
 const char *n12_text(unsigned resource){
     if(resource==TAB_TEXT)return "[原厂外观]  自定义滤镜";
     if(resource==TAB_TEXT+1)return "原厂外观  [自定义滤镜]";
+    if(resource==TAB_TEXT+2)return "原厂外观  同步暂停";
+    if(resource==TAB_TEXT+3)return "自定义滤镜  同步暂停";
     if(resource==TAB_TEXT+4)return "未导入自定义滤镜";
+    if(resource==TAB_TEXT+5)return "原厂外观  切换未完成";
     unsigned code=resource-TITLE,n=code&31,i=0,j=0;const char *prefix,*full;char *out;
-    if(code>=160 || n>=COUNT)return n12_stock_text(resource);
+    if(code>=192 || n>=COUNT)return n12_stock_text(resource);
     full=r5_filter_full_name(n+1);if(!full)return "";
-    prefix=(code>>5)==1?"[切换中] ":(code>>5)==3?"[切换未完成] ":(code>>5)==2?"[未应用] ":(code>>5)==4?"[等待切换] ":"";
+    prefix=(code>>5)==1?"[切换中] ":(code>>5)==3?"[切换未完成] ":(code>>5)==2?"[未应用] ":
+           (code>>5)==4?"[等待切换] ":(code>>5)==5?"[微调已满] ":"";
     out=titles[n];while(prefix[j] && i<191)out[i++]=prefix[j++];j=0;
     while(full[j] && i<191)out[i++]=full[j++];out[i]=0;return out;
 }
@@ -296,7 +318,7 @@ void n12_display(void *context,void *output,void *changed,const void *snapshot){
         /* 只读ST的原始默认字段；0x50是用户工作值，0xa8才是默认值。 */
         for(i=0;i<8;i++)initial[i]=(int32_t)r32((W)snapshot+0xa8+0x1f8*i);
         if(!r5_tune_seed(slot,initial)){
-            int values[8];for(i=0;i<8;i++)if(r5_tune_value(slot,i,&values[i]))break;
+            int values[8];for(i=0;i<8;i++)if(r5_tune_offset(slot,i,&values[i]))break;
             if(i==8){
                 for(i=0;i<8;i++){put(output,0x34+12*i,i);put(output,0x38+12*i,(unsigned)values[i]);((unsigned char *)output)[0x3c+12*i]=0;}
                 put(output,0x94,0);if(!tab_suppressed() && r5_tune_changed(slot))(void)apply(slot);return;
@@ -323,7 +345,7 @@ W n12_inhibited(void *o){
 W n12_direct(void *o,const void *e){
     if(custom()){
         if(e && r32((W)e+0xc)==0xd){int p=tune_option(o);int value=(int8_t)((const uint8_t *)e)[0x30];
-            if(p>=0 && !r5_tune_edit(mid()-FIRST+1,(unsigned)p,value))tune_changed();return 1;}
+            if(p>=0 && !r5_tune_offset_edit(mid()-FIRST+1,(unsigned)p,value))tune_changed();return 1;}
         return 0;
     }
     return parameter_locked()?1:n12_stock_direct(o,e);
@@ -342,7 +364,7 @@ static W tune_parameter(void *o,int initial){
     int value=0;unsigned option;
     if(!o || r32((W)o+0x3b18)!=mid() || !allowed(mid()-FIRST+1))return 0;
     option=((unsigned (*)(void *))A(0x220b4e0))(o);if(!option || option>8)return 0;
-    if(initial)(void)r5_tune_default(mid()-FIRST+1,option-1,&value);else (void)r5_tune_value(mid()-FIRST+1,option-1,&value);
+    if(!initial)(void)r5_tune_offset(mid()-FIRST+1,option-1,&value);
     return (unsigned)value;
 }
 W n12_parameter_value(void *o){return custom()?tune_parameter(o,0):n12_stock_parameter_value(o);}
@@ -350,14 +372,17 @@ W n12_parameter_disabled(void *o){return custom()?(r5_tune_status()!=0 || ((unsi
 W n12_parameter_default(void *o){return custom()?tune_parameter(o,1):n12_stock_parameter_default(o);}
 W n12_base_available(void){return parameter_locked()?0:n12_stock_base_available();}
 static void tune_step(unsigned p,unsigned direction){
-    static const int low[8]={-9,-9,-9,0,-9,0,1,0},high[8]={9,9,9,9,9,9,5,9};int value;
-    if(direction>1 || !allowed(mid()-FIRST+1) || r5_tune_value(mid()-FIRST+1,p,&value))return;
-    int next=value+(direction?-1:1);if(next<low[p] || next>high[p] || r5_tune_edit(mid()-FIRST+1,p,next))return;tune_changed();
+    int value,limit=(int)r5_tune_offset_limit(p);
+    if(direction>1 || !allowed(mid()-FIRST+1) || r5_tune_offset(mid()-FIRST+1,p,&value))return;
+    int next=value+(direction?-1:1);if(next< -limit || next>limit || r5_tune_offset_edit(mid()-FIRST+1,p,next))return;tune_changed();
 }
 #define STEP(N) extern void n12_stock_step_##N(void *,unsigned);void n12_step_##N(void *o,unsigned d){if(custom())tune_step(N,d);else if(!parameter_locked())n12_stock_step_##N(o,d);}
 STEP(0) STEP(1) STEP(2) STEP(3) STEP(4) STEP(5) STEP(6) STEP(7)
 
-void n12_reset(void *t){if(custom()){if(!r5_tune_reset(mid()-FIRST+1))tune_changed();return;}n12_stock_reset(t);}
+void n12_reset(void *t){
+    if(custom()){if(allowed(mid()-FIRST+1) && !r5_tune_reset(mid()-FIRST+1))tune_changed();return;}
+    if(!parameter_locked())n12_stock_reset(t);
+}
 W n12_base_label(unsigned menu){return ((W (*)(unsigned))A(0x1bd54d8))(custom()?0x1e6:menu);}
 W n12_base_icon(void *o,unsigned resource){
     if(custom())resource=((unsigned (*)(unsigned))A(0x1bd5508))(0x84c);
@@ -369,6 +394,36 @@ void n12_parameter_layout(void *o){
     W records=r64((W)o+0x90);if(!records)return;
     W base=r64(records+0x98);if(r32(records+0x90)==0 && base)*(uint8_t *)(base+0x2c)=0;
 }
+const int32_t *n12_parameter_table(void){
+    static int32_t ranges[9][12];static unsigned ready;
+    const int32_t *original=(const void *)A(0x4284050);
+    if(!custom())return original;
+    if(!ready){
+        copy(ranges,original,sizeof ranges);
+        for(unsigned i=1;i<=8;i++){
+            int limit=(int)r5_tune_offset_limit(i-1);
+            ranges[i][8]=limit;ranges[i][9]=-limit;ranges[i][10]=0;
+        }
+        ready=1;
+    }
+    return &ranges[0][0];
+}
+/* 三处原指令是表指针读取，保留全部易失寄存器及条件码；编译限定为通用寄存器。 */
+#define TABLE_SAVE "stp x0,x1,[sp,#-176]!\n" \
+ "stp x2,x3,[sp,#16]\nstp x4,x5,[sp,#32]\nstp x6,x7,[sp,#48]\n" \
+ "stp x8,x9,[sp,#64]\nstp x10,x11,[sp,#80]\nstp x12,x13,[sp,#96]\n" \
+ "stp x14,x15,[sp,#112]\nstp x16,x17,[sp,#128]\nstp x18,x30,[sp,#144]\n" \
+ "mrs x9,nzcv\nstr x9,[sp,#160]\nbl n12_parameter_table\n"
+#define TABLE_RESTORE "ldr x9,[sp,#160]\nmsr nzcv,x9\n" \
+ "ldp x2,x3,[sp,#16]\nldp x4,x5,[sp,#32]\nldp x6,x7,[sp,#48]\n" \
+ "ldp x8,x9,[sp,#64]\nldp x10,x11,[sp,#80]\nldp x12,x13,[sp,#96]\n" \
+ "ldp x14,x15,[sp,#112]\nldp x16,x17,[sp,#128]\nldp x18,x30,[sp,#144]\n" \
+ "ldp x0,x1,[sp],#176\nret\n"
+__attribute__((naked)) void n12_parameter_table_x27(void){__asm__ volatile(TABLE_SAVE "mov x27,x0\n" TABLE_RESTORE);}
+__attribute__((naked)) void n12_parameter_table_x0(void){__asm__ volatile(TABLE_SAVE "str x0,[sp]\n" TABLE_RESTORE);}
+__attribute__((naked)) void n12_parameter_table_x1(void){__asm__ volatile(TABLE_SAVE "str x0,[sp,#8]\n" TABLE_RESTORE);}
+#undef TABLE_SAVE
+#undef TABLE_RESTORE
 void n12_parameter_labels(void *o){
     n12_stock_parameter_labels(o);
     if(!o || r64((W)o)!=A(0x58ca720))return;
@@ -376,7 +431,7 @@ void n12_parameter_labels(void *o){
      * 心跳的查询早于页面管理器查询，不能把返回1当成绘制完成。 */
     seen_state=r5_filter_command_state();seen_sequence=r5_filter_command_sequence();
     seen_selected=r5_filter_selected();seen_menu=mid();seen_mask=r5_filter_available_mask();
-    seen_layout=r32((W)o+8);tune_refresh=0;
+    seen_layout=r32((W)o+8);seen_stalled=r5_filter_e4_stalled();tune_refresh=0;
 }
 W n12_tune_send(W queue,void *packet,W length,W mode,W timeout,W completion){
     if(queue==0x90030001u && r5_tune_overlay(packet,length)<0)return (W)-1;
@@ -406,23 +461,86 @@ static W tab_dispatch(W controller,W message,W event){
     unsigned old=tabs.scope;if(tabs.active && creative_kind(r64(controller+0x180))==1)tabs.scope=1;
     W result=n12_stock_dispatch(controller,message,event);tabs.scope=old;return result;
 }
+static void factory_preview_ready(unsigned menu){
+    if(flow.ready_row && flow.ready_row==menu){
+        flow.ready_row=0;n12_stock_preview_menu(menu);
+    }
+}
+static int current_applied(unsigned menu){
+    if(extra(menu)){
+        unsigned slot=menu-FIRST+1;
+        return r5_filter_selected()==slot && !r5_tune_changed(slot);
+    }
+    return !r5_filter_selected() && factory_applied_mid()==menu;
+}
+/* 0 表示停留，1 表示等待当前目标，2 表示允许原厂确认。 */
+static unsigned confirm_target(unsigned menu,int retry){
+    if((extra(menu) && !allowed(menu-FIRST+1)) || (!extra(menu) && !factory(menu)))return 0;
+    pump(1);
+    factory_preview_ready(menu);
+    if(menu!=mid())return 0;
+    if(flow.active || flow.queued || busy())return 1;
+    if(retry && r5_filter_recovery_required()){
+        if(r5_filter_recovery_retry())return 0;
+        flow.failed=0;
+        /* 先恢复已提交结果，后台完成后再应用最后目标；不伪造成功或原生完成。 */
+        (void)apply(extra(menu)?menu-FIRST+1:0);return 1;
+    }
+    if(retry && (failed_current(menu) || !current_applied(menu))){
+        flow.failed=0;
+        n12_preview_menu(menu);
+        factory_preview_ready(menu);
+        if(flow.active || flow.queued || busy())return 1;
+    }
+    return menu==mid() && !failed_current(menu) && !r5_filter_recovery_required() &&
+           r5_filter_command_state()!=6 && !r5_filter_factory_reset_needed() &&
+           !r5_filter_pending() && current_applied(menu)?2:0;
+}
+static unsigned logical_event(W event){
+    if((event&0xff000000u)==0x01000000u || (event&0xff000000u)==0x04000000u)
+        return ((unsigned (*)(unsigned))A(0x1b2932c))((unsigned)event)|((unsigned (*)(unsigned))A(0x1b29374))((unsigned)event);
+    return (unsigned)event;
+}
+static int request_confirm(unsigned page,unsigned menu){
+    unsigned decision=confirm_target(menu,1);
+    confirm.page=decision==1?page:0;
+    if(confirm.page){confirm.row=menu;confirm.bank=extra(menu)?r5_filter_bank_crc():0;}
+    return decision==2;
+}
 static W idle_refresh(W controller,W event,W result){
-    if(event==0x20f0000u && !flow.active && !flow.queued && !flow.ready_row && !tune_refresh &&
+    if(event==0x20f0000u && !confirm.page && !flow.active && !flow.queued && !flow.ready_row && !tune_refresh &&
        !r5_filter_factory_reset_needed() && seen_state==r5_filter_command_state() &&
        seen_sequence==r5_filter_command_sequence() && seen_selected==r5_filter_selected() &&
-       seen_menu==mid() && seen_mask==r5_filter_available_mask())return result;
-    return n12_refresh((void *)r64(controller+0x180))?1:result;
+       seen_menu==mid() && seen_mask==r5_filter_available_mask() && seen_stalled==r5_filter_e4_stalled())return result;
+    if(n12_refresh((void *)r64(controller+0x180)))result=1;
+    if(confirm.page){
+        unsigned menu=mid(),page=confirm.page;
+        if(r32(controller+0x178)!=page || !(creative_kind(r64(controller+0x180))&(page==0xda?2:1)) ||
+           confirm.row!=menu || (extra(menu) && confirm.bank!=r5_filter_bank_crc())){
+            confirm.page=0;return result;
+        }
+        unsigned decision=confirm_target(menu,0);
+        if(decision!=1)confirm.page=0;
+        /* 原D9/DA中键处理器只读当前控制器，不保留上一次按键的消息或对象。 */
+        if(decision==2)return page==0xda?n12_stock_parameter_dispatch(controller,0,CENTER):tab_dispatch(controller,0,CENTER);
+    }
+    return result;
 }
 W n12_parameter_dispatch(W controller,W message,W event){
-    /* DA有独立的原生事件入口；按键及其他通知始终委派其自身分派器。 */
-    W result=n12_stock_parameter_dispatch(controller,message,event);
     unsigned menu=mid();
-    if(controller && r32(controller+0x178)==0xda &&
-       (event==0x20f0000u || event==0x20f0001u) && (extra(menu) || factory(menu)) &&
-       (creative_kind(r64(controller+0x180))&2))return idle_refresh(controller,event,result);
+    int live=controller && r32(controller+0x178)==0xda && (creative_kind(r64(controller+0x180))&2);
+    if(live && extra(menu)){
+        unsigned key=logical_event(event);
+        if(key==CENTER && !request_confirm(0xda,menu))return 1;
+        if(key==MENU)cancel();
+    }
+    W result=n12_stock_parameter_dispatch(controller,message,event);
+    if(live && (event==0x20f0000u || event==0x20f0001u) && (extra(menu) || factory(menu)))
+        return idle_refresh(controller,event,result);
     return result;
 }
 static void tab_switch(W controller){
+    confirm.page=0;
     unsigned previous=tabs.group,was_browsing=tabs.browse;
     /* 自定义以已提交状态为准，原厂读取实际属性，避开切换中的临时基底。 */
     settle();
@@ -456,13 +574,28 @@ static void tab_switch(W controller){
     }
     tab_dirty();
 }
+static void sync_custom_tab(W controller){
+    if(!tabs.active || !tabs.group)return;
+    unsigned menu=mid();
+    if(!tabs.browse && (!extra(menu) || allowed(menu-FIRST+1)))return;
+    if(!tabs.browse){
+        tabs.browse=1;confirm.page=0;flow.queued=flow.ready_row=0;tab_dirty();
+    }
+    if(controller){
+        unsigned target=tab_first(1);
+        if(target){
+            tab_move(controller,target);
+            if(mid()==target){tabs.browse=0;n12_preview_menu(target);tab_dirty();}
+        }
+    }
+}
 W n12_dispatch(W controller,W message,W event){
     unsigned menu=mid(),logical=(unsigned)event;W result;
     if(controller && (event==0x20f0000u || event==0x20f0001u) &&
        (r32(controller+0x178)==0xd9 || r32(controller+0x178)==0xda) &&
        (extra(menu) || factory(menu)) && creative_view(r64(controller+0x180))){
-        /* 原生心跳与值通知推进最后目标，并以原返回契约请求重绘。
-         * 不伪造按键、不保存对象指针、不在文件线程调用UI。 */
+        /* 原生心跳与值通知推进最后目标，并以原返回契约请求重绘。 */
+        if(r32(controller+0x178)==0xd9 && creative_kind(r64(controller+0x180))==1)sync_custom_tab(controller);
         result=tab_dispatch(controller,message,event);
         return idle_refresh(controller,event,result);
     }
@@ -470,22 +603,26 @@ W n12_dispatch(W controller,W message,W event){
        (!extra(menu) && !factory(menu) && !tab_suppressed()) ||
        !creative_view(r64(controller+0x180)))
         return n12_stock_dispatch(controller,message,event);
-    if((event&0xff000000u)==0x01000000u || (event&0xff000000u)==0x04000000u)
-        logical=((unsigned (*)(unsigned))A(0x1b2932c))((unsigned)event)|((unsigned (*)(unsigned))A(0x1b29374))((unsigned)event);
+    logical=logical_event(event);
     if(creative_kind(r64(controller+0x180))==1){
         tab_open();
-        if(logical==0x2010006u){tab_switch(controller);return 1;}
-        /* 长按或释放由同一次左键动作消费，避免原厂再次派发左键。 */
-        if(logical==0x2010007u || logical==0x2010008u)return 1;
-        if(logical==0x201000fu && tabs.browse){
+        /* D9 原厂以当前布局分派左侧入口：横屏为 6，两个竖屏布局均为 0。 */
+        unsigned layout=((unsigned (*)(W))A(0x2206fc8))(controller);
+        unsigned left=layout?0x2010000u:0x2010006u;
+        if(logical==left){tab_switch(controller);return 1;}
+        /* 同一方向的长按和释放只消费，不再次切组。 */
+        if(logical-left<=2u)return 1;
+        if(logical>=0x2010000u && logical<CENTER)confirm.page=0;
+        sync_custom_tab(0);
+        if(logical==MENU && tabs.browse){
             unsigned restore=applied_mid();tabs.group=tab_group(restore);tab_move(controller,restore);
         }else if(tabs.browse && (logical&0xffff0000u)==0x2010000u){
             /* 空组仍可切回或退出，其余列表键没有可操作行。 */
             return 1;
         }
+        if(logical==CENTER && !request_confirm(0xd9,mid()))return 1;
     }
-    if(logical==0x201000cu){pump(1);if(flow.active || flow.queued || busy())return 1;}
-    if(logical==0x201000fu){
+    if(logical==MENU){
         cancel();flow.leaving=1;result=tab_dispatch(controller,message,event);flow.leaving=0;
         tabs.active=tabs.main=tabs.browse=0;return result;
     }
@@ -501,21 +638,21 @@ W n12_refresh(void *manager){
         if(((unsigned (*)(void))A(0x1c05f18))()==0)r5_filter_factory_reset_done();
     }
     live=creative_kind((W)manager);old=tabs.scope;
+    if(live==1)sync_custom_tab(0);
     if(tabs.active && live==1)tabs.scope=1;
     original=n12_stock_refresh(manager);tabs.scope=old;menu=mid();live=creative_kind((W)manager);
     tabs.main=live==1;
-    if(live==1)tab_open();
+    if(live==1){tab_open();sync_custom_tab(0);}
     if(!live)tabs.active=tabs.browse=0;
     pump(live && (extra(menu) || factory(menu)));
-    if(flow.ready_row && flow.ready_row==menu){
-        flow.ready_row=0;n12_stock_preview_menu(menu);
-    }
+    factory_preview_ready(menu);
     if(!(extra(menu) || factory(menu)) || (!tune_refresh && seen_state==r5_filter_command_state() && seen_sequence==r5_filter_command_sequence() &&
-       seen_selected==r5_filter_selected() && seen_menu==menu && seen_mask==r5_filter_available_mask()))return original;
+       seen_selected==r5_filter_selected() && seen_menu==menu && seen_mask==r5_filter_available_mask() &&
+       seen_stalled==r5_filter_e4_stalled()))return original;
     for(i=0;i<15;i++){
         W view=r64((W)manager+0x338+8*i);
         if(view && r64(view)==A(0x58ca670)){
-            status_only=!tune_refresh && !original && seen_menu==menu && seen_mask==r5_filter_available_mask() && seen_layout==r32(view+8);
+            status_only=!tune_refresh && !original && seen_menu==menu && seen_mask==r5_filter_available_mask() && seen_layout==r32(view+8) && seen_stalled==r5_filter_e4_stalled();
             return 1;
         }
         if(view && r64(view)==A(0x58ca720)){
@@ -552,5 +689,6 @@ void n12_labels(void *view){
     }
     seen_state=r5_filter_command_state();seen_sequence=r5_filter_command_sequence();
     seen_selected=r5_filter_selected();seen_menu=mid();seen_mask=r5_filter_available_mask();seen_layout=r32((W)view+8);
+    seen_stalled=r5_filter_e4_stalled();
     tune_refresh=0;
 }

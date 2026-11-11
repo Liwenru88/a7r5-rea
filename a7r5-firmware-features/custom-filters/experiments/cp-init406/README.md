@@ -1,5 +1,7 @@
 # 当前修改4.06的原四核初始化窄探针
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 本入口服务于T03g。它只执行当前`18b265…` CP的必要原代码/ROM页，不提供机身后端、完整boot、AP peer、ISP或可安装产物。输入DAT只读，完整CP仅驻留审计进程；默认输出17段同源页共163840字节。相机、USB、真实SD与默认runtime均不参与。
 
 ## 重现四核、MMU/GIC及服务自然拒绝
@@ -15,7 +17,7 @@ a7r5-qemu/.venv/bin/python -B a7r5-qemu/tools/build-cp-qemu.py
 ```sh
 PYTHONPATH=a7r5-firmware-features/custom-filters:a7r5-desktop/prepared/engine/site \
   ./.venv/bin/python -B a7r5-firmware-features/custom-filters/experiments/cp-init406/verify.py \
-  --input /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  --input ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --qemu-build /绝对路径/cp-qemu-独立构建 \
   --output .local/fixed-custom-filters/cp-init406-new-run
 ```
@@ -55,7 +57,7 @@ CPU身份来自四个实际A35模型核的MPIDR，不使用MRC hook或修改屏�
 ```sh
 PYTHONPATH=a7r5-firmware-features/custom-filters:a7r5-desktop/prepared/engine/site \
   ./.venv/bin/python -B a7r5-firmware-features/custom-filters/experiments/cp-init406/verify.py \
-  --input /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  --input ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --qemu-build /绝对路径/cp-qemu-独立构建 \
   --original-tomco-init --tomco-cpio /绝对路径/同源/source.cpio \
   --output .local/fixed-custom-filters/cp-tomco406-new-run
@@ -78,7 +80,7 @@ CPIO必须匹配`c01948220e1cced7f4e1d6a6dd28221c587050214d32cc405291cc00d2f1ed8
 ```sh
 PYTHONPATH=a7r5-firmware-features/custom-filters:a7r5-desktop/prepared/engine/site \
   ./.venv/bin/python -B a7r5-firmware-features/custom-filters/experiments/cp-init406/verify.py \
-  --input /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  --input ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --output .local/fixed-custom-filters/cp-pool406-new-run --pool-prefix-only
 ```
 

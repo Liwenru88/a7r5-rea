@@ -54,6 +54,15 @@ def overlay(work, ledger):
         'import/build_ap_image.py': [('module.align(rxfile+len(code),65536)','module.align(rxfile+max(len(code),module.RW-module.RX),65536)'),
             ('assert at+len(code)<=65536','assert at+len(code)<=module.RW-module.RX')],
         'menu_parent423.py': [('assert new_rx_size <= 65536','assert new_rx_size <= module_audit[\'rw\']-rx')],
+        'import/r5_runtime_session.c': [
+            ('extern void *r5_stage411_child(void *);',
+             'extern void *r5_stage411_child(void *);\nextern int *r5_ap_posix_errno(void);'),
+            ('  r5_filter_service();\n  if(sleep(&pause,0))return 0;',
+             '  r5_filter_service();\n  if(sleep(&pause,0)){\n'
+             '   const int interrupted=4; /* 目标Linux的EINTR。 */\n'
+             '   const int *error=r5_ap_posix_errno();\n'
+             '   if(!error || *error!=interrupted)return 0;\n'
+             '  }')],
         'import/r5_stage413_probe.c': [('p[1]=2;', 'p[1]=R5_N24_PROBE_VERSION;'),
             ('p[1]!=2', 'p[1]!=R5_N24_PROBE_VERSION'), ('!=0x524', '!=R5_N24_CP_BUILD'), ('!=57472u', '!=R5_N24_BANK_BYTES')],
         'import/r5_stage413_transfer_core.c': [('p[1]=4;', 'p[1]=R5_N24_TRANSFER_VERSION;'), ('p[1]!=4', 'p[1]!=R5_N24_TRANSFER_VERSION')],

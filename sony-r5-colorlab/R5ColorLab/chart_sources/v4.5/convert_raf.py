@@ -20,7 +20,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-IED = Path('/Users/LOCAL_USER/Documents/ChatGPT/ied软件/索尼RAW转GFX无黑边/源码')
+IED = Path(os.environ.get('R5_IED_SOURCE', ROOT/'external/ied-source'))
 SOURCE = HERE/'SONY-v4.5-100MP-5300K.ARW'
 SOURCE_SHA = '45455a7c46d7aa2454e73a67c32b01a29a13739d203e54ed24592a451fd48bd6'
 DEST = HERE/'GFX100SII-v4.5-100MP-5300K.RAF'

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "profile": "electronic-shutter",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "version": "4.06",
+  "base_public_key": "sony-original-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha8",
+      "delta": "00.delta.gz",
+      "delta_sha256": "fd2a4227ffb0e74419681ff110bf5fbc4c773dc925a01b4fd74f1d78c5886d1d",
+      "bytes": 24531968,
+      "before_sha256": "a625468fbbd6b0e053e1974a3a0f7e9b9151bc88aaf6261aea21813f9e1f8f46",
+      "after_sha256": "04fad0e0bfbbedc3fc16ab7e89ee9a94d4044b5ef1bafdc82bca7fd053720968"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha8": "04fad0e0bfbbedc3fc16ab7e89ee9a94d4044b5ef1bafdc82bca7fd053720968",
+    "0701_part_image_sum/part_image.sum": "fb015d7489e369b34726eee203d0ca2f6c08cf3fd4aaa202a70589595981a3fe"
+  },
+  "expected_dat_sha256": "8e3bbcb14bedfec2c38539ea06b82a323f9815b498e2cea15f4108d84b7dec5f"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "id": "lens-af-compat",
+  "label": "镜头 AF 能力过滤",
+  "revision": 1,
+  "supported_bases": ["ilce-7rm5-4.00"],
+  "requires": [],
+  "conflicts": [],
+  "claims": ["cp.lens-af-capability"],
+  "changes": [{"builder": "shared-capture", "option": "lens_af"}],
+  "reference": "independent/profiles/lens-af/resources.json"
+}

@@ -104,9 +104,8 @@ def selection_code():
         return code+bytes.fromhex('1f2003d5')*((132-len(code))//4)
 
 
-def ap_patch(raw):
-    require(digest(raw) == AP_SHA, 'AP完整前像不符')
-    patches = PatchSet(raw)
+def add_fl23_ap(patches):
+    raw = patches.raw
     patches.put(0x3550354, raw[0x3550354:0x35503d8], selection_code(), 'FL23-independent-selector')
     for group in range(3):
         for slot, value in ((16, 10), (17, 11)):
@@ -114,6 +113,12 @@ def ap_patch(raw):
             key, before = struct.unpack_from('<II', raw, at)
             require(key == 0x163a+group*18+slot and before == 0, 'FL23默认字段前像不符')
             patches.put(at+4, struct.pack('<I', before), struct.pack('<I', value), 'FL23-reset-default')
+
+
+def ap_patch(raw):
+    require(digest(raw) == AP_SHA, 'AP完整前像不符')
+    patches = PatchSet(raw)
+    add_fl23_ap(patches)
     recipe = material('a7r5-firmware-features/materials/recipes.json')
     for row in recipe['ntsc_only']['patches']:
         patches.put(row['offset'], bytes.fromhex(row['before']), bytes.fromhex(row['after']), 'NTSC')
@@ -185,7 +190,7 @@ def compile_integration(folder, payload):
         linker_sha256=digest((HERE/'integration.ld').read_bytes()), sections=[dict(VA=a, bytes=len(b), sha256=digest(b)) for a,b in sections])
 
 
-def cp_patch(raw, folder):
+def cp_patch(raw, folder, *, sound=True, custom_sound=False):
     require(digest(raw) == CP_SHA, 'CP完整前像不符')
     patches = PatchSet(raw)
     payload = cp_payload(raw)
@@ -195,7 +200,7 @@ def cp_patch(raw, folder):
     for address, code in sections:
         if address < 0x109000:
             patches.put(address-BASE, bytes(len(code)), code, 'combined-native-code')
-        else:
+        elif address != 0xbef700 or sound:
             retired[address-0xbef700:address-0xbef700+len(code)] = code
     patches.put(0xbef700-BASE, raw[0xbef700-BASE:0xbefb80-BASE], bytes(retired), 'relocated-curves-native-code')
     relocations = []
@@ -219,15 +224,18 @@ def cp_patch(raw, folder):
     bss = struct.unpack_from('<3I', raw, 0x20148)
     stack = struct.unpack_from('<3I', raw, 0x20154)
     require(data == (0xf57000, 0x118000, 0x107f000) and
-            bss == (0x106f000, 0x8a2468, 0x1197000) and stack == (0, 0x4000, 0x1a3c000), 'CP布局前像不符')
-    new_size = 0x1a3a000+len(payload)-bss[2]
+            bss == (0x106f000, 0x8a4000 if custom_sound else 0x8a2468, 0x1197000)
+            and stack == (0, 0x4000, 0x1a3c000), 'CP布局前像不符')
+    new_size = max(bss[1], 0x1a3a000+len(payload)-bss[2])
     translation = data[2]-data[0]
     old_root = ((bss[0]+bss[1]+0x4fff) & ~0x3fff)+translation
     new_root = ((bss[0]+new_size+0x4fff) & ~0x3fff)+translation
     require(old_root == new_root and 0x1a3a000+len(payload) <= stack[2], '矩阵将移动页表或碰到栈')
-    patches.put(0x2014c, struct.pack('<I', bss[1]), struct.pack('<I', new_size), 'matrix-BSS-map-extent')
+    if new_size != bss[1]:
+        patches.put(0x2014c, struct.pack('<I', bss[1]), struct.pack('<I', new_size), 'matrix-BSS-map-extent')
     patches.put(0x71e43e-BASE, thumb_b(0x71e43e, 0xbef3b4), thumb_b(0x71e43e, 0xbef720), 'FL23-matrix-source')
-    patches.put(0x47f622-BASE, bytes.fromhex('03210028'), thumb_b(0x47f622, 0xbef700), 'type1-sound-selector')
+    if sound:
+        patches.put(0x47f622-BASE, bytes.fromhex('03210028'), thumb_b(0x47f622, 0xbef700), 'type1-sound-selector')
     require(raw[0x377601] == 0x0f, '禁止旧type1声音分派补丁')
     target, report = patches.finish()
     report.update(compiled=compiled, matrix_va=0x1a3a000, matrix_bytes=2304,

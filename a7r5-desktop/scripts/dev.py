@@ -114,6 +114,10 @@ def build(paths, key):
     # 源码覆盖仅发生在新建缓存内，原 prepared 和历史应用保持原样。
     shutil.copytree(mirror / 'engine', engine, dirs_exist_ok=True)
     rebuild_capture(mirror)
+    spec = importlib.util.spec_from_file_location('desktop_native24_build', ROOT/'scripts/prepare.py')
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+    builder.native24_patches(engine=engine)
     seal(engine, mirror / 'src-tauri/engine.sha256')
     if revision(paths) != key:
         raise RuntimeError('构建期间源码发生变化，请重新运行；此次缓存不启用')

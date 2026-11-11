@@ -4,11 +4,12 @@ Original metadata is preserved except the explicit raw compression/strip
 fields. Original files are never written. Photo sensor bytes are not samples.
 """
 from pathlib import Path
-import argparse, hashlib, importlib.util, json, struct
+import argparse, hashlib, importlib.util, json, os, struct
 import numpy as np
 
-PARSER=Path('/Users/LOCAL_USER/Documents/ChatGPT/ied软件/RAW创意外观解锁/add_fl2_fl3.py')
-SOURCE=Path('/Users/LOCAL_USER/Documents/fl对比/DSC00430.ARW')
+ROOT=Path(__file__).resolve().parents[2]
+PARSER=Path(os.environ.get('R5_RAW_PARSER', ROOT/'external/ied-source/add_fl2_fl3.py'))
+SOURCE=Path(os.environ.get('R5_RAW_SOURCE', ROOT/'inputs/DSC00430.ARW'))
 PIN='8aebb1f4fa75ce7aa3e830186d838b41fd13ad9e54781cb28f553ca548b41603'
 
 

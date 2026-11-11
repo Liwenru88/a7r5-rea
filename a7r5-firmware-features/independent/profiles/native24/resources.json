@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "profile": "native24",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "version": "4.17",
+  "base_public_key": "sony-original-public.pem",
+  "deltas": [
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin",
+      "delta": "00.delta.gz",
+      "delta_sha256": "be03244d951e7014d76eb94cd16d28396dc83b1a7013832017e969aec5529224",
+      "bytes": 2372469,
+      "before_sha256": "a3b036d3e1dbeeb7c6e2fc7f02d41e5fc2731b8ba8165c3ee9927d9b504a876c",
+      "after_sha256": "f0281f9513fd247d1b32f2c7b6c6e6122788b097db41cad0bb61ed6b05495f37"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin",
+      "delta": "01.delta.gz",
+      "delta_sha256": "6b4d304e54e50222c1a76efcc116240ceed3cb6ffbba49d9e4e8ded5e8455445",
+      "bytes": 2372469,
+      "before_sha256": "e6909b4e0df661a1b53621873904ecfaa9af18f1b43f5a278d1d3dc450e42c65",
+      "after_sha256": "f025b3725d3824e4d851d3df0d234f224bf389bd92a8fb59818276347aebdff9"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin",
+      "delta": "02.delta.gz",
+      "delta_sha256": "557ff02c05ed3cc75b66a9f1115837f99369d6660e7679c971744945f6f8dd67",
+      "bytes": 2372469,
+      "before_sha256": "b59bf5066f438263bed0c38a594209bc70494953e244cff063224f0333181826",
+      "after_sha256": "fa27745f8b8694651df6bc55bffde4b8809ad7305b3a2851faecbac13cc99c75"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin",
+      "delta": "03.delta.gz",
+      "delta_sha256": "2c019389c179fe83b5954f536dfddcfabc50101a370fe557e5fbbc6b24f77cba",
+      "bytes": 2372469,
+      "before_sha256": "fdee34087520675bbfe705bfb8b37cfc871f1143202a73c01b9fbe6bc1d05748",
+      "after_sha256": "cb0c7062f6ec1c7a2c0c2a604727d397f2a356e03abe912b11f2f1923db739a3"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin",
+      "delta": "04.delta.gz",
+      "delta_sha256": "3137cf608f1096b1ecd9b7f5a5b326a32eb7b5e618fc5dddd3cc82d8bc21d453",
+      "bytes": 2372469,
+      "before_sha256": "0fa2005692fdc7ca76f5148696efca30559b7043f568412b9c1cec971753f335",
+      "after_sha256": "acc379d7f78603d30377d1fc47c25ecb4e6f74e5d211dd579906f3602d51826a"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin",
+      "delta": "05.delta.gz",
+      "delta_sha256": "c01130aa92bd776d9147cbca226689965c0561c9965e71f3302bff08df0bfc68",
+      "bytes": 2372469,
+      "before_sha256": "b9244f5ea4c48b04bf2ca8107900c9b7c168128b15df5858c6d4f0ff2ffb6370",
+      "after_sha256": "fc3619283668c15590eda179b72eee4e13c5c2aaf4f6971a187dc80ad2398203"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin",
+      "delta": "06.delta.gz",
+      "delta_sha256": "2adb084ccf48aa75bf6a10065e0ede966d94d9afb79c3156410fa8861c879ce8",
+      "bytes": 2372469,
+      "before_sha256": "92697b50f6e3e25f5560a8c3eee357ea30b54e4e15cf29cd13bc30295759e3ce",
+      "after_sha256": "5de3b79bf557e749679b3c019a45ca81e7f236e250cf4428fbaca435f2be88be"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin",
+      "delta": "07.delta.gz",
+      "delta_sha256": "5a0d271108ad47166249925e063dc8c33f9a2f6ccc05ed70591a35234fb0e31c",
+      "bytes": 2372469,
+      "before_sha256": "0f072fc81a3148472bd22357af96af081502dc9721345ffc0d87d4f217ce54f1",
+      "after_sha256": "bd008c2be586c3ca3d95d834e41ab77ed70504b2ad22c7bbfc18e2ff768a9668"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin",
+      "delta": "08.delta.gz",
+      "delta_sha256": "882201a52f8343d8dcba4967c307024346814dc0604f40f1496fc68f5217ccc3",
+      "bytes": 2372469,
+      "before_sha256": "ce5110035e7429b88ef5261ed6b9d9895d29588b2072bdf7997e9516b6797bdc",
+      "after_sha256": "6c6f98ca3060841955a06a1ac256636be7ece9bf39012485ed9ed339c441abcb"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin",
+      "delta": "09.delta.gz",
+      "delta_sha256": "a556194971224e89da90b155dee55535b94a040c0659793f219f4f23e36b4dc5",
+      "bytes": 2372469,
+      "before_sha256": "84406c970097c6ceb46f2001528a08d3f1d5aad6cc926b0dbf5850e68a8901ec",
+      "after_sha256": "62161d753b7a2169357fab1a1a891b3e25f15d6a2e8a33ac7855617320010d8b"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin",
+      "delta": "10.delta.gz",
+      "delta_sha256": "ae44dcc877935b0e167f975c21fb5d80ccb23dbd717e79d9574057c448c348ed",
+      "bytes": 2372469,
+      "before_sha256": "124c4d7e6f6282675952db0b5a827d3123ba01f8aaf2f24376764ba5b7d1dc71",
+      "after_sha256": "a0a2844f1aef419b501069f0602181fc42ecd17111204acbc589a954169d095c"
+    },
+    {
+      "path": "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin",
+      "delta": "11.delta.gz",
+      "delta_sha256": "126949f278675692b38a8de01527424549ea57461a0037619079c230523a8fc6",
+      "bytes": 2372469,
+      "before_sha256": "b39366f9f5ae5704edc7f504afef485d526292a6619377a85e1243400b52e66b",
+      "after_sha256": "900961d01664b17bf25fb2d399563fde9da6646b7a0a6dd0c58fd716654eabee"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha15",
+      "delta": "12.delta.gz",
+      "delta_sha256": "604c01a33307ed23b9a0146ab2bfe439047c3b5c199567f9177c9e8a1f19ce03",
+      "bytes": 410652672,
+      "before_sha256": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5",
+      "after_sha256": "bf7f0f0bae6acd51e78c99383eeea65844695fa82eacbcb14ac44d6ab62f5f16"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha5",
+      "delta": "13.delta.gz",
+      "delta_sha256": "3dac3e02e48fc585a1dd6422f152cb53db5ddf016d94856fe52d5473061443b0",
+      "bytes": 243789184,
+      "before_sha256": "15020d1afe7f1cf40b3822ea0a7426c5c9b40f6330f163d72cf82fb08b1363e8",
+      "after_sha256": "eac727efd7af2142ddd9b8ae22387614eaaaba9dc9f04ce0434bf8e7c766d693"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha8",
+      "delta": "14.delta.gz",
+      "delta_sha256": "142a6edf27ab6b64ab94ecf62605706deeff3664718bb867523576b9c49a3b64",
+      "bytes": 24531968,
+      "before_sha256": "a625468fbbd6b0e053e1974a3a0f7e9b9151bc88aaf6261aea21813f9e1f8f46",
+      "after_sha256": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d"
+    }
+  ],
+  "expected_changes": {
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin": "f0281f9513fd247d1b32f2c7b6c6e6122788b097db41cad0bb61ed6b05495f37",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin": "f025b3725d3824e4d851d3df0d234f224bf389bd92a8fb59818276347aebdff9",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin": "fa27745f8b8694651df6bc55bffde4b8809ad7305b3a2851faecbac13cc99c75",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin": "cb0c7062f6ec1c7a2c0c2a604727d397f2a356e03abe912b11f2f1923db739a3",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin": "acc379d7f78603d30377d1fc47c25ecb4e6f74e5d211dd579906f3602d51826a",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin": "fc3619283668c15590eda179b72eee4e13c5c2aaf4f6971a187dc80ad2398203",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin": "5de3b79bf557e749679b3c019a45ca81e7f236e250cf4428fbaca435f2be88be",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin": "bd008c2be586c3ca3d95d834e41ab77ed70504b2ad22c7bbfc18e2ff768a9668",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin": "6c6f98ca3060841955a06a1ac256636be7ece9bf39012485ed9ed339c441abcb",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin": "62161d753b7a2169357fab1a1a891b3e25f15d6a2e8a33ac7855617320010d8b",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin": "a0a2844f1aef419b501069f0602181fc42ecd17111204acbc589a954169d095c",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin": "900961d01664b17bf25fb2d399563fde9da6646b7a0a6dd0c58fd716654eabee",
+    "0111_backup_sum/backup.sum": "3bb4488c4bc93a5cb5ff57ab9b4624ff444192145a1b908cbdeeb71718a8a2cc",
+    "0700_part_image/dev/nflasha15": "bf7f0f0bae6acd51e78c99383eeea65844695fa82eacbcb14ac44d6ab62f5f16",
+    "0700_part_image/dev/nflasha5": "eac727efd7af2142ddd9b8ae22387614eaaaba9dc9f04ce0434bf8e7c766d693",
+    "0700_part_image/dev/nflasha8": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d",
+    "0701_part_image_sum/part_image.sum": "e9ef9fdcc92e736f351221ae5d1ac5a5b10915713f6dbbc56033e3dfeafce54b"
+  },
+  "expected_dat_sha256": "49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda",
+  "companion": {
+    "file": "R5NATIVE.BIN",
+    "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+  }
+}

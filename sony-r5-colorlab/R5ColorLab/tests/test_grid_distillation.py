@@ -49,6 +49,62 @@ class TotalGridTests(unittest.TestCase):
         neutral=np.full((1,3),.4)
         self.assertGreater(float(np.max(np.abs(evaluate(neutral,grid,np.eye(3))-neutral))),.015)
 
+    def test_holdout_rejects_a_better_average_that_tints_neutral_shadows(self):
+        from chart_grid_selection import select
+
+        response = np.eye(3)
+        source = np.r_[np.full((16, 3), .08), np.tile([.35, .45, .52], (112, 1))]
+        gray = np.full((16, 3), .4)
+        zero = np.zeros((405, 3), dtype=np.int8)
+        shifted = np.tile([8, 0, 0], (405, 1)).astype(np.int8)
+        baseline = (0., zero, dict(smoothness=.001))
+        alternative = (1., shifted, dict(smoothness=.01))
+        wanted = evaluate(source, shifted, response)
+        protected = wanted.copy()
+        protected[:16] = source[:16]
+        for target, expected in ((protected, baseline), (wanted, alternative)):
+            with self.subTest(adopt=expected is alternative):
+                result, report = select([baseline, alternative], baseline, response,
+                    (source, target), (gray, evaluate(gray, shifted, response)))
+                self.assertIs(result, expected)
+                self.assertEqual(report['coverage']['dark_neutral'], 16)
+                self.assertFalse(report['test_used_for_selection'])
+                trial, = report['candidates']
+                self.assertLess(trial['metrics']['delta_e00_mean'], report['before']['delta_e00_mean'])
+                if expected is baseline:
+                    self.assertIn('dark_neutral_ab_rmse', trial['rejected_by'])
+                else:
+                    self.assertEqual(trial['rejected_by'], [])
+
+    def test_focused_proposal_refines_training_rows_without_another_solve(self):
+        from unittest.mock import patch
+
+        source = np.array([[.08, .08, .08], [.4, .4, .4], [.6, .6, .6]])
+        target = source.copy()
+        target[-1] += .1
+        table = np.zeros((405, 3), dtype=np.int8)
+        calls = []
+
+        def refine(grid, base, wanted, gate, weights, **options):
+            np.testing.assert_array_equal(base, source)
+            np.testing.assert_array_equal(wanted, target)
+            self.assertEqual(options['sweeps'], 1)
+            calls.append(weights.copy())
+            return grid, {}
+
+        def select(candidates, baseline):
+            self.assertEqual([item[2]['kind'] for item in candidates[-2:]], ['focused', 'focused-half'])
+            return baseline, {}
+
+        with patch('pc_stages.fit_response_grid', return_value=(table, {})) as solve, \
+             patch('optimizer_policy.refine_grid', side_effect=refine):
+            _, audit = fit_target(source, target, np.ones(3), np.eye(3), select_candidates=select)
+        self.assertEqual(solve.call_count, 3)
+        self.assertEqual(len(calls), 4)
+        np.testing.assert_allclose(calls[-1], [.375, .25, .375])
+        self.assertEqual(audit['chart_holdout']['focused_training'], dict(shadows=1, dark_neutral=1, tail=1))
+
+
     def test_teacher_receives_training_and_synthetic_queries_only(self):
         train=np.array([[.123,.234,.345],[.456,.567,.678]])
         seen=[]

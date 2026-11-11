@@ -9,11 +9,15 @@
 > 当前客户端为本地测试版，最低构建目标为 macOS 14，实际验证环境为 macOS 27.0.1 / Apple Silicon。客户端运行不依赖 QEMU、Homebrew、Node 或开发虚拟环境。容器验签、离线回归和模拟结果不能证明相机升级接纳、功能效果或断电恢复；当前客户端未完成实机验收。
 
 - **桌面客户端。** `client-update-20261024-01` 的改动和离线验证见 [2026-10-24 更新记录](a7r5-desktop/docs/updates-20261024.md)。需要该批次对应的功能时，可从当前源码启动或按下文构建客户端。
-- **固件研究。** 当前整合版本为 **4.17**。源码、构建手册和离线验收记录从[固件功能索引](a7r5-firmware-features/README.md)进入。
+- **固件研究。** 当前主线为基于原厂 **4.00** 的 **4.19 全功能修正版（2026-11-11）**，提供十个可组合模块。桌面工坊保留四项组合和固定 4.17 预设；十模块 4.19 使用 `compose.py`。从[当前能力](#当前已实现能力)、[构建示例](#构建全功能与自定义模块升级包)或[完整功能索引](a7r5-firmware-features/README.md)进入。
 
 ## 目录
 
 - [使用范围与非商用声明](#使用范围与非商用声明)
+- [当前变更与交付状态](#当前变更与交付状态)
+- [当前已实现能力](#当前已实现能力)
+- [功能截图与操作说明](#功能截图与操作说明)
+- [构建全功能与自定义模块升级包](#构建全功能与自定义模块升级包)
 - [平台支持与其他系统适配](#平台支持与其他系统适配)
 - [如何选择入口](#如何选择入口)
 - [工程结构](#工程结构)
@@ -24,7 +28,137 @@
 - [测试与验证](#测试与验证)
 - [参考项目与代码来源](#参考项目与代码来源)
 - [发布内容与签名身份](#发布内容与签名身份)
+- [交给 AI Agent 的完整提示词](#交给-ai-agent-的完整提示词)
 - [常见问题](#常见问题)
+
+## 当前变更与交付状态
+
+本页按 2026-11-11 工作区源码、模块清单和现有验证回执整理。当前变更涵盖以下内容，提交 GitHub 时仍需将相应新源码、配置、测试和文档一并纳入提交；README 不会替代这些文件。
+
+- **模块化固件工程：** 原厂 4.00 输入，按模块配置、检查依赖与共享组件、构建、独立重建复验；24 槽能力统一为 `look24`，保留旧 ID 的历史复现兼容。
+- **滤镜交互：** 原厂／自定义分组、左键切组、分组成功选择记忆、浏览预览与自动保存、八项相对偏移、快速切换保留最后目标，以及后台恢复耗尽后的中键重试。
+- **画幅与声音：** 十档画幅的逐张锁存、任务复制、取消恢复、开机记忆和保存失败提示；机械／电子双组自定义快门声独立选择与音量，电子前帘归机械组。
+- **4.19 修正版：** 合入滤镜恢复重试、画幅补读和异步保存修复，并纠正 AArch64 配置目录打开标志。保持原版十二款滤镜的成像处理框架。当前包身份如下表。
+- **工具与训练：** 桌面工坊新增 4.17 整合预设；Color Lab 增加量化回读、色卡留出集保护、暗部／中性与连续性检查，以及独立场景验证工具。联合拟合、神经网络教师等实验路径须按训练报告判断，未通过验收的候选回退，不能概括为已优于默认算法。
+- **研究资料整理：** Fastboot／4.18 故障材料归入独立模块；旧构建和重复解包产物已清理，必要证据压缩保存。历史回执中的 `.local`、旧包和工作区路径可能不再存在，复验需重新准备输入。
+
+| 项目 | 当前身份与验证范围 |
+|---|---|
+| 原厂基底 | ILCE-7RM5 4.00，精确 DAT 摘要见[输入准备](#1-准备固定输入) |
+| 当前全功能预设 | [`presets/full-4.19.json`](a7r5-firmware-features/presets/full-4.19.json)，十模块，声音变体 `custom-dual-full` |
+| 当前输出 DAT | 754525608 字节；SHA-256 `9b6919ce47c8224efd591945a88849832da0bae01ef4a74dfdbeb85f9675d5dc` |
+| 模块修订 | `look24` 修订 2；`photo-aspect-ratios` 修订 5 |
+| 已有离线证据 | 当前修正版相关回归 116 项；独立重建、解包和研究签名验证；736841 帧、147 个归档成员核对 |
+| 已有 QEMU 证据 | 当前修正版正常初始化、54 次 Qt 操作／53 张原帧；声音设置保存和 MENU 开关。滤镜成功完成仍受原生 E4 服务限制 |
+| 当前实机状态 | 本次 4.19 修正版未进行相机升级、启动或成像验收；此前 4.16 的用户实机成功反馈不能替代本包验收 |
+
+**源码与本地产物分开。** GitHub 源码不含完整 DAT、固件镜像、QEMU 大客体和真实设备现场。当前包的[说明](a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md)与[复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261111/实施与复验.md)记录了当时结果；克隆者须自行准备合法输入并重新生成产物。不要按版本号混用历史同名 4.19 包。
+
+## 当前已实现能力
+
+### 十个固件模块
+
+以下是固件构建配置中的十个公开模块，支持范围以 `plan` 的当前结果为准。
+
+| 模块 ID／实施入口 | 实现能力 | 操作与边界 |
+|---|---|---|
+| [`look24`](a7r5-firmware-features/look24/README.md) | 24 槽自定义滤镜，SD 卡冷启动导入、机内库、分组预览与记忆、八项相对调参、选择保存恢复 | 创意外观内分组；逻辑左键切组，上下浏览，右键调参，中键确认／调参返回；预览成功自动保存。可用槽数取决于导入库，容量不等于内置 24 款 |
+| [`look-fl2-fl3`](a7r5-firmware-features/look-fl2-fl3/README.md) | 原厂组开放 FL2／FL3，包含选择器、默认参数及 CP 色彩数据适配 | 原厂组操作；色彩数据和迁移依据见模块文档，真实成像待机身验收 |
+| [`look-factory-six`](a7r5-firmware-features/look-factory-six/README.md) | C1–C6：Classic Neg.、Classic Chrome、Nostalgic Neg.、Astia、GR Positive Film、GR Negative Film | 固件内置，在原厂组选择；与 SD 卡导入槽分开，沿用原厂调参页 |
+| [`lens-af-compat`](a7r5-firmware-features/lens-af-compat/README.md) | 自动兼容模式保留镜头已上报的 AF 能力，调整能力过滤与发布 | 不为未上报的能力造值；镜头通讯及强制模式保留，实镜 AF-C／连拍待验收 |
+| [`photo-aspect-ratios`](a7r5-firmware-features/photo-aspect-ratios/README.md) | 原有 3:2、4:3、16:9、1:1，加 17:6、65:24、5:4、7:6、1.91:1、2.35:1，共十档 | 取景构图遮罩；JPEG／HEIF 实裁；RAW 像素保留完整幅面，内嵌预览按比例处理。确认后台保存，取消恢复原比例；硬件成片待验收 |
+| [`photo-framing-markers`](a7r5-firmware-features/photo-framing-markers/README.md) | 照片构图标记开关、透明度及含 2.35:1 的比例 | 构图辅助，与实际裁切模块各自独立；物理取景叠加待验收 |
+| [`photo-electronic-shutter-sound`](a7r5-firmware-features/photo-electronic-shutter-sound/README.md) | 普通原厂电子声配方；4.19 另用 `custom-dual-full` 提供双组自定义声音 | R5S 导入、独立选择／关闭／音量及保存恢复；电子前帘归机械组。真实出声、连拍和静音组合待机身验收 |
+| [`video-ntsc-prompt`](a7r5-firmware-features/video-ntsc-prompt/README.md) | 关闭两处指定 NTSC 提示 | 保留 PAL／NTSC 制式、帧率和其他警告 |
+| [`color-r6-st`](a7r5-firmware-features/color-r6-st/README.md) | 修改十二份 GL 模板中 ST 的 CC1 与矩阵字段 | 此模块会显式改变 ST 模板；生效时点由原厂模板加载决定 |
+| [`color-awb-priority`](a7r5-firmware-features/color-awb-priority/README.md) | 修改十二份 GL 模板的白色优先／氛围优先字段 | 与 R6 ST 统一合并并重算校验；现有设置与初始化模板生效分别验收 |
+
+`look24` 的八项值是相对原生基准的偏移，默认显示全零；归零恢复配方原本效果。微调按配方身份保存，相同配方重新导入保留微调，新配方使用自身默认值，不改写原始 `R5NATIVE.BIN`。两组记住最近成功应用的条目，切回时预览该条；无有效记录时回到第一款有效条目。空槽不作为有效配方应用。完整导入、状态恢复和异常分支见[24 槽实施记录](a7r5-firmware-features/native24-combined/实施与复现手册.md)。
+
+### 配套工具
+
+| 工程 | 已实现能力 | 入口 |
+|---|---|---|
+| A7R5 Studio | 相机维护、研究签名信任更新、SSH 上传／开启／停止、任务记录、四项组合封包与 4.17 整合预设 | [客户端说明](a7r5-desktop/README.md)；不包含十模块 4.19 图形选择器 |
+| DAT 工具 | 容器检查、验签、解包、组件替换、归档校验、研究签名封包与回读 | [DAT 说明](a7r5-dat-tool/README.md) |
+| 更新器信任 | 离线重建候选与状态分类；独立部署器提供精确前像、单次批准和全量回读流程 | [信任模块](a7r5-updater-trust/README.md)；与客户端直接更新的保护条件不同 |
+| Color Lab | 色卡训练、原生参数与整数网格导出、BIN v4／v5、24 槽管理、配对照片预览和量化／留出保护 | [BIN 手册](sony-r5-colorlab/R5NATIVE.BIN使用说明.md)、[训练流程](sony-r5-colorlab/R5ColorLab/TRAINING.md)；电脑近似预览不等于 ISP 成片 |
+| QEMU | 原厂应用菜单、真实 Qt 按键、原帧截图、固定客体及协议研究 | [QEMU 说明](a7r5-qemu/README.md)；不等同完整相机模拟 |
+| Fastboot／执行工具 | RAM 引导资料与离线预检、短任务执行、SSH 和启动故障研究 | [Fastboot](a7r5-fastboot/README.md)、[短任务](a7r5-exec/README.md)；真实动作按各自授权和门禁执行 |
+
+Color Lab 还可导出标准配方与“原厂多外观通用偏差（实验）”对照版：用八种原厂外观端点差值的中位数生成 A1／A2，只调整相应 CC1 和色相矩阵，保持 B、Gamma、网格和原工程不变。该选项用于多光源对照，不默认优于实测配方。[导出规则](sony-r5-colorlab/R5NATIVE.BIN使用说明.md)
+
+## 功能截图与操作说明
+
+以下均为原厂应用在 QEMU 内生成的真实菜单帧，图片原样复制，未绘制替代界面。声音两图来自最新修正版，其余五图来自历史 4.19 会话，用于说明共同的操作界面；不作为最新版本的成像／硬件验收。图片和去除设备现场信息的来源摘要随源码保留，见[截图来源清单](docs/images/features/sources.json)。
+
+### 创意外观分组、预览与八项调参
+
+| 原厂组 | 自定义组 |
+|---|---|
+| ![原厂外观组与 ST 参数](docs/images/features/factory-group.png) | ![自定义组浏览第二款滤镜](docs/images/features/custom-group.png) |
+
+逻辑左键一键切组，上下浏览目标组，右键进入调参，中键确认或从调参页返回。图中的 ST `0/0/0/0/0/4/3/1` 是原厂显示；自定义组显示相对偏移零值，两者含义不同。
+
+![自定义滤镜八项相对偏移调参](docs/images/features/custom-tuning.png)
+
+历史会话中的“等待切换”如实反映 QEMU 尚缺少原生 E4 完成通知，不能将其解读为滤镜已应用或预览色彩已生效。成功事务与参数提交另有指令回放；真实画面仍须机身验收。
+
+### 十档画幅
+
+| 新增比例列表 | 确认 2.35:1 后返回 |
+|---|---|
+| ![十档画幅中的六个新增选项](docs/images/features/aspect-list.png) | ![画幅菜单显示已确认的 2.35:1](docs/images/features/aspect-confirmed.png) |
+
+入口为照片画质菜单的 `Aspect Ratio`。中键确认后后台保存，MENU 取消恢复进入前比例。上图显示菜单状态；JPEG／HEIF 编码、RAW 与回放的离线覆盖见模块文档，不以黑底模拟取景图证明真实裁切。
+
+### 双组自定义快门声音
+
+| 电子组选择声音 | 两组独立音量 |
+|---|---|
+| ![电子快门选择自定义声音，机械组关闭](docs/images/features/electronic-sound.png) | ![电子组百分之八十、机械组百分之三十](docs/images/features/dual-sound-volume.png) |
+
+入口为 `Setup → Sound Option`。两组分别选择声音／关闭和音量；图示电子组 80%、机械组 30%，电子前帘共用机械组。截图验证菜单和设置状态，音频服务使用夹具，未验证扬声器真实输出。NTSC、AF、ST 和 AWB 等底层改动通过模块说明与离线回执呈现。
+
+## 构建全功能与自定义模块升级包
+
+十模块主入口为 [`a7r5-firmware-features/compose.py`](a7r5-firmware-features/compose.py)，不是桌面工坊的四项勾选器。先按[环境构建](#环境构建)和[构建输入](docs/build-inputs.md)准备环境及精确原厂 DAT；包含原生运行时的组合还需要根 `.venv` 和 LLVM／LLD。建议至少预留 10 GiB，每份输出必须使用不存在的新路径。
+
+在仓库根目录执行以下全功能示例，仅操作本地文件：
+
+```sh
+set -e
+mkdir -p .local
+A7R5_RUN=$(mktemp -d "$PWD/.local/full419.XXXXXX")
+A7R5_STOCK="$PWD/a7r5-firmware-images/官方升级包/BODYDATA.DAT"
+A7R5_DAT_PY="$PWD/a7r5-dat-tool/.venv/bin/python"
+A7R5_FEATURES="$PWD/a7r5-firmware-features"
+
+"$A7R5_DAT_PY" -B "$A7R5_FEATURES/compose.py" plan \
+  --config "$A7R5_FEATURES/presets/full-4.19.json" --base "$A7R5_STOCK"
+"$A7R5_DAT_PY" -B "$A7R5_FEATURES/compose.py" build \
+  --config "$A7R5_FEATURES/presets/full-4.19.json" --base "$A7R5_STOCK" \
+  --version 4.19 --output "$A7R5_RUN/full"
+"$A7R5_DAT_PY" -B "$A7R5_FEATURES/compose.py" verify \
+  --base "$A7R5_STOCK" --bundle "$A7R5_RUN/full"
+```
+
+自定义配置示例选择 24 槽、镜头 AF 和十档画幅。将内容保存到新配置文件，以上命令的 `--config` 改为该路径，`--output` 改为另一个新目录：
+
+```json
+{
+  "base": "ilce-7rm5-4.00",
+  "modules": ["look24", "lens-af-compat", "photo-aspect-ratios"]
+}
+```
+
+单项配置只填一个模块 ID；新配置不要混用 `look24` 与其历史子 ID。全功能预设显式设置 `"variants":{"photo-electronic-shutter-sound":"custom-dual-full"}`；普通声音模块和该变体的依赖、效果不同，不能只加声音 ID 就认为得到双组菜单。当前支持的是经过适配的组合，并非十模块所有子集都已验证；`plan` 拒绝的组合应先分析原因。例如仅选 24 槽、FL2／FL3 和十档画幅会被当前计划拒绝，不能跳过门禁。
+
+输出包括 `BODYDATA.DAT`、`lock.json`、`verification.json`，启用冷启动导入时还有 `R5NATIVE.BIN`。`verify` 从原厂重建期望结果并比较；再用[修正版复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261111/实施与复验.md)的独立解包入口验签回读。历史回归中的夹具路径若已清理，应从同一原厂 USR 重新提取，不改摘要或跳过断言。
+
+**启动链仍有已知边界。** 当前全功能包的 WBI 首 512 字节已失效，尾部和长度保持原厂，CRC 为 `dfa823fc`；部分单项配置仍保留原厂 WBI，不能假定任意组合都已采用全功能策略。原厂 NOR 擦写错误漏报尚未修复。自定义组合必须独立审查，构建成功不等于允许实机安装，详见[启动审计](a7r5-firmware-features/specs/4.19-boot-audit/分析报告.md)。
+
+研究签名信任更新见[客户端入口](#2-直接更新研究签名信任环境)和[独立部署器](a7r5-updater-trust/deploy/运行与实机确认清单.md)；存储卡更新见[操作步骤](#6-存储卡更新与状态提示)。先确认本次设备、版本准入、签名身份和候选包；同名 4.19 不代表可同版本重刷。配方 BIN 在固件更新后按模块说明冷启动导入，不替代 `BODYDATA.DAT`。
 
 ## 使用范围与非商用声明
 
@@ -82,7 +216,8 @@ Tauri 和部分 Python 依赖具备跨平台能力，但本工程仍包含 macOS
 | 开发时直接启动最新源码，无需生成安装包 | [启动A7R5客户端.command](启动A7R5客户端.command) | 启动与离线自检不需要；设备动作需手动发起 |
 | 阅读、验签、解包、重新打包 DAT | `a7r5-dat-tool/dattool` | 不需要 |
 | 应用四项功能的整合配方或单独关闭 NTSC 提示 | `a7r5-firmware-features/materials/reproduce.py` | 不需要，只修改解包工作副本 |
-| 查看或离线复现 4.17 研究更新包 | [4.17 实施与复现手册](a7r5-firmware-features/native24-combined/实施与复现手册.md) | 不需要 |
+| 构建 4.19 十模块全功能或自选功能包 | [模块化构建入口](#构建全功能与自定义模块升级包)；历史 4.17 从其实施手册进入 | 不需要 |
+| 准备 A7R V RAM Fastboot、查阅接线和 4.18 启动故障证据 | [Fastboot 救砖研究](a7r5-fastboot/README.md) | 离线预检不需要；`probe` 会复位相机 |
 | 从完整分区前像重建信任候选、分类本地现场 | `a7r5-updater-trust/trust_tool.py` | 不需要 |
 | 在相机内执行短命令或固定脚本 | `a7r5-exec/libjit.sh` | 默认会连接相机；`--prepare-only` 仅本机准备 |
 | 使用旧 SSH 分阶段入口 | `a7r5-ssh/quick-ssh.sh` | 默认只读本地状态；显式执行才访问相机 |
@@ -99,7 +234,8 @@ Tauri 和部分 Python 依赖具备跨平台能力，但本工程仍包含 macOS
 .
 ├── a7r5-desktop/               Rust + Tauri 客户端、Python 引擎及独立应用构建
 ├── a7r5-dat-tool/              DAT 解析、验签、组件替换、签名封包
-├── a7r5-firmware-features/     4.17 固件研究主线、早期组合配方和验证材料
+├── a7r5-firmware-features/     原厂4.00基底、十模块构建与4.19主线，保留历史配方
+├── a7r5-fastboot/              RAM Fastboot 工具、接线与启动故障归档
 ├── a7r5-updater-trust/         更新器信任算法、本地候选及专用部署器
 ├── a7r5-exec/                  libJit / kit 两种短任务执行入口
 ├── a7r5-libjit/                一次性加载器、传输协议和恢复研究
@@ -188,6 +324,8 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 
 脚本不启动客户端、不枚举 USB、不连接相机。初次安装依赖需要联网；本机缓存完整时可设置 `UV_OFFLINE=1`。Git 不保存私钥的 0600 权限，因此克隆后需要上面的 `chmod`；DAT 工具的依赖安装入口也会处理已有私钥的权限。
 
+首次检出源码后，按[资源恢复说明](docs/source-publication.md)执行 `.venv/bin/python -B scripts/prepare_source_assets.py restore --download`，补齐冻结模型、合成色卡和独立包增量；随后执行同脚本的 `check`。需要联网的恢复只在显式 `--download` 时发生，已有不同文件不会覆盖。
+
 不要用 `sudo pip` 或修改系统 Python。后续命令显式使用 `.venv/bin/python -B`；`-B` 避免在源码或已封装资源中生成字节码缓存。
 
 ### 4. 先验证不依赖固件的功能
@@ -270,7 +408,7 @@ a7r5-desktop/dist/local-build/
 
 `prepared/engine/` 是生成的运行材料，`src-tauri/target/` 是 Cargo 构建产物，`dist/` 是安装包，三者均不进入 Git。`web/` 是直接嵌入的 HTML/CSS/JavaScript，不运行前端依赖安装。
 
-2026-11-05 工作区清理已移出 Rust 的 `target/debug/`、`target/release/` 和普通开发缓存。下次需要编译时，Cargo 会重新生成对应产物。准备材料和已封装的应用分别存放在 `prepared/engine/` 和 `dist/`。
+2026-11-05 工作区清理已移出 Rust 的 `target/debug/`、`target/release/` 和普通开发缓存。下次需要编译时，Cargo 会重新生成对应产物。准备材料存放在 `prepared/engine/`；`dist/` 在重新封装后生成，旧包已清理。
 
 ### 3. 检查构建结果
 
@@ -287,7 +425,7 @@ codesign --verify --deep --strict 'a7r5-desktop/dist/local-build/A7R5 Studio.app
 
 ### 1. 启动与准备
 
-取得完整应用后，先正常退出旧客户端，再解压 ZIP，双击 `A7R5 Studio.app`。当前工作区的 `dist/` 中保留了 `usb-fix-20261023-202623` 历史测试包。`client-update-20261024-01` 的包目录当前缺失，可使用[源码启动入口](启动A7R5客户端.command)或按[客户端构建步骤](#构建客户端)生成新包。每批包的版本和验证范围以随包的 `package.json` 与 `offline-verification.json` 为准。
+取得完整应用后，先正常退出旧客户端，再解压 ZIP，双击 `A7R5 Studio.app`。旧 `dist/` 测试分发包已清理；当前可使用[源码启动入口](启动A7R5客户端.command)，或按[客户端构建步骤](#构建客户端)生成新包。每批包的版本和验证范围以随包的 `package.json` 与 `offline-verification.json` 为准。
 
 应用启动时不枚举相机。只有点击设备动作、阅读准备提示并继续后，才申请管理员权限、定位唯一相机并校验型号、接口、版本、端口和相关内容摘要。未知状态会停止。
 
@@ -300,25 +438,23 @@ codesign --verify --deep --strict 'a7r5-desktop/dist/local-build/A7R5 Studio.app
 
 Mac 管理员密码与相机 SSH 密码是两套不同凭据。管理员密码由终端内的系统 `sudo` 接收，客户端不接收或保存；固件封包不申请管理员授权。执行中、协议失败或结果未知时，保持供电和连接，不重复点击、不拔插、不关机。
 
-### 2. 备份更新器
+### 2. 直接更新研究签名信任环境
 
-在「相机维护」可先选择**备份保存目录**，再点击 **备份当前环境**，按准备与授权提示执行。它读取完整更新器分区并核对摘要，不同时修改信任环境。未选目录时保存到任务目录；选择后会在目标目录中新建独立备份文件夹，原任务记录继续保留。任务卡片提供“打开备份目录”。
+在相机选择 MSC 后，进入「相机维护」，点击 **直接更新信任环境**，确认后按终端提示授权。客户端重新识别当前相机和 USB 端口。更新沿用原有强制安装流程，跳过备份文件和原厂前像匹配，核对设备、版本、写前资源、固定 258 个计划扇区及写后结果。
 
-普通信任更新需要选择**备份任务外层的 `result.json`**，或另存备份文件夹中的 `result.json`；不要选择 `device/result.json` 或其他任务的结果。备份与更新是两个独立动作，各自使用一次 USB 会话。完整本机备份核验和持久化完成后，才允许清理本次机内临时副本；不清理历史备份。失败时保留现场与已完成分块进度，不自动续传或重试。
+机内核对整分区摘要并重开校验，电脑回读全部计划扇区的 132096 字节（9 块）。最低可用内存为 32 MiB。直接写入可能覆盖已有修改，未知内容的兼容性待验证，且没有自动回滚。详见[更新说明](a7r5-desktop/docs/updates-20261024.md)。
 
-### 3. 更新研究签名信任环境
+这是更新器的研究签名信任配置。需要安装定制固件时，另按固件工坊生成的卡刷说明执行。
 
-在「相机维护」选择已经完成的备份记录，点击 **更新信任环境**。后台核对本次备份和相机当前完整前像，再执行固定扇区计划、同步及完整回读。
+设备任务完成后，客户端观察本次 MSC 恢复，也可按需记录屏幕确认。历史失败和待恢复记录保留，每次新任务使用当前连接。
 
-另有独立的 **强制安装（跳过原厂前像限制）**：不要求成功原厂备份或原厂前像匹配，但仍核对设备、版本、固定258个计划扇区及写后结果。新版强制模式保留机内整分区摘要与重开校验，电脑只回读全部计划扇区的132096字节（9块），最低可用内存为32MiB；普通安装和完整备份保持原预算。它可能覆盖已有修改，未知内容的兼容性没有保证，也没有自动回滚。详情见[更新说明](a7r5-desktop/docs/updates-20261024.md)。
+### 3. 查看已有备份
 
-这是相机内更新器的信任环境修改，用于配对研究签名身份；不是把 DAT 更新包上传到相机，也不等于已经完成卡刷。写入非原子，258 个扇区的日志与完整回读不能保证任意断电或硬件故障下恢复。
-
-设备任务完成后，客户端观察本次MSC恢复；也可按需记录屏幕确认。历史失败和待恢复记录保留，不再阻止新任务；每次新任务重新识别当前唯一A7R5及其端口，不自动重试旧任务。
+任务记录中的历史备份卡片仍可打开备份目录。需要独立备份时，可正常退出界面后使用 `./启动A7R5客户端.command --backup`。
 
 ### 4. 开启和停止 SSH
 
-进入「SSH 服务」，输入两次本次相机密码，点击 **上传并开启 SSH**。客户端将三个程序的上传、校验和服务启动合并到同一次 USB 会话，完成后统一退出。
+进入「SSH 服务」，输入两次本次相机密码，点击 **上传并开启 SSH**。本机历史启动记录不影响发起请求，端口占用由相机检查。客户端将三个程序的上传、校验和服务启动合并到同一次 USB 会话，完成后统一退出。
 
 - 密码支持 8–128 个非控制字符，最多 512 个 UTF-8 字节，可含字母、数字和符号。
 - 界面不保存明文；任务材料仍保留机内认证所需的口令哈希和配置载荷，不应公开任务目录。
@@ -335,7 +471,12 @@ ssh -p 2222 root@CAMERA_IP
 
 ### 5. 生成自定义固件
 
-进入「固件工坊」：
+桌面工坊目前提供两种模式，十模块 4.19 请使用上文模块化构建入口：
+
+- **四项自由组合：** 下表四项，共 16 种组合，默认输出容器版本 4.06。
+- **固定 4.17 预设：** 选择「24 槽自定义滤镜 + 照片构图标记」，包含既有整合能力，输出 DAT、说明及十二款 `R5NATIVE.BIN`；24 槽容量不表示预装 24 款。此模式固定包版本和摘要，不能输入 4.19 冒充当前全功能包。
+
+四项组合模式进入「固件工坊」：
 
 1. 选择精确匹配的官方 4.00 `BODYDATA.DAT`。
 2. 选择不存在的新输出文件路径。
@@ -411,7 +552,7 @@ mkdir -p .local/examples
 
 ### a7r5-firmware-features：功能配方与研究材料
 
-**4.17 研究固件**包含二十四槽运行时、十二款随包配方和创意外观分组记忆。离线校验覆盖封装、独立回读、CPU 回归和 QEMU 客体原帧。自定义滤镜成功应用后的记忆和自动保存仍待实机复验。交付件 `BODYDATA.DAT` 和 `R5NATIVE.BIN` 存于本地 `native24-combined/releases/4.17/`，克隆源码时需另行准备。构建与验收范围见 [4.17 交付说明](a7r5-firmware-features/native24-combined/releases/4.17/README.md)和[实施与复现手册](a7r5-firmware-features/native24-combined/实施与复现手册.md)。
+**当前主线是 4.19 十模块工程。** 以原厂 4.00 为输入，使用 `compose.py plan/build/verify` 配置、构建和独立复验，见[能力表](#当前已实现能力)与[构建示例](#构建全功能与自定义模块升级包)。历史 4.17 和早期配方继续用于对应预设及旧锁复现，见[实施手册](a7r5-firmware-features/native24-combined/实施与复现手册.md)；不要混用历史摘要、包版本与当前结果。
 
 **早期四项功能配方**供桌面客户端的 16 种功能组合及独立复现使用。独立 `reproduce.py` 支持 `all` 和 `ntsc-only` 两种入口。
 
@@ -427,7 +568,7 @@ mkdir -p .local/examples
 
 仅关闭 NTSC 提示时，在另一份从官方原包新解出的工作目录使用 `--feature ntsc-only`。两种配方都保留该实现规定的 WBI 标记变化；四份正文对应同一整合实现，不能把其中的 CP 补丁当作相互独立的文件任意覆盖。`materials/source/` 是审阅快照，其中保留旧路径，不作为新的执行入口。
 
-实现文档：[FL2/FL3](a7r5-firmware-features/01_FL2和FL3启用实施细节.md)、[六款外观](a7r5-firmware-features/02_六款自定义滤镜实施细节.md)、[NTSC 提示](a7r5-firmware-features/03_关闭NTSC提示实施细节.md)、[快门声音](a7r5-firmware-features/04_电子快门声音启用实施细节.md)。
+实现文档：[FL2/FL3](a7r5-firmware-features/look-fl2-fl3/01_FL2和FL3启用实施细节.md)、[六款外观](a7r5-firmware-features/look-factory-six/02_六款自定义滤镜实施细节.md)、[NTSC 提示](a7r5-firmware-features/video-ntsc-prompt/03_关闭NTSC提示实施细节.md)、[快门声音](a7r5-firmware-features/photo-electronic-shutter-sound/04_电子快门声音启用实施细节.md)。
 
 ### a7r5-updater-trust：更新器信任环境
 
@@ -575,16 +716,26 @@ Qt 源码入口为 `a7r5-qemu/client/main.py`；网页与终端入口见 [模块
 
 ### 研究项目与材料
 
-| 项目 | 本工程的引用或参考范围 | 版本与本地依据 |
+本节按 2026-11-11 的本地来源记录整理，并核对新增项目的公开仓库入口。**固定源码来源、A7R5 定向适配、方法参考和外部目标图生成分别标明。** 同一上游在不同模块中采用的提交可能不同；本次只更新引用说明，没有同步上游代码或替换配方。
+
+| 项目 | 本工程的使用或参考范围 | 固定版本与本地依据 |
 |---|---|---|
-| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | DAT 容器、加密封包、FAT / ext2 定向修改等既有研究脚本的来源 | [来源说明](a7r5-dat-tool/licenses/NOTICE.md)、[冻结文件摘要](a7r5-dat-tool/SOURCE_FILES.json)、[原许可证副本](a7r5-dat-tool/licenses/reference-LICENSE)；没有为该来源独立补造提交号 |
-| [chocotan/a7c2-re](https://github.com/chocotan/a7c2-re) | libJit 入口、QEMU 实验和 SSH 可行性技术路线；按 A7R5 前像单独适配 | libJit / QEMU 参考提交 `5ec277d8aa50704c1211a7c114730391fcd25a40`；SSH 参考提交 `433737ae5a8a241ae86eb307a12bb6a2c33600c7`，见 [SSH 来源](a7r5-ssh/reference/upstream.json) |
-| [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | 六款默认自定义外观材料及相关研究资料 | `v3.0.1`、提交 `c8328ad5ee485efec4f6aa51314f6062d79533e1`；见 [材料说明](a7r5-firmware-features/materials/NOTICE.txt)与 `upstream-default-six/` |
-| [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | 定向冻结的 `pmca.usb` 认证、协议常量和辅助代码 | 位于多个模块的依赖快照，客户端构建从信任模块复制；文件摘要见 [依赖来源清单](a7r5-updater-trust/deploy/source-provenance.json)，版权由 `scripts/notices.py` 收集 |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | **固定来源与定向适配。** DAT 容器／加密封包、FAT／ext2 修改；原版十二款滤镜运行时与原生成像框架；自定义快门声、画幅及启动研究。当前 24 槽、交互和模块组合另有本地实现 | 滤镜导入基线见 [4.36 源码布局](a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/SOURCE_MANIFEST.json)；声音采用 `be3dc9a622a7`，见 [4.55 来源清单](a7r5-firmware-features/photo-electronic-shutter-sound/upstream.json)；画幅对照 `1f7d53763889`，见 [4.58 来源清单](a7r5-firmware-features/photo-aspect-ratios/upstream-reference.json)。DAT 单独保留[文件摘要](a7r5-dat-tool/SOURCE_FILES.json)和[原许可证](a7r5-dat-tool/licenses/reference-LICENSE)，没有补造其未记录的提交号 |
+| [Hearts-Ace/sony-r5-colorlab](https://github.com/Hearts-Ace/sony-r5-colorlab) | **固定源码快照与本地扩展。** Color Lab／Grid Calibrator、原生色彩模型、色卡、拟合和 BIN 编解码；本地增加 24 槽、量化回读保护、场景验证与其他训练实验 | 首次导入提交 `fb464bdef54cae7b56092bd35d35dc3542793ff3`，见 [快照身份](sony-r5-colorlab/UPSTREAM_SNAPSHOT.json)、[逐文件清单](sony-r5-colorlab/SOURCE_MANIFEST.json)、[本地整合说明](sony-r5-colorlab/本地整合说明.md)。快照中的“未修改”只描述首次导入；当前训练行为以 [TRAINING.md](sony-r5-colorlab/R5ColorLab/TRAINING.md) 为准 |
+| [Erlla/sony-a7m4-custom-firmware](https://github.com/Erlla/sony-a7m4-custom-firmware) | **跨机型方法参考。** 自定义 LUT 的训练与量化回读保护、R5S 声音生命周期、自定义画幅、任务复制及回放处理；相关能力在本工程按 A7R5 地址、布局和消费者重新适配 | 声音参考 `68878118af81`，见[声音设计](a7r5-firmware-features/photo-electronic-shutter-sound/自定义声音整合方案.md)；复制／回放对照提交见[画幅源码说明](a7r5-firmware-features/photo-aspect-ratios/src/README.md)；训练借鉴范围见[色卡留出保护](sony-r5-colorlab/R5ColorLab/TRAINING.md#正式训练的色卡留出保护)。不表示直接使用 A7M4 固件或其全部 LUT 算法 |
+| [OsmoticDuck/a7r5-openpano](https://github.com/OsmoticDuck/a7r5-openpano) | **画幅方案对照。** 全景画幅、原生枚举与 AF 相关边界的研究入口；本地保留十档画幅、逐张锁存及任务复制路线 | 本地参考快照 `fb6accf6a2919638ee5b6bf86098100f4d3c6a74`，见[画幅参考清单](a7r5-firmware-features/photo-aspect-ratios/upstream-reference.json)的 `openpano` 项。该记录明确 `implementation_copied: false`，未复制其核心 AP／CP 实现，不将其列为已完整移植 |
+| [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | **固定配方材料来源。** 六款默认自定义外观及相关研究资料，用于本地 C1–C6；SD 卡导入的 24 槽库另行管理 | `v3.0.1`、提交 `c8328ad5ee485efec4f6aa51314f6062d79533e1`；见[材料说明](a7r5-firmware-features/materials/NOTICE.txt)、[六款材料](a7r5-firmware-features/materials/upstream-default-six/)及 [C1–C6 模块](a7r5-firmware-features/look-factory-six/README.md) |
+| [QAQLeonard/a7c2-tools](https://github.com/QAQLeonard/a7c2-tools) | **补充对照资料。** A7C II 的 FL2／FL3、自定义创意外观和桌面操作路线，可作为跨项目研究入口 | 本工程尚无该仓库独立的固定导入清单；不将其列为直接移植来源，也不据此宣称当前 A7R5 已采用其 LUT／DCP 实现 |
+| [JamesQiu2005/SpektraLab](https://github.com/JamesQiu2005/SpektraLab) | **外部目标图生成引擎。** 使用宿主端 C ABI／Metal 渲染胶片与相纸目标，批量生成 16 位 sRGB TIFF 色卡和同源实拍验证图；未嵌入相机固件 | 已记录验证组合为 `spektralab-v2.3.1`、提交 `0b5acfc4e45b7a946ed33a3c4b4e60429d208b66`。引擎源码和对应资源由使用者另行准备；见[目标图生成说明](sony-r5-colorlab/R5ColorLab/scripts/SPEKTRALAB.md)与[构建脚本](sony-r5-colorlab/R5ColorLab/scripts/build_spektralab_renderer.sh) |
+| [chocotan/a7c2-re](https://github.com/chocotan/a7c2-re) | **技术路线与定向适配参考。** libJit 入口、QEMU 实验和 SSH 可行性；按 A7R5 前像单独适配 | libJit／QEMU 参考提交 `5ec277d8aa50704c1211a7c114730391fcd25a40`；SSH 参考提交 `433737ae5a8a241ae86eb307a12bb6a2c33600c7`，见 [SSH 来源](a7r5-ssh/reference/upstream.json) |
+| [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | **冻结协议代码来源。** `pmca.usb` 认证、协议常量和辅助代码 | 位于多个模块的依赖快照，客户端构建从信任模块复制；文件摘要见[依赖来源清单](a7r5-updater-trust/deploy/source-provenance.json)，版权由 `scripts/notices.py` 收集 |
 | [Jannchie/llr](https://github.com/Jannchie/llr/blob/main/sony_repro/PIPELINE.md) | Sony 颜色管线及 CC1 耦合的技术参考 | [look_chroma.py](a7r5-qemu/tools/look_chroma.py) 注释和独立公式实现；不是引入外部拟合染色资产，也不是相机像素效果验收 |
+| [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | **RAM 引导资料与序列对照。** Fastboot 串行引导流程及 BootROM 记录参考 | 本地说明引用 `e85e137fc3b88b7cb26e69faa9f1304184678ff7` 的串行引导源码；与 Erlla、Hearts-Ace 的记录对照范围见 [Fastboot 来源与构建](a7r5-fastboot/README.md#来源与构建)，不构成任意机型可用的救援保证 |
 | [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux/tree/fa5c6f6aba58f675691e5adf291b155b76e6e93e) 与 [Linux](https://github.com/torvalds/linux) | CP / PCIe / DMA / 时钟及 Linux ABI 的文档、寄存器和行为参考 | 依据 [CP 研究规格](a7r5-qemu/specs/003-virtual-media-and-imaging/)，不表示本客户端编译或分发完整上游内核 |
 
 DAT 的冻结来源还记录了 `vendor/fwtool/sony/constants.py`。相关公开格式工具为 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py)；本仓库没有为该间接常量来源单独锁定提交，不将其描述为整体移植或独立第二套验收解析器。
+
+以上提交和版本用于追溯本工程已使用或已对照的材料，不能替代各模块的本地修订与最终构建锁。跨机型地址、分区布局、版本准入和信任部署步骤仍需独立核对；参考项目的功能清单或实机记录不作为本工程验收结果。源码、模型、配方与胶片／相纸资源分别遵循原有许可，见[第三方说明](THIRD_PARTY_NOTICES.md)。
 
 ### 框架与运行依赖
 
@@ -616,7 +767,82 @@ DAT 的冻结来源还记录了 `vendor/fwtool/sony/constants.py`。相关公开
 
 发布检查按精确路径与固定摘要仅允许当前研究私钥，其他私钥仍会被拦截；已有 Git 仓库中被错误跟踪的忽略文件也会参与检查。工具不扫描历史、不创建提交、不设置远端、不上传。不要用 `git add -f` 绕过规则。
 
+2026-11-11 已完成原 109 项发布问题整改：本地证据和生成模板取消跟踪、文档与研究脚本修正路径、必需大资源按固定摘要恢复；凭据、二进制和大小门槛保持。新检出源码后先按[源码发布与资源恢复](docs/source-publication.md)准备资源，再复跑发布检查。此前的[README 验证记录](docs/readme-update-20261111.json)保留当时检查结果，后续整改结果见[发布整改验证](docs/source-publication-verification-20261111.json)。
+
 最终安装包仍为本地临时签名测试包，源码公开不代表这些安装包已经获准对外发布。清理和保留策略见 [清理记录](docs/cleanup.md)。
+
+## 交给 AI Agent 的完整提示词
+
+这是一个“调查 → 离线构建验证 → 具体设备计划 → 获得本轮授权后执行”的工作流提示词。适用于支持 Git、终端和本地文件的 Agent 工具；默认没有设备授权。先复制全文，再填写模块、输入与设备范围。仅要阅读项目时，将任务限定为分析即可。
+
+[单独打开并复制 Prompt](docs/AI_AGENT_PROMPT.md)。GitHub 网页中展开下方内容，可直接复制代码块；两份正文保持一致。
+
+<details>
+<summary>展开完整 Prompt：信任分析、全功能／自选封包与相机更新</summary>
+
+```text
+你是本次 Sony A7R V 固件研究任务的工程 Agent。请从源码调查开始，完成研究签名信任方案分析、全功能或指定模块的升级包构建、离线校验，并给出相机更新和验收步骤。用简体中文沟通，所有结论必须对应当前代码、实际命令输出或回执。
+
+任务参数（未填写则使用括号中的默认值）：
+- 仓库：https://github.com/Liwenru88/a7r5-rea.git
+- 工作目录：（新建 a7r5-rea；已有目录则保留全部改动）
+- 构建范围：（全功能）；也可填写明确的模块 ID 列表。
+- 输出版本：（4.19）；仅为自定义包标识，不代表 Sony 同号固件能力或相机允许同版本更新。
+- 原厂 BODYDATA.DAT：（先查本地输入清单，缺失后向我索取合法取得的文件）
+- 更新器完整分区前像／本机材料：（先检查，不能用历史设备记录代替）
+- 本轮设备授权：（无；默认只做离线工作，不枚举 USB、不连 SSH、不写卡、不操作相机）
+
+一、获取与理解工程
+1. 新目录使用 git clone 拉取上述仓库，记录分支、提交 SHA 和工作区状态。目录已存在时先检查 remote、分支和未提交改动；可 fetch 获取远端信息，但不得 reset、清理、覆盖或自动合并用户改动。需要切换基线时先说明差异。
+2. 先读适用的 AGENTS.md、根 README、THIRD_PARTY_NOTICES.md，以及：
+   - docs/build-inputs.md、docs/source-publication.md、scripts/local-inputs.json、scripts/release_check.py；
+   - a7r5-updater-trust/README.md、a7r5-updater-trust/deploy/运行与实机确认清单.md；
+   - a7r5-desktop/README.md、a7r5-desktop/docs/updates-20261024.md、a7r5-desktop/engine/firmware.py、a7r5-desktop/engine/card-guide.html；
+   - a7r5-firmware-features/README.md、a7r5-firmware-features/构建工程实施手册.md、a7r5-firmware-features/compose.py、a7r5-firmware-features/core/、a7r5-firmware-features/bases/ 和所选模块的 module.json／README；
+   - a7r5-firmware-features/presets/full-4.19.json；
+   - a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md、实施与复验.md（存在时）；
+   - a7r5-firmware-features/specs/4.19-boot-audit/分析报告.md。
+   清理后不存在的历史产物只作为记录；不得假装克隆仓库就拥有完整固件、设备现场、QEMU 客体或全部回执。
+3. 输出简短调查结论：当前支持的平台／机型／前像、模块表、两种信任入口的差异、输入缺口和验证计划。不要把桌面工坊的四项组合／4.17 预设当作十模块 4.19 构建器。
+
+二、离线准备与构建（在授权范围内连续完成）
+4. 优先复用项目 .venv；缺少依赖时按锁文件准备环境，不全局安装 Python 包。新检出源码先读取 scripts/source-assets.json，使用 scripts/prepare_source_assets.py restore --download 恢复固定模型、合成色卡和独立包增量，再运行 check；没有网络时需提供摘要一致的原件，不修改摘要。当前主线是 macOS Apple Silicon；不通过删除平台检查伪装跨平台支持。含固件模块需要 LLVM／LLD、OpenSSL 和相应文件系统工具，以当前源码要求为准。
+5. 原厂基底必须是适配的 ILCE-7RM5 4.00 DAT：754525608 字节，SHA-256 为 51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2。核对研究公私钥配对；不生成新身份替代机内已有身份，不输出私钥、密码或设备认证载荷。
+6. 全功能使用 presets/full-4.19.json：十个模块及声音 custom-dual-full 变体。自定义组合新建配置，base 为 ilce-7rm5-4.00，modules 为明确 ID；新增配置不覆盖原预设。先运行 compose.py plan，再 build，最后 verify，均使用新的输出目录。不要自行启用未选择的模块或强行绕过组合拒绝。
+7. 新配置优先用 look24，不能同时填入其历史六个子 ID。需要与全功能相同的双组自定义声音时，必须核对 custom-dual-full 的组合依赖；省略 variants 会使用普通声音配方，不能将两者混称。
+8. 从原厂独立重建期望内容，独立解包生成包，验证研究签名、解密帧、归档成员及允许变化集合、USR 文件系统和组件摘要；记录实际命令、退出码与测试跳过项。保留 lock.json、verification.json、源码锁、DAT SHA-256 和随包 R5NATIVE.BIN（启用导入时）。
+9. 特别核对 WBI：nflasha5 是一个快照分区，WBI2／WBI3 是头标记。当前全功能策略清零首 512 字节，保留尾部和长度并更新 CRC；不得擦除整个分区。单项／自定义组合不能推定已采用该策略；当前部分单选仍保留旧头，必须逐包检查并报告。发现启动链缺口时停止设备交付，不擅自改策略、取消校验或加成功标记。
+10. 按所选模块跑最小充分回归：滤镜切组／最后目标／失败恢复／身份保存，画幅取消／逐张锁存／保存失败／横竖屏，声音双组／原厂静音及共享组件等。缺失夹具先从合法原厂输入重建，不修改测试断言绕过。
+11. QEMU 可用时按其 AGENTS.md 校验固定输入并复验真实菜单、按键和原帧；不可用则明确缺失材料。不得扩大为 CP／ISP 硬件模拟，不伪造 0x2040、滤镜应用成功或物理出声；“等待切换”的截图不能作为成像成功证据。
+
+三、研究签名信任分析与具体操作准备
+12. 区分三件事：更新器接受研究公钥、用配对研究私钥签 DAT、相机执行存储卡升级。签名成功不代表已修改机内信任，也不保证启动。
+13. 分析并列出可选信任入口：
+   - 当前客户端“直接更新信任环境”：跳过备份／完整原厂前像匹配，固定写入 258 个计划扇区并做写后核对，有覆盖未知修改的风险；不得因方便自动选用。
+   - 独立 deploy.py：精确完整前像、当前设备 profile、prepare → check → 本次单次批准 → 专用执行 → 完整回读／恢复。历史 profile 的版本、端口、媒体和预加载不能照搬。
+   依据本次设备材料推荐一条路径并解释原因；没有精确基线或设备授权时，只完成离线分析和可行的候选准备。不得自动降级到直接更新、改前像摘要或套用历史批准。
+14. 写入前给我可审核的具体结果：候选 DAT 路径／摘要、模块及变体、目标机型与实际版本、所用公钥指纹、信任候选和固定扇区计划、当前设备绑定、已有备份和恢复边界、未解决的 WBI／NOR 问题及实际将执行的步骤。明确这是非原子机内写入。
+15. 仅在我明确授权本轮连接或只读采集后，才可使用对应设备工具核对当前机身。机内信任写入、写卡和启动升级分别以明确授权的具体范围为准；不要把这段 Prompt、本地 approval 模板或历史回执当作授权。确认一次具体计划后，范围不变就持续执行，不为每个子步骤重复索要批准。
+
+四、获得本轮设备授权后的更新与验收
+16. 严格执行选定入口的机型、当前前像／版本、端口与媒体、权限、任务互斥、固定资源和写后回读检查。管理员密码只由系统授权终端接收，不经聊天或命令行参数传递。信任环境已等于目标时，依据当前入口规则处理，不重复写入。
+17. 协议失步、短读／短写、摘要不符、设备变化、写后验证失败或状态未知时，立即停止后续自动动作并保存原始现场；不要重试写入、删锁、伪造屏幕确认、自动回滚或重启。已进入机内的任务可能仍在运行，停止主机流程不等于停止设备写入。
+18. 在实际写卡或相机更新前，再核对 DAT、研究公钥、版本准入、稳定供电和卡身份。由我完成插拔卡、供电或菜单确认时，给出明确步骤并等待，不假装已完成物理动作；不要按猜测选择磁盘或执行 dd。
+19. 存储卡流程以当前卡刷指引为准：精确文件名 BODYDATA.DAT、卡根目录、SLOT1、机身版本／软件更新菜单；自定义配方 R5NATIVE.BIN 是滤镜数据，不是固件。更新完成后再按模块说明放卡冷启动导入。相同版本被拒绝时停止，不自动抬高包版本或改机内版本记录。
+20. 更新中不拔电、不自动重启或自动重复刷入。记录灯号、屏幕、完成提示及重新开机结果；原厂 NOR 错误漏报尚未修复，不能仅凭“更新完成”宣称所有介质写入成功。
+21. 实机验收按所选模块记录：正常启动；原厂／自定义外观切换和画面变化；八项偏移归零／保存／重启恢复；JPEG／HEIF 实裁与 RAW 完整幅面；声音双组及静音；AF 与横竖输入。不能用 QEMU 或历史用户反馈替代本次结果。
+
+五、交付格式
+最终必须提供：源码提交身份和本次修改；所选模块／变体；输入与产物 SHA-256；构建和验证命令及退出状态；截图来源；信任入口和当前是否真正执行；相机更新步骤；未完成项和恢复边界。将“已实现、离线验证、QEMU、历史实机记录、本次实机验收”分别表述。
+缺少材料或被门禁阻断时，明确阻断位置、已完成产物和最小补充输入，不把部分完成写成全部成功。没有授权时，结束于可审核的离线结果和下一步操作说明，不连接相机。
+
+正确示例：缺少原厂 DAT → 完成代码分析，列出精确输入要求，停止构建；已具备输入 → 自动完成 plan／build／verify，再展示候选及具体设备计划。
+错误示例：克隆后直接运行历史刷写脚本、把原厂公钥改成临时密钥、为消除等待伪造 E4 成功、未经授权自动写卡或因同版本拒绝而改版本号。
+```
+
+</details>
+
+提示词先要求产出可审核的包、摘要和写入范围，再申请真实设备动作；一旦明确批准同一具体计划，后续按该范围持续执行。出现前像不符或状态未知时停止，避免自动换路径写入。私钥、设备现场和认证资料不应跟随报告公开。
 
 ## 常见问题
 
@@ -626,7 +852,7 @@ DAT 的冻结来源还记录了 `vendor/fwtool/sony/constants.py`。相关公开
 
 **为什么运行 `libjit.sh` 会要求管理员密码？**
 
-它默认实际执行 USB 任务。只准备材料请显式加 `--prepare-only`；图形客户端的管理员密码由 macOS 窗口接收。
+它默认实际执行 USB 任务。只准备材料请显式加 `--prepare-only`；图形客户端会打开系统终端，由 `sudo` 接收管理员密码，应用不接收或保存密码。
 
 **为什么还要在相机上选择 MSC？**
 
@@ -642,7 +868,7 @@ USB 服务完成后可能恢复到连接模式选择状态。每个独立设备�
 
 **换 USB 端口后客户端可以使用吗？**
 
-可以。备份、更新信任环境、开启/停止SSH及独立MSC检查都会在每次操作时重新识别当前唯一A7R5和当前端口。历史待恢复记录及屏幕确认不再阻止新任务；普通更新仍核对已完成原厂备份的内容与摘要，显式强制模式采用独立准入。执行中的会话不自动换设备。
+可以。备份、更新信任环境、开启/停止SSH及独立MSC检查都会在每次操作时重新识别当前唯一A7R5和当前端口。历史待恢复记录及屏幕确认不阻止新任务。
 
 一次正在执行的USB会话仍绑定本次设备和物理端口，执行中位置变化时停止，不自动切换设备。维护任务不因历史SSH实例记录而要求先停服，也不会自动停止SSH；需要执行SSH停止任务时，可以使用当前新端口，但必须匹配原实例的会话号与主机公钥。换端口行为目前只完成离线验证，没有连接相机验收。
 

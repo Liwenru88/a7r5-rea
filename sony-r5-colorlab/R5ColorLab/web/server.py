@@ -10,6 +10,7 @@ from pathlib import Path
 import secrets
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import traceback
@@ -37,7 +38,9 @@ DIAGNOSTICS = {}
 RAW_LOCK = threading.RLock()
 PREVIEWS = {}
 PREVIEW_POOL = ThreadPoolExecutor(max_workers=1)
+COMPARISON_LOCK = threading.Lock()
 MAX_BODY = 65 * 1024 * 1024
+TRAINING_REVISION = '5bd1841d8e7f82b5ae4009a61d81a11d97c5ba0e+chart-grid-holdout/1'
 
 
 def dump(value):
@@ -50,18 +53,19 @@ def preview_work(identifier, job_id, destination, pc=False, grid_key=None, reuse
     source = (RUNS/job_id/'photo_previews'/reuse_id if reuse_id
               else destination/('input.photo' if raster_input else 'input.ARW'))
     slot_args = ['--slot-config', str(destination/'slot_config.json')] if 'project' in item else []
+    calibration_args = ['--raw-calibrated'] if item.get('raw_calibrated') and not reuse_id else []
     try:
         item.update(status='running', phase='本地照片解码与预览渲染')
         (destination/'preview.json').write_bytes(dump(item))
         with (destination/'preview.log').open('w') as log:
             process = subprocess.run([sys.executable, str(core.HERE/'photo_preview.py'),
-                str(source), str(RUNS/job_id), str(destination)]+slot_args+(['--pc'] if pc else [])+(['--grid',grid_key] if grid_key else [])+(['--reuse'] if reuse_id else [])+(['--raster-input'] if raster_input else [])+([] if grid_enabled else ['--no-grid-effect']),
+                str(source), str(RUNS/job_id), str(destination)]+slot_args+calibration_args+(['--pc'] if pc else [])+(['--grid',grid_key] if grid_key else [])+(['--reuse'] if reuse_id else [])+(['--raster-input'] if raster_input else [])+([] if grid_enabled else ['--no-grid-effect']),
                 stdout=log, stderr=subprocess.STDOUT, timeout=1800,
                 env={**os.environ, 'OPENBLAS_NUM_THREADS':'1', 'VECLIB_MAXIMUM_THREADS':'1'})
         if process.returncode:
             details = (destination/'preview.log').read_text(errors='replace')
             raise ValueError(details.strip().splitlines()[-1] if details.strip() else '渲染失败')
-        item.update(status='done', phase='两张预览已生成',
+        item.update(status='done', phase='照片预览已生成',
                     result=json.loads((destination/'result.json').read_text()))
     except Exception as error:
         item.update(status='error', phase='预览失败', error=str(error))
@@ -70,8 +74,7 @@ def preview_work(identifier, job_id, destination, pc=False, grid_key=None, reuse
         (destination/'preview.json').write_bytes(dump(item))
 
 
-def compression_work(identifier,response,post_gray_refinement=False,objective='fuji-target', *, output=None,
-                     adaptive_color=False):
+def compression_work(identifier,response,post_gray_refinement=False,objective='fuji-target', *, output=None):
     output=RUNS/identifier if output is None else output
     state=dict(status='running',phase='压缩训练：采样总效果、求解与量化微调',started=time.time())
     path=output/'grid_training.json'
@@ -83,7 +86,7 @@ def compression_work(identifier,response,post_gray_refinement=False,objective='f
             tracker=TrainingProgress(output/'grid_progress.json',3)
             tracker.update(stage='压缩训练准备',state='running')
             report=generate(output,response,progress=tracker.update,post_gray_refinement=post_gray_refinement,
-                            objective=objective,adaptive_color=adaptive_color)
+                            objective=objective)
             tracker.update(stage='压缩训练完成',state='done')
         state.update(status='done',phase='压缩训练完成',key=report['key'])
     except Exception as error:
@@ -167,13 +170,7 @@ def queue_fit(body, retry=False):
     if body.get('project_id'):
         projects.identifier(body['project_id'])
         identity = {k:v for k,v in body.items() if k not in ('target_id', 'lut')}
-        if body.get('compression_training') and body['compression_objective'] == 'fuji-target':
-            from adaptive_color import POLICY
-            from gpu_runtime import available
-            from grid_distillation import INTEGER_REFINEMENT_POLICY
-            identity['integer_refinement_policy'] = INTEGER_REFINEMENT_POLICY
-            if available():
-                identity['adaptive_color_policy'] = POLICY
+        identity['training_revision'] = TRAINING_REVISION
         if body.get('target_kind') != 'chart-image':
             identity['lut_sha256'] = core.sha(body['lut'].encode())
         signature = core.sha(json.dumps(identity, sort_keys=True, allow_nan=False).encode())
@@ -256,8 +253,7 @@ def finish_native(identifier,body,output,job):
         if body.get('compression_training'):
             job.update(phase='压缩训练：最终网格直接拟合富士目标')
             state=compression_work(identifier,body['pc_options']['response'],body.get('post_gray_refinement',False),
-                                   objective=body.get('compression_objective','fuji-target'),output=output,
-                                   adaptive_color=True)
+                                   objective=body.get('compression_objective','fuji-target'),output=output)
             if state['status']!='done':raise ValueError(state.get('error','压缩训练失败'))
             result['grid_key']=state['key']
         return result
@@ -277,13 +273,18 @@ def validate_fit(body):
     if type(body.get('white_balance',False)) is not bool:raise ValueError('白平衡开关须为布尔值')
     body.setdefault('white_balance',False)
     body.setdefault('pc_compensation',True)
-    body['search_options']=search_options(body.get('search_options'))
+    options=body.get('search_options')
+    if isinstance(options,dict):
+        # 历史任务和旧页面仍可提交，新拟合采用上游的 Adam 预算。
+        options={key:value for key,value in options.items()
+                 if key not in ('adam_steps','adam_learning_rate')}
+    body['search_options']=search_options(options)
     body['pc_options']=pc_options(body.get('pc_options'))
     if type(body.get('compression_training',False)) is not bool:raise ValueError('压缩训练开关无效')
     if body.get('compression_training'):
         body['pc_compensation']=True
         body['pc_options']=pc_options(dict(curve_mode='tone-tint',grid_enabled=True,response=body['pc_options']['response']))
-    # 重试历史双路任务时仍按原请求参数走单路。
+    body.pop('joint_native', None)
     body.pop('guarded_adam', None)
     if type(body.get('pc_compensation',False)) is not bool:
         raise ValueError('PC 补偿开关必须为布尔值')
@@ -390,7 +391,10 @@ class Handler(BaseHTTPRequestHandler):
                         except (OSError,ValueError,KeyError): pass
                     return self.respond(value)
                 name = bits[4]
-                if len(bits) == 5 and name in ('lut.png', 'model.png', 'result.json') and item['status'] == 'done':
+                names = ('lut.png', 'model.png', 'result.json')
+                if item.get('result', {}).get('raw_calibration'):
+                    names += ('calibrated.png',)
+                if len(bits) == 5 and name in names and item['status'] == 'done':
                     file = RUNS/item['job']/'photo_previews'/item['id']/name
                     return self.respond(file.read_bytes(), 'image/png' if name.endswith('.png') else 'application/json')
                 return self.respond(dict(error='预览尚未就绪'), status=404)
@@ -502,6 +506,7 @@ class Handler(BaseHTTPRequestHandler):
                 value['log'] = log.read_text(errors='replace')[-12000:] if log.exists() else ''
                 return self.respond(value)
             assets = {'/': ('index.html', 'text/html; charset=utf-8'),
+                      '/photo-metrics.js': ('photo-metrics.js', 'text/javascript; charset=utf-8'),
                       '/workspace.js': ('workspace.js', 'text/javascript; charset=utf-8'),
                       '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
                       '/style.css': ('style.css', 'text/css; charset=utf-8')}
@@ -558,9 +563,11 @@ class Handler(BaseHTTPRequestHandler):
                     if action == 'export-preview':
                         result = store.export_preview(value)
                     elif action == 'export':
+                        mode = body.get('endpoint_mode', projects.STANDARD)
                         result, value = store.export(value, body.get('allow_saved') is True,
-                                                     body.get('allow_empty') is True)
-                        filename = 'r5-native-config.zip'
+                                                     body.get('allow_empty') is True, mode)
+                        suffix = '' if mode == projects.STANDARD else '-' + mode
+                        filename = f'r5-native-config{suffix}.zip'
                         revision = value['revision']
                     else:
                         result = projects.zip_bytes({'project.json': projects.encoded(value)})
@@ -615,6 +622,9 @@ class Handler(BaseHTTPRequestHandler):
                 input_kind = query.get('input', ['raw'])[0]
                 if input_kind not in ('raw', 'image'):
                     raise ValueError('请选择 ARW、JPG、PNG 或 TIFF 照片')
+                raw_calibrated = query.get('raw_calibrated', ['0'])[0]
+                if raw_calibrated not in ('0', '1') or (raw_calibrated == '1' and input_kind != 'raw'):
+                    raise ValueError('RAW 校准对照仅支持 ARW 输入')
                 pc = query.get('pc', ['0'])[0] == '1'
                 grid_key = query.get('grid', [''])[0] or None
                 slot_config = None
@@ -626,7 +636,9 @@ class Handler(BaseHTTPRequestHandler):
                     entry = next((entry for entry in project['entries'] if entry['number']==slot), None)
                     if entry is None:
                         raise ValueError('请先选中已保存的槽位')
-                    slot_config = core.compiler.config([entry], project['format'])
+                    # 与工程导出共用有效格式，避免新增13–24槽后仍按原v4校验。
+                    slot_config = projects.config(project)
+                    slot_config['entries'] = [entry]
                     core.compiler.pack(slot_config)
                     job_id = '_slot_previews'
                 elif job_id not in JOBS or JOBS[job_id]['status'] != 'done' or not (RUNS/job_id/'fit/recipe.json').is_file():
@@ -659,12 +671,59 @@ class Handler(BaseHTTPRequestHandler):
                         destination.rmdir()
                         raise
                     PREVIEWS[identifier] = dict(id=identifier, job=job_id, status='queued', phase='等待渲染',
-                                                input_kind=input_kind)
+                                                input_kind=input_kind, raw_calibrated=raw_calibrated == '1')
                     if slot_config is not None:
                         PREVIEWS[identifier].update(project=project_id, slot=slot)
                     (destination/'preview.json').write_bytes(dump(PREVIEWS[identifier]))
                     PREVIEW_POOL.submit(preview_work, identifier, job_id, destination,pc,grid_key,None,query.get('grid_effect',['1'])[0]!='0')
                 return self.respond(dict(id=identifier), status=202)
+            if path == '/api/preview-color-metrics':
+                query = parse_qs(urlparse(self.path).query)
+                rows = query.get('rows', [''])[0].split(',')
+                width, height = [int(query.get(axis, ['0'])[0]) for axis in ('width', 'height')]
+                if (not all(1 <= size <= 512 for size in (width, height))
+                        or len(rows) != len(set(rows))
+                        or not set(rows) <= {'model', 'calibrated', 'camera'}
+                        or self.headers.get('Content-Type') != 'application/octet-stream'
+                        or length != width*height*3*(len(rows)+1)):
+                    raise ValueError('对照图采样数据无效')
+                data = self.rfile.read(length)
+                if len(data) != length:
+                    raise ValueError('对照图采样数据不完整')
+
+                import numpy as np
+                from perceptual import compare_rgb8
+
+                target, *predictions = np.frombuffer(data, dtype=np.uint8).reshape(len(rows)+1, -1, 3)
+                return self.respond(compare_rgb8(target, dict(zip(rows, predictions))))
+            if path == '/api/preview-comparison-image':
+                if not 0 < length <= 512*1024*1024 or self.headers.get('Content-Type') != 'application/octet-stream':
+                    raise ValueError('请上传 512 MiB 内的 JPG、PNG 或 RGB TIFF')
+                kind = parse_qs(urlparse(self.path).query).get('kind', ['target'])[0]
+                if kind not in ('target', 'camera'):
+                    raise ValueError('对照图来源无效')
+                if not COMPARISON_LOCK.acquire(blocking=False):
+                    return self.respond(dict(error='已有对照图正在解码，请稍候'), status=409)
+                try:
+                    from photo_preview import comparison_png
+
+                    with tempfile.TemporaryDirectory(prefix='r5-comparison-') as folder:
+                        source = Path(folder)/'input.photo'
+                        remaining = length
+                        with source.open('wb') as stream:
+                            while remaining:
+                                chunk = self.rfile.read(min(1024*1024, remaining))
+                                if not chunk:
+                                    raise ValueError('对照图上传不完整')
+                                stream.write(chunk)
+                                remaining -= len(chunk)
+                        try:
+                            png = comparison_png(source, camera_jpeg=kind == 'camera')
+                        except Exception as error:
+                            raise ValueError('无法解码对照图，请检查图像格式和 ICC 配置') from error
+                finally:
+                    COMPARISON_LOCK.release()
+                return self.respond(png, 'image/png')
             if urlparse(self.path).path == '/api/raw-export':
                 if not 0 < length <= 512*1024*1024:
                     raise ValueError('ARW 大小必须在 512 MiB 内')
@@ -711,7 +770,15 @@ class Handler(BaseHTTPRequestHandler):
                     raise ValueError('照片预览来源无效')
                 source=RUNS/job_id/'photo_previews'/reuse_id
                 if not (source/'render_inputs.npz').is_file():raise ValueError('历史预览没有缓存，请重新上传照片')
-                if item['result'].get('preview_long_edge') != 3840:raise ValueError('历史预览为低分辨率，请重新上传照片')
+                from photo_preview import CALIBRATED_LONG_EDGE, PREVIEW_LONG_EDGE, RAW_CALIBRATION
+
+                result = item['result']
+                calibration = result.get('raw_calibration')
+                requested = body.get('raw_calibrated', bool(calibration))
+                if type(requested) is not bool or requested != bool(calibration) or (calibration and calibration != RAW_CALIBRATION):
+                    raise ValueError('RAW 校准模式与照片缓存不一致，请重新上传照片')
+                if result.get('preview_long_edge') != (CALIBRATED_LONG_EDGE if calibration else PREVIEW_LONG_EDGE):
+                    raise ValueError('历史预览为低分辨率，请重新上传照片')
                 if type(body.get('grid_effect',True)) is not bool:raise ValueError('网格效果开关必须为布尔值')
                 grid_key=body.get('grid') or None
                 native_variant=None

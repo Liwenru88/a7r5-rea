@@ -1,0 +1,27 @@
+{
+  "profile": "awb-priority",
+  "version": "4.06",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "3c11a64de0a3b6abf2c8e0f77b464e72cd794b9e62c855c3d1aeb520d38fbfd9",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin": "378698bd5d211fd6b07c5cb447e7dbab6c8fd0b9e3d5040164f2447885ccc108",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin": "cb02727c60ef924515491d6655269868733d5f0a71768d63b8dc39e78083424c",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin": "11ab5c253283caf0ddef0865066f541fd07f875e15151f131bbd901f67ec007e",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin": "f61b5da892dc561e72874e87d8da754180c93bb4ba73d3b0ee2bdce8a65ca76b",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin": "c462261b04e590db2d1b119a7fdfae99194cf85613be676ff77eb680ac30b401",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin": "624baabd22ae9d01f3beb2debc2524954e91e3223faa1086e9b8d49d17eb26bc",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin": "99b1d3b4a7d2087db7617bb5aeb2833a09cb7e93860e171b5a23b516c266a347",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin": "17782d66ab6a0b9d6aeac0a5aef9bd5755dda0b082753466464b22ab51f3f592",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin": "9d90411fc42ea036b6b35347bbf24eeb00cf45b967245b3f3fb8731a734683f9",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin": "49676ac113654b8501ea89a79cf479136a2156edbcc745fbc5534046fd70b17d",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin": "ab1f658fff5cd18d2b71c438afb2c5e6ff71dac1969d6e8bea8d0b30b22a7543",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin": "4a4a444bf47b55fd57cac36489651a4e0a5f36d1e85e678e150904ee74b2e9ca",
+    "0111_backup_sum/backup.sum": "98d419f4d732f724679e8c29366b485507a55c81e1c103819e1890f8e098ba19"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

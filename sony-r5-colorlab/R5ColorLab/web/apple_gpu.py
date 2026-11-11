@@ -2,11 +2,10 @@
 remain authoritative; no GPU result bypasses the normal candidate evaluation.
 """
 import numpy as np
-from optimizer_policy import DEFAULT_ADAM_LEARNING_RATE, DEFAULT_ADAM_STEPS
 
 
 class SmoothGPU:
-    def __init__(self, smooth, device='mps', dtype=None):
+    def __init__(self, smooth, device='mps', dtype=None, *, compact_flat=False):
         import torch
         self.torch=torch
         self.device=device
@@ -14,9 +13,16 @@ class SmoothGPU:
             return torch.as_tensor(np.array(x,copy=True),device=device,
                 dtype=torch.int64 if integer else (torch.float32 if dtype is None else dtype))
         self.tensor=tensor
+        if compact_flat and not np.array_equal(smooth.x, np.broadcast_to(smooth.x[:,4:5], smooth.x.shape)):
+            raise ValueError('只有九点输入完全相同的色块允许合并计算')
+        self.patch_slice = slice(None) if compact_flat else slice(2, 7)
         for key in ('x','axis','wl','wr','scales','diag','threshold','weights','area','ytable'):
-            setattr(self,key,tensor(getattr(smooth,key)))
-        self.left=tensor(smooth.left,True);self.right=tensor(smooth.right,True)
+            values = getattr(smooth,key)
+            if compact_flat and key in ('x', 'wl', 'wr'):
+                values = values[:,4:5]
+            setattr(self,key,tensor(values))
+        self.left=tensor(smooth.left[:,4:5] if compact_flat else smooth.left,True)
+        self.right=tensor(smooth.right[:,4:5] if compact_flat else smooth.right,True)
         self.quadratic=smooth.quadratic;self.chroma=smooth.chroma
         self.area_selector=bool(smooth.ctx.base.area_controls[64])
         self.pivot=smooth.pivot;self.ygain=smooth.ygain
@@ -61,7 +67,7 @@ class SmoothGPU:
         y=self.ytable[lo]*(1-w)+self.ytable[hi]*w
         y=((y-self.pivot)*self.ygain+self.pivot).clamp(0,16383)
         out=t.stack([y+cr*1.402,y-cr*.7141-cb*.3441,y+cb*1.772],dim=-1)
-        return out.clamp(0,16383).reshape(self.x.shape)[:,2:7].mean(dim=1)
+        return out.clamp(0,16383).reshape(self.x.shape)[:,self.patch_slice].mean(dim=1)
 
     def lab(self,x):
         t=self.torch
@@ -73,9 +79,8 @@ class SmoothGPU:
         return t.stack([116*f[:,1]-16,500*(f[:,0]-f[:,1]),200*(f[:,1]-f[:,2])],dim=1)
 
 
-def initialize(smooth,seed,target,weights,lower,upper,*,steps=DEFAULT_ADAM_STEPS,
-               perceptual_weight=.35,parameter_smoothing=30,progress=None,
-               learning_rate=DEFAULT_ADAM_LEARNING_RATE):
+def initialize(smooth,seed,target,weights,lower,upper,*,steps=600,
+               perceptual_weight=.35,parameter_smoothing=30,progress=None):
     """Additional train-only start; absence/failure leaves every CPU start intact."""
     from gpu_runtime import available
     if not available():
@@ -103,7 +108,7 @@ def initialize(smooth,seed,target,weights,lower,upper,*,steps=DEFAULT_ADAM_STEPS
         y=tensor(target/16383);mass=tensor(weights/np.sum(weights))
         target_lab=gpu.lab(y).detach()
         v=tensor(seed).requires_grad_(True);lo=tensor(lower+1e-5);hi=tensor(upper-1e-5)
-        optimizer=torch.optim.Adam([v],lr=learning_rate)
+        optimizer=torch.optim.Adam([v],lr=.015)
         best=None;best_loss=float('inf');before=None
         def objective():
             pred=gpu.render(v)/16383
@@ -132,7 +137,7 @@ def initialize(smooth,seed,target,weights,lower,upper,*,steps=DEFAULT_ADAM_STEPS
             optimizer.step()
             with torch.no_grad():v.clamp_(lo,hi)
         result=dict(enabled=True,backend='Apple Metal/MPS',precision='float32 train-only initialization',
-            steps=steps,learning_rate=learning_rate,renderer_max_error_native=error,loss_before=before,loss_after=best_loss,
+            steps=steps,learning_rate=.015,renderer_max_error_native=error,loss_before=before,loss_after=best_loss,
             final_acceptance='native integer candidate evaluation; one bounded CPU correction, original GPU candidate retained')
         return best,result
     except (RuntimeError,ValueError,NotImplementedError) as error:

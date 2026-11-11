@@ -17,6 +17,9 @@ MAGICS = {4: MAGIC, 5: b'R5CUST5\0'}
 SLOT_LIMIT = 24
 HEADER, RECORD, MAXIMUM = 128, 2452, 58976
 MAX_JSON = 2 * 1024 * 1024
+CC1_ENDPOINT_MIN = (-1024,) * 4 + (0,) * 4
+CC1_ENDPOINT_MAX = 1023
+MATRIX_MIN, MATRIX_MAX = -8192, 8191
 
 
 def sha(data):
@@ -109,10 +112,9 @@ def pack(value):
         cc1 = integers(entry['cc1_delta'], [3, 8], -32768, 32767)
         for group in range(3):
             absolute = [cc1[i] + (cc1[8*group+i] if group else 0) for i in range(8)]
-            if any(not (-1024 <= v <= 1023 if i < 4 else 0 <= v <= 1023)
-                   for i, v in enumerate(absolute)):
+            if any(not lo <= v <= CC1_ENDPOINT_MAX for lo, v in zip(CC1_ENDPOINT_MIN, absolute)):
                 raise ValueError('CC1 absolute endpoint exceeds native range')
-        matrix = integers(entry['block13'], [3, 16, 6], -8192, 8191)
+        matrix = integers(entry['block13'], [3, 16, 6], MATRIX_MIN, MATRIX_MAX)
         gamma = integers(entry['gamma_native_129'], [129], 0, 131071)
         if gamma[0] != 0 or any(a > b for a, b in zip(gamma, gamma[1:])):
             raise ValueError('Gamma must be monotone with zero origin')

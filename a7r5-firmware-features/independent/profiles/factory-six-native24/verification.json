@@ -1,0 +1,17 @@
+{
+  "profile": "factory-six-native24",
+  "version": "4.18",
+  "base_sha256": "9d8d5cb328bcb3bf53fad67268facd39e1293eebf0942435af370f86bf9eea56",
+  "dat_sha256": "9d02a7a098e108f4b1f6f5f4167eecc49e30a04c5bd4e2ea3e85efc78d04f16a",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha15": "397219e2ef2b0591477cc90017df8e096d3e6cbc0118830abd212062bf62dd28",
+    "0700_part_image/dev/nflasha8": "93657ed0b532d050a1ea4884eb391b17907ff5e3ce8995cee3ad85a4780f072e",
+    "0701_part_image_sum/part_image.sum": "02f5f271babb2524892e51b6c82ec8714427b2a6673cb99fbede3987dacbce97"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

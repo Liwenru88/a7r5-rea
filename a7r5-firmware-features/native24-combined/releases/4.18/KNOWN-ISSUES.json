@@ -1,0 +1,10 @@
+{
+  "release": "4.18",
+  "status": "OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED",
+  "limits": [
+    "机身升级准入、长时间运行和实体 LCD／EVF 尚待实机验收",
+    "JPEG／HEIF／RAW 已验证原生请求与尺寸消费，实际成片尚待验收",
+    "新增纵横比仅在当前开机期间记忆",
+    "六款内置滤镜沿用历史照片链路，完整视频效果尚待验证"
+  ]
+}

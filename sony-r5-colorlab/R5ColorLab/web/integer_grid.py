@@ -28,7 +28,7 @@ def guard_failures(metrics, limits):
             if metrics[name] > limits[name]+1e-10]
 
 
-def repair_grid(grid, gray_base, gray_target, probe_base, response, bank, strength, limits):
+def repair_grid(grid, gray_base, gray_target, probe_base, response, bank, strength, limits, *, deadline=None):
     """局部修正违反过渡门槛的网格，最终颜色验收由完整 BIN 筛选完成。"""
     from measured_response import get
 
@@ -88,6 +88,8 @@ def repair_grid(grid, gray_base, gray_target, probe_base, response, bank, streng
 
     moves = 0
     for _ in range(18):
+        if deadline is not None and time.perf_counter() >= deadline:
+            break
         loss, active, gray_excess = violations()
         if loss == 0:
             break
@@ -144,12 +146,15 @@ def repair_grid(grid, gray_base, gray_target, probe_base, response, bank, streng
 
 def polish_grid(grid, source, desired, gray_mask, probe_base,
                 response, bank, strength, limits, proposal_target=None, proposal_table=None,
-                deadline=None, *, validation_data=None, step_sizes=(1,), proposal_only=False):
+                deadline=None, *, validation_data=None, step_sizes=(1,), proposal_only=False,
+                protect_color_p95=False, ramp_screen=None, color_guards=(), color_guard_priority=False):
     """全训练集逐项计算整数改动的色差，只重算受影响的样本。"""
     from scipy.sparse import coo_matrix
     from measured_response import get
 
     model = get(response)
+    if protect_color_p95 and (validation_data is None or 'delta_e00_p95' not in limits):
+        raise ValueError('颜色P95保护需要独立验证集与固定基准')
     if proposal_only and proposal_table is None:
         raise ValueError('仅应用候选改动时必须提供候选网格')
     color_rows, color_target = source, desired
@@ -157,7 +162,18 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
         validation_base, validation_target = validation_data
         color_rows = np.concatenate((source, validation_base))
         color_target = np.concatenate((desired, validation_target))
-    x = np.concatenate((color_rows, probe_base))
+    color_count = len(color_rows)
+    guard_ends = np.cumsum([len(base) for base, _ in color_guards])+color_count
+    if color_guards:
+        for base, goal in color_guards:
+            if base.ndim != 2 or base.shape != goal.shape or base.shape[1] != 3 or not len(base):
+                raise ValueError('颜色保护样本需要非空且配对的 RGB')
+        color_rows = np.concatenate((color_rows, *(base for base, _ in color_guards)))
+        color_target = np.concatenate((color_target, *(goal for _, goal in color_guards)))
+    score_count = len(color_rows)
+    screen_base, screen_accepts = ramp_screen if ramp_screen is not None else (None, None)
+    x = np.concatenate((color_rows, probe_base) if screen_base is None else
+                       (color_rows, probe_base, screen_base))
     _, nodes, interpolation = model.stencil(x)
     design = coo_matrix((interpolation.ravel(),
                          (np.repeat(np.arange(len(x)), nodes.shape[1]), nodes.ravel())),
@@ -167,7 +183,7 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
     table = grid.copy()
     raw = model.predict_cpu(x, table, clip=False)
     count = len(source)
-    color_count = len(color_rows)
+    probe_end = score_count+len(probe_base)
     target = np.floor(np.clip(color_target, 0, 1)*255+.5)
     target_lab = to_lab(target)
 
@@ -175,7 +191,7 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
         rgb = np.floor(np.clip(raw[rows], 0, 1)*255+.5)
         return np.mean((rgb-target[rows])**2, axis=1), de2000(to_lab(rgb), target_lab[rows])
 
-    mse, delta = errors(np.arange(color_count))
+    mse, delta = errors(np.arange(score_count))
     gray_sum = float(mse[:count][gray_mask].sum())
     gray_count = int(gray_mask.sum())
     ranking_target = desired if proposal_target is None else proposal_target
@@ -185,6 +201,14 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
     if proposal_table is not None:
         predicted_update = proposal_table.astype(int)-table
         priority = priority*(1+np.abs(predicted_update))
+    if color_guard_priority and color_guards:
+        # 每张校准照片都能给局部网格提案排序，所有改动仍须同时改善训练和验证色卡。
+        priority /= max(float(priority.max()), 1e-10)
+        for lo, hi in zip(np.r_[color_count, guard_ends[:-1]], guard_ends):
+            photo_error = np.clip(raw[lo:hi], 0, 1)-color_target[lo:hi]
+            gradient_rgb = np.einsum('no,nco->nc', photo_error, mixing[lo:hi])
+            photo = np.abs(design[lo:hi].T @ gradient_rgb)
+            priority = np.maximum(priority, .8*photo/max(float(photo.max()), 1e-10))
     ordered = np.argsort(-priority.ravel(), kind='stable')
     if proposal_only:
         ordered = ordered[predicted_update.ravel()[ordered] != 0]
@@ -205,6 +229,8 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
         if proposal_table is not None and predicted_update[node,channel]:
             direction = int(np.sign(predicted_update[node,channel]))
         validation_rows = rows[(rows>=count)&(rows<color_count)]
+        protected_rows = rows[(rows>=color_count)&(rows<score_count)]
+        protected_groups = np.searchsorted(guard_ends, protected_rows, side='right')
         signs = (direction,) if proposal_only else (direction, -direction)
         for step in (size*sign for size in step_sizes for sign in signs):
             if proposal_only and abs(step) > abs(predicted_update[node, channel]):
@@ -223,13 +249,28 @@ def polish_grid(grid, source, desired, gray_mask, probe_base,
                 if ((validation_mse-mse[validation_rows]).sum() >= -1e-10 or
                         (validation_delta-delta[validation_rows]).sum() >= -1e-10):
                     continue
-            metrics = transition_metrics(bank, np.clip(raw[color_count:],0,1), strength)
+                if protect_color_p95:
+                    trial_delta = delta[count:color_count].copy()
+                    trial_delta[validation_rows-count] = validation_delta
+                    if np.percentile(trial_delta,95) > limits['delta_e00_p95']+1e-10:
+                        continue
+            if len(protected_rows):
+                protected_mse, protected_delta = errors(protected_rows)
+                rgb_change = np.bincount(protected_groups, protected_mse-mse[protected_rows])
+                delta_change = np.bincount(protected_groups, protected_delta-delta[protected_rows])
+                if np.any(rgb_change > 1e-10) or np.any(delta_change > 1e-10):
+                    continue
+            metrics = transition_metrics(bank, np.clip(raw[score_count:probe_end],0,1), strength)
             if guard_failures(dict(gray_rmse=gray, **metrics), limits):
+                continue
+            if screen_accepts is not None and not screen_accepts(np.clip(raw[probe_end:], 0, 1)):
                 continue
             table[node,channel] += step
             mse[touched], delta[touched] = new_mse, new_delta
             if validation_data is not None:
                 mse[validation_rows], delta[validation_rows] = validation_mse, validation_delta
+            if len(protected_rows):
+                mse[protected_rows], delta[protected_rows] = protected_mse, protected_delta
             gray_sum = new_gray_sum
             accepted += 1
             break
@@ -248,7 +289,7 @@ def selection_failures(metrics, limits, best_color):
     return failures
 
 
-def candidate_metrics(gray_target, validation_target, response, bank, strength, perceptual):
+def candidate_metrics(gray_target, validation_target, response, bank, strength, perceptual, *, include_p95=False):
     """对原生参数和网格的任意组合使用相同的量化验收口径。"""
     from measured_response import get
 
@@ -262,10 +303,13 @@ def candidate_metrics(gray_target, validation_target, response, bank, strength, 
         rgb = np.floor(model.predict_cpu(validation_base, table)*255+.5)
         mse = np.mean((rgb-validation_target)**2)
         delta = de2000(to_lab(rgb), validation_lab)
-        return dict(rgb_rmse=float(np.sqrt(mse)), delta_e00_mean=float(delta.mean()),
+        result = dict(rgb_rmse=float(np.sqrt(mse)), delta_e00_mean=float(delta.mean()),
             color_score=float(mse+perceptual*np.mean((2.55*delta)**2)),
             gray_rmse=float(np.sqrt(np.mean((gray-gray_target)**2))),
             **transition_metrics(bank, model.predict_cpu(probe_base, table), strength))
+        if include_p95:
+            result['delta_e00_p95'] = float(np.percentile(delta, 95))
+        return result
 
     return measure
 

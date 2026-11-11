@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "look24-group-memory",
+  "label": "原厂组和自定义组的成功项记忆",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [
+    "look24-preview"
+  ],
+  "conflicts": [],
+  "claims": [
+    "native24.group-memory"
+  ],
+  "changes": [
+    {
+      "builder": "native24-option",
+      "option": "group-memory"
+    }
+  ],
+  "reference": "independent/profiles/native24-stock/resources.json"
+}

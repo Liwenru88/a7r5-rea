@@ -1,0 +1,376 @@
+{
+  "schema": 1,
+  "base": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "frames_per_bundle": 736841,
+  "archive_members_per_bundle": 147,
+  "bundles": {
+    "af": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "ee6dd1555fc34753be89d99b384f4ec204a11ec85d907e6fa7c5ad86281a4805",
+        "crc32": "8b4d4344"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "stock",
+      "modules": [
+        "lens-af-compat"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "1e089b123ef450d2cd9ba40536984f22011ac8575730a80d30c872a55c1ee4e1"
+        }
+      },
+      "language_banks_written": 0,
+      "lock_sha256": "7b9ca82da3f5f7e6d551e47f84cde5894d50bce15d5cde1d120642a77ea7a17e",
+      "verification_sha256": "427741002885a0f399de44dd12dd2332ce6bc8d03592e53b42ea1acae0cb2fa7"
+    },
+    "aspect": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "7485c56b1e79715b3f2d06f1289b7b30ee95abb03ec5fb8a21017c2de2ab6209",
+        "crc32": "07278444"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha3",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "photo-aspect-ratios"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97452032,
+          "sha256": "4a8283ab0ff9a110fd80fd382bd9395556958574ace177e2d750f5bb43874a74"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "a0b001d46b9c69c420d80e4019abf64e09aa27bd5efd015cfa43c8fe7b8b7e57"
+        },
+        "AV-CAM.BIN": {
+          "image": "0700_part_image/dev/nflasha3",
+          "path": "/AV-CAM.BIN",
+          "bytes": 12956536,
+          "sha256": "11351971e97aaf48bbd011a8a15b819392a4ec4eff07b0a1caa39d49c4257c7a"
+        }
+      },
+      "language_banks_written": 68,
+      "lock_sha256": "e64042f23caf930a5bfd8798c8ac620fbd68a33d92bac2523ddf9c628bf5987e",
+      "verification_sha256": "6ddaa99aba0e88cb9a2509b4d3a7f87a083c62993fe36bdac5017ad81ce245c2"
+    },
+    "af-aspect": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "103b934251f800a50a2a4cea76afa3aae5dfc53f45038c25fa30c924305f0ee7",
+        "crc32": "12464073"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha3",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "lens-af-compat",
+        "photo-aspect-ratios"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97452032,
+          "sha256": "4a8283ab0ff9a110fd80fd382bd9395556958574ace177e2d750f5bb43874a74"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "2489e4c69c86b7e62992eecfb140cf0b81d21ab4254a012488e05bd3d9ba7d85"
+        },
+        "AV-CAM.BIN": {
+          "image": "0700_part_image/dev/nflasha3",
+          "path": "/AV-CAM.BIN",
+          "bytes": 12956536,
+          "sha256": "11351971e97aaf48bbd011a8a15b819392a4ec4eff07b0a1caa39d49c4257c7a"
+        }
+      },
+      "language_banks_written": 68,
+      "lock_sha256": "262b3e4fa01e67d0a584094bc77e235c5f2d8f886cd5243d9dc9324cb89f797e",
+      "verification_sha256": "bfa420ed127d88b6b4b65f88d9c013ecef7cf70b19e81139aff34513d2cb07e2"
+    },
+    "look24-af": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "2d317015492e2471c955dbbe03691209b1151f55f2a06dcbaa0151b919a5fbc6",
+        "crc32": "18fe8958"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "lens-af-compat",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "a12c3a3f6abdda60b8e27037b6ff0a94ac3018491e18ba3486c6fad1d0232601"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "6b20b85748d57b36049c3ec7ff2823c0ed918cc48a094aa05f10549f68a537dc"
+        }
+      },
+      "language_banks_written": 0,
+      "lock_sha256": "36aa4afdf6f45691421012834edcf7f9345ac186c16266c212d608925d07c173",
+      "verification_sha256": "ff357f9900a86180ca7e101d5266af04a746dae3c85f4349c1c125f757bf40de",
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "look24-aspect": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "1036000822d1d8b24caa028343870003061bd4d4f15c458f5e0faa197d80e795",
+        "crc32": "dc12667c"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha3",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning",
+        "photo-aspect-ratios"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "291f4c3a98581c15bc4be3e70d587ac3514575c0ff5570d8f852dfdab426af9b"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "4fa43346ba70c9ce60f3b2a33d1a9e0b1504497426f57e5a0797d1bf60fd5a8f"
+        },
+        "AV-CAM.BIN": {
+          "image": "0700_part_image/dev/nflasha3",
+          "path": "/AV-CAM.BIN",
+          "bytes": 12956536,
+          "sha256": "11351971e97aaf48bbd011a8a15b819392a4ec4eff07b0a1caa39d49c4257c7a"
+        }
+      },
+      "language_banks_written": 68,
+      "lock_sha256": "096cfea6565ae75124e3ca88864c5d2708d8610d5c32c62a876775efac7b9f58",
+      "verification_sha256": "4627c1823020a6addd09f5ce223ed0a2bbb2c1c65145c2a69c10382863ab321b",
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "look24-af-aspect": {
+      "status": "OFFLINE_VERIFIED",
+      "version": "4.23",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "63fbc7b1022b1bb7abf6bbe163a66dd521bda0b528caed19799f43a0cfdfc537",
+        "crc32": "4d737033"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha3",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "lens-af-compat",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning",
+        "photo-aspect-ratios"
+      ],
+      "wbi_policy": "invalidate-sector",
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "291f4c3a98581c15bc4be3e70d587ac3514575c0ff5570d8f852dfdab426af9b"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "24d088f99db053949586a67844bbf7d14bcfa89bdc1791a4e35ecda2c28e4513"
+        },
+        "AV-CAM.BIN": {
+          "image": "0700_part_image/dev/nflasha3",
+          "path": "/AV-CAM.BIN",
+          "bytes": 12956536,
+          "sha256": "11351971e97aaf48bbd011a8a15b819392a4ec4eff07b0a1caa39d49c4257c7a"
+        }
+      },
+      "language_banks_written": 68,
+      "lock_sha256": "609bba9c60e04bf90291c6dadb6edcd60a92ec53e51c26ef19bb150554e7bc51",
+      "verification_sha256": "0fdea3d9368dab39d9099a1a48afbe0d645f5da2a1a2bf3f9bb716627a7da172",
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    }
+  },
+  "phase4_full_reverified": {
+    "bytes": 754525608,
+    "sha256": "63fbc7b1022b1bb7abf6bbe163a66dd521bda0b528caed19799f43a0cfdfc537",
+    "crc32": "4d737033"
+  },
+  "phase3_full_reverified": {
+    "bytes": 754525608,
+    "sha256": "d632d594c0a32f7d042da597a67769e63fe7bb3c2c5d4bd27f3eecfeb96cf39a",
+    "crc32": "b7f232ce"
+  },
+  "tested_actual_dat_components": [
+    "af",
+    "aspect",
+    "look24-af-aspect"
+  ],
+  "wbi": {
+    "invalidated_bytes": 512,
+    "tail_preserved": true,
+    "updater_preserved": true
+  },
+  "targeted_regressions": {
+    "aspect_only_instructions_and_resources": 19,
+    "combined_aspect_instructions_and_resources": 19,
+    "af_only_five_consumers": 1,
+    "combined_af_five_consumers": 1,
+    "combined_native24_slots_boot_and_ratio": 1,
+    "plan_and_actual_dat_readbacks": 4,
+    "previous_plans": 15
+  },
+  "crop_replay": {
+    "input_pixels": [
+      9504,
+      6336
+    ],
+    "jpeg_and_heif_active_area_pixels": {
+      "17:6": [
+        9504,
+        3352
+      ],
+      "65:24": [
+        9504,
+        3512
+      ],
+      "5:4": [
+        7920,
+        6336
+      ],
+      "7:6": [
+        7392,
+        6336
+      ],
+      "1.91:1": [
+        9504,
+        4976
+      ],
+      "2.35:1": [
+        9504,
+        4048
+      ]
+    },
+    "raw_slot_pixels": [
+      9504,
+      6336
+    ],
+    "raw_and_processed_slot_orders_tested": true,
+    "sensor_and_encoders_executed": false
+  },
+  "tests_sha256": {
+    "tests/test_compose_phase4.py": "7d5c36ab2ad16f7efb04e0e5deb1db3c241e5977b78f758170d18dbd500a8de1",
+    "native24-combined/tests/test_capture_modules.py": "dc89b26bf080f23be49beb1936a86adea9e45b245d3b76897fd62b8b1828935e",
+    "native24-combined/tests/test_lens_af.py": "8135e37fc155a1496c60bb125eae2451b4548b57e86b69621174f60447a360bd",
+    "native24-combined/aspect/test_ap.py": "bfa5bae88e3e3d371cc0ddaf103e971dac6a82829df49b69532ef131489097bc",
+    "native24-combined/aspect/test_avcam.py": "0078bd9799e9f4f1defd85f012ae6c175f1b860885f417503e3fb0af413e0c38",
+    "native24-combined/aspect/test_cp.py": "3cb318f2bc57db9cf31f85413b9076444389a708610d2e143d106acdb5207939",
+    "native24-combined/aspect/test_geometry.py": "d4815d6db95dc268b2a406336b2871433e795dd4f1d6c3630f651d040aa40e09",
+    "native24-combined/aspect/test_guide.py": "9b49ff9759188dd2f1f1f2a6fe6df729e789540a352bed27bd900a4dff111c9e",
+    "native24-combined/aspect/test_resources.py": "30d544f6489cf152d8b14a425ae2d7f3847ccef492e1e9c6ab08c598ccb951be"
+  },
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "pending_device_acceptance": [
+    "首启",
+    "实镜 AF-C 与连拍",
+    "物理 LCD／EVF",
+    "实际 JPEG／HEIF 与 ARW 文件"
+  ]
+}

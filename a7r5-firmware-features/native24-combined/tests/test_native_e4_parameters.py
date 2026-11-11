@@ -5,11 +5,12 @@ from test_parameters import ParameterReplay, BASE, IDS, display_custom
 
 
 class NativeE4Replay(ParameterReplay):
-    def __init__(self):
+    def __init__(self, files=None):
         self.native_packets = []
         self.native_errors = []
+        self.native_source_values = BASE
         self.reject_property = 0
-        super().__init__()
+        super().__init__(files=files)
         self.ap.stubs.pop(self.ap.symbols['r5_native_refresh_execute425'])
         self.ap.stubs.pop(0x355882c)
         self.native_heap=self.ap.DATA+0xb0000
@@ -52,10 +53,10 @@ class NativeE4Replay(ParameterReplay):
 
     def refresh(self, ap):
         obj = ap.DATA + 0x79000
-        # ST照片布局的已验证E4对象字段；构造与队列本身仍为夹具。
+        # 队列对象为夹具；原构造器的独立核对由上游参数探针完成。
         data = bytearray(0x38)
         struct.pack_into('<III', data, 0x14, 0, 0, 0)
-        data[0x20:0x28] = bytes(BASE)
+        data[0x20:0x28] = bytes(value & 255 for value in self.native_source_values)
         struct.pack_into('<I', data, 0x30, 0)
         ap.write(obj, data)
         ap.pending.extend([
@@ -63,6 +64,30 @@ class NativeE4Replay(ParameterReplay):
             ('r5_filter_refresh_execute425', (obj,)),
         ])
         return 0
+
+
+def test_unedited_twelve_preserve_native_working_values_and_reset_returns_to_native():
+    from test_parameters import parameters
+
+    r = NativeE4Replay()
+    r.native_source_values = (2, -1, 3, 1, -2, 6, 2, 4)
+    r.boot()
+    for slot in range(1, 13):
+        display_custom(r, slot)
+        r.choose(slot)
+        r.service()
+        assert r.ap.call('r5_filter_command_state') == 2
+        assert r.cp_values() == r.native_source_values, '未调参配方不能覆盖上游原生工作值'
+        assert parameters(r, slot) == r.native_source_values
+    assert r.ap.call('r5_tune_edit', 12, 0, -3) == 0
+    r.choose(12)
+    r.service()
+    assert r.cp_values() == (-3, *r.native_source_values[1:])
+    assert r.ap.call('r5_tune_reset', 12) == 0
+    r.choose(12)
+    r.service()
+    assert r.cp_values() == r.native_source_values
+    r.record('native-e4-upstream-twelve-unedited-parity')
 
 def test_native_e4_individual_messages_apply_all_eight_values_without_full_packet():
     r = NativeE4Replay()
@@ -158,3 +183,34 @@ def test_receipt_cannot_cross_prepare_after_generation_check():
     r.ap.call('r5_tune_sent425',generation,255,0xffffffff)
     r.ap.call('r5_tune_sent425',generation,255,0)
     assert r.ap.call('r5_tune_verify')!=0
+
+
+def test_parameter_confirm_waits_for_the_final_inflight_edit():
+    r = NativeE4Replay()
+    r.boot()
+    display_custom(r, 13)
+    r.choose(13)
+    r.service()
+    a = r.ap
+    a.write(r.view, struct.pack('<Q', 0x58ca720))
+    a.write(r.controller + 0x178, struct.pack('<I', 0xda))
+    centers = []
+    a.stub('n12_stock_parameter_dispatch', lambda ap: centers.append(ap.arg(2)) or 1)
+    a.call('n12_step_0', r.view, 0)
+
+    def edit_and_confirm(ap):
+        ap.stub('r5_native_creative_sequence_request', r.refresh)
+        context = ap.cpu.context_save()
+        ap.call('n12_step_0', r.view, 0)
+        ap.call('n12_parameter_dispatch', r.controller, 0, 0x201000c)
+        ap.cpu.context_restore(context)
+        assert 0x201000c not in centers
+        return r.refresh(ap)
+
+    a.stub('r5_native_creative_sequence_request', edit_and_confirm)
+    r.service()
+    assert r.cp_values()[0] == 1 and 0x201000c not in centers
+    r.service()
+    assert r.cp_values()[0] == 2 and a.call('r5_tune_changed', 13) == 0
+    a.call('n12_parameter_dispatch', r.controller, 0, 0x20f0001)
+    assert centers.count(0x201000c) == 1

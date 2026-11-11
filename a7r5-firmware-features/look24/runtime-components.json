@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "revision": 2,
+  "base_DAT_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "components": {
+    "appFw.so": {
+      "bytes": 97583104,
+      "sha256": "f2bcff99ef599191c549828b455679be723c7a218815262a557b8663931e57cb"
+    },
+    "cpapp-b.bin": {
+      "bytes": 17617008,
+      "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+    },
+    "image_00_23_IPSX.uxc": {
+      "bytes": 9611836,
+      "sha256": "6e8c09e8e8a302aa05e7d8dd56f68bdb3675c486ca54a88ba81375b5c02a3bb7"
+    },
+    "image_00_32_IPSX.uxc": {
+      "bytes": 9963512,
+      "sha256": "7e598d75a997c37cea6204e8e35773e9b9ee5e4ce67b0c0ab569011563af3356"
+    }
+  }
+}

@@ -10,6 +10,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 import struct
 import sys
 
@@ -20,15 +21,15 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from sony_bk4 import find_banks
 
 PATHS = {
-    'r6_raw': Path('/Users/LOCAL_USER/Documents/DG707670.ARW'),
-    'r5_raw': Path('/Users/LOCAL_USER/Documents/fl对比/DSC00430.ARW'),
+    'r6_raw': Path(os.environ.get('R5_R6_RAW', ROOT / 'inputs/DG707670.ARW')),
+    'r5_raw': Path(os.environ.get('R5_RAW_SOURCE', ROOT / 'inputs/DSC00430.ARW')),
     'reader': ROOT / 'R5ColorLab/scripts/sony_arw_metadata.py',
     'bk4_reader': ROOT / 'tools/sony_bk4.py',
     'r5_bk4': ROOT / 'unpacked/r5/firmware/0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin',
     'fx2_bk4': ROOT / 'unpacked/fx2/firmware/0110_backup/SYSIPSX-DSLR/DOC/CX96900_ALLLANG.bin',
     'r5_cp': ROOT / 'unpacked/r5/cp_data/cpapp-b.bin',
     'fx2_cp': ROOT / 'unpacked/fx2/cp_data/cpapp-b.bin',
-    'saved_raw_report': Path('/Users/LOCAL_USER/Documents/ChatGPT/ied软件/研究记录/20261016_FX2_M5_R6外观参数对照/完整比较结果.json'),
+    'saved_raw_report': Path(os.environ.get('R5_RAW_REPORT', ROOT / 'inputs/raw-comparison.json')),
     'saved_r5_report': ROOT / 'analysis/r5_fl23_arw10_vs_firmware_20261016/raw_vs_cc1_correspondence.json',
     'saved_gamma_report': ROOT / 'analysis/r5_fl23_arw10_vs_firmware_20261016/matrix_gamma_correspondence.json',
     'saved_header_replay': ROOT / 'analysis/r5_fl23_common_fields_20261017/audit_results.json',

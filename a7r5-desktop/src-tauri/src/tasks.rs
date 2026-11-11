@@ -59,8 +59,11 @@ fn job(state: &State, value: &str) -> Result<PathBuf> {
     Ok(path)
 }
 fn status(dir: &Path, value: &Value) -> Result<()> {
-    let path = dir.join("status.json");
-    let tmp = dir.join(format!("status-{}.tmp", uuid::Uuid::new_v4().simple()));
+    replace_task_state(&dir.join("status.json"), value)
+}
+fn replace_task_state(path: &Path, value: &Value) -> Result<()> {
+    rt::ordinary(path, false)?;
+    let tmp = path.with_extension(format!("{}.tmp", uuid::Uuid::new_v4().simple()));
     rt::private_json(&tmp, value)?;
     fs::rename(tmp, path)?;
     Ok(())
@@ -144,7 +147,8 @@ pub fn overview(state: &State) -> Result<Value> {
     tasks.truncate(25);
     Ok(json!({"busy":*busy,
         "pending":Value::Null,"legacy_pending_record":pending.exists(),
-        "active_ssh":active.exists(),"tasks":tasks,"data":state.data,"test_package":true}))
+        "ssh_stop_available":rt::read_json(&active).is_ok_and(|record| record["client_ended"] != true),
+        "tasks":tasks,"data":state.data,"test_package":true}))
 }
 
 fn validate(input: &Input) -> Result<()> {
@@ -164,10 +168,14 @@ fn validate(input: &Input) -> Result<()> {
             .as_ref()
             .and_then(Value::as_object)
             .context("功能选择无效")?;
-        if flags.len() != 4
+        let native24 = flags.len() == 1 && flags.get("native24") == Some(&Value::Bool(true));
+        if native24 && input.version.as_deref() != Some("4.17") {
+            bail!("24 槽滤镜与构图标记预设的版本固定为 4.17")
+        }
+        if !native24 && (flags.len() != 4
             || ["fl23", "looks", "ntsc", "sound"]
                 .iter()
-                .any(|k| !flags.get(*k).is_some_and(Value::is_boolean))
+                .any(|k| !flags.get(*k).is_some_and(Value::is_boolean)))
         {
             bail!("功能选择无效")
         }
@@ -212,11 +220,17 @@ pub fn start(state: Arc<State>, mut input: Input) -> Result<String> {
         bail!("已有任务正在执行")
     }
     let device = input.kind != "firmware";
-    // SSH记录用于管理原实例，不阻止按当前MSC连接执行维护任务。
-    if input.kind == "ssh_start" && state.data.join("active-ssh.json").exists() {
-        bail!("请先停止当前SSH实例并确认相机恢复")
-    }
     rt::verify(&state.engine)?;
+    let stop_target = if input.kind == "ssh_stop" {
+        let active = rt::read_json(&state.data.join("active-ssh.json"))
+            .context("没有可停止的本机 SSH 实例记录")?;
+        if active["client_ended"] == true {
+            bail!("没有可停止的本机 SSH 实例记录")
+        }
+        Some(active)
+    } else {
+        None
+    };
     let run_id = uuid::Uuid::new_v4().simple().to_string();
     let dir = job(&state, &run_id)?;
     fs::DirBuilder::new().mode(0o700).create(&dir)?;
@@ -241,8 +255,8 @@ pub fn start(state: Arc<State>, mut input: Input) -> Result<String> {
             input.password.take().context("缺少SSH密码")?
         )?);
     }
-    if input.kind == "ssh_stop" {
-        request["active"] = rt::read_json(&state.data.join("active-ssh.json"))?;
+    if let Some(active) = stop_target {
+        request["active"] = active;
     }
     rt::private_json(&dir.join("request.json"), &request)?;
     let created = std::time::SystemTime::now()
@@ -293,37 +307,57 @@ pub fn start(state: Arc<State>, mut input: Input) -> Result<String> {
     Ok(run_id)
 }
 
+fn ssh_start_order(dir: &Path) -> Result<u64> {
+    let created = fs::metadata(dir)?.created()?.duration_since(std::time::UNIX_EPOCH)?;
+    Ok(u64::try_from(created.as_nanos())?)
+}
+
 fn record_service_result(state: &State, dir: &Path, kind: &str, result: &Value) -> Result<()> {
-    if result["task_complete"] != true {
+    if result["task_complete"] != true || !matches!(kind, "ssh_start" | "ssh_stop") {
         return Ok(())
     }
     let active = state.data.join("active-ssh.json");
+    let previous = active.exists().then(|| rt::read_json(&active)).transpose()?;
+    let run = result["run_id"].as_str().context("SSH 回执缺少实例编号")?;
     if kind == "ssh_start" {
-        // 活动实例独立于屏幕确认登记，后续操作不会遗漏已经启动的服务。
-        if active.exists() {
-            if rt::read_json(&active)? == *result { return Ok(()) }
-            bail!("已有其他SSH活动记录，保留两份回执，不覆盖")
+        let order = ssh_start_order(dir)?;
+        if let Some(previous) = &previous {
+            let previous_order = previous["client_start_order"].as_u64().or_else(|| {
+                let old_job = job(state, previous["run_id"].as_str()?).ok()?;
+                ssh_start_order(&old_job).ok()
+            }).unwrap_or(0);
+            // 晚到的回执只进任务记录，不能覆盖更新的实例或恢复已结束的实例。
+            if previous["run_id"] == run || previous_order >= order {
+                return Ok(())
+            }
+            let archive = dir.join("previous-ssh.json");
+            if !archive.exists() {
+                rt::publish_json(&archive, previous)?;
+            }
         }
-        rt::private_json(&active, result)?;
-    } else if kind == "ssh_stop" {
+        let mut tracked = result.clone();
+        tracked["client_start_order"] = json!(order);
+        replace_task_state(&active, &tracked)?;
+    } else {
         let ended = dir.join("ended-ssh.json");
         if ended.exists() {
-            let previous = rt::read_json(&ended)?;
-            if previous["run_id"].as_str().is_none() || previous["run_id"] != result["run_id"] {
+            if rt::read_json(&ended)?["run_id"] != run {
                 bail!("已有停止归档与回执不匹配")
             }
-            // 中断恢复可重复载入回执，但不能删除后来启动的新实例。
-            if active.exists() && rt::read_json(&active)?["run_id"] == result["run_id"] {
-                fs::remove_file(&active)?;
+        } else {
+            let stopped = match &previous {
+                Some(record) if record["run_id"] == run => record.clone(),
+                _ => rt::read_json(&dir.join("request.json"))?["active"].clone(),
+            };
+            if stopped["run_id"] != run {
+                bail!("停止回执与请求的 SSH 实例不匹配")
             }
-            return Ok(())
+            rt::publish_json(&ended, &stopped)?;
         }
-        let previous = rt::read_json(&active)?;
-        if previous["run_id"].as_str().is_none() || previous["run_id"] != result["run_id"] {
-            bail!("停止回执与活动SSH实例不匹配")
+        if let Some(mut previous) = previous.filter(|record| record["run_id"] == run && record["client_ended"] != true) {
+            previous["client_ended"] = json!(true);
+            replace_task_state(&active, &previous)?;
         }
-        rt::private_json(&ended, &previous)?;
-        fs::remove_file(&active)?;
     }
     Ok(())
 }
@@ -554,8 +588,8 @@ mod tests {
     }
 
     #[test]
-    fn ssh_tracking_does_not_block_maintenance_or_get_removed() {
-        for kind in ["backup","update","force"] {
+    fn ssh_tracking_does_not_block_start_or_maintenance() {
+        for kind in ["backup","update","force","ssh_start"] {
             let t=tempfile::tempdir().unwrap();
             let path=t.path().canonicalize().unwrap();
             let s=Arc::new(State {data:path.clone(),engine:path,busy:Mutex::new(false)});
@@ -566,6 +600,7 @@ mod tests {
             let input=match kind {
                 "update"=>json!({"kind":"update","backup_manifest":backup}),
                 "force"=>json!({"kind":"update","force_install":true}),
+                "ssh_start"=>json!({"kind":"ssh_start","password":"fixture-password"}),
                 _=>json!({"kind":"backup"}),
             };
             *s.busy.lock().unwrap()=true;
@@ -608,19 +643,50 @@ mod tests {
         let started = json!({"run_id":"instance-a","task_complete":true,"USB_recovered":false,"host_public_key":"verified-key"});
         record_service_result(&s, &dir, "ssh_start", &started).unwrap();
         record_service_result(&s, &dir, "ssh_start", &started).unwrap();
-        assert_eq!(rt::read_json(&s.data.join("active-ssh.json")).unwrap(), started);
+        let active = s.data.join("active-ssh.json");
+        let tracked = rt::read_json(&active).unwrap();
+        assert_eq!(tracked["run_id"], started["run_id"]);
+        assert_eq!(tracked["host_public_key"], started["host_public_key"]);
         assert!(!dir.join("screen-confirmed.json").exists());
         record_service_result(&s, &dir, "ssh_stop", &json!({"task_complete":false})).unwrap();
         assert!(record_service_result(&s, &dir, "ssh_stop", &json!({"task_complete":true,"run_id":"other-instance"})).is_err());
         assert!(s.data.join("active-ssh.json").exists());
         record_service_result(&s, &dir, "ssh_stop", &json!({"task_complete":true,"run_id":"instance-a"})).unwrap();
-        assert!(!s.data.join("active-ssh.json").exists());
-        assert_eq!(rt::read_json(&dir.join("ended-ssh.json")).unwrap(), started);
+        assert_eq!(rt::read_json(&active).unwrap()["client_ended"], true);
+        assert_eq!(rt::read_json(&dir.join("ended-ssh.json")).unwrap(), tracked);
         let newer = json!({"run_id":"new-instance","task_complete":true});
-        rt::private_json(&s.data.join("active-ssh.json"), &newer).unwrap();
+        replace_task_state(&active, &newer).unwrap();
         record_service_result(&s, &dir, "ssh_stop", &json!({"task_complete":true,"run_id":"instance-a"})).unwrap();
         assert_eq!(rt::read_json(&s.data.join("active-ssh.json")).unwrap(), newer);
         assert!(s.data.join("pending.json").exists());
+    }
+
+    #[test]
+    fn newer_ssh_success_replaces_stale_target_and_old_receipts_do_not_restore_it() {
+        let t = tempfile::tempdir().unwrap();
+        let s = State {data:t.path().canonicalize().unwrap(),engine:t.path().into(),busy:Mutex::new(false)};
+        let old = job(&s, &"a".repeat(32)).unwrap();
+        let new = job(&s, &"b".repeat(32)).unwrap();
+        let stop = job(&s, &"c".repeat(32)).unwrap();
+        fs::create_dir_all(&old).unwrap();
+        let first = json!({"run_id":"a".repeat(32),"task_complete":true,"host_public_key":"old-key"});
+        record_service_result(&s, &old, "ssh_start", &first).unwrap();
+        let active = s.data.join("active-ssh.json");
+        let original = rt::read_json(&active).unwrap();
+        fs::create_dir_all(&new).unwrap();
+        let second = json!({"run_id":"b".repeat(32),"task_complete":true,"host_public_key":"new-key"});
+        record_service_result(&s, &new, "ssh_start", &json!({"task_complete":false})).unwrap();
+        assert_eq!(rt::read_json(&active).unwrap(), original);
+        record_service_result(&s, &new, "ssh_start", &second).unwrap();
+        assert_eq!(rt::read_json(&new.join("previous-ssh.json")).unwrap(), original);
+        record_service_result(&s, &old, "ssh_start", &first).unwrap();
+        assert_eq!(rt::read_json(&active).unwrap()["run_id"], second["run_id"]);
+        fs::create_dir_all(&stop).unwrap();
+        record_service_result(&s, &stop, "ssh_stop", &second).unwrap();
+        record_service_result(&s, &old, "ssh_start", &first).unwrap();
+        record_service_result(&s, &new, "ssh_start", &second).unwrap();
+        assert_eq!(overview(&s).unwrap()["ssh_stop_available"], false);
+        assert_eq!(rt::read_json(&active).unwrap()["run_id"], second["run_id"]);
     }
 
     #[test]
@@ -645,12 +711,12 @@ mod tests {
                 let received = overview(&s).unwrap();
                 assert_eq!(received["tasks"][0]["interrupted"], false);
                 assert_eq!(received["tasks"][0]["result"], receipt);
-                assert_eq!(received["active_ssh"], if kind == "ssh_start" { complete } else { !complete });
+                assert_eq!(received["ssh_stop_available"], if kind == "ssh_start" { complete } else { !complete });
                 if kind == "ssh_stop" && complete {
                     assert_eq!(rt::read_json(&dir.join("ended-ssh.json")).unwrap(), started);
                 }
                 assert_eq!(rt::read_json(&dir.join("result.json")).unwrap(), unknown);
-                assert_eq!(overview(&s).unwrap()["active_ssh"], received["active_ssh"]);
+                assert_eq!(overview(&s).unwrap()["ssh_stop_available"], received["ssh_stop_available"]);
             }
         }
     }

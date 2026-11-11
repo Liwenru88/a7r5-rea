@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "profile": "baseline418",
+  "base_sha256": "49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda",
+  "version": "4.18",
+  "base_public_key": "research-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha15",
+      "delta": "00.delta.gz",
+      "delta_sha256": "46e75316c2c00a1de52d274761e76c5d4deaadeb1698fe5b812f7937b0bb0e93",
+      "bytes": 410652672,
+      "before_sha256": "bf7f0f0bae6acd51e78c99383eeea65844695fa82eacbcb14ac44d6ab62f5f16",
+      "after_sha256": "bd1a70ef83e1d390d2e8b5de98da7a4a421c5daf3753c5fed0ce90a6c9fcbb05"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha3",
+      "delta": "01.delta.gz",
+      "delta_sha256": "cc660fdffb7e73cc58fb95dc5fe5c78329a21f2d9e193876b358146921f088af",
+      "bytes": 31803392,
+      "before_sha256": "7f5a573ce2d491035238f3a676562b49ae51eb6f21e4f6e92bacf4793f7bdce4",
+      "after_sha256": "dbe553d384f4cb93dea3a6949c5f7bf66f6507e6f174b984e7db19dae037ed6b"
+    },
+    {
+      "path": "0700_part_image/dev/nflasha8",
+      "delta": "02.delta.gz",
+      "delta_sha256": "14f57c435fa684192d0809b99a512bf0488c9b2a421dea82d0601ca0d0054a2e",
+      "bytes": 24531968,
+      "before_sha256": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d",
+      "after_sha256": "1638fd3fceb98f6e8e26b835cc5ce95715ad69a9bf00cf63b08758c1151e6ac0"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha15": "bd1a70ef83e1d390d2e8b5de98da7a4a421c5daf3753c5fed0ce90a6c9fcbb05",
+    "0700_part_image/dev/nflasha3": "dbe553d384f4cb93dea3a6949c5f7bf66f6507e6f174b984e7db19dae037ed6b",
+    "0700_part_image/dev/nflasha8": "1638fd3fceb98f6e8e26b835cc5ce95715ad69a9bf00cf63b08758c1151e6ac0",
+    "0701_part_image_sum/part_image.sum": "ae812357a6b0fb03cc14d9c7394293a7d3e5a5c805481f6d9d652650edcd8d37"
+  },
+  "expected_dat_sha256": "2354e2639ad781162bebbd152b831df72134f1ac212b4ee7a418a4e380c24fef"
+}

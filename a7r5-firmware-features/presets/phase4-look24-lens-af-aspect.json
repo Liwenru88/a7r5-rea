@@ -1,0 +1,13 @@
+{
+  "base": "ilce-7rm5-4.00",
+  "modules": [
+    "look24-core",
+    "look24-sd-import",
+    "look24-preview",
+    "look24-group-memory",
+    "look24-tuning",
+    "look24-selection-restore",
+    "lens-af-compat",
+    "photo-aspect-ratios"
+  ]
+}

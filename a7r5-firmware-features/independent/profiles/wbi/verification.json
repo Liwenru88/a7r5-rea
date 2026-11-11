@@ -1,0 +1,16 @@
+{
+  "profile": "wbi",
+  "version": "4.18",
+  "base_sha256": "2354e2639ad781162bebbd152b831df72134f1ac212b4ee7a418a4e380c24fef",
+  "dat_sha256": "03fc45513ac7612ed0b9e131f079d1b32c865cbf4ca8720c91ee6f1757a67fbc",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha5": "9f20893ec28a1780701bb42a6eaad3e2574623c62ba4d733d19e12ef0479650b",
+    "0701_part_image_sum/part_image.sum": "d60dd0868d3026ad2b3817607ddda70edaabdbe908104a3b009c966db838268b"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

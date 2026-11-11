@@ -1,0 +1,344 @@
+{
+  "schema": "r5-offline-boot-audit/1",
+  "dat": {
+    "bytes": 754525608,
+    "sha256": "48341bfbf31c4a97f1673f71d6a60e49bc4f6464b0c5b5a2355c5337b06c0f65",
+    "crc32": "4fe7adc1"
+  },
+  "camera_io": false,
+  "production_files_modified": false,
+  "device_boot_verified": false,
+  "archive": {
+    "entries": 147,
+    "changed": [
+      "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin",
+      "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin",
+      "0111_backup_sum/backup.sum",
+      "0700_part_image/dev/nflasha15",
+      "0700_part_image/dev/nflasha3",
+      "0700_part_image/dev/nflasha5",
+      "0700_part_image/dev/nflasha8",
+      "0701_part_image_sum/part_image.sum"
+    ],
+    "all_payload_hashes_checked": true,
+    "original_order_and_metadata_preserved": true
+  },
+  "partition_bounds": {
+    "nflasha3": {
+      "start": 46137344,
+      "capacity": 78643200,
+      "payload_bytes": 31803392
+    },
+    "nflasha5": {
+      "start": 137363456,
+      "capacity": 314572800,
+      "payload_bytes": 243789184
+    },
+    "nflasha7": {
+      "start": 478150656,
+      "capacity": 16777216,
+      "payload_bytes": 5222400
+    },
+    "nflasha8": {
+      "start": 494927872,
+      "capacity": 67108864,
+      "payload_bytes": 24531968
+    },
+    "nflasha15": {
+      "start": 935329792,
+      "capacity": 749731840,
+      "payload_bytes": 410652672
+    }
+  },
+  "wbi": {
+    "bytes": 243789184,
+    "sha256": "9f20893ec28a1780701bb42a6eaad3e2574623c62ba4d733d19e12ef0479650b",
+    "crc32": "dfa823fc",
+    "first_512_zero": true,
+    "tail_exact_to_stock": true,
+    "stock_magic": "WBI2",
+    "partition_bytes": 314572800,
+    "crc_record": "0,dfa823fc,0e87ed80,000001a4,00000000,000003e8,root,root,-1,-1,dev/nflasha5,",
+    "order": {
+      "0301_partconf_sum/partconf.sum": 27,
+      "0700_part_image/dev/nflasha5": 92,
+      "0701_part_image_sum/part_image.sum": 96,
+      "0751_nor_loader_sum/nor_loader.sum": 100
+    }
+  },
+  "updater": {
+    "sha256": "c4b18a82eea52a507fb82b86ad50bab6047070b8908d03c28edcce4a9577d348",
+    "unchanged_from_stock": true,
+    "relevant_members": {
+      "/bin/nor_loader_writer.sh": "78b794fc52c5e104a899a6bf23278bd211e4a4f3c987a505bc43d648fcb5c2d6",
+      "/bin/us_mkfs.sh": "f1027ba9271d7899278c417e93ea3e67e45333419b764fa897cbe5036a13d80d",
+      "/bin/endupdate.sh": "389dd24730af69170c051e50b8598f2bd00884e43d27c28abfbf53c77f4d016e",
+      "/bin/us_crc32sum.sh": "a0ce2112c37bfd67884d28c26aa4871f8added98852bdfa25c9e668013af6729",
+      "/bin/ud_wbi_drop.elf": "4cfc8f979a4289915e2a3db6cd7e96bb97b35645149977619c04b0d9c5fbc7b3",
+      "/bin/uc_crc32sum.elf": "5bc46b77925d82aea1898c0dc7a337ef9587f91a89a82272d4de54580a625ed6",
+      "/bodylib/libupdaterbody.so": "6582eba530025d17fab81420050433cd998714c922aa4c16fd4d5cdc5a378ee9",
+      "/config/config.xml": "09cd171039d921224fe9e66b9e44350f7f5e8bc8e75cea7aefe2235719f544da"
+    },
+    "relevant_steps_synchronous": true
+  },
+  "nor_failure_injection": [
+    {
+      "erase_exit": 7,
+      "write_exit": 0,
+      "outer_exit": 0,
+      "stdout": "write (test-fixture.bin) start\nblock erase\nstub -e 3 -a 32 -s 269\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nerase_write_status=0\nwrite (test-fixture.bin) start\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nwrite_status=0\n"
+    },
+    {
+      "erase_exit": 0,
+      "write_exit": 7,
+      "outer_exit": 0,
+      "stdout": "write (test-fixture.bin) start\nblock erase\nstub -e 3 -a 32 -s 269\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nerase_write_status=0\nwrite (test-fixture.bin) start\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nwrite_status=0\n"
+    },
+    {
+      "erase_exit": 7,
+      "write_exit": 7,
+      "outer_exit": 0,
+      "stdout": "write (test-fixture.bin) start\nblock erase\nstub -e 3 -a 32 -s 269\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nerase_write_status=0\nwrite (test-fixture.bin) start\nstub -f test-fixture.bin -a 2097152\nwrite (test-fixture.bin) end\nwrite_status=0\n"
+    }
+  ],
+  "nor_failure_masking_reproduced": true,
+  "wbi_native_instruction_replay": {
+    "final_header_zero": true,
+    "initial_drop_short_write_reports_success": true,
+    "later_write_replaces_stale_header": true,
+    "stale_header_crc_differs": true,
+    "crc_short_read_rejected": true,
+    "full_update_executed": false
+  },
+  "cp": {
+    "bytes": 17617008,
+    "sha256": "e5e31c36f3d17290eedca5845fdc76781d2b62d5effdd112ae1d534f5791ab12",
+    "bss": [
+      17231872,
+      9060352,
+      18444288
+    ],
+    "page_table_root_derived_from_boot_descriptor": "0x1a3c000",
+    "pointer_in_file_before_boot": "0x0"
+  },
+  "ELF": {
+    "packaged_AP": {
+      "sha256": "c1be8937c8fb11c773b30993399a88ad520a7ae49b4487df7c7e8ab11629d1e6",
+      "loads": [
+        {
+          "offset": 0,
+          "va": 0,
+          "filesz": 83950704,
+          "memsz": 83950704,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 83951688,
+          "va": 84017224,
+          "filesz": 13414584,
+          "memsz": 65417848,
+          "flags": 6,
+          "align": 65536
+        },
+        {
+          "offset": 97386496,
+          "va": 149487616,
+          "filesz": 101512,
+          "memsz": 101512,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 97517568,
+          "va": 149618688,
+          "filesz": 0,
+          "memsz": 331248,
+          "flags": 6,
+          "align": 65536
+        },
+        {
+          "offset": 97517568,
+          "va": 150011904,
+          "filesz": 27248,
+          "memsz": 27248,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 97583104,
+          "va": 150077440,
+          "filesz": 0,
+          "memsz": 11776,
+          "flags": 6,
+          "align": 65536
+        }
+      ]
+    },
+    "latest_repaired_AP": {
+      "sha256": "f944593af6d67f041e166c8bd62861eb0b649c9dd140c8d337ae4720bb142afb",
+      "loads": [
+        {
+          "offset": 0,
+          "va": 0,
+          "filesz": 83950704,
+          "memsz": 83950704,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 83951688,
+          "va": 84017224,
+          "filesz": 13414584,
+          "memsz": 65417848,
+          "flags": 6,
+          "align": 65536
+        },
+        {
+          "offset": 97386496,
+          "va": 149487616,
+          "filesz": 101736,
+          "memsz": 101736,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 97517568,
+          "va": 149618688,
+          "filesz": 0,
+          "memsz": 331248,
+          "flags": 6,
+          "align": 65536
+        },
+        {
+          "offset": 97517568,
+          "va": 150011904,
+          "filesz": 29344,
+          "memsz": 29344,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 97583104,
+          "va": 150077440,
+          "filesz": 0,
+          "memsz": 11776,
+          "flags": 6,
+          "align": 65536
+        }
+      ]
+    },
+    "MPR": {
+      "sha256": "46fad4e180a90006e5df246400fd4b281c7da5643701ed38d6ab645417efd236",
+      "loads": [
+        {
+          "offset": 0,
+          "va": 0,
+          "filesz": 3048100,
+          "memsz": 3048100,
+          "flags": 5,
+          "align": 65536
+        },
+        {
+          "offset": 3048360,
+          "va": 3113896,
+          "filesz": 491552,
+          "memsz": 1460832,
+          "flags": 6,
+          "align": 65536
+        },
+        {
+          "offset": 3604480,
+          "va": 4587520,
+          "filesz": 2116,
+          "memsz": 2116,
+          "flags": 5,
+          "align": 65536
+        }
+      ]
+    }
+  },
+  "avcam": {
+    "bytes": 12959080,
+    "allocated_bytes": 12959744,
+    "spare_bytes": 664,
+    "sha256": "23fb43cb2e5d79aad19414d375c9bb6df97ef3042ecb696e8424243e64ff55bc"
+  },
+  "single_module_wbi_policy": {
+    "look24": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": true
+    },
+    "look-fl2-fl3": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": false
+    },
+    "look-factory-six": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": false
+    },
+    "photo-electronic-shutter-sound": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": false
+    },
+    "video-ntsc-prompt": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": false
+    },
+    "photo-framing-markers": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": false
+    },
+    "photo-aspect-ratios": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha3",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": true
+    },
+    "lens-af-compat": {
+      "archive_targets": [
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "wbi_invalidated": true
+    }
+  },
+  "status": "AUDITED_WITH_CONFIRMED_NOR_ERROR_MASKING_AND_SINGLE_MODULE_WBI_GAP"
+}

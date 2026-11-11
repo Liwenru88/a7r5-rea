@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "repository": "Hearts-Ace/sony-a7r5-custom-firmware",
+  "commit": "1f7d537638897d91b0e0a2feff6370733b39179a",
+  "version": "4.58",
+  "files": [
+    {
+      "local": "src/ap_state.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/ap/r5_aspect_state.c",
+          "git_blob_sha": "b10507c6f6fde6a4cd4326d43d236260012da9f8"
+        },
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/cancel/r5_aspect_cancel.c",
+          "git_blob_sha": "6e1d00b6d42aa940c57c5c4db05e69e690d1331f"
+        }
+      ]
+    },
+    {
+      "local": "src/ap_persist.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/ap/r5_aspect_persist.c",
+          "git_blob_sha": "936a24b9c516b74955dd48b0c62e9bf8ee7302ec"
+        }
+      ]
+    },
+    {
+      "local": "src/ap_guide.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/ui/ui_preview.c",
+          "git_blob_sha": "d6e4c1ac7520839c59edffe630e16a17c94eaa68"
+        }
+      ]
+    },
+    {
+      "local": "src/ap_zoom.S",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/ap_playback_zoom.S",
+          "git_blob_sha": "036ee98051100675ddd830e8a8bba454c2315816"
+        }
+      ]
+    },
+    {
+      "local": "src/playback.S",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/ap_still_size.S",
+          "git_blob_sha": "ac53fe7de310cbfa6f2d2a50b0214252d383d6ce"
+        }
+      ]
+    },
+    {
+      "local": "src/ap_playback_info.S",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/ap_playback_badge.S",
+          "git_blob_sha": "01a4c6c09865e6ac6380060b5979cd02f0205cba"
+        },
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/ap_playback_pixels.S",
+          "git_blob_sha": "78263360ac70467904e03ed2e184ede722c44118"
+        }
+      ]
+    },
+    {
+      "local": "src/avcam_views.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/avcam_heif.c",
+          "git_blob_sha": "e1398ef42f8793890209392d1619f8dcfed75bc5"
+        }
+      ]
+    },
+    {
+      "local": "src/avcam_views.S",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/avcam_heif.S",
+          "git_blob_sha": "b6f5e88807021aa36affe32949c5ee6e68d87ede"
+        }
+      ]
+    },
+    {
+      "local": "src/mpr_jpeg_metadata.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/mpr_jpeg_metadata.c",
+          "git_blob_sha": "d62e8e680df1826fbeccebd1e872e1c360cac31b"
+        }
+      ]
+    },
+    {
+      "local": "src/mpr_raw_metadata.c",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/mpr_raw_metadata.c",
+          "git_blob_sha": "5fbb8e934454b88b588b84448eb9d2f451538ee0"
+        }
+      ]
+    },
+    {
+      "local": "src/mpr_metadata.S",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/reference-review/source/mpr_heif.S",
+          "git_blob_sha": "5bfa9445da25fa14cd4c996609a2a325d74e3533"
+        }
+      ]
+    },
+    {
+      "local": "src/fat_avcam.py",
+      "references": [
+        {
+          "path": "firmware/r5/source/analysis/r5_aspect456_20261110/full/build_partitions.py",
+          "git_blob_sha": "afecdfd8ae014aba998d3a9392ea4225f69992de"
+        }
+      ]
+    },
+    {
+      "local": "src/support_native_mpr.py",
+      "references": [
+        {
+          "path": "firmware/r5/evidence/analysis/r5_aspect456_20261110/reference-review/tests/mpr_native.py",
+          "git_blob_sha": "3baffc91e7fd73d9fbd0fb84f78e4f4f2625f3fb"
+        }
+      ]
+    },
+    {
+      "local": "src/support_jpeg_writer.py",
+      "references": [
+        {
+          "path": "firmware/r5/evidence/analysis/r5_aspect456_20261110/reference-review/tests/verify_mpr_jpeg_metadata.py",
+          "git_blob_sha": "0642da9dee6e491c1b50f1717b233259c5e1adb2"
+        }
+      ]
+    }
+  ],
+  "local_contract": {
+    "ratios": [
+      "3:2",
+      "4:3",
+      "16:9",
+      "1:1",
+      "17:6",
+      "65:24",
+      "5:4",
+      "7:6",
+      "1.91:1",
+      "2.35:1"
+    ],
+    "wire": "0xe0..0xe5",
+    "native_enum": "0..3",
+    "capture_latch_and_clone_preserved": true,
+    "build_network_required": false
+  },
+  "openpano": {
+    "commit": "fb6accf6a2919638ee5b6bf86098100f4d3c6a74",
+    "implementation_copied": false,
+    "reason": "公开仓库不含核心 AP/CP 补丁，未引入其原生枚举扩展或未公开 AF 修正"
+  }
+}

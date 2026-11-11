@@ -1,5 +1,7 @@
 # R5 4.29 自定义滤镜、色彩参数与网格生命周期研究
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 更新：2026-10-27。本文件为唯一研究总结。以下首先给出当前实现、纠错及验收状态；后面的旧版本章节为带时间的历史记录，不能据其“当前”“未加入”等措辞判断4.29。原始采集、历史源码和测试回执不改写。
 
 ## 4.29：自定义菜单右侧全称与输入隔离（2026-10-27）
@@ -383,7 +385,7 @@ Gamma文件支持129点完整导入，不因RAW只有128点而缩减格式；原
 2. 改装线连接相机Multi口，负责复位和串行引导；另用USB-C数据线连接相机与电脑，负责fastboot数据传输。已有成功记录不能证明ON或OFF是进入的必要条件，操作前须记录实际状态。
 3. 使用现有RP2040 `uart_boot 1`固件：GPIO28→相机RX、GPIO29→相机TX、GPIO27→复位，`OPEN_DRAIN`构建，链路48000波特。构建和UF2身份见[魔改线构建记录](../build_uart_boot_20261013/README.md)。已正常工作的改装线不需重新刷写UF2。
 4. 主机使用本工作区`.venv/bin/python`；USB工具在`analysis/r5_live_system_20261014/host_tools/`；部署过程中用macOS的`/usr/bin/clang`、IOKit、CoreFoundation编译限定写入程序。先准备好依赖再进入，不能在fastboot内等待安装工具。
-5. 原工具包位于`/Users/LOCAL_USER/Downloads/bootloader脚本.zip`。已执行源码副本保存在D会话的`execution_source_snapshot/`，但当前脚本仍读取原工具包路径；不可仅移动工具包而不检查依赖。
+5. 原工具包位于`${LOCAL_HOME}/Downloads/bootloader脚本.zip`。已执行源码副本保存在D会话的`execution_source_snapshot/`，但当前脚本仍读取原工具包路径；不可仅移动工具包而不检查依赖。
 6. 首次备份、源DAT、R5／FX2原始解包、严格4.03构建源、本机公私钥、4.04构建及执行脚本保持原样。历史失败4.03和旧两槽脚本不作为入口。
 
 以下命令从工作区根目录执行。先用只读文件枚举确认本次串口，再填写`R5_PORT`；示例`/dev/cu.usbmodem101`不是永久端口。所有会话目录必须是新的、尚不存在的路径：
@@ -1038,7 +1040,7 @@ CC1差异经过第三节公式精确反映在RAW中。因此“新三机型的�
 
 ### A1 II样本与R6的FL2／FL3比较边界（2026-10-19）
 
-用户提供`/Users/LOCAL_USER/Downloads/Sony - ILCE-1M2 - 14bit lossless (4_3).ARW`。元数据型号为ILCE-1M2、版本2.00，拍摄时间2025-05-09。格式解析SR2外观指针表共10项，仅有Standard、Vivid、Neutral、Portrait、FL、VV2、IN、SH、BW、Sepia，每项114字段；没有FL2或FL3参数组。ExifTool独立解码的外观列表与结构解析完全一致。
+用户提供`${LOCAL_HOME}/Downloads/Sony - ILCE-1M2 - 14bit lossless (4_3).ARW`。元数据型号为ILCE-1M2、版本2.00，拍摄时间2025-05-09。格式解析SR2外观指针表共10项，仅有Standard、Vivid、Neutral、Portrait、FL、VV2、IN、SH、BW、Sepia，每项114字段；没有FL2或FL3参数组。ExifTool独立解码的外观列表与结构解析完全一致。
 
 R6参考`DG707670.ARW`则为ILCE-7RM6 v1.01，共12项，含FL2、FL3。因此**这份A1 II样片不足以判断其FL2／FL3是否与R6一致**，不能用已有供体注入后的一致来冒充原生比较，也不能由旧样片缺项推断所有后续A1 II固件均无此功能。要做原生参数比较，需要来自已支持FL2／FL3版本的A1 II原始ARW，并确认其自身带有对应参数组；拍摄时不必选中FL2／FL3，只要原生文件的目录包含它们。
 
@@ -1073,7 +1075,7 @@ IED项目已生成同一R5 RAW的A／B对照副本，将Standard组的十个目�
 
 ### R5 ST与替换R6 ST参数的JPG量化
 
-用户指定`/Users/LOCAL_USER/Documents/fl对比/DSC00430_ST.JPG`和`DSC00430_ST替换为R6.JPG`。两张均为9504×6336、sRGB、`Edit 4.1.00.03062`导出，同一拍摄时间及曝光／白平衡记录（1/125秒、F2.8、ISO320、5300K）。Sony CreativeStyle／ColorMode仍为原拍FL标签，因此不以这些标签认证Edit重新显影时选择的ST；对照身份以用户确认和保存的参数替换实验为依据。
+用户指定`${LOCAL_HOME}/Documents/fl对比/DSC00430_ST.JPG`和`DSC00430_ST替换为R6.JPG`。两张均为9504×6336、sRGB、`Edit 4.1.00.03062`导出，同一拍摄时间及曝光／白平衡记录（1/125秒、F2.8、ISO320、5300K）。Sony CreativeStyle／ColorMode仍为原拍FL标签，因此不以这些标签认证Edit重新显影时选择的ST；对照身份以用户确认和保存的参数替换实验为依据。
 
 全分辨率RGB直方图交集均值为**98.948%**、BC分布亲和度均值为**99.985%**，其中R／G／B交集分别98.269%、99.451%、99.125%。亮度码值Y′交集99.299%。RGB全分辨率PSNR为45.17dB；平均绝对误差分别为0.984、0.556、0.705个8位码值。直方图高度相似不能排除局部色彩变化，BC也不是还原准确率。
 
@@ -1106,7 +1108,7 @@ IED项目已生成同一R5 RAW的A／B对照副本，将Standard组的十个目�
 
 ### 430／431／432与Edit导出的直方图及色差实测
 
-输入为`/Users/LOCAL_USER/Documents/fl对比/`中的`DSC00430.JPG`、`DSC00431.JPG`、`DSC00432.JPG`，分别配对同编号`后期导出.JPG`，用户指定外观依次为FL／FL2／FL3。未使用另两张430的ST实验图。六文件的尺寸均为9504×6336，EXIF均声明sRGB，无内嵌ICC。机内图软件标记为`ILCE-7RM5 v4.04`，导出图为`Edit 4.1.00.03062`；保存的CreativeStyle／ColorMode均对应FL、FL2、FL3。每对曝光记录均为1/125秒、F2.8、ISO320、5300K、曝光补偿0，拍摄时间匹配；这些记录不能代替完整Edit调整历史认证。
+输入为`${LOCAL_HOME}/Documents/fl对比/`中的`DSC00430.JPG`、`DSC00431.JPG`、`DSC00432.JPG`，分别配对同编号`后期导出.JPG`，用户指定外观依次为FL／FL2／FL3。未使用另两张430的ST实验图。六文件的尺寸均为9504×6336，EXIF均声明sRGB，无内嵌ICC。机内图软件标记为`ILCE-7RM5 v4.04`，导出图为`Edit 4.1.00.03062`；保存的CreativeStyle／ColorMode均对应FL、FL2、FL3。每对曝光记录均为1/125秒、F2.8、ISO320、5300K、曝光补偿0，拍摄时间匹配；这些记录不能代替完整Edit调整历史认证。
 
 全分辨率计算每通道256档归一化直方图及RGB逐像素误差。色差计算先以同样的LANCZOS算法缩为1584×1056，再按sRGB→XYZ D65→Lab D65计算CIEDE2000，参数均为1；实现对照四组公开Sharma参考值通过，误差小于0.0001。没有曝光修正、直方图匹配或几何变换。792×528的边缘位移诊断在横纵±3像素搜索范围内，三对均以零位移最优，相关系数0.9967～0.9976；这不等于证明亚像素完全对齐。
 
@@ -1127,7 +1129,7 @@ Edit相对机内图的全图平均ΔL*分别为−0.332、−0.258、−0.225，
 复现脚本：[compare.py](r5_fl_edit_comparison_20261017/compare.py)。运行使用桌面内置Python（包含Pillow及NumPy）：
 
 ```sh
-/Users/LOCAL_USER/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B analysis/r5_fl_edit_comparison_20261017/compare.py
+${LOCAL_HOME}/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B analysis/r5_fl_edit_comparison_20261017/compare.py
 ```
 
 原始输入未修改，无相机操作。六文件散列、完整直方图、全图及局部指标见[metrics.json](r5_fl_edit_comparison_20261017/metrics.json)，元数据见[metadata.json](r5_fl_edit_comparison_20261017/metadata.json)。另保存[直方图叠加](r5_fl_edit_comparison_20261017/histograms.png)、[配对缩略图](r5_fl_edit_comparison_20261017/contact_sheet.jpg)、[主体矩形](r5_fl_edit_comparison_20261017/subject_region.jpg)及逐对ΔE00热图（固定0～5，蓝→黄→红），后者不能按显示颜色当作原图色彩。
@@ -1198,10 +1200,10 @@ Edit相对机内图的全图平均ΔL*分别为−0.332、−0.258、−0.225，
 
 ### IED研究与实拍观察来源
 
-- [独立RAW创意外观工具说明](/Users/LOCAL_USER/Documents/ChatGPT/ied软件/RAW创意外观解锁/使用说明.md)。
-- [FX2／M5／R6外观参数对照](/Users/LOCAL_USER/Documents/ChatGPT/ied软件/研究记录/20261016_FX2_M5_R6外观参数对照/对照说明.md)。
-- [FX2／M5／R5／R6的ST／FL对照](/Users/LOCAL_USER/Documents/ChatGPT/ied软件/研究记录/20261016_FX2_M5_R5_R6_ST_FL对照/对照说明.md)。
-- [R5替换R6 ST十项的测试说明](/Users/LOCAL_USER/Documents/ChatGPT/ied软件/研究记录/20261016_R5替换R6_ST十项/测试说明.md)与[逐字段校验记录](/Users/LOCAL_USER/Documents/ChatGPT/ied软件/研究记录/20261016_R5替换R6_ST十项/替换与校验记录.json)。
+- [独立RAW创意外观工具说明](${LOCAL_HOME}/Documents/ChatGPT/ied软件/RAW创意外观解锁/使用说明.md)。
+- [FX2／M5／R6外观参数对照](${LOCAL_HOME}/Documents/ChatGPT/ied软件/研究记录/20261016_FX2_M5_R6外观参数对照/对照说明.md)。
+- [FX2／M5／R5／R6的ST／FL对照](${LOCAL_HOME}/Documents/ChatGPT/ied软件/研究记录/20261016_FX2_M5_R5_R6_ST_FL对照/对照说明.md)。
+- [R5替换R6 ST十项的测试说明](${LOCAL_HOME}/Documents/ChatGPT/ied软件/研究记录/20261016_R5替换R6_ST十项/测试说明.md)与[逐字段校验记录](${LOCAL_HOME}/Documents/ChatGPT/ied软件/研究记录/20261016_R5替换R6_ST十项/替换与校验记录.json)。
 
 
 
@@ -1419,7 +1421,7 @@ AP a68bdc37ad95c1254e0d70bbab9531f686ed9436fbb303fe5541dcaa6ee1d89a，RX63464/BS
 
 ### 2026-10-28：从R6 ST RAW逆算参数并比较R5原厂
 
-按用户要求，将本文第三／四节的已知正向关系用于逆算。直接只读解析`/Users/LOCAL_USER/Documents/DG707670.ARW`，型号ILCE-7RM6、软件v1.01，SHA256为`3167b87fba9301b3dec6822c6c7cd3898b42df2ef6563bc4229989d9f39b3a52`。R5机内参考为原厂4.00 BK4与CP；短字段及完整114字段另与保存的DSC00430.ARW比较，未将保存RAW的拍摄／编辑来源视为已认证。
+按用户要求，将本文第三／四节的已知正向关系用于逆算。直接只读解析`${LOCAL_HOME}/Documents/DG707670.ARW`，型号ILCE-7RM6、软件v1.01，SHA256为`3167b87fba9301b3dec6822c6c7cd3898b42df2ef6563bc4229989d9f39b3a52`。R5机内参考为原厂4.00 BK4与CP；短字段及完整114字段另与保存的DSC00430.ARW比较，未将保存RAW的拍摄／编辑来源视为已认证。
 
 | 项目 | 实际逆算范围 | 与R5原厂／保存RAW的比较 |
 |---|---|---|

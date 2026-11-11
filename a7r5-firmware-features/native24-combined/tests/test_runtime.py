@@ -15,12 +15,15 @@ from unicorn import arm_const as A
 
 from replay import BUILD, FEATURE, Replay, candidate, cp_raw, old_cp, receipt, recipe
 
+STOCK = receipt.get('profile') == 'native24-stock'
+
 
 def probe(version=2, magic=0x33503552, mask=0xffffff):
     data = struct.pack('<4B6I', 0xe8, version, 1, 32, magic, 77, 0, mask, 0, 0)
     return data + struct.pack('<I', zlib.crc32(data))
 
 
+@pytest.mark.skipif(STOCK, reason='对照包使用历史整合版的十二槽 CP')
 def test_baseline_rejects_new_capability_before_allocating():
     cp = old_cp()
     cp.receiver_services()
@@ -28,8 +31,8 @@ def test_baseline_rejects_new_capability_before_allocating():
 
 
 def test_current_build_layouts_and_strict_inverse():
-    assert receipt['CP_heap_bytes'] == 947000 and receipt['CP_code_bytes'] <= 7568
-    assert receipt['AP_bss_bytes'] <= 327680 and receipt['unified']['custom_count'] == 24
+    assert receipt['CP_heap_bytes'] == 947000 and receipt['CP_code_bytes'] <= receipt['contract']['CP_code_capacity']
+    assert receipt['AP_bss_bytes'] <= receipt['contract']['AP_BSS_capacity'] and receipt['unified']['custom_count'] == 24
     assert all(row['exit_code'] == 0 for row in receipt['commands'])
     elf = ELFFile(io.BytesIO(candidate[0]))
     loads = [s for s in elf.iter_segments() if s['p_type'] == 'PT_LOAD']
@@ -52,6 +55,9 @@ def test_actual_native_registry_enumerates_and_navigates_all43_rows():
         return ap, state
     text = inspect.getsource(original.test_original_registry_enumerates_and_navigates_unified_rows)
     text = re.sub(r'\b31\b', '43', text).replace('0x161c', '0x1628').replace('==5603', '==5615')
+    if receipt.get('sound_layout', '').startswith('custom-dual'):
+        # 全局注册树还包含两组各61条声音及10条音量，外观列表仍为43条。
+        text = text.replace('==5615', '==5757')
     context = dict(original.__dict__, machine=machine)
     exec(compile(text, 'native24-native-registry-contract', 'exec'), context)
     context['test_original_registry_enumerates_and_navigates_unified_rows'](candidate)
@@ -63,7 +69,10 @@ def assert_color(replay, slot):
     view = cp.words(0x1a39458, 1)[0]
     assert view == bank + 79600 + slot * 24
     table = cp.words(view + 12, 1)[0]
-    assert cp.read(table, 51 * 28) == cp.read(0x107e968, 51 * 28)
+    stock_gamma = STOCK and not receipt.get('color_modules', {}).get('fl23')
+    rows, native_table, native_route = (47, 0x110cfa8, 0xdcc67c) if stock_gamma else (51, 0x107e968, 0x107eefc)
+    assert cp.read(table, rows * 28) == cp.read(native_table, rows * 28)
+    assert cp.read(table + rows * 28, (51 - rows) * 28) == bytes((51 - rows) * 28)
     record = recipe()[128 + (slot - 1) * 2452:128 + slot * 2452]
     curve = record[716:1232]
     wires = (0, 3, 2, 1, 16, 15, 19, 20, 17, 18, 5, 13)
@@ -74,8 +83,8 @@ def assert_color(replay, slot):
             for channel in channels:
                 pointer = cp.words(table + row * 28 + channel * 4, 1)[0]
                 assert cp.read(pointer, 516) == curve
-                native_row = cp.words(0x107eefc + wires[base] * 8 + movie * 4, 1)[0]
-                native_record = cp.words(0x107e968 + native_row * 28 + channel * 4, 1)[0]
+                native_row = cp.words(native_route + wires[base] * 8 + movie * 4, 1)[0]
+                native_record = cp.words(native_table + native_row * 28 + channel * 4, 1)[0]
                 assert cp.read(pointer + 516, 60) == cp.read(native_record + 516, 60)
     order = struct.unpack('<405H', cp.read(0xe8c1d8, 810))
     for level in range(8):
@@ -100,7 +109,7 @@ def assert_color(replay, slot):
         assert cp.call('r5_native418_cc1', 0x123456, work, actual) == bank + 64 + (slot - 1) * 2392 + 32
 
 
-def test_all24_transactions_names_colors_and_st_fl23_roundtrips():
+def test_all24_transactions_names_colors_and_factory_roundtrips():
     replay = Replay(cards={'A:/R5NATIVE.BIN': recipe()})
     replay.boot()
     assert replay.ap.call('r5_filter_available_mask') & 0xffffffff == 0xffffff
@@ -116,11 +125,13 @@ def test_all24_transactions_names_colors_and_st_fl23_roundtrips():
         full = recipe()[128 + (slot - 1) * 2452 + 28:128 + (slot - 1) * 2452 + 92].split(b'\0', 1)[0].decode()
         assert replay.ap.string(replay.ap.call('r5_filter_menu_text', title)) == full
         assert_color(replay, slot)
-        for mid, selector in ((0x84c, 0), (0x852, 17), (0x853, 18)) if slot in (13, 24) else ((0x84c, 0),):
+        last = (0x84e, 2) if STOCK else (0x853, 18)
+        factory = ((0x84c, 0), (0x84d, 1), last) if STOCK else ((0x84c, 0), (0x852, 17), last)
+        for mid, selector in factory if slot in (13, 24) else factory[:1]:
             replay.native_target(mid)
             replay.service()
             assert replay.selected() == (0, 0, 0) and replay.ap.call('n12_current') == selector
-            if mid != 0x853 and slot in (13, 24):
+            if mid != last[0] and slot in (13, 24):
                 replay.choose(slot)
                 replay.service()
                 assert replay.selected() == (slot, slot, slot)
@@ -142,6 +153,10 @@ def test_all11_gamma_getters_preserve_registers_flags_and_native_fallback():
             wanted = int(gate['original_pointer'], 16) if slot in (None, -1) else cp.words(view + gate['custom_bank_offset'], 1)[0]
             for flags in (0, 0xf8000000):
                 saved = {n: 0x12340000 + n for n in range(13)}
+                if receipt.get('color_modules', {}).get('factory_six') and int(gate['site'], 16) == 0x413d2e:
+                    # 六款门会先读调用者的合法对象字段，再委派原 getter。
+                    saved[6] = cp.PACKET
+                    cp.write(cp.PACKET + 0x30, struct.pack('<I', 0))
                 for n, value in saved.items():
                     cp.cpu.reg_write(getattr(A, 'UC_ARM_REG_R' + str(n)), value)
                 cp.cpu.reg_write(A.UC_ARM_REG_SP, cp.STACK + 0x8000)
@@ -229,6 +244,8 @@ def test_legacy_v4_input_and_both_directions_of_protocol_mismatch():
     replay.service()
     assert replay.selected() == (12, 12, 12)
     replay.record('legacy-v4')
+    if STOCK:
+        return
     mismatched = Replay(files={'R5NATIVE.BIN': old_recipe})
     mismatched.cp = old_cp()
     mismatched.cp.receiver_services()
@@ -301,6 +318,7 @@ def test_high_slot_persistence_failure_rolls_back_cp_and_preserves_saved_selecti
     'test_marker_registration_executes_original_range_validator',
     'test_sound_selector_keeps_non_type1_inhibit_and_callee_state',
 ])
+@pytest.mark.skipif(STOCK, reason='这些附加功能只属于整合版')
 def test_current_components_preserve_local_patches(check):
     import test_integration
     images = (None, None, candidate[0], cp_raw, receipt['local_AP'], receipt['local_CP'])

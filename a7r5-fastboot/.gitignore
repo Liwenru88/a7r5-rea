@@ -1,0 +1,7 @@
+# 本地运行材料、机身记录和上游原始归档
+!/.gitignore
+/assets/
+/host/
+/private/
+/runs/
+/__pycache__/

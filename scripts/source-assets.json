@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "upstream_commit": "fb464bdef54cae7b56092bd35d35dc3542793ff3",
+  "assets": [
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/data/training/frontend_capture/report.json",
+      "bytes": 12932503,
+      "sha256": "dcc07a50f9269af34c323755be3f5fb6965b4002ef24cd252e513c830abd69df",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/data/training/frontend_capture/report.json",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/GFX100SII-v4.5-100MP-5300K.RAF.gz",
+      "bytes": 14902849,
+      "sha256": "a32b0ec65fe78a3701fe5fa5569f595b9ae2e2b23469d1e219901c2650aa0ff9",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/chart/sony100mp_5300k_v45/GFX100SII-v4.5-100MP-5300K.RAF.gz",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.ARW.gz",
+      "bytes": 11010380,
+      "sha256": "a171c818fd256f47168b72a6c88c626086452ed117558ce60fa9772aa52f2032",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.ARW.gz",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.DNG.gz",
+      "bytes": 13160848,
+      "sha256": "379cc86e0222b963596c51b83fdaf8ee6fcfce7ae1cc36c6fc06275ff9e04056",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.DNG.gz",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_unity_center5/GFX100SII-v4-100MP-from-SONY-IED.RAF.gz",
+      "bytes": 14973873,
+      "sha256": "fe3505e01c5b076eef3b0b7fedaac327020c34bc8ec6895059846becf218856e",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/chart/sony100mp_unity_center5/GFX100SII-v4-100MP-from-SONY-IED.RAF.gz",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-nonlinear.json",
+      "bytes": 331566,
+      "sha256": "a312761c8500e8a9ecb3b1b23ad27cf7709cb6eb8bf41c956970e1bdcc2c82f0",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/r5/paired-20261102-nonlinear.json",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-shared-c1-c50.json",
+      "bytes": 388848,
+      "sha256": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/r5/paired-20261102-shared-c1-c50.json",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-three-experts.json",
+      "bytes": 423760,
+      "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+      "source": "https://raw.githubusercontent.com/Hearts-Ace/sony-r5-colorlab/fb464bdef54cae7b56092bd35d35dc3542793ff3/R5ColorLab/web/data/r5/paired-20261102-three-experts.json",
+      "purpose": "固定上游模型、合成色卡或标定资料；保持原始摘要和模型身份"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/baseline418/00.delta.gz",
+      "bytes": 13567944,
+      "sha256": "46e75316c2c00a1de52d274761e76c5d4deaadeb1698fe5b812f7937b0bb0e93",
+      "chunks": [
+        {
+          "path": "source-assets/chunks/46e75316c2c00a1de52d274761e76c5d4deaadeb1698fe5b812f7937b0bb0e93/0000.chunk",
+          "bytes": 8388608,
+          "sha256": "f4aaccc09633aa25cfc3019ddc1991a460b47b8a6ef0a50966719350bc3f3087"
+        },
+        {
+          "path": "source-assets/chunks/46e75316c2c00a1de52d274761e76c5d4deaadeb1698fe5b812f7937b0bb0e93/0001.chunk",
+          "bytes": 5179336,
+          "sha256": "4d7a99601a32f04f4e93b1d2bb7a7810b3133ca0d52e690f0b108317b24a8216"
+        }
+      ],
+      "purpose": "独立升级包的冻结增量资源；分片仅改变源码分发形式"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/native24-stock/00.delta.gz",
+      "bytes": 10906089,
+      "sha256": "176bc235d38c29bd8c2776c9683a09b705d3773c4d27b2d744a1617cf15f2d92",
+      "chunks": [
+        {
+          "path": "source-assets/chunks/176bc235d38c29bd8c2776c9683a09b705d3773c4d27b2d744a1617cf15f2d92/0000.chunk",
+          "bytes": 8388608,
+          "sha256": "791ac76de1cd7367e99a3fd0f844a677696322894c5b08f4307a09737aee786c"
+        },
+        {
+          "path": "source-assets/chunks/176bc235d38c29bd8c2776c9683a09b705d3773c4d27b2d744a1617cf15f2d92/0001.chunk",
+          "bytes": 2517481,
+          "sha256": "9d3af62f6b0bef6cc8cd6df83941aee9f32a798c16f7d0de9779cf0053d30e2b"
+        }
+      ],
+      "purpose": "独立升级包的冻结增量资源；分片仅改变源码分发形式"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/native24/12.delta.gz",
+      "bytes": 10923801,
+      "sha256": "604c01a33307ed23b9a0146ab2bfe439047c3b5c199567f9177c9e8a1f19ce03",
+      "chunks": [
+        {
+          "path": "source-assets/chunks/604c01a33307ed23b9a0146ab2bfe439047c3b5c199567f9177c9e8a1f19ce03/0000.chunk",
+          "bytes": 8388608,
+          "sha256": "ad057892b63f80d4713e627e7febcc332c52230f966d4fd35e28f97546fd767c"
+        },
+        {
+          "path": "source-assets/chunks/604c01a33307ed23b9a0146ab2bfe439047c3b5c199567f9177c9e8a1f19ce03/0001.chunk",
+          "bytes": 2535193,
+          "sha256": "c676dcb0d026680d57ea06eb68a7300f843f6b9fbf9c503722bc5a6fd29217b4"
+        }
+      ],
+      "purpose": "独立升级包的冻结增量资源；分片仅改变源码分发形式"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/photo-aspect/00.delta.gz",
+      "bytes": 11139181,
+      "sha256": "501aa7445083493715d0dc07c87254f401f12b6789022ac2b657f1f6c64872c8",
+      "chunks": [
+        {
+          "path": "source-assets/chunks/501aa7445083493715d0dc07c87254f401f12b6789022ac2b657f1f6c64872c8/0000.chunk",
+          "bytes": 8388608,
+          "sha256": "1ec87daa953caddfd962e90635d3953e5dcf242b7df4a2e0b5e73664fcf05351"
+        },
+        {
+          "path": "source-assets/chunks/501aa7445083493715d0dc07c87254f401f12b6789022ac2b657f1f6c64872c8/0001.chunk",
+          "bytes": 2750573,
+          "sha256": "7e43e307e9190e4788234b01bbb08844e8a06fb1503ed3c905fa473e3de8863e"
+        }
+      ],
+      "purpose": "独立升级包的冻结增量资源；分片仅改变源码分发形式"
+    }
+  ]
+}

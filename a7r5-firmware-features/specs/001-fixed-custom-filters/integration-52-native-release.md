@@ -1,5 +1,7 @@
 # 第52批：原生Fsys集成回归与4.10研究候选封装
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 日期：2026-11-02。基于用户现有修改版4.06离线工作，不连接相机、不做CP／ISP硬件模拟。本批完成可重复封装；完整功能与设备验收仍为`NOT_VERIFIED`，不能据此宣称安全可刷。
 
 ## 交付结果
@@ -10,7 +12,7 @@
 622b8aeb1074853f78d29167043dfddfa607585a51470da993eb2e7398657230
 ```
 
-这是4.06内容派生的研究版本号，不表示索尼官方4.10。正常研究签名验签、独立解密、全归档回读和分区校验均通过；没有修改更新器或绕过版本比较。原输入`/Users/wenruli/Desktop/索尼/BODYDATA.DAT`仍为`3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`。源文件、故障4.09和失败输出目录均保留。
+这是4.06内容派生的研究版本号，不表示索尼官方4.10。正常研究签名验签、独立解密、全归档回读和分区校验均通过；没有修改更新器或绕过版本比较。原输入`${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT`仍为`3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`。源文件、故障4.09和失败输出目录均保留。
 
 沿用既有32槽、中文原菜单、CUBE／AFD1双入口、八项编辑及保存／另存源码。12个原厂外观包括FL2／FL3保留，原六个自定义槽计入20用户槽。照片标记扩展仍包含，实际叠加未验收。产品库继续使用原生Fsys，实验软件SD目录端口没有进入产品启动库；此前QEMU软件闭环的范围见[第51批](integration-51-chinese-import-save.md)。
 
@@ -75,7 +77,7 @@
 
 ```sh
 .venv/bin/python -B a7r5-firmware-features/custom-filters/experiments/release406/build_candidate.py \
-  --source-dat /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  --source-dat ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --source-workspace .local/fixed-custom-filters/integration52-source406 \
   --software .local/fixed-custom-filters/integration52-software-v2/verification.json \
   --cp-receipt .local/fixed-custom-filters/integration52-cp-staged/verification.json \

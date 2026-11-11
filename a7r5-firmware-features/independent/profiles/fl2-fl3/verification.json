@@ -1,0 +1,17 @@
+{
+  "profile": "fl2-fl3",
+  "version": "4.06",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "5fd46ef3fd37b2aeb855f80a8d50c71c04108e1ae6c1e043a7fc52152a200d55",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha15": "4bdac33a5fac458da08ebb78e800af2304a86d7978d394141cca6384b90de687",
+    "0700_part_image/dev/nflasha8": "cc3c3af54ac08936bbae66ccf524e4b6626956ac7485e18a2e6fef8a67240618",
+    "0701_part_image_sum/part_image.sum": "f2dfc80dd279a29d170d3c34e9abc5e05abb430df8c20c569c76e33bd63125e3"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

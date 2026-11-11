@@ -43,6 +43,8 @@ ITP/拍摄WB→SSCS的纯模拟输入已与新版Edit PT实采核对：全部99,
 
 Web保留v4历史色卡选择，上传及任务按版本绑定；同尺寸旧目标不能直接切换为v4.5。历史v4与v4.5结果按各自目录及审计身份区分，不能混用输入版本。生成源码及依赖边界见[chart_sources/v4.5](chart_sources/v4.5/README.md)，验证摘要见[发布记录](../publication/colorlab-v4.5/edit-runtime-validation.json)。
 
+在 macOS 上，可以用 SpektraLab 源码引擎批量生成 16 位 sRGB 色卡和实拍验证 TIFF。脚本固定显影参数、校验色块布局，并生成可追溯的配方清单。 [SpektraLab 目标图生成说明](scripts/SPEKTRALAB.md)
+
 ## 训练与导出
 
 本地单款训练入口已统一为“训练并生成滤镜”：一次完成原生拟合、PC 补偿和单一网格压缩。提交期间阻止重复点击；本页输入与设置相同的成功任务直接复用，历史 PC 任务可继续压缩。生成后检查效果、载入目标槽并保存，再从工程导出 `R5NATIVE.BIN`。详见 [完整使用说明](../R5NATIVE.BIN使用说明.md)。

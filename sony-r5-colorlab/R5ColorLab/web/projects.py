@@ -4,6 +4,7 @@ import io
 import json
 import os
 import re
+from statistics import median
 import tempfile
 import time
 import uuid
@@ -14,6 +15,10 @@ import core
 LIMIT = 8 * 1024 * 1024
 SCHEMA = 'r5-colorlab-project/1'
 EDITABLE = ('entries', 'sources', 'drafts', 'selected', 'settings', 'jobs')
+STANDARD = 'standard'
+SHARED_ST = 'shared-st'
+MEDIAN_OFFSET = 'median-offset'
+MEDIAN_LOOKS = ('ST', 'PT', 'NT', 'VV', 'VV2', 'FL', 'IN', 'SH')
 
 
 class Conflict(ValueError):
@@ -75,6 +80,78 @@ def config(value):
     # v5 导入库保留格式。新建库按实际使用的最高槽号选择格式。
     version = 5 if value['format'] == 5 or any(e['number'] > 12 for e in entries) else 4
     return core.compiler.config(entries, version)
+
+
+def shared_endpoints(anchor, factory, lower, upper):
+    """将每个系数的 B 增量限制到三个绝对端点合法范围的交集。"""
+    delta = [max(lo - min(stock), min(value - stock[0], upper - max(stock)))
+             for value, stock, lo in zip(anchor, zip(*factory), lower)]
+    return [[value + step for value, step in zip(row, delta)] for row in factory]
+
+
+def shared_entries(entries, factory):
+    stock_cc1 = factory['cc1_delta']
+    cc1_absolute = [stock_cc1[0], *[
+        [base + step for base, step in zip(stock_cc1[0], offset)] for offset in stock_cc1[1:]
+    ]]
+    compiler = core.compiler
+    converted, limited = {}, {'cc1': [], 'matrix': []}
+    for number, entry in sorted(entries.items()):
+        anchor = shared_endpoints(entry['cc1_delta'][0], cc1_absolute,
+                                  compiler.CC1_ENDPOINT_MIN, compiler.CC1_ENDPOINT_MAX)[0]
+        hues = [shared_endpoints(base, planes, (compiler.MATRIX_MIN,) * 6, compiler.MATRIX_MAX)
+                for base, planes in zip(entry['block13'][0], zip(*factory['block13']))]
+        matrix = [list(plane) for plane in zip(*hues)]
+        if anchor != entry['cc1_delta'][0]:
+            limited['cc1'].append(number)
+        if matrix[0] != entry['block13'][0]:
+            limited['matrix'].append(number)
+        converted[number] = dict(entry, cc1_delta=[anchor, *stock_cc1[1:]], block13=matrix)
+    return converted, limited
+
+
+def median_offsets(presets):
+    by_name = {entry['short_name']: entry for entry in presets}
+    looks = [by_name[name] for name in MEDIAN_LOOKS]
+    cc1, matrix = [], []
+    for endpoint in (1, 2):
+        cc1.append([round(median(values)) for values in
+                    zip(*(look['cc1_delta'][endpoint] for look in looks))])
+        plane = []
+        for sector in range(16):
+            differences = [
+                [value - base for value, base in zip(look['block13'][endpoint][sector],
+                                                     look['block13'][0][sector])]
+                for look in looks
+            ]
+            plane.append([round(median(values)) for values in zip(*differences)])
+        matrix.append(plane)
+    return cc1, matrix
+
+
+def median_entries(entries, offsets):
+    """以原配方的 B 为锚，只限幅新生成的 A1／A2。"""
+    cc1_offsets, matrix_offsets = offsets
+    compiler = core.compiler
+    converted, limited = {}, {'cc1': [], 'matrix': []}
+    for number, entry in sorted(entries.items()):
+        base_cc1 = entry['cc1_delta'][0]
+        cc1 = [
+            [min(compiler.CC1_ENDPOINT_MAX - base, max(lower - base, step))
+             for base, lower, step in zip(base_cc1, compiler.CC1_ENDPOINT_MIN, delta)]
+            for delta in cc1_offsets
+        ]
+        base_matrix = entry['block13'][0]
+        proposed = [[[base + step for base, step in zip(sector, steps)]
+                     for sector, steps in zip(base_matrix, delta)] for delta in matrix_offsets]
+        matrix = [[[min(compiler.MATRIX_MAX, max(compiler.MATRIX_MIN, value)) for value in sector]
+                   for sector in plane] for plane in proposed]
+        if cc1 != cc1_offsets:
+            limited['cc1'].append(number)
+        if matrix != proposed:
+            limited['matrix'].append(number)
+        converted[number] = dict(entry, cc1_delta=[base_cc1, *cc1], block13=[base_matrix, *matrix])
+    return converted, limited
 
 
 def validate_state(value):
@@ -291,15 +368,43 @@ class Store:
             return dict(format=version, slots=[dict(number=n, name=entries[n]['full_name']) for n in sorted(entries)],
                         differences=differences)
 
-        return dict(saved=summarize(saved), with_drafts=summarize({**saved, **drafts}),
-                    draft_slots=sorted(drafts))
+        with_drafts = {**saved, **drafts}
+        presets, _ = core.presets()
 
-    def export(self, value, allow_saved, allow_empty):
+        def endpoint_previews(convert, reference):
+            result = {}
+            for key, entries in (('saved', saved), ('with_drafts', with_drafts)):
+                converted, limited = convert(entries, reference)
+                result[key] = dict(summarize(converted), limited=limited)
+            return result
+
+        return dict(saved=summarize(saved), with_drafts=summarize(with_drafts),
+                    draft_slots=sorted(drafts),
+                    shared_st=endpoint_previews(shared_entries, presets[0]),
+                    median_offset=endpoint_previews(median_entries, median_offsets(presets)))
+
+    def export(self, value, allow_saved, allow_empty, mode=STANDARD):
+        if mode not in (STANDARD, SHARED_ST, MEDIAN_OFFSET):
+            raise ValueError('未知的端点导出方式')
         if value['drafts'] and not allow_saved:
             raise ValueError('工程含未保存草稿，请明确选择只导出已保存槽位')
         if not value['entries'] and not allow_empty:
             raise ValueError('导出空配置需确认清空机内自定义滤镜')
         recipe = config(value)
+        endpoint_audit = None
+        if mode != STANDARD:
+            presets, _ = core.presets()
+            entries = {entry['number']: entry for entry in recipe['entries']}
+            if mode == SHARED_ST:
+                converted, limited = shared_entries(entries, presets[0])
+                endpoint_audit = dict(mode=mode, factory='ILCE-7RM5 ST', anchor='B', limited_slots=limited)
+            else:
+                offsets = median_offsets(presets)
+                converted, limited = median_entries(entries, offsets)
+                endpoint_audit = dict(mode=mode, factory='ILCE-7RM5', anchor='B', reference_looks=MEDIAN_LOOKS,
+                                      method='coefficient-median-round-even-v1',
+                                      offsets_sha256=core.sha(encoded(offsets)), limited_slots=limited)
+            recipe['entries'] = list(converted.values())
         binary, compiler, firmware, version = core.compile_config(recipe)
         slots_used = sorted(e['number'] for e in recipe['entries'])
         record = dict(at=time.time_ns() // 1_000_000, sha256=core.sha(binary), format=version, slots=slots_used)
@@ -309,6 +414,8 @@ class Store:
                      compiler_sha256=core.sha(compiler.read_bytes()), white_balance_in_binary=False,
                      color_accuracy_accepted=False, manual_parameters_allowed=True,
                      slot_origin_metadata=value['sources'], bytes=len(binary))
+        if endpoint_audit is not None:
+            audit['endpoint_export'] = endpoint_audit
         archive = zip_bytes({'R5NATIVE.BIN': binary, 'native_config.json': encoded(recipe),
                              'export_audit.json': encoded(audit)})
         value['exports'] = [record, *value['exports'][:19]]

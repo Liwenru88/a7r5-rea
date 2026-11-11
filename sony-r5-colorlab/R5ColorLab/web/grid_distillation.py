@@ -65,13 +65,9 @@ def compress(base, weights, teacher, response, probe_side=33, sweeps=1, progress
                      limit_fraction=float(np.mean((grid==-64)|(grid==63))))
 
 
-def fit_target(base, target, weights, response, progress=None, parameter_smoothing=0, continuity=None):
-    """Fit the exported single grid to actual targets, using training rows only.
-
-    No PC teacher or synthetic teacher targets contribute to this objective.
-    Candidate selection uses the same training loss and smoothness policy as
-    historical compression; holdout metrics are computed only afterwards.
-    """
+def fit_target(base, target, weights, response, progress=None, parameter_smoothing=0, continuity=None,
+               *, select_candidates=None):
+    """在训练集上生成已量化网格，再按需在固定留出集上选优。"""
     from optimizer_policy import display_cost_rows, refine_grid
     from parameter_smoothing import multiplier, grid_cost
     base, target, weights = [np.asarray(v, dtype=float) for v in (base, target, weights)]
@@ -110,20 +106,49 @@ def fit_target(base, target, weights, response, progress=None, parameter_smoothi
         candidates.append((score, grid, dict(smoothness=float(strength), score=score,
             solver=solver, quantization_refinement=refinement,output_continuity=continuity_audit)))
     best = min(candidates, key=lambda value: value[0])
+    selection = 'training target loss plus actual-response path slope/curvature; no validation or test fitting'
+    extra = {}
+    if select_candidates is not None:
+        from chart_grid_selection import focused_weights
+
+        initial = best[1]
+        focus, focus_counts = focused_weights(target, evaluate(base, initial, response), mass)
+        if progress:
+            progress(stage='暗部与高误差色块精修', round=3, total_rounds=3, state='running', sweep=None, point=None)
+        trial, refinement = refine_grid(initial, base, target, np.ones(len(base)), focus,
+            sweeps=1, perceptual_weight=.35, response=response,
+            progress=(lambda **v: progress(stage='暗部与高误差色块精修', **v)) if progress else None,
+            parameter_smoothing=parameter_smoothing)
+        change = trial.astype(int) - initial
+        for fraction in (1., .5):
+            table = unpack(pack(np.rint(initial + fraction * change)))
+            candidates.append((None, table, dict(kind='focused' if fraction == 1 else 'focused-half',
+                smoothness=best[2]['smoothness'], quantization_refinement=refinement)))
+        if progress:
+            progress(stage='整数网格留出保护复核', round=3, total_rounds=3, state='running', sweep=None, point=None)
+        best, audit = select_candidates(candidates, best)
+        audit['focused_training'] = focus_counts
+        selection = 'training-only proposals; frozen validation guards; no test selection'
+        extra['chart_holdout'] = audit
     grid = best[1]
     return grid, dict(objective='fuji-target', training_inputs=len(base), synthetic_probes=0,
         train_probe_mass=[1.0, 0.0], selected_smoothness=best[2]['smoothness'],
-        candidates=[value[2] for value in candidates], training_only=True,
+        candidates=[value[2] for value in candidates], training_only=select_candidates is None,
         parameter_smoothing=parameter_smoothing, teacher=None,
-        selection='training target loss plus actual-response path slope/curvature; no validation or test fitting',
-        limit_fraction=float(np.mean((grid == -64) | (grid == 63))))
+        selection=selection, limit_fraction=float(np.mean((grid == -64) | (grid == 63))), **extra)
 
 
 def generate(job, response, progress=None, post_gray_refinement=False, objective='pc-teacher', fitted_target=None,
-             *, guarded_selection=None, adaptive_color=False):
+             *, guarded_selection=None, adaptive_color=False, joint_native=False):
     # Removed from the training pipeline, including requests from older browser tabs.
     post_gray_refinement=False
     job = Path(job)
+    if joint_native and (objective!='fuji-target' or not adaptive_color):
+        raise ValueError('整数分块联合求解需要目标直拟与原生基准验收')
+    if joint_native:
+        from gpu_runtime import available
+        if not available():
+            raise RuntimeError('整数分块联合求解需要Metal/MPS，拒绝静默跳过')
     if objective not in ('pc-teacher', 'fuji-target'):
         raise ValueError('Unknown grid training objective')
     source = (job/'pc_compensation.json').read_bytes()
@@ -131,10 +156,17 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
     if value['schema'] != 'r5-PC-compensation/2' or value['curves'].get('mode','tone-tint') != 'tone-tint':
         raise ValueError('请载入包含明暗曲线＋灰阶染色的 PC 补偿任务')
     response = response_matrix(response)
+    if joint_native:
+        from measured_response import get
+        from paired_response import PairedModel
+        if not isinstance(response,dict) or not isinstance(get(response),PairedModel):
+            raise ValueError('整数分块联合求解需要支持的R5实测响应')
     teacher = lambda rgb: pc_stages.render(rgb, value['curves'], source_grid)
     from fit_anchor_native import training_plan
     import baseline
     recipe, model = baseline.read_job(job)
+    if joint_native and white_balance.active(white_balance.from_recipe(recipe)):
+        raise ValueError('整数分块联合求解不支持实验白平衡')
     with np.load(job/'pairs.npz', allow_pickle=False) as p:
         split, ids = p['split'], p['anchor_index']
         target = p['0_target']/16383
@@ -182,12 +214,46 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
             raise ValueError('Prefitted grid is missing the requested output continuity constraint')
         grid, audit = unpack(pack(fitted_target[0])), copy.deepcopy(fitted_target[1])
     elif objective == 'fuji-target':
+        select_candidates = None
+        validation = split == 'valid'
+        gray = (ids >= 4) & (ids < 260) & (split == 'train')
+        if (not adaptive_color and isinstance(response, dict) and validation.any() and gray.any()
+                and not white_balance.active(white_balance.from_recipe(recipe))):
+            import chart_grid_selection
+            from gpu_runtime import cpu_reference
+
+            native_bytes = (job/'native_config.json').read_bytes()
+            selected_config = core.compiler.unpack(core.compiler.pack(json.loads(native_bytes)))
+            selected_model = model_for_config(job, selected_config)
+            selected_continuity = None
+            with cpu_reference(), np.load(job/'pairs.npz', allow_pickle=False) as pairs:
+                selected_base = white_balance.render_pairs(selected_model, pairs, recipe)/16383
+                if continuity is not None:
+                    bank, _, amount = continuity
+                    selected_continuity = (bank, center_mean(render_native(
+                        selected_model, bank.inputs(selected_model)))/16383, amount)
+
+            def select_candidates(candidates, best):
+                with cpu_reference():
+                    return chart_grid_selection.select(candidates, best, response,
+                        (selected_base[validation], target[validation]),
+                        (selected_base[gray], target[gray]), selected_continuity)
+
         grid, audit = fit_target(base[train], target[train], weights, response,
-            progress=progress, parameter_smoothing=smoothing,continuity=continuity)
+            progress=progress, parameter_smoothing=smoothing, continuity=continuity,
+            select_candidates=select_candidates)
+        if select_candidates is not None:
+            selected_config['entries'][0]['grid_5x9x9'] = dict(coefficients=grid.T.reshape(3,5,9,9).tolist())
+            selected_identity = dict(native_config_sha256=core.sha(native_bytes),
+                selected_bin_sha256=core.sha(core.compiler.pack(selected_config)),
+                grid_payload_sha256=core.sha(pack(grid)), chart_holdout_policy=chart_grid_selection.POLICY,
+                chart_holdout_sha256=core.sha(Path(chart_grid_selection.__file__).read_bytes()))
+            continuity = selected_continuity
     else:
         grid, audit = compress(base[train], weights, teacher, response, progress=progress, parameter_smoothing=smoothing,continuity=continuity)
     integer_identity = {}
-    if objective == 'fuji-target' and selected_config is None:
+    # 工作台使用上游直拟结果。额外整数搜索只供显式启用的离线对照。
+    if adaptive_color and objective == 'fuji-target' and selected_config is None:
         from measured_response import get
         from paired_response import PairedModel
         gray_mask = (ids >= 4) & (ids < 260) & (split == 'train')
@@ -197,6 +263,8 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
         elif white_balance.active(white_balance.from_recipe(recipe)):
             audit['integer_refinement'] = dict(enabled=False, reason='experimental-white-balance')
         elif not validation.any():
+            if joint_native:
+                raise ValueError('整数分块联合求解需要独立验证集')
             audit['integer_refinement'] = dict(enabled=False, reason='missing-validation-split')
         else:
             from compute_backend import render_native
@@ -232,6 +300,56 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
                         selected_config, grid, audit['adaptive_color'] = focus(config, grid, context,
                             pairs['input'], target, train, weights, eligible, gray_mask, validation,
                             response, bank, bin_probes, bin_base, amount or 30, perceptual, smoothing, progress)
+                        if joint_native:
+                            from integer_grid import candidate_metrics
+                            from fit_bin_joint import grid_from
+                            from integer_blocks import refine as joint_refine
+                            from native_scoring import adoption_failures
+
+                            legacy = copy.deepcopy(selected_config or config)
+                            legacy['entries'][0]['grid_5x9x9'] = dict(coefficients=grid.T.reshape(3,5,9,9).tolist())
+                            legacy_model = context.build(**core.slot_native_parameters(context, legacy['entries'][0]))
+                            with cpu_reference():
+                                legacy_base = center_mean(render_native(legacy_model, pairs['input']))/16383
+                                legacy_bases = [center_mean(render_native(legacy_model, x))/16383 for x in
+                                    (pairs['input'][gray_mask], pairs['input'][validation], bank.inputs(legacy_model))]
+                            elapsed = audit['adaptive_color'].get('seconds', 0)
+                            candidate, candidate_grid, joint_audit = joint_refine(legacy, grid,
+                                context, pairs['input'], target, train, weights, eligible, gray_mask, validation,
+                                response, bank, legacy_bases[2], legacy_base, amount or 30, perceptual, smoothing,
+                                progress, seconds=180.)
+                            measure = candidate_metrics(target[gray_mask], target[validation], response,
+                                bank, amount or 30, perceptual, include_p95=True)
+                            legacy_metrics = measure(grid, *legacy_bases)
+                            actual_metrics=legacy_metrics
+                            if candidate is not None:
+                                candidate=core.compiler.unpack(core.compiler.pack(candidate))
+                                if not np.array_equal(candidate_grid,grid_from(candidate['entries'][0])):
+                                    raise ValueError('联合拟合的原生参数与网格返回值不一致')
+                                candidate_model=context.build(**core.slot_native_parameters(context,candidate['entries'][0]))
+                                with cpu_reference():
+                                    candidate_bases=[center_mean(render_native(candidate_model,x))/16383 for x in
+                                        (pairs['input'][gray_mask],pairs['input'][validation],bank.inputs(candidate_model))]
+                                actual_metrics=measure(candidate_grid,*candidate_bases)
+                            failures = adoption_failures(actual_metrics, legacy_metrics)
+                            adopted = candidate is not None and not failures
+                            joint_audit.update(selected='joint' if adopted else 'legacy',
+                                validation_after=actual_metrics if adopted else legacy_metrics,
+                                independent_candidate_validation=actual_metrics, independent_bin_recheck=True,
+                                legacy_validation=legacy_metrics, rejected_by_legacy=failures,
+                                total_refinement_seconds=elapsed + joint_audit['seconds'])
+                            final_entry=(candidate if adopted else legacy)['entries'][0]
+                            original_entry=legacy['entries'][0]
+                            joint_audit['changed_fields']={name:int(np.count_nonzero(
+                                np.asarray(final_entry[name])!=np.asarray(original_entry[name])))
+                                for name in ('gamma_native_129','cc1_delta','block13')}
+                            joint_audit['changed_fields']['grid']=int(np.count_nonzero(
+                                grid_from(final_entry)!=grid_from(original_entry)))
+                            audit['joint_native'] = joint_audit
+                            if adopted:
+                                selected_config, grid = candidate, candidate_grid
+                            else:
+                                selected_config,grid=legacy,grid_from(legacy['entries'][0])
                         if selected_config is not None:
                             chosen, = selected_config['entries']
                             selected_model = context.build(**core.slot_native_parameters(context, chosen))
@@ -243,10 +361,14 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
                             selected_identity = dict(selected_bin_sha256=core.sha(core.compiler.pack(selected_config)),
                                                      native_config_sha256=core.sha(native_bytes))
                 elif available():
+                    if joint_native:
+                        raise ValueError('整数分块联合求解要求共享照明端点')
                     audit['adaptive_color']['reason'] = 'independent-illuminant-matrices'
             integer_identity = dict(integer_refinement_policy=INTEGER_REFINEMENT_POLICY,
                 integer_refinement_sha256=core.sha(Path(__file__).with_name('integer_grid.py').read_bytes()),
                 native_config_sha256=core.sha(native_bytes), grid_payload_sha256=core.sha(pack(grid)))
+    if adaptive_color or guarded_selection is not None:
+        audit['limit_fraction'] = float(np.mean((grid == -64) | (grid == 63)))
     if continuity is not None:
         bank,probe_base,amount=continuity
         audit['output_continuity']=dict(native=bank.report(probe_base,amount),
@@ -254,7 +376,11 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
     audit['post_gray_refinement']=dict(enabled=False)
     if progress:progress(stage='压缩效果验证',round=3,total_rounds=3,state='round_done',sweep=None,point=None)
     combined = teacher(base)
-    student = evaluate(selected_base if selected_config is not None else base, grid, response)
+    if 'chart_holdout' in audit:
+        with cpu_reference():
+            student = evaluate(selected_base, grid, response)
+    else:
+        student = evaluate(selected_base if selected_config is not None else base, grid, response)
     metrics = {}
     for name, mask in [('gray_training',(ids>=4)&(ids<260)&(split=='train')),
                        ('primaries_training',(ids>=0)&(ids<4)&(split=='train')),
@@ -285,6 +411,10 @@ def generate(job, response, progress=None, post_gray_refinement=False, objective
         identity['adaptive_color_sha256'] = core.sha(Path(__file__).with_name('adaptive_color.py').read_bytes())
         if audit['adaptive_color'].get('constrained'):
             identity['adaptive_gpu_sha256'] = core.sha(Path(__file__).with_name('adaptive_gpu.py').read_bytes())
+    if 'joint_native' in audit:
+        identity['joint_native_policy'] = audit['joint_native']['policy']
+        from integer_blocks import fingerprint
+        identity['joint_native_sources'] = fingerprint()
     identity.update(integer_identity)
     identity.update(selected_identity)
     key = core.sha(json.dumps(identity, sort_keys=True).encode())

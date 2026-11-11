@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-11",
+  "status": "passed",
+  "baseline_problem_count": 109,
+  "baseline_affected_files": 105,
+  "release_checker_rules_unchanged": true,
+  "remaining_problems": 0,
+  "tracked_removal_count": 27,
+  "existing_removed_files_retained_on_disk": 23,
+  "source_assets": 12,
+  "source_asset_manifest_sha256": "7b0df5a0021a86e220af6d52e511559c98b7c27437d63a2c80aa51a0d1a3bb66",
+  "isolated_source_export": true,
+  "real_upstream_download_and_chunk_restore_verified": true,
+  "all_asset_hashes_verified": true,
+  "root_unit_tests": "19 passed",
+  "baseline_boundary_tests": "4 passed",
+  "latest_firmware_release_files_unchanged": 49,
+  "git_index_changes": "仅登记27个明确删除或取消跟踪项；未暂存其它功能改动",
+  "firmware_rebuilt": false,
+  "camera_io": false,
+  "committed": false,
+  "pushed": false,
+  "scope": "当前工作区源码候选集；不检查或改写已有Git历史",
+  "assets": [
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/data/training/frontend_capture/report.json",
+      "sha256": "dcc07a50f9269af34c323755be3f5fb6965b4002ef24cd252e513c830abd69df",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/GFX100SII-v4.5-100MP-5300K.RAF.gz",
+      "sha256": "a32b0ec65fe78a3701fe5fa5569f595b9ae2e2b23469d1e219901c2650aa0ff9",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.ARW.gz",
+      "sha256": "a171c818fd256f47168b72a6c88c626086452ed117558ce60fa9772aa52f2032",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.DNG.gz",
+      "sha256": "379cc86e0222b963596c51b83fdaf8ee6fcfce7ae1cc36c6fc06275ff9e04056",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_unity_center5/GFX100SII-v4-100MP-from-SONY-IED.RAF.gz",
+      "sha256": "fe3505e01c5b076eef3b0b7fedaac327020c34bc8ec6895059846becf218856e",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-nonlinear.json",
+      "sha256": "a312761c8500e8a9ecb3b1b23ad27cf7709cb6eb8bf41c956970e1bdcc2c82f0",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-shared-c1-c50.json",
+      "sha256": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-three-experts.json",
+      "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+      "storage": "fixed-upstream"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/baseline418/00.delta.gz",
+      "sha256": "46e75316c2c00a1de52d274761e76c5d4deaadeb1698fe5b812f7937b0bb0e93",
+      "storage": "chunks"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/native24-stock/00.delta.gz",
+      "sha256": "176bc235d38c29bd8c2776c9683a09b705d3773c4d27b2d744a1617cf15f2d92",
+      "storage": "chunks"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/native24/12.delta.gz",
+      "sha256": "604c01a33307ed23b9a0146ab2bfe439047c3b5c199567f9177c9e8a1f19ce03",
+      "storage": "chunks"
+    },
+    {
+      "path": "a7r5-firmware-features/independent/profiles/photo-aspect/00.delta.gz",
+      "sha256": "501aa7445083493715d0dc07c87254f401f12b6789022ac2b657f1f6c64872c8",
+      "storage": "chunks"
+    }
+  ]
+}

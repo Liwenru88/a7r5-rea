@@ -1,0 +1,81 @@
+{
+  "schema": "readme-menu-images/1",
+  "captured_by": "original camera application in QEMU",
+  "published_on": "2026-11-11",
+  "camera_io": false,
+  "images": [
+    {
+      "file": "factory-group.png",
+      "source": "a7r5-qemu/runs/native-native12-410-2i2ouupe/sound-029-ENTER.png",
+      "source_version": "historical-4.19-menu",
+      "bytes": 22526,
+      "sha256": "4f9e1ea6f83fdff37f434b1c00a9de15c851060c8907443beca3889adaab2af5",
+      "image_edited": false,
+      "raw_snapshot_sha256": "136e33834f77ab6f7ac70acab5c66f1c7e76701de4fb627263626d13ca8cbba8",
+      "metadata_sha256": "cd9fb2906314d2aeffbd5b40699bea7651e215e80e60edc4d3a12d756077ba8e"
+    },
+    {
+      "file": "custom-group.png",
+      "source": "a7r5-qemu/runs/native-native12-410-2i2ouupe/sound-031-DOWN.png",
+      "source_version": "historical-4.19-menu",
+      "bytes": 24085,
+      "sha256": "655887b3414f4e377a679fccf691e2c51eceab18fa3528cfcf4bf650541b8243",
+      "image_edited": false,
+      "raw_snapshot_sha256": "a932d8fce33bfccbb0e1af2adb79122726690d9b5d49d65eb9f621435951ff6c",
+      "metadata_sha256": "8177d5a843eb8319e40bbb8d4cce1253560be00257df2e2146033e54164fbaeb"
+    },
+    {
+      "file": "custom-tuning.png",
+      "source": "a7r5-qemu/runs/native-native12-410-2i2ouupe/sound-033-ENTER.png",
+      "source_version": "historical-4.19-menu",
+      "bytes": 27208,
+      "sha256": "083f2ba87e9ccde6126fb8149ddebb4e5ea15c2d3441bf64e48b51ac1e8bce7c",
+      "image_edited": false,
+      "raw_snapshot_sha256": "b2408c2ed7f3d5a00805f6da9e005ca324bc8b76c5e283308dfc5efd73e9bde1",
+      "metadata_sha256": "0fdac61ac0221d59a7f72c417581f0a9e36e7c1e3c9f13bd26c3f13acb358b89"
+    },
+    {
+      "file": "aspect-list.png",
+      "source": "a7r5-qemu/runs/native-native12-410-2i2ouupe/sound-067-ENTER.png",
+      "source_version": "historical-4.19-menu",
+      "bytes": 19623,
+      "sha256": "3e4b03575cb9113e7cd5e8dff76e687e4bf1b50690a26ed86b19d366d602f8fc",
+      "image_edited": false,
+      "raw_snapshot_sha256": "32dfa9ba7eb3696d0522ff89f7674e4384145eca6c77913bb192807832d82d99",
+      "metadata_sha256": "c6d0a242011f34e3630c0f1cc67c80d74df1c7e5d604294fbd5a5be4c8c742c8"
+    },
+    {
+      "file": "aspect-confirmed.png",
+      "source": "a7r5-qemu/runs/native-native12-410-2i2ouupe/sound-066-ENTER.png",
+      "source_version": "historical-4.19-menu",
+      "bytes": 35205,
+      "sha256": "9d41619689064dc00eb38265a5f5e38df198530a21c70c459191f33f437c737f",
+      "image_edited": false,
+      "raw_snapshot_sha256": "394c4e8b01c3d6433e76d257eb8a58d28723e9e3addc049cd20d6ef48c25387a",
+      "metadata_sha256": "e01cfd8d89915a7189a295610522d4c1c1ed06d11fad39b9cba77450ddbf6e67"
+    },
+    {
+      "file": "electronic-sound.png",
+      "source": "a7r5-firmware-features/releases/4.19-full-repaired-20261111/qemu/electronic-sound-confirmed.png",
+      "source_version": "4.19-repaired-20261111",
+      "bytes": 36829,
+      "sha256": "1d1f9e6e95b89151a92cabcb658575a716712f285e3f19c0efa33441aaa7dd84",
+      "image_edited": false,
+      "raw_snapshot_sha256": "77e83209240fee9f84664c81450fc1f3dabe230f5dd2bd8fba5e5cc01c9cfe59",
+      "metadata_sha256": "c01c7c5004e1e4de9cf00a71e7f44903181e7674ff72b98e8209d5f119d4935a",
+      "DAT_sha256": "9b6919ce47c8224efd591945a88849832da0bae01ef4a74dfdbeb85f9675d5dc"
+    },
+    {
+      "file": "dual-sound-volume.png",
+      "source": "a7r5-firmware-features/releases/4.19-full-repaired-20261111/qemu/mechanical-volume-confirmed.png",
+      "source_version": "4.19-repaired-20261111",
+      "bytes": 39383,
+      "sha256": "b043c42c93e8851285cfa713446134d26f5734e32ac8374f1c2a83bf54270a56",
+      "image_edited": false,
+      "raw_snapshot_sha256": "fd095537bc2a66a5e43852f28a4f18c79496f92b95f8f3c6af1e1e3969cf07d8",
+      "metadata_sha256": "267c619115a0a35a6aca9ad2abe2a3bafdc382bf3931a772a04408adaa951968",
+      "DAT_sha256": "9b6919ce47c8224efd591945a88849832da0bae01ef4a74dfdbeb85f9675d5dc"
+    }
+  ],
+  "note": "普通图片副本，无设备会话或认证载荷；历史界面不作为最新包应用成功或硬件验收。"
+}

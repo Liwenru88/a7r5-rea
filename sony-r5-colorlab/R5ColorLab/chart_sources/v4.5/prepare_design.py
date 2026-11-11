@@ -1,7 +1,7 @@
 """WB-aware RAW synthesis, preserving the previous Sony PT color reference."""
 from pathlib import Path
 import numpy as np
-import sys,struct,json,hashlib,copy
+import sys,struct,json,hashlib,copy,os
 ROOT=Path(__file__).resolve().parents[2];HERE=Path(__file__).resolve().parent
 WEB=ROOT/'research/r5_custom_lut/web';sys.path[:0]=[str(WEB),str(WEB.parent/'scripts')]
 import baseline
@@ -9,7 +9,7 @@ from edit_color_pipeline import RuntimeColor
 from edit_raw_front import itp_flatfield,as_shot_wb
 from perceptual import to_lab,de2000
 from rawpy import _rawpy as rawpy
-SOURCE=Path('/Users/LOCAL_USER/Desktop/白平衡对比/DSC00569.ARW')
+SOURCE=Path(os.environ.get('R5_RAW_SOURCE', ROOT/'inputs/DSC00569.ARW'))
 WB_RGGB=(2606,1024,1024,1789)
 def sha(p):
  with Path(p).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()

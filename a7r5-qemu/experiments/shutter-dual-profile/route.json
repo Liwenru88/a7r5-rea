@@ -1,0 +1,28 @@
+{
+  "actions": [
+    "LEFT",
+    "LEFT",
+    "UP",
+    "RIGHT",
+    "UP",
+    "UP",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "DOWN",
+    "RIGHT",
+    "LEFT",
+    "UP",
+    "RIGHT"
+  ],
+  "source_sha256": "4766a7df05c2efb4379c3b3c2d7a1219a860b077330fc8710cad4d1686e1b727",
+  "scope": "Qt real-key route to Sound Option; no setting writes"
+}

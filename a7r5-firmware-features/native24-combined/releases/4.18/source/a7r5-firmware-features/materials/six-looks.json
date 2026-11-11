@@ -1,0 +1,1408 @@
+{
+  "schema": "a7r5-six-look-research/1",
+  "model": "ILCE-7RM5",
+  "program_base": "4.00-derived offline joint-parameter candidate",
+  "slots": [
+    {
+      "slot": 1,
+      "name": "Classic Neg.",
+      "required_base": "ST",
+      "table": "slot1.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "0b28eb22a523119e35cb4946469ce787b248a5f9ddee0e4a59a3ebf69ba8196f",
+      "upstream_profile_canonical_sha256": "c202305103e3fe325ab7622539e5795e5b232ccd56a14fd5ff3f81b852a9adcc",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 5,
+            "smooth": 1e-11,
+            "loss": "linear",
+            "selection": {
+              "RGB_MAE_8bit": 5.410624574844185,
+              "RGB_P95_8bit": 23.666810071773988
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 20,
+              "objective_kind": "linear",
+              "objective_before": 0.5061864764030142,
+              "objective_after": 0.4700091178697495,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.9863967684864894,
+                "RGB_P95_8bit": 6.796992489811234
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 4.818548815234365,
+            "RGB_P95_8bit": 14.759517274187994
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 2.7584920372748045,
+            "RGB_P95_8bit": 9.551385804210655
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 31,
+            "objective_kind": "linear",
+            "objective_before": 1.6569996453009586,
+            "objective_after": 1.260273850162144,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 2.6409206164268704,
+              "RGB_P95_8bit": 8.854368358038776
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 17,
+            "objective_kind": "linear",
+            "objective_before": 2.0356370194697995,
+            "objective_after": 1.6765754671031163,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 2.7584920372748045,
+              "RGB_P95_8bit": 9.551385804210655
+            }
+          },
+          "native_controls": [
+            -0.5,
+            0.265625,
+            0.5,
+            0.5,
+            0.5,
+            -0.5,
+            -0.5,
+            0.5,
+            -0.5,
+            -0.5,
+            -0.0625,
+            -0.5,
+            0.5,
+            -0.5,
+            -0.5,
+            -0.5,
+            0.5
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 4,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 5.410624574844185,
+                "RGB_P95_8bit": 23.666810071773988
+              },
+              "independent": {
+                "RGB_MAE_8bit": 3.0157415800293244,
+                "RGB_P95_8bit": 11.552723911425225
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 6.35967308810142,
+                "RGB_P95_8bit": 22.227994749657412
+              },
+              "independent": {
+                "RGB_MAE_8bit": 5.1936824967398145,
+                "RGB_P95_8bit": 14.50382718119502
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 62.82418895199953,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "A7C II Classic Negative",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -32,
+          34,
+          64
+        ],
+        "matrix_planes": [
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ],
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ],
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -16,
+            -2,
+            -16,
+            16,
+            -16,
+            -16,
+            -16,
+            16
+          ],
+          [
+            -16,
+            -2,
+            -16,
+            16,
+            -16,
+            -16,
+            -16,
+            16
+          ],
+          [
+            -16,
+            -2,
+            -16,
+            16,
+            -16,
+            -16,
+            -16,
+            16
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    },
+    {
+      "slot": 2,
+      "name": "Classic Chrome",
+      "required_base": "ST",
+      "table": "slot2.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "1105e2b2e706dcf1e47fda9a379089c99fa3d91d135e3a20dcb23a6ca94a6696",
+      "upstream_profile_canonical_sha256": "6aeba10922af2c1a0ef7c3c53945c92dcf8644e15ef2bd47d702cde00c2ed243",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 10,
+            "smooth": 1e-10,
+            "loss": "soft_l1",
+            "selection": {
+              "RGB_MAE_8bit": 2.8438285696570476,
+              "RGB_P95_8bit": 9.411697927008888
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 9,
+              "objective_kind": "soft_l1",
+              "objective_before": 0.1077149532795501,
+              "objective_after": 0.10469308304779552,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.0832368775816266,
+                "RGB_P95_8bit": 3.1879474789181295
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 2.069732839412604,
+            "RGB_P95_8bit": 7.133764947027614
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 1.223531378267486,
+            "RGB_P95_8bit": 3.719698925891904
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 22,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.22335460390105014,
+            "objective_after": 0.14889694135871973,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.15505434994959,
+              "RGB_P95_8bit": 3.487922642249797
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 42,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.2293187230471908,
+            "objective_after": 0.20106868464681035,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.223531378267486,
+              "RGB_P95_8bit": 3.719698925891904
+            }
+          },
+          "native_controls": [
+            -0.46875,
+            0.0859375,
+            0.5,
+            0.5,
+            0.5,
+            -0.5,
+            -0.4375,
+            0.40625,
+            -0.40625,
+            -0.03125,
+            -0.0625,
+            -0.4375,
+            0.125,
+            0.0625,
+            -0.3125,
+            -0.03125,
+            0.3125
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 3,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 2.8438285696570476,
+                "RGB_P95_8bit": 9.411697927008888
+              },
+              "independent": {
+                "RGB_MAE_8bit": 1.306036058819643,
+                "RGB_P95_8bit": 3.877897294940842
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 3.7821474916197584,
+                "RGB_P95_8bit": 8.3922422223282
+              },
+              "independent": {
+                "RGB_MAE_8bit": 3.7207159310661386,
+                "RGB_P95_8bit": 8.018439480710557
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 55.356102100999124,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "A7C II Classic Chrome",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -30,
+          11,
+          64
+        ],
+        "matrix_planes": [
+          [
+            16,
+            16,
+            -16,
+            -14,
+            13,
+            -13
+          ],
+          [
+            16,
+            16,
+            -16,
+            -14,
+            13,
+            -13
+          ],
+          [
+            16,
+            16,
+            -16,
+            -14,
+            13,
+            -13
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -1,
+            -2,
+            -14,
+            4,
+            2,
+            -10,
+            -1,
+            10
+          ],
+          [
+            -1,
+            -2,
+            -14,
+            4,
+            2,
+            -10,
+            -1,
+            10
+          ],
+          [
+            -1,
+            -2,
+            -14,
+            4,
+            2,
+            -10,
+            -1,
+            10
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    },
+    {
+      "slot": 3,
+      "name": "Nostalgic Neg.",
+      "required_base": "ST",
+      "table": "slot3.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "205db27f0cca8da9233a2332167faa47ed651d8593a808529b1cb836dbe7dc79",
+      "upstream_profile_canonical_sha256": "6b810e9fd8457dbe0f621971e9d9ca8f5d3b4cf438978a7dda2f7c20650ba455",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 6,
+            "smooth": 1e-10,
+            "loss": "soft_l1",
+            "selection": {
+              "RGB_MAE_8bit": 2.5947573523225884,
+              "RGB_P95_8bit": 9.44136081566605
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 14,
+              "objective_kind": "soft_l1",
+              "objective_before": 0.13801099422003366,
+              "objective_after": 0.1314786648963353,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.3102277063952446,
+                "RGB_P95_8bit": 4.027186405756667
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 2.382228815454457,
+            "RGB_P95_8bit": 7.586648745587606
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 1.4072268966999217,
+            "RGB_P95_8bit": 4.487844619639084
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 18,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.23059228384246172,
+            "objective_after": 0.18576698140959796,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.3805022293459628,
+              "RGB_P95_8bit": 4.267379695876566
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 16,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.2867364299978906,
+            "objective_after": 0.24109435963473458,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.4072268966999217,
+              "RGB_P95_8bit": 4.487844619639084
+            }
+          },
+          "native_controls": [
+            -0.109375,
+            0.5,
+            0.25,
+            0.5,
+            0.5,
+            -0.5,
+            -0.03125,
+            0.5,
+            -0.15625,
+            -0.5,
+            -0.4375,
+            -0.1875,
+            0.03125,
+            -0.09375,
+            0.25,
+            -0.1875,
+            0.15625
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 6,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 2.5947573523225884,
+                "RGB_P95_8bit": 9.44136081566605
+              },
+              "independent": {
+                "RGB_MAE_8bit": 1.4470736234075805,
+                "RGB_P95_8bit": 4.555573899931693
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 4.02580203077039,
+                "RGB_P95_8bit": 8.592183631269169
+              },
+              "independent": {
+                "RGB_MAE_8bit": 3.820681840485476,
+                "RGB_P95_8bit": 8.320432788512266
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 52.43218133999835,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "A7C II Nostalgic Negative",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -7,
+          64,
+          32
+        ],
+        "matrix_planes": [
+          [
+            16,
+            16,
+            -16,
+            -1,
+            16,
+            -5
+          ],
+          [
+            16,
+            16,
+            -16,
+            -1,
+            16,
+            -5
+          ],
+          [
+            16,
+            16,
+            -16,
+            -1,
+            16,
+            -5
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -16,
+            -14,
+            -6,
+            1,
+            -3,
+            8,
+            -6,
+            5
+          ],
+          [
+            -16,
+            -14,
+            -6,
+            1,
+            -3,
+            8,
+            -6,
+            5
+          ],
+          [
+            -16,
+            -14,
+            -6,
+            1,
+            -3,
+            8,
+            -6,
+            5
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    },
+    {
+      "slot": 4,
+      "name": "Astia",
+      "required_base": "ST",
+      "table": "slot4.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "446e2595e1692e26e492d710eb747b4b57764aeb6ed45862e97a0a8b8b806139",
+      "upstream_profile_canonical_sha256": "c2015beded3d49276559cc2e1b45955d2a23208a66f4f93ea45c9b2986c52300",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 6,
+            "smooth": 1e-11,
+            "loss": "soft_l1",
+            "selection": {
+              "RGB_MAE_8bit": 3.376925625269703,
+              "RGB_P95_8bit": 11.47418367523776
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 48,
+              "objective_kind": "soft_l1",
+              "objective_before": 0.10193006129796099,
+              "objective_after": 0.09353518220848059,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.1387770009300409,
+                "RGB_P95_8bit": 3.5902055701789752
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 2.974355852517729,
+            "RGB_P95_8bit": 11.342198590981283
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 1.3918559396734487,
+            "RGB_P95_8bit": 4.47131673004247
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 21,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.23950903710521207,
+            "objective_after": 0.14579596927489658,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.2663910805639627,
+              "RGB_P95_8bit": 3.980862780260884
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 196,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.2795794681384288,
+            "objective_after": 0.21492963552774327,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.3918559396734487,
+              "RGB_P95_8bit": 4.47131673004247
+            }
+          },
+          "native_controls": [
+            -0.140625,
+            0.2265625,
+            0.453125,
+            0.5,
+            0.5,
+            -0.5,
+            -0.09375,
+            0.5,
+            0.15625,
+            -0.0625,
+            -0.09375,
+            -0.375,
+            0.09375,
+            -0.03125,
+            0.1875,
+            0.21875,
+            0.5
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 1,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 3.376925625269703,
+                "RGB_P95_8bit": 11.47418367523776
+              },
+              "independent": {
+                "RGB_MAE_8bit": 1.5265700856446411,
+                "RGB_P95_8bit": 4.844584356556189
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 3.668078118316521,
+                "RGB_P95_8bit": 8.051685875574368
+              },
+              "independent": {
+                "RGB_MAE_8bit": 3.6076889104519445,
+                "RGB_P95_8bit": 8.001847284056561
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 125.53540127399901,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "A7C II Astia",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -9,
+          29,
+          58
+        ],
+        "matrix_planes": [
+          [
+            16,
+            16,
+            -16,
+            -3,
+            16,
+            5
+          ],
+          [
+            16,
+            16,
+            -16,
+            -3,
+            16,
+            5
+          ],
+          [
+            16,
+            16,
+            -16,
+            -3,
+            16,
+            5
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -2,
+            -3,
+            -12,
+            3,
+            -1,
+            6,
+            7,
+            16
+          ],
+          [
+            -2,
+            -3,
+            -12,
+            3,
+            -1,
+            6,
+            7,
+            16
+          ],
+          [
+            -2,
+            -3,
+            -12,
+            3,
+            -1,
+            6,
+            7,
+            16
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    },
+    {
+      "slot": 5,
+      "name": "GR Positive Film",
+      "required_base": "ST",
+      "table": "slot5.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "064fc9aaf4bdd64c7acc2cc1bd922b4264a73e8d41c05710ee62455b8f17c5c3",
+      "upstream_profile_canonical_sha256": "36338abf517c02724cb588811e4b9ad52d8ca72ed848393c9242eb13b8d27d80",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 8,
+            "smooth": 1e-10,
+            "loss": "soft_l1",
+            "selection": {
+              "RGB_MAE_8bit": 2.074269331858215,
+              "RGB_P95_8bit": 6.303782472536988
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 18,
+              "objective_kind": "soft_l1",
+              "objective_before": 0.16318955059837437,
+              "objective_after": 0.10955594712297496,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.1835488246097736,
+                "RGB_P95_8bit": 3.189894779107957
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 1.7728617876574577,
+            "RGB_P95_8bit": 5.107035873136942
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 1.253785399647859,
+            "RGB_P95_8bit": 3.6464278311243583
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 23,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.17561283552521975,
+            "objective_after": 0.15113285505879656,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.240422313646146,
+              "RGB_P95_8bit": 3.575217174525178
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 18,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.2082540402024064,
+            "objective_after": 0.18881876036029377,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.253785399647859,
+              "RGB_P95_8bit": 3.6464278311243583
+            }
+          },
+          "native_controls": [
+            -0.5,
+            -0.5,
+            -0.5,
+            0.125,
+            0.5,
+            0.5,
+            0.5,
+            0.25,
+            -0.125,
+            -0.09375,
+            -0.125,
+            0.0,
+            -0.0625,
+            0.21875,
+            -0.09375,
+            -0.0625,
+            0.0
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 15,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 2.074269331858215,
+                "RGB_P95_8bit": 6.303782472536988
+              },
+              "independent": {
+                "RGB_MAE_8bit": 1.3620762631344825,
+                "RGB_P95_8bit": 3.8150559030968494
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 3.451372975167879,
+                "RGB_P95_8bit": 7.393124684984278
+              },
+              "independent": {
+                "RGB_MAE_8bit": 3.382713394965266,
+                "RGB_P95_8bit": 7.081666211572787
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 79.9205994590011,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "Camera Positive Film (GR Look, a7C2 WB)",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -32,
+          -64,
+          -64
+        ],
+        "matrix_planes": [
+          [
+            4,
+            16,
+            16,
+            16,
+            8,
+            -4
+          ],
+          [
+            4,
+            16,
+            16,
+            16,
+            8,
+            -4
+          ],
+          [
+            4,
+            16,
+            16,
+            16,
+            8,
+            -4
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -3,
+            -4,
+            0,
+            -2,
+            7,
+            -3,
+            -2,
+            0
+          ],
+          [
+            -3,
+            -4,
+            0,
+            -2,
+            7,
+            -3,
+            -2,
+            0
+          ],
+          [
+            -3,
+            -4,
+            0,
+            -2,
+            7,
+            -3,
+            -2,
+            0
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    },
+    {
+      "slot": 6,
+      "name": "GR Negative Film",
+      "required_base": "ST",
+      "table": "slot6.raw-s8.bin",
+      "table_bytes": 1215,
+      "table_sha256": "6b7ee26631a7f1bdb0c73b23305c9afd6ab639ad8877c3cbf6224bbf75590372",
+      "upstream_profile_canonical_sha256": "e43f9c12ea737f861fae68581b2a18e0cf0e70d5c8cdab49a85676928b262f5e",
+      "upstream_method": "Lightroom-reference-native-four-stage-extended-v1",
+      "attribution": "Owner-supplied DCP, used with the author's permission; MIT",
+      "upstream_fit_validation": {
+        "camera_photos_and_preview_verified": false,
+        "metrics": {
+          "camera_io": false,
+          "source": "numerical target colors and measured camera response",
+          "virtual_color_groups": {
+            "train": 812,
+            "selection": 274,
+            "test": 315
+          },
+          "budget": {
+            "passes": 12,
+            "max_evaluations_per_solve": 200
+          },
+          "selected_trial": {
+            "pass_number": 4,
+            "smooth": 1e-10,
+            "loss": "soft_l1",
+            "selection": {
+              "RGB_MAE_8bit": 3.5331717109999268,
+              "RGB_P95_8bit": 13.643933579515435
+            },
+            "optimizer": {
+              "optimizer_converged": true,
+              "evaluations": 24,
+              "objective_kind": "soft_l1",
+              "objective_before": 0.1864472068295962,
+              "objective_after": 0.17173333980289737,
+              "integer_metrics": {
+                "RGB_MAE_8bit": 1.5714713888021068,
+                "RGB_P95_8bit": 5.831650353750376
+              }
+            }
+          },
+          "virtual_heldout_validation_replica": {
+            "RGB_MAE_8bit": 2.671119765970945,
+            "RGB_P95_8bit": 9.99606327001107
+          },
+          "final_all_virtual_color_prediction": {
+            "RGB_MAE_8bit": 1.9942743558744451,
+            "RGB_P95_8bit": 7.98040923026262
+          },
+          "validation_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 17,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.3242519901530741,
+            "objective_after": 0.2971090279520656,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.9174350892635272,
+              "RGB_P95_8bit": 7.485496768686426
+            }
+          },
+          "final_optimizer": {
+            "optimizer_converged": true,
+            "evaluations": 20,
+            "objective_kind": "soft_l1",
+            "objective_before": 0.41175803034858244,
+            "objective_after": 0.39317085693094933,
+            "integer_metrics": {
+              "RGB_MAE_8bit": 1.9942743558744451,
+              "RGB_P95_8bit": 7.98040923026262
+            }
+          },
+          "native_controls": [
+            -0.5,
+            0.328125,
+            -0.5,
+            0.5,
+            0.5,
+            -0.5,
+            -0.5,
+            0.5,
+            -0.5,
+            -0.34375,
+            -0.1875,
+            -0.5,
+            0.5,
+            -0.5,
+            -0.5,
+            0.5,
+            0.5
+          ],
+          "native_bound": 0.5,
+          "actual_camera_error": null,
+          "physical_color_accuracy_verified": false,
+          "warning": "Surrogate prediction only; response calibration error and unmeasured WB/gamut are not removed by more optimization",
+          "index": 14,
+          "chosen_id": "extended-LR",
+          "comparison": [
+            {
+              "id": "extended-LR",
+              "selection": {
+                "RGB_MAE_8bit": 3.5331717109999268,
+                "RGB_P95_8bit": 13.643933579515435
+              },
+              "independent": {
+                "RGB_MAE_8bit": 2.083179235829681,
+                "RGB_P95_8bit": 7.598379505370273
+              }
+            },
+            {
+              "id": "existing-0",
+              "selection": {
+                "RGB_MAE_8bit": 4.732322149076144,
+                "RGB_P95_8bit": 11.636651383043247
+              },
+              "independent": {
+                "RGB_MAE_8bit": 4.041015253091274,
+                "RGB_P95_8bit": 9.716143548878229
+              }
+            }
+          ],
+          "selection_policy": "lowest quantized validation MAE; choice fixed before independent evaluation",
+          "independent_colors": 512,
+          "Lightroom_reference_used": true,
+          "server": "aep72",
+          "seconds": 82.62072450399864,
+          "parity": {
+            "dtype": "float64",
+            "device": "CPU",
+            "max_forward_or_derivative_error": 4.560032906830713e-13,
+            "GPU_used": false,
+            "camera_io": false
+          },
+          "reference_pipeline": "generated-Bayer-DCP-Lightroom-reference-v1",
+          "reference_settings": {
+            "WhiteBalance": "Custom",
+            "Temperature": 5000,
+            "Tint": 10,
+            "Exposure2012": 0,
+            "LensProfileEnable": 0,
+            "Sharpness": 0,
+            "ColorNoiseReduction": 0,
+            "LuminanceSmoothing": 0,
+            "ConvertToGrayscale": false
+          },
+          "actual_Adobe_reference_settings": {
+            "CameraProfile": "Camera Negative Film (GR Look, a7C2 WB)",
+            "WhiteBalance": "Custom",
+            "ColorTemperature": "5000",
+            "Tint": "+10",
+            "Exposure2012": "0.00",
+            "LensProfileEnable": "0"
+          },
+          "spatial_lens_correction_fitted": false,
+          "model_error_included_in_metrics": false
+        }
+      },
+      "native_photo_basis": {
+        "schema": "a7c2-photo-q10-endpoint-uniform-matrix/1",
+        "tone_q10": [
+          -32,
+          42,
+          -64
+        ],
+        "matrix_planes": [
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ],
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ],
+          [
+            16,
+            16,
+            -16,
+            -16,
+            16,
+            -16
+          ]
+        ],
+        "chroma_planes": [
+          [
+            -11,
+            -6,
+            -16,
+            16,
+            -16,
+            -16,
+            16,
+            16
+          ],
+          [
+            -11,
+            -6,
+            -16,
+            16,
+            -16,
+            -16,
+            16,
+            16
+          ],
+          [
+            -11,
+            -6,
+            -16,
+            16,
+            -16,
+            -16,
+            16,
+            16
+          ]
+        ]
+      },
+      "source_target": {
+        "model": "ILCE-7CM2",
+        "firmware": "2.01"
+      },
+      "target_color_calibrated_on_A7R5": false
+    }
+  ],
+  "coordinate_model": "bt601-limited-provisional",
+  "rendering_model_sha256": "15aa6b41d942807be5b947edcfd229602341648f0e295cb6bd3157373027a805",
+  "rendering_model_origin": "上游一台 ILCE-7CM2 的单场景共享近似",
+  "A7R5_calibration_measured": false,
+  "A7R5_hardware_packing_verified": false,
+  "raw_tables_are_hardware_upload_banks": false,
+  "DCP_sensor_calibration_copied": false,
+  "camera_io": false,
+  "deployment_ready": false,
+  "limits": [
+    "并非富士或理光原厂处理算法",
+    "合成拟合误差不能代表 A7R5 实拍误差",
+    "需要独立完成 A7R5 CP 上传、预览/拍摄路由和菜单集成"
+  ],
+  "joint_parameters": true
+}

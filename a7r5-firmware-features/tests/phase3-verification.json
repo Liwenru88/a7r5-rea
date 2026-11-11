@@ -1,0 +1,287 @@
+{
+  "schema": 1,
+  "base": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "frames_per_bundle": 736841,
+  "archive_members_per_bundle": 147,
+  "bundles": {
+    "fl23-single": {
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "5fd46ef3fd37b2aeb855f80a8d50c71c04108e1ae6c1e043a7fc52152a200d55",
+        "crc32": "67cc0439"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-fl2-fl3"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "56bf92a74a1e4af99623eb4221ec0ceed2849f693ceea430934dc52b7e20db54",
+        "cpapp-b.bin": "42729bf16174bdc9a95035968a56140a617ba5e73f104dd3f29eabf9cb0ee465"
+      },
+      "wbi_policy": "preserve-stock",
+      "language_banks_written": 0,
+      "lock_sha256": "59210f2747e062b9c308fe048352d49978f43ee0da1f9b08e177d7f685af2912",
+      "verification_sha256": "b18f8cce6b650826833eab48a36b770eeb06b3b19048c7da870149e8adde4ef8",
+      "matches_historical_package": true
+    },
+    "six-single": {
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "9583b53ea5b193b929eee90c30d2379f6b36022795a5f8289ea92e2aba8ceec4",
+        "crc32": "3628293e"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-factory-six"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "7876a2129a67b5d52eba99933e355935a7bdc7f49f5a527d01ab044342fe56e7",
+        "cpapp-b.bin": "35a9e577715d35a20e7353d78f63544ca7c2e88a4aa7167985b4af075aa8fb28"
+      },
+      "wbi_policy": "preserve-stock",
+      "language_banks_written": 68,
+      "lock_sha256": "868d1d2250f6b889bded697af83c3afc63fefb8f7c0dbc6a643536ac00c942ee",
+      "verification_sha256": "a348f90e7ee3d654d6ac4dfd023793921ad14c0a0f2203d2237801a98bef17f0",
+      "matches_historical_package": true
+    },
+    "fl23-six": {
+      "version": "4.22",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "341085ebdc4ecfff27ac84baeee10df039856c53c7a635edd71524ea70c8e613",
+        "crc32": "dd7dd0d4"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-factory-six",
+        "look-fl2-fl3"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "516bf2827193cf9a5156ff9151da017b38b6c330d5c28f569ab87e3adf2e0c4b",
+        "cpapp-b.bin": "85344adf0e9aca7064acbf9836b7ac80658b84893ef59ae34540a2f18755e0c5"
+      },
+      "wbi_policy": "preserve-stock",
+      "language_banks_written": 68,
+      "lock_sha256": "b8fa4af1c276dadf693aaa5dfa1dd48d851ba313972f16c91f23e381dd41d27c",
+      "verification_sha256": "5dc28de99478c54a2452336f5d7d2d2ff1d45296307802b4dfc9ac93cf19979a"
+    },
+    "look24-fl23": {
+      "version": "4.22",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "d7f08ad99e1db984f8019256bb07dba909a7ec510ad9edf6e503cac7c26fa151",
+        "crc32": "3594fa74"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-fl2-fl3",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "fe3fa11c7879265d0910b2a93d7a764fec7451c0ce30013b5375c2fe1db98f2c",
+        "cpapp-b.bin": "259ee32529adc5697099fab151bb2c2ffc4471eb5fdc0fbfedd5eb17edbafa09"
+      },
+      "wbi_policy": "invalidate-first-sector",
+      "language_banks_written": 0,
+      "lock_sha256": "45289871a3e97f7308ed4e0dd47efc603dc4091b43d6599e82fbd127b1a904e9",
+      "verification_sha256": "ea1c0199a9d74655a0135ba701e849e74d00a423c5a234a4b6d14d39b2513665",
+      "matches_runtime_components": true,
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "look24-six": {
+      "version": "4.22",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "b6e3937937c81caccd6454ca1635db64894febe7671f4d0553b4d5b35b6d3122",
+        "crc32": "a3c1282b"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-factory-six",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "9d05f8ef711474e4ff4950d5abd5a3f10ff68810d6c8664ffd602ddf34e88ecd",
+        "cpapp-b.bin": "bbdbca8dcec928c16d7ca3cd819a13e1ffc73e61cb0da630b128c57e5b9b13f6"
+      },
+      "wbi_policy": "invalidate-first-sector",
+      "language_banks_written": 68,
+      "lock_sha256": "a3e810ca1fa7d2df78492805653218ca07001517b1bb41a14024fc206c1e8403",
+      "verification_sha256": "81f5a339e8b86d560382706de1ca951ff178699547c9d2f1d5b0d44a74821a0a",
+      "matches_runtime_components": true,
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "look24-fl23-six": {
+      "version": "4.22",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "d632d594c0a32f7d042da597a67769e63fe7bb3c2c5d4bd27f3eecfeb96cf39a",
+        "crc32": "b7f232ce"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-factory-six",
+        "look-fl2-fl3",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "4a0b827096e1470e5a5996cfda9feb9bf77c0814be278963b5b833b3e9e3e89c",
+        "cpapp-b.bin": "bb8d538620d23e48e73d20db12e671a8a2922a9c739364e1b0b488f425311004"
+      },
+      "wbi_policy": "invalidate-first-sector",
+      "language_banks_written": 68,
+      "lock_sha256": "b06ce9d6f2e5a4c4da1ad0abddb59907303bf1833cefb84ea592c785d9411c22",
+      "verification_sha256": "4f03349d6939a4be674f1512028a7dd7634cba66ae0fb1a1c216dc88301cd2cc",
+      "matches_runtime_components": true,
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    },
+    "look24-color-marker-ntsc": {
+      "version": "4.22",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "f1b0d4d85ab4502c5636f28d9760fab52ef6b0d97af62a2d559a6be337e3c9bf",
+        "crc32": "b80c9c1a"
+      },
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "status": "OFFLINE_VERIFIED",
+      "independent_unpack": true,
+      "openssl_signature_verified": true,
+      "usr_filesystem": "checked",
+      "modules": [
+        "look-factory-six",
+        "look-fl2-fl3",
+        "look24-core",
+        "look24-preview",
+        "look24-group-memory",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning",
+        "photo-framing-markers",
+        "video-ntsc-prompt"
+      ],
+      "component_sha256": {
+        "usr/lib/appFw.so": "f3cd45308dd37591c8e04b4b94c8338113fdcef010961bd9dc2edf8c1dc0a047",
+        "cpapp-b.bin": "bb8d538620d23e48e73d20db12e671a8a2922a9c739364e1b0b488f425311004"
+      },
+      "wbi_policy": "invalidate-first-sector",
+      "language_banks_written": 68,
+      "lock_sha256": "5e4b2b10f597accc2d11abf8f100727cfee23b27b32c372b35292bd465db72af",
+      "verification_sha256": "d18e48fec45ef534ae88d624eead5fc0d8c2082dbdd1a2c713ac94e790853ad2",
+      "sd_recipe_sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+    }
+  },
+  "native_avcam_preserved": true,
+  "historical_resource_checksums_verified": 111,
+  "phase3_with_marker_and_ntsc_reverified": {
+    "bytes": 754525608,
+    "sha256": "f1b0d4d85ab4502c5636f28d9760fab52ef6b0d97af62a2d559a6be337e3c9bf",
+    "crc32": "b80c9c1a"
+  },
+  "phase2_full_bundle_reverified": {
+    "bytes": 754525608,
+    "sha256": "8cb7eb10d0d4af35ea96681d1fc95f36a2034dd2bcffe47bbe13ebd81df0dabc",
+    "crc32": "5c7ee284"
+  },
+  "targeted_regressions": {
+    "six_only_cp_and_selector": 4,
+    "full_cp_and_selector": 4,
+    "fl23_plus_24_slots": 4,
+    "six_plus_24_slots": 1,
+    "fl23_six_plus_24_slots": 2,
+    "package_and_plan": 3,
+    "previous_plan": 14
+  },
+  "tests_sha256": {
+    "tests/test_compose_phase3.py": "dcfe090c2cd555e450bdb43b03f2b00eb3795baef7777228c5fb0a11a3d1cf54",
+    "native24-combined/tests/test_color_modules.py": "6cae1acd6cbe2d5d3334375730236ac8c35cb2ca2ffadbf2ad0dc742230f5ffb"
+  },
+  "scope": [
+    "CP 启动代码页映射、原厂组选择器、六款内置滤镜 Gamma、矩阵与色度",
+    "24 个 SD 槽应用后切回原厂组、FL2／FL3 的 4.17 成像数值对照",
+    "实包 68 份名称资源，构图标记与 NTSC 指令、原厂 AVCAM 保留"
+  ],
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "pending_device_acceptance": [
+    "首启",
+    "真实取景",
+    "实际成片"
+  ]
+}

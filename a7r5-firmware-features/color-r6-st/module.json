@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "id": "color-r6-st",
+  "label": "R6 ST 色彩模板",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "claims": [
+    "gl.0x02a40001",
+    "gl.0x02a4000d"
+  ],
+  "changes": [
+    {
+      "builder": "gl-fields",
+      "fields": [
+        {
+          "property": 44302337,
+          "offset": 4688,
+          "bytes": 48,
+          "value_sha256": "e578cd18c4736c404f62049a2e00e0cb59dcd9b3c69ebd4096c6fff8ea419485"
+        },
+        {
+          "property": 44302349,
+          "offset": 672,
+          "bytes": 192,
+          "value_sha256": "fe5a1f5c1636cd146a5f1bfa32def49cac06a58ac5004355b96f546d0f67ef4e"
+        }
+      ]
+    }
+  ],
+  "reference": "independent/profiles/r6-st/resources.json"
+}

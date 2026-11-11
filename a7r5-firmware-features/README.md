@@ -1,8 +1,20 @@
 # A7R5固件功能研究成果
 
-**当前主线为 [4.17 整合版](native24-combined/README.md)。** 从原厂 4.00 重建组件、复现升级包、执行离线验证及定位功能源码，请从[实施与复现手册](native24-combined/实施与复现手册.md)开始。三个目录的依赖和归档范围见[目录归并清单](native24-combined/目录归并清单.md)。
+**4.19 全功能修正版（2026-11-11）已完成封包。** 包含十个模块、`look24` 修订 2、画幅修订 5，封入三项操作闭环修复，并修正配置目录的 AArch64 打开标志。最终包 116 项回归通过，QEMU 正常初始化、54 次 Qt 操作／53 张原帧复验通过，独立重建、解包及验签通过。历史包保留；NOR 错误漏报仍沿用原厂实现，未进行机身启动验收。[新升级包与边界](releases/4.19-full-repaired-20261111/README.md) · [复现说明](releases/4.19-full-repaired-20261111/实施与复验.md) · [此前组件修复记录](specs/4.19-operation-fixes/实施与验证.md)
 
-[4.17 升级包](native24-combined/releases/4.17/BODYDATA.DAT) · [十二款正式配方](native24-combined/releases/4.17/R5NATIVE.BIN) · [发布校验](native24-combined/releases/4.17/verification.json)
+**前一版 4.19 全功能包（历史）**从原厂 4.00 合并十个模块、十档画幅修订 3 和双组自定义声音。137 项用例、四个 QEMU 会话 174 帧是该历史包的结果，不包含后续操作和目录 ABI 修复。旧 4.19 独立版和历史升级包保持。[历史包、截图与边界](releases/4.19-full/README.md) · [原实施记录](specs/4.19-full-integration/实施与复验.md)
+
+**原厂 4.00 按模块构建**已接入 NTSC 提示、电子快门声音、R6 ST、AWB、24 槽及其可选能力、照片构图标记、FL2／FL3、C1–C6、镜头 AF 和十档纵横比。镜头 AF 和十档纵横比可单选，也可与 24 槽共存。 [构建工程实施手册](构建工程实施手册.md) · [固件模块化工程设计](固件模块化工程设计.md)
+
+**当前对外配置共 10 个模块。** 24 槽的六项能力合为一个 `look24` 入口。历史六个 ID 仍可用于复现旧构建锁。 [24 槽模块](look24/README.md)
+
+**4.25 全功能预设**在 4.24 的 24 槽、FL2／FL3、C1–C6、镜头 AF 和十档纵横比之上，加入照片构图标记、NTSC 提示处理、电子快门声音、R6 ST 和 AWB 优先。已从原厂 4.00 构建并通过独立解包和指令回放，机身验收待补。 [复现步骤](构建工程实施手册.md#425-全功能组合) · [验证回执](tests/full-stock400-verification.json)
+
+**按功能复现升级包**请从[独立功能目录](independent/README.md)开始。每项记录了基线、实施步骤、归档增量和离线验证范围。4.18 启动事件及 WBI 修正单独留档。
+
+**4.17 整合版仍可单独复现。** 原有实现、离线验证和目录依赖保留在历史工程文档中。 [4.17 整合版](native24-combined/README.md) · [实施与复现手册](native24-combined/实施与复现手册.md) · [目录归并清单](native24-combined/目录归并清单.md)
+
+[24 槽 4.19 独立版](independent/profiles/native24-stock/README.md) · [4.17 升级包复现](independent/profiles/native24/README.md) · [十二款正式配方](native24-combined/releases/4.17/R5NATIVE.BIN) · [发布校验](native24-combined/releases/4.17/verification.json)
 
 ## 历史版本与早期研究
 
@@ -37,7 +49,7 @@
 | [native24-combined](native24-combined/README.md) | 4.17 主线，统一实施入口、运行时、验证、升级包 |
 | [native12-combined](native24-combined/dependencies/native12-combined/README.md) | 4.17 使用的固定上游、基线构建和补丁依赖，另有 4.10／4.11 历史交付 |
 | [24 槽格式依赖](native24-combined/dependencies/native24-format/README.md) | 4.17 使用的格式转换与测试夹具，另有独立容量原型 |
-| [01 FL2／FL3](01_FL2和FL3启用实施细节.md)、[02 六款滤镜](02_六款自定义滤镜实施细节.md)、[03 NTSC](03_关闭NTSC提示实施细节.md)、[04 声音](04_电子快门声音启用实施细节.md) | 早期4.06固定配方及实施材料；其中六款滤镜属于历史方案，不是当前十二配置BIN |
+| [01 FL2／FL3](look-fl2-fl3/01_FL2和FL3启用实施细节.md)、[02 六款滤镜](look-factory-six/02_六款自定义滤镜实施细节.md)、[03 NTSC](video-ntsc-prompt/03_关闭NTSC提示实施细节.md)、[04 声音](photo-electronic-shutter-sound/04_电子快门声音启用实施细节.md) | 早期4.06固定配方及实施材料；其中六款滤镜属于历史方案，不是当前十二配置BIN |
 | [照片标记研究](aspect-guide406/README.md)、[固件集成说明](aspect-guide406/integration.md) | 照片菜单与标记参数的原始研究，相关代码已按新布局合入当前整合版 |
 | [custom-filters](custom-filters/README.md) | 独立32槽／机内CUBE研究路线，保留原状，不进入当前整合版 |
 | `materials/` | 固定参数、来源、离线复现材料；保留原有各自校验范围 |

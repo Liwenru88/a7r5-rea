@@ -1,0 +1,31 @@
+{
+  "profile": "native24",
+  "version": "4.17",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin": "f0281f9513fd247d1b32f2c7b6c6e6122788b097db41cad0bb61ed6b05495f37",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin": "f025b3725d3824e4d851d3df0d234f224bf389bd92a8fb59818276347aebdff9",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin": "fa27745f8b8694651df6bc55bffde4b8809ad7305b3a2851faecbac13cc99c75",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin": "cb0c7062f6ec1c7a2c0c2a604727d397f2a356e03abe912b11f2f1923db739a3",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin": "acc379d7f78603d30377d1fc47c25ecb4e6f74e5d211dd579906f3602d51826a",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin": "fc3619283668c15590eda179b72eee4e13c5c2aaf4f6971a187dc80ad2398203",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin": "5de3b79bf557e749679b3c019a45ca81e7f236e250cf4428fbaca435f2be88be",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin": "bd008c2be586c3ca3d95d834e41ab77ed70504b2ad22c7bbfc18e2ff768a9668",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin": "6c6f98ca3060841955a06a1ac256636be7ece9bf39012485ed9ed339c441abcb",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin": "62161d753b7a2169357fab1a1a891b3e25f15d6a2e8a33ac7855617320010d8b",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin": "a0a2844f1aef419b501069f0602181fc42ecd17111204acbc589a954169d095c",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin": "900961d01664b17bf25fb2d399563fde9da6646b7a0a6dd0c58fd716654eabee",
+    "0111_backup_sum/backup.sum": "3bb4488c4bc93a5cb5ff57ab9b4624ff444192145a1b908cbdeeb71718a8a2cc",
+    "0700_part_image/dev/nflasha15": "bf7f0f0bae6acd51e78c99383eeea65844695fa82eacbcb14ac44d6ab62f5f16",
+    "0700_part_image/dev/nflasha5": "eac727efd7af2142ddd9b8ae22387614eaaaba9dc9f04ce0434bf8e7c766d693",
+    "0700_part_image/dev/nflasha8": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d",
+    "0701_part_image_sum/part_image.sum": "e9ef9fdcc92e736f351221ae5d1ac5a5b10915713f6dbbc56033e3dfeafce54b"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

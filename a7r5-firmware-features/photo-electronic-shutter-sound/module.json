@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "id": "photo-electronic-shutter-sound",
+  "label": "电子快门声音",
+  "revision": 2,
+  "available_variants": {"custom-dual-full": "十模块全功能组合的机械／电子双组自定义声音"},
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "claims": [
+    "cp.shutter-sound"
+  ],
+  "changes": [
+    {
+      "builder": "component-bytes",
+      "component": "cpapp-b.bin",
+      "patches": [
+        {
+          "offset": 131368,
+          "before": "1872ac00",
+          "after": "0080ac00"
+        },
+        {
+          "offset": 3634722,
+          "before": "03210028",
+          "after": "6ff3fdb5"
+        },
+        {
+          "offset": 11432480,
+          "before": "000000000000000000000000000000000000000000000000000000000000",
+          "after": "0321002807d041f2186c54f80cc0bcf1010f18bf00214ff4b64090f4f8b1"
+        }
+      ]
+    }
+  ],
+  "reference": "independent/profiles/electronic-shutter/resources.json"
+}

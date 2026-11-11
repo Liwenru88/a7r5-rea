@@ -1,0 +1,16 @@
+{
+  "profile": "photo-markers",
+  "version": "4.07",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "69bc7c3d4dde1083844be3587120a1b9f9ab5845f1013ef9b3d2c4d3a0bb877a",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha15": "cd2383823b7b1ffbdae5212d2f062c1668c783d66310cb48cda95154d5ecd41b",
+    "0701_part_image_sum/part_image.sum": "cc531a5979462962af9f152e0f24303e8bebc807c21d74054bb28d0c0dc4094b"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

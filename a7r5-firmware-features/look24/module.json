@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "id": "look24",
+  "label": "24 槽自定义滤镜",
+  "revision": 2,
+  "supported_bases": ["ilce-7rm5-4.00"],
+  "requires": [],
+  "conflicts": [
+    "look24-core",
+    "look24-sd-import",
+    "look24-preview",
+    "look24-group-memory",
+    "look24-tuning",
+    "look24-selection-restore"
+  ],
+  "claims": [
+    "ap.creative-look",
+    "cp.native24",
+    "native24.sd-import",
+    "native24.preview",
+    "native24.group-memory",
+    "native24.tuning",
+    "native24.selection-restore"
+  ],
+  "changes": [{"builder": "native24-complete"}],
+  "reference": "independent/profiles/native24-stock/resources.json"
+}

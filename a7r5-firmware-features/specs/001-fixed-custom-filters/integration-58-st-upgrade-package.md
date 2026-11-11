@@ -1,5 +1,7 @@
 # 第58批：ST验证门禁下的完整更新包
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 > 2026-11-02 故障更新：用户已报告 integration58 实机进入“创意外观”会死机重启，停止推荐继续测试此候选。故障尚未修复；同包 AP 软件环境未复现不能排除实机问题。以下保留历史封装记录，最新状态见[故障59记录](incident-59-creative-look-reboot.md)。
 
 日期：2026-11-02。T11st58本地打包交付完成。基于唯一修改版4.06，使用第57批带ST连续验证门禁的构建回执，完整执行AP／CP／USR组合、研究签名、独立解密和完整回读。未操作相机，不做CP／ISP硬件模拟，未扩大基底、特殊分支或Gamma格式。
@@ -24,7 +26,7 @@
 
 ```text
 .venv/bin/python -B a7r5-firmware-features/custom-filters/experiments/release406/build_candidate.py
-  --source-dat /Users/wenruli/Desktop/索尼/BODYDATA.DAT
+  --source-dat ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT
   --source-workspace .local/fixed-custom-filters/integration52-source406
   --software .local/fixed-custom-filters/integration57-software-gated/verification.json
   --cp-receipt .local/fixed-custom-filters/integration56-cp-staged/verification.json
@@ -40,7 +42,7 @@
 
 来源未变，复用第57批445 passed／10旧配置skip、70 passed带门禁构建、4个ASan／UBSan场景和7次原CP纯软件构表证据，本轮未重复执行相同测试。CP继续使用RX39280／40960、静态RW48744、51挂点／69窗口的已严格正逆构建；最终CP SHA `ef616a6581dac99106380a4f56da9d88093680cf524f72b0eb0b502cea58fc99`。
 
-原输入`/Users/wenruli/Desktop/索尼/BODYDATA.DAT`的SHA保持`3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`；原更新器和信任规则保持，没有新增同版本重装或降级能力。
+原输入`${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT`的SHA保持`3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`；原更新器和信任规则保持，没有新增同版本重装或降级能力。
 
 ## 为什么与第56批的SHA不同
 

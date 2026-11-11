@@ -1,0 +1,9 @@
+{
+  "base": "ilce-7rm5-4.00",
+  "modules": [
+    "video-ntsc-prompt",
+    "photo-electronic-shutter-sound",
+    "color-r6-st",
+    "color-awb-priority"
+  ]
+}

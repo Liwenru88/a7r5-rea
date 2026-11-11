@@ -9,13 +9,14 @@ import json
 from pathlib import Path
 import sys
 import numpy as np  # Must precede historical imports with their audit path.
-from PIL import Image, PngImagePlugin
+from PIL import Image, ImageCms, PngImagePlugin
 import core
 import white_balance
 from edit_native_recipe import read
 from raw_slog3_reference import RawSLog3Reference, Cube
 
 FRONTEND_REVISION = 'itp-native-sscs-v2'
+SRGB_ICC = ImageCms.ImageCmsProfile(ImageCms.createProfile('sRGB')).tobytes()
 
 def raw_camera_identity(source):
     """Read TIFF Make/Model rather than use a version-dependent LibRaw matrix as ID."""
@@ -82,7 +83,25 @@ def raster(keys, rgb, bounds):
 
 
 PREVIEW_LONG_EDGE = 3840
+CALIBRATED_LONG_EDGE = 1536
 MAX_PHOTO_PIXELS = 110_000_000
+RAW_CALIBRATION = dict(
+    revision='r5-raw-shared-tone-rgb-20261106',
+    log_gains=[0.2565336323249784, 0.35209327203429297, 0.32593416776344386],
+    log_gain_slopes=[-0.02592006340620716, -0.14662723212882095, 0.05457478731873242],
+    green_scale=9500,
+    tone_center=.4,
+)
+
+
+def calibrated_camera_rgb(neighborhoods):
+    # 用原始绿色亮度控制平滑增益，两款配方和所有照片共用同一组系数。
+    green = neighborhoods[..., 4, 1].astype(np.float32)
+    tone = np.sqrt(np.clip(green/RAW_CALIBRATION['green_scale'], 0, 1))
+    gains = np.exp(np.asarray(RAW_CALIBRATION['log_gains'])
+        +(tone[..., None, None]-RAW_CALIBRATION['tone_center'])
+        *np.asarray(RAW_CALIBRATION['log_gain_slopes'])).astype(np.float32)
+    return neighborhoods*gains
 
 
 def raster_photo(source):
@@ -146,9 +165,9 @@ def raster_photo(source):
     rgb, color = to_srgb(np.clip(np.stack(channels, axis=-1)/(2**bits-1), 0, 1), icc)
     return np.clip(rgb, 0, 1), dict(source_format=kind, bits_per_channel=bits, icc_conversion=color)
 
-def preview_coordinates(sizes):
-    """4K long edge, original aspect, common sensor samples for both paths."""
-    width = min(sizes.crop_width-16, PREVIEW_LONG_EDGE)
+def preview_coordinates(sizes, *, long_edge=None):
+    """按指定长边生成共用的传感器采样坐标。"""
+    width = min(sizes.crop_width-16, PREVIEW_LONG_EDGE if long_edge is None else long_edge)
     height = min(sizes.crop_height-16, round(width*sizes.crop_height/sizes.crop_width))
     xs = np.rint(np.linspace(sizes.crop_left_margin+8,
         sizes.crop_left_margin+sizes.crop_width-9, width)).astype(int)
@@ -186,22 +205,29 @@ def response_identity(job, pc=False, grid_key=None):
     return None
 
 
+def photo_grid_rows(rows, grid, response):
+    from gpu_runtime import available
+    from residual_grid import evaluate
+
+    flat = rows.reshape(-1, 3)
+    if available() and isinstance(response, dict) and response.get('preset', '').startswith('r5-paired-'):
+        from gpu_color import paired_numpy
+        return paired_numpy(flat, grid, response, exact_display=True).reshape(rows.shape)
+    return evaluate(flat, grid, response).reshape(rows.shape)
+
+
 def compensation(job, output, rgb, pc, grid_key, grid_enabled=True):
     """Load/verify a frozen transform once, apply the exact function in rows."""
     from photo_backend import enable
     if grid_key:
-        from grid_distillation import load_result, evaluate
+        from grid_distillation import load_result
         value, grid, _ = load_result(job, grid_key)
         response = value['identity']['response']
         if not grid_enabled:
             return rgb.copy()
         enable(response)
         def transform(a):
-            from gpu_runtime import available
-            if available() and isinstance(response,dict) and response.get('preset','').startswith('r5-paired-'):
-                from gpu_color import paired_numpy
-                return paired_numpy(a.reshape(-1,3),grid,response,exact_display=True).reshape(a.shape)
-            return evaluate(a.reshape(-1,3),grid,response).reshape(a.shape)
+            return photo_grid_rows(a, grid, response)
     elif pc:
         import pc_compensation
         import pc_stages
@@ -228,10 +254,12 @@ def compensation(job, output, rgb, pc, grid_key, grid_enabled=True):
     return apply_rows(rgb,transform,progress=lambda f:report_progress(output,phase,f))
 
 
-def raw_photo(source, job, output, recipe, model, audit, has_lut, *, reference_model=None):
+def raw_photo(source, job, output, recipe, model, audit, has_lut, *,
+              reference_model=None, calibrated=False):
     from compute_backend import render_native
     from baseline import for_job
     from edit_color_pipeline import RuntimeColor
+    from patch_sampling import center_mean
 
     report_progress(output,"解码 RAW")
     from rawpy import _rawpy as rawpy
@@ -266,7 +294,8 @@ def raw_photo(source, job, output, recipe, model, audit, has_lut, *, reference_m
         raw.close()
     wb_shift=white_balance.from_recipe(recipe)
     wb_ratio=white_balance.photo_gains(model,wb,wb_shift)
-    xs, ys = preview_coordinates(sizes)
+    long_edge = CALIBRATED_LONG_EDGE if calibrated else PREVIEW_LONG_EDGE
+    xs, ys = preview_coordinates(sizes, long_edge=long_edge)
     if has_lut:
         reference = RawSLog3Reference(profile, Cube(job/'input.cube'), audit['gamut'],
                                      mode='raw-alchemy-v0.6.2-fused')
@@ -274,22 +303,37 @@ def raw_photo(source, job, output, recipe, model, audit, has_lut, *, reference_m
         base_model = reference_model if reference_model is not None else RuntimeColor.from_capture(*for_job(job))
     target = np.empty((len(ys), len(xs), 3), dtype=float)
     predicted = np.empty_like(target)
+    corrected = np.empty_like(target) if calibrated else None
+    shift_active = white_balance.active(wb_shift)
     for row, y in enumerate(ys):
         if row % 32 == 0:
             report_progress(output, '渲染同一张 RAW 的参考图和拟合图', row/len(ys))
         neighborhoods = camera[y, xs[:, None]+np.arange(-4, 5)[None, :]]
         front = approximate_front(neighborhoods, wb, model)
-        fitted_front = (approximate_front(neighborhoods*wb_ratio, wb, model)
-                        if white_balance.active(wb_shift) else front)
-        predicted[row] = render_native(model,fitted_front)[:, 4]/16383
+        fitted_front = approximate_front(neighborhoods*wb_ratio, wb, model) if shift_active else front
+        original = render_native(model, fitted_front)
+        predicted[row] = (center_mean(original) if calibrated else original[:, 4])/16383
+        if calibrated:
+            adjusted = calibrated_camera_rgb(neighborhoods)
+            if shift_active:
+                adjusted = adjusted*wb_ratio
+            fitted_adjusted = approximate_front(adjusted, wb, model)
+            corrected[row] = center_mean(render_native(model, fitted_adjusted))/16383
         if has_lut:
             target[row] = reference(camera[y, xs].astype(float)/(white-black))
         else:
-            target[row] = render_native(base_model,front)[:, 4]/16383
-    return target, predicted, dict(source_format='arw', reference_kind='lut' if has_lut else 'baseline',
+            base = render_native(base_model, front)
+            target[row] = (center_mean(base) if calibrated else base[:, 4])/16383
+    # 按拍摄方向显示，便于与同一次拍摄的直出和目标图核对。
+    rotation = {3: 2, 5: 1, 6: 3}.get(sizes.flip, 0)
+    return np.rot90(target, rotation), np.rot90(predicted, rotation), (
+        np.rot90(corrected, rotation) if calibrated else None
+    ), dict(source_format='arw', reference_kind='lut' if has_lut else 'baseline',
         gamut=audit.get('gamut'), camera_wb=profile['camera_wb_rgb'],
         raw_camera_identity=camera_identity, decoder_matrix_matches_reference=decoder_matrix_matches_reference,
-        sampling='rounded-uniform-sensor-coordinates', orientation='sensor landscape')
+        sampling='rounded-uniform-sensor-coordinates', orientation='capture orientation',
+        preview_long_edge=long_edge, raw_calibration=RAW_CALIBRATION if calibrated else None,
+        native_probes='center-horizontal-5-mean' if calibrated else 'center')
 
 
 def raster_native(source, output, recipe, model):
@@ -315,48 +359,69 @@ def raster_native(source, output, recipe, model):
     return target, predicted, metadata
 
 
-def save_preview_images(output, target, predicted):
-    report_progress(output,'保存参考图和拟合图')
+def save_preview_images(output, target, predicted, corrected=None):
+    report_progress(output,'保存预览图')
     png_info = PngImagePlugin.PngInfo()
     png_info.add_text('Color interpretation', '8-bit output RGB displayed as sRGB; no extra gamma or black subtraction')
-    for name, rgb in [('lut', target), ('model', predicted)]:
-        Image.fromarray(quantize(rgb)).save(output/(name+'.png'), pnginfo=png_info)
+    for name, rgb in [('lut', target), ('model', predicted), ('calibrated', corrected)]:
+        if rgb is not None:
+            Image.fromarray(quantize(rgb)).save(output/(name+'.png'), pnginfo=png_info, icc_profile=SRGB_ICC)
 
 
-def render_slot(source, output, config, grid_enabled=True, raster_input=False):
+def comparison_png(source, *, camera_jpeg=False):
+    """沿用照片解码、方向和 ICC 规则，供浏览器展示 TIFF 等对照图。"""
+    import io
+
+    if camera_jpeg:
+        with source.open('rb') as stream:
+            if stream.read(3) != b'\xff\xd8\xff':
+                raise ValueError('机内直出对照需要 JPEG 文件')
+    rgb, _ = raster_photo(source)
+    output = io.BytesIO()
+    Image.fromarray(quantize(rgb)).save(output, format='PNG', icc_profile=SRGB_ICC)
+    return output.getvalue()
+
+
+def render_slot(source, output, config, grid_enabled=True, raster_input=False, calibrated=False):
     from baseline import resolve, V45_ID
     from edit_parameter_context import ParameterContext, RuntimeColor
     from grid_models import default_response
-    from residual_grid import evaluate
 
     binary = core.compiler.pack(config)
     entry, = core.compiler.unpack(binary)['entries']
     context = ParameterContext(RuntimeColor.from_capture(*resolve(V45_ID)))
     model = context.build(**core.slot_native_parameters(context, entry))
+    corrected = None
     if raster_input:
         target, predicted, metadata = raster_native(source, output, {}, model)
     else:
-        target, predicted, metadata = raw_photo(source, None, output, {}, model, {}, False,
-                                                reference_model=context.base)
+        target, predicted, corrected, metadata = raw_photo(source, None, output, {}, model, {}, False,
+            reference_model=context.base, calibrated=calibrated)
         metadata['reference_kind'] = 'slot-baseline'
     response = default_response()
     if grid_enabled:
         report_progress(output, '应用槽位整数网格')
         grid = np.asarray(entry['grid_5x9x9']['coefficients']).reshape(3,405).T
-        predicted = apply_rows(predicted, lambda rows: evaluate(
-            rows.reshape(-1, 3), grid, response).reshape(rows.shape),
-            progress=lambda fraction:report_progress(output, '应用槽位整数网格', fraction))
-    save_preview_images(output, target, predicted)
+        def apply_grid(rgb, phase):
+            return apply_rows(rgb, lambda rows: photo_grid_rows(rows, grid, response),
+                progress=lambda fraction:report_progress(output, phase, fraction))
+        predicted = apply_grid(predicted, '应用槽位整数网格')
+        if corrected is not None:
+            corrected = apply_grid(corrected, '应用槽位整数网格（校准 RAW）')
+    save_preview_images(output, target, predicted, corrected)
     height, width = target.shape[:2]
+    metadata.setdefault('preview_long_edge', PREVIEW_LONG_EDGE)
     result = dict(schema='r5-slot-photo-preview/1', source_sha256=digest(source),
         **metadata, width=width, height=height, slot=entry['number'], slot_name=entry['full_name'],
         slot_bin_sha256=core.sha(binary), endpoint=0, baseline_dataset=V45_ID,
-        grid_effect_enabled=grid_enabled, grid_response=response, frontend_approximate=True)
+        grid_effect_enabled=grid_enabled, grid_response=response, frontend_approximate=True,
+        frontend_revision=FRONTEND_REVISION)
     (output/'result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n')
     return result
 
 
-def render(source, job, output, pc=False, grid_key=None, grid_enabled=True, raster_input=False):
+def render(source, job, output, pc=False, grid_key=None, grid_enabled=True, raster_input=False,
+           calibrated=False):
     output.mkdir(parents=True, exist_ok=True)
     pc = bool(pc or grid_key)
     pc_sha = digest(job/'pc_compensation.json') if pc else None
@@ -375,22 +440,25 @@ def render(source, job, output, pc=False, grid_key=None, grid_enabled=True, rast
     lut_sha = identity['sha256'] if identity['kind']=='lut' else None
     recipe_sha = digest(job/'fit/recipe.json')
     source_sha = digest(source)
+    corrected = None
     if raster_input:
         target, predicted, metadata = raster_native(source, output, recipe, model)
     else:
-        target, predicted, metadata = raw_photo(source,job,output,recipe,model,audit,lut_sha is not None)
+        target, predicted, corrected, metadata = raw_photo(source,job,output,recipe,model,audit,
+            lut_sha is not None, calibrated=calibrated)
     if identity != target_identity(job) or recipe_sha != digest(job/'fit/recipe.json'):
         raise ValueError('任务配方或目标在渲染期间发生变化，请重新生成预览')
-    np.savez_compressed(output/'render_inputs.npz',native=predicted,target=target)
-    if grid_key:
-        predicted=compensation(job,output,predicted,pc,grid_key,grid_enabled)
-        if grid_sha!=load_result(job,grid_key)[2]:raise ValueError('压缩参数在渲染期间发生变化')
-    elif pc:
-        predicted=compensation(job,output,predicted,pc,None,grid_enabled)
+    save_render_inputs(output, target, predicted, corrected)
+    if pc:
+        predicted = compensation(job,output,predicted,pc,grid_key,grid_enabled)
+        if corrected is not None:
+            corrected = compensation(job,output,corrected,pc,grid_key,grid_enabled)
+    if grid_key and grid_sha!=load_result(job,grid_key)[2]:raise ValueError('压缩参数在渲染期间发生变化')
     if pc and pc_sha!=digest(job/'pc_compensation.json'):
         raise ValueError('PC 补偿参数在渲染期间发生变化，请重新生成预览')
-    save_preview_images(output, target, predicted)
+    save_preview_images(output, target, predicted, corrected)
     height, width = target.shape[:2]
+    metadata.setdefault('preview_long_edge', PREVIEW_LONG_EDGE)
     result = dict(schema='r5-photo-preview/3', source_sha256=source_sha, **metadata,
         frontend_revision=FRONTEND_REVISION, target_source=identity,
         lut_sha256=lut_sha, recipe_sha256=recipe_sha, samples=width*height,
@@ -401,11 +469,17 @@ def render(source, job, output, pc=False, grid_key=None, grid_enabled=True, rast
         algorithm=('compressed' if grid_key else 'pc' if pc else 'native'),
         grid_effect_enabled=bool(grid_enabled),grid_effect_applied=bool(pc and grid_enabled),pc_compensation_enabled=pc,
         pc_compensation_sha256=pc_sha, grid_response=response_identity(job,pc,grid_key),
-        preview_long_edge=PREVIEW_LONG_EDGE,
         limits=(['普通照片已渲染成 RGB；由 sRGB 近似映射到训练前端，仅供效果参考。']
                 if raster_input else ['RAW 使用 LibRaw 双线性去马赛克及近似前端；实机及 Edit 输出需另作对照。']))
     (output/'result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n')
     return result
+
+
+def save_render_inputs(output, target, native, corrected):
+    inputs = dict(native=native, target=target)
+    if corrected is not None:
+        inputs['calibrated'] = corrected
+    np.savez_compressed(output/'render_inputs.npz', **inputs)
 
 
 def reuse(source,job,output,pc=False,grid_key=None,grid_enabled=True):
@@ -414,11 +488,14 @@ def reuse(source,job,output,pc=False,grid_key=None,grid_enabled=True):
     value=json.loads((source/'result.json').read_text())
     if value.get('frontend_revision') != FRONTEND_REVISION:
         raise ValueError('历史 RAW 预览使用旧版前端，请重新上传 RAW 生成包含 SSCS 的预览')
+    if value.get('raw_calibration') and value['raw_calibration'] != RAW_CALIBRATION:
+        raise ValueError('RAW 校准版本已变化，请重新上传照片')
     identity = value.get('target_source') or dict(kind='lut',sha256=value.get('lut_sha256'))
     if value['recipe_sha256']!=digest(job/'fit/recipe.json') or not core.target_matches({'target_source':identity},job):
         raise ValueError('照片缓存与当前任务不一致')
     with np.load(source/'render_inputs.npz',allow_pickle=False) as data:
         native=data['native'];target=data['target']
+        corrected = data['calibrated'] if value.get('raw_calibration') else None
     output.mkdir(parents=True,exist_ok=True)
     pc=bool(pc or grid_key)
     pc_sha=digest(job/'pc_compensation.json') if pc else None
@@ -430,12 +507,11 @@ def reuse(source,job,output,pc=False,grid_key=None,grid_enabled=True):
     if native_variant != value.get('native_variant'):
         raise ValueError('所选配方的原生参数与缓存不同，请重新上传同一张照片')
     predicted=compensation(job,output,native,pc,grid_key,grid_enabled)
+    calibrated = compensation(job,output,corrected,pc,grid_key,grid_enabled) if corrected is not None else None
     if pc and pc_sha!=digest(job/'pc_compensation.json'):raise ValueError('PC参数发生变化')
     if grid_key and grid_sha!=load_result(job,grid_key)[2]:raise ValueError('压缩参数发生变化')
-    np.savez_compressed(output/'render_inputs.npz',native=native,target=target)
-    report_progress(output,'保存参考图和拟合图')
-    for name,rgb in [('lut',target),('model',predicted)]:
-        Image.fromarray(quantize(rgb)).save(output/(name+'.png'))
+    save_render_inputs(output, target, native, corrected)
+    save_preview_images(output, target, predicted, calibrated)
     value.update(grid_effect_enabled=bool(grid_enabled),grid_effect_applied=bool(pc and grid_enabled),pc_compensation_enabled=pc,pc_compensation_sha256=pc_sha,
         grid_response=response_identity(job,pc,grid_key),
                  grid_key=grid_key,grid_sha256=grid_sha,
@@ -454,12 +530,15 @@ if __name__ == '__main__':
     parser.add_argument('--grid')
     parser.add_argument('--reuse',action='store_true')
     parser.add_argument('--raster-input',action='store_true')
+    parser.add_argument('--raw-calibrated',action='store_true')
     parser.add_argument('--no-grid-effect',action='store_true')
     parser.add_argument('--slot-config',type=Path)
     args = parser.parse_args()
-    options = {} if args.reuse else {'raster_input': args.raster_input}
+    if args.raw_calibrated and (args.raster_input or args.reuse):
+        parser.error('RAW 校准对照需要新的 ARW 输入')
+    options = {} if args.reuse else dict(raster_input=args.raster_input, calibrated=args.raw_calibrated)
     if args.slot_config:
         render_slot(args.source, args.output, json.loads(args.slot_config.read_text()),
-                    not args.no_grid_effect, args.raster_input)
+                    not args.no_grid_effect, **options)
     else:
         (reuse if args.reuse else render)(args.source, args.job, args.output,args.pc,args.grid,not args.no_grid_effect,**options)

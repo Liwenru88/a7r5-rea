@@ -19,7 +19,7 @@ vm.runInContext(fs.readFileSync(path.join(staticDir, 'app.js'), 'utf8').replace(
 vm.runInContext(`
   let requests=[], notices=[], pending, fail=false, pollError=false, jobError=false;
   let options={number:24,lut:'cube-A',compression_training:true,pc_options:{response:'shared-C1'}};
-  lutText='cube-A';$('gridResponseModel').value='measured';
+  lutText='cube-A';boot={grid_response:'shared-C1'};$('gridResponseModel').value='measured';
   remember=()=>{}; fitOptions=compression=>({...structuredClone(options),compression_training:compression});
   const productionShowResult=showResult;
   toast=message=>notices.push(message); showResult=()=>{}; loadDiagnostics=async()=>{};

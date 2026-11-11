@@ -58,12 +58,10 @@ class StageObjective(BlockObjective):
 
 def minimize_stage(factory, residual, initial, options, progress):
     from scipy.optimize import minimize, OptimizeResult
-    from gpu_runtime import cpu_reference
     objective = factory()
     seed = np.asarray(initial, float)
     normalization = objective.normalization
-    with cpu_reference():
-        before_rows = residual(seed)
+    before_rows = residual(seed)
     before = float(before_rows @ before_rows)
     value, initial_gradient = objective.value_gradient_stage(seed)
     expected = before / normalization
@@ -119,8 +117,7 @@ def minimize_stage(factory, residual, initial, options, progress):
         message = 'GPU objective evaluation budget reached'
     if calls % 10 != 0:
         progress.record_loss('MPS L-BFGS-B', calls, current_value, best_value)
-    with cpu_reference():
-        after_rows = residual(best)
+    after_rows = residual(best)
     after = float(after_rows @ after_rows)
     accepted = bool(np.isfinite(after) and after < before)
     if not accepted:

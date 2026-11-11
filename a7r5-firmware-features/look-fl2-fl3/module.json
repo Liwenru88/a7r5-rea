@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "id": "look-fl2-fl3",
+  "label": "FL2／FL3 创意外观",
+  "revision": 1,
+  "supported_bases": ["ilce-7rm5-4.00"],
+  "requires": [],
+  "conflicts": [],
+  "claims": ["creative-look.fl23"],
+  "changes": [{"builder": "shared-color", "option": "fl23"}],
+  "reference": "independent/profiles/fl2-fl3/resources.json"
+}

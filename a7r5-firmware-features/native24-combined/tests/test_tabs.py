@@ -66,10 +66,12 @@ class Tabs:
     def dispatch(self, a):
         event = a.arg(2)
         self.calls.append(event)
-        if event in (0x2010000, 0x2010003) and 'n12_tabs_nextrow' in a.symbols:
+        controller = a.arg(0)
+        layout = a.words(controller + 0x190, 1)[0]
+        previous, following = (0x2010006, 0x2010009) if layout else (0x2010000, 0x2010003)
+        if event in (previous, following) and 'n12_tabs_nextrow' in a.symbols:
             context = a.cpu.context_save()
-            controller = a.arg(0)
-            a.call(0x2207480, controller, 0xffffffff if event == 0x2010000 else 1)
+            a.call(0x2207480, controller, 0xffffffff if event == previous else 1)
             a.cpu.context_restore(context)
         return 1
 
@@ -103,6 +105,58 @@ def test_left_restores_each_groups_last_applied_row():
     assert t.calls[-1] == 0x2010009
     t.key(0xc)
     assert t.calls[-1] == 0x201000c
+
+
+@pytest.mark.parametrize('layout', [1, 2])
+def test_screen_left_follows_native_portrait_layout(layout):
+    t = Tabs()
+    # D9 在两种竖屏布局中都将 0/1/2 用于屏幕左侧，6 用于浏览。
+    t.ap.write(t.controller + 0x190, struct.pack('<I', layout))
+    for key in (0, 1, 2):
+        t.key(key)
+    assert t.value(2) == 1 and t.state['mid'] == 0x1610
+    assert t.state['requests'] == [1] and t.calls == []
+
+    for key in (6, 9, 3, 0xc):
+        t.key(key)
+    assert t.calls == [0x2010000 | key for key in (6, 9, 3, 0xc)]
+    assert t.value(2) == 1
+
+    t.key(0)
+    assert t.value(2) == 0 and t.state['mid'] == 0x84c
+
+    # 列表打开时转回横屏，下一次切组立即采用当前布局。
+    t.ap.write(t.controller + 0x190, struct.pack('<I', 0))
+    t.key(6)
+    assert t.value(2) == 1 and t.state['mid'] == 0x1610
+
+
+def test_rotation_while_left_is_held_never_repeats_a_group_switch():
+    t = Tabs()
+    t.key(6)
+    assert t.value(2) == 1 and t.state['requests'] == [1]
+    t.ap.write(t.controller + 0x190, struct.pack('<I', 1))
+    for key in (7, 8): t.key(key)
+    assert t.value(2) == 1 and t.state['requests'] == [1]
+    t.key(0)
+    for key in (1, 2): t.key(key)
+    assert t.value(2) == 0 and t.state['requests'] == [1, 0]
+
+
+@pytest.mark.parametrize('layout', [0, 1, 2])
+def test_parameter_directions_and_center_keep_native_dispatch_after_rotation(layout):
+    t = Tabs()
+    t.key(6)
+    t.ap.write(t.view, struct.pack('<Q', 0x58ca720))
+    t.ap.write(t.controller + 0x178, struct.pack('<I', 0xda))
+    t.ap.write(t.controller + 0x190, struct.pack('<I', layout))
+    calls = []
+    t.ap.stub('n12_stock_parameter_dispatch', lambda a: calls.append(a.arg(2)) or 1)
+    handler = struct.unpack('<Q', t.ap.read(0x58da6d8, 8))[0]
+    for key in (0, 3, 6, 9, 0xc):
+        t.ap.call(handler, t.controller, 0, 0x2010000 | key)
+    assert calls == [0x2010000 | key for key in (0, 3, 6, 9, 0xc)]
+    assert t.value(2) == 1 and t.state['requests'] == [1]
 
 
 @pytest.mark.parametrize('invalidated', ['slot', 'bank', 'factory'])
@@ -304,3 +358,84 @@ def test_parameter_center_is_forwarded_through_native_parameter_entry():
     handler = struct.unpack('<Q', t.ap.read(0x58da6d8, 8))[0]
     assert t.ap.call(handler, t.controller, 0, 0x201000c) == 1
     assert parameter_calls == [0x201000c] and t.calls == [0x2010009]
+
+
+def test_confirm_waits_for_the_same_selection_and_is_cancelled_on_navigation():
+    ap, state, _, _, finish, desired, _, _ = asynchronous_machine(candidate)
+    t = Tabs(runtime=(ap, state))
+    t.key(6)
+    t.key(12)
+    assert 0x201000c not in t.calls
+    finish(1)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert t.calls.count(0x201000c) == 1
+    t.key(3)
+    t.key(12)
+    t.key(3)
+    finish(2)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert desired() == 3
+    finish(3)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert t.calls.count(0x201000c) == 1
+
+
+def test_factory_preview_precedes_center_after_custom_release():
+    ap, state, _, _, finish, desired, _, _ = asynchronous_machine(candidate)
+    t = Tabs(runtime=(ap, state))
+    state.update(mid=0x84e, native=2)
+    t.key(6)
+    finish(1)
+    t.key(6)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert desired() == 0
+    finish(0)
+    state['native'] = 0
+    order = []
+    def preview(a):
+        order.append(('preview', a.arg(0)))
+        state['native'] = 2
+        return 0
+    ap.stub('n12_stock_preview_menu', preview)
+    ap.stub('n12_stock_dispatch', lambda a: order.append(('key', a.arg(2))) or 1)
+    t.key(12)
+    assert order == [('preview', 0x84e), ('key', 0x201000c)]
+
+
+def test_empty_library_after_entering_custom_group_blocks_list_actions():
+    t = Tabs(mask=1)
+    t.key(6)
+    t.state['mask'] = 0
+    t.ap.call('n12_refresh', t.manager)
+    t.key(9)
+    t.key(12)
+    assert t.calls == [] and t.value(3) == 1
+    t.key(6)
+    assert t.value(2) == 0
+
+
+def test_factory_reset_respects_recovery_write_protection():
+    t = Tabs()
+    resets = []
+    t.ap.stub('n12_stock_reset', lambda a: resets.append(1) or 0)
+    t.ap.stub('r5_filter_recovery_required', lambda a: 1)
+    t.ap.call('n12_reset', 0)
+    assert resets == []
+    t.ap.stub('r5_filter_recovery_required', lambda a: 0)
+    t.ap.call('n12_reset', 0)
+    assert resets == [1]
+
+
+def test_failed_confirm_stays_open_and_center_retries_the_same_row():
+    ap, state, _, _, finish, desired, _, _ = asynchronous_machine(candidate)
+    t = Tabs(runtime=(ap, state))
+    t.key(6)
+    t.key(12)
+    finish(0, False)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert desired() == 0 and 0x201000c not in t.calls
+    t.key(12)
+    assert desired() == 1
+    finish(1)
+    ap.call('n12_dispatch', t.controller, 0, 0x20f0001)
+    assert t.calls.count(0x201000c) == 1

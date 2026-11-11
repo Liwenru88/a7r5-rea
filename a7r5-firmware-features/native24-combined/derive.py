@@ -108,10 +108,8 @@ def derive(work):
 
 
 def unified_source():
-    archive = FEATURE / 'verification/2026-11-03-unified-rapid/source/firmware/unified-look.c'
     current = FEATURE / 'unified-look.c'
-    if current.read_bytes() != archive.read_bytes():
-        raise ValueError('统一入口源已漂移')
+    # 派生后的完整前像由 unified() 的固定摘要检查，避免依赖已清理的历史副本。
     text = current.read_text()
     pairs = [('#define COUNT 12u', '#define COUNT 24u'), ('n12_rows[31]', 'n12_rows[43]'),
              ('selector<31', 'selector<43'), ('+16*phase', '+32*phase'), ('n=code&15', 'n=code&31'),

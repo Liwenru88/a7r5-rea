@@ -285,9 +285,8 @@ def main():
   from apple_gpu import initialize
   progress.update(stage='Apple GPU 起点预优化',iteration=0)
   gpu_seed,gpu_audit=initialize(smooth,monotone_seed,t[train],group_weights,lb,ub,
-      steps=options['adam_steps'],perceptual_weight=options['perceptual_weight'],
-      parameter_smoothing=options['parameter_smoothing'],progress=progress.update,
-      learning_rate=options['adam_learning_rate'])
+      steps=(600 if a.fast else min(600,a.evaluations)),perceptual_weight=options['perceptual_weight'],
+      parameter_smoothing=options['parameter_smoothing'],progress=progress.update)
   tone_seed=seed.copy()
   def tone_residual(g):
    v=tone_seed.copy();v[104:]=g

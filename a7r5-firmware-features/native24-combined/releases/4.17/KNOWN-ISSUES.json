@@ -1,0 +1,19 @@
+{
+  "version": "4.17",
+  "runtime_status": "NOT_VERIFIED",
+  "camera_io": false,
+  "installability_confirmed": false,
+  "factory_row_restore_verified_in_QEMU": false,
+  "custom_success_memory_verified_in_QEMU": false,
+  "selection_persistence_verified_in_QEMU": false,
+  "QEMU_actual_E4_success_verified": false,
+  "imaging_verified": false,
+  "group_memory_persistent_across_power_cycle": false,
+  "relative_parameters": true,
+  "default_zero_parameters": 8,
+  "tune_file_version": 2,
+  "legacy_v1_read_supported": true,
+  "old_firmware_can_read_v2": false,
+  "same_version_417_admission_verified": false,
+  "QEMU_executed_for_this_candidate": false
+}

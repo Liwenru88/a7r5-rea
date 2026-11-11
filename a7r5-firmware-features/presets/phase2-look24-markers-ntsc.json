@@ -1,0 +1,12 @@
+{
+  "base": "ilce-7rm5-4.00",
+  "modules": [
+    "look24-sd-import",
+    "look24-preview",
+    "look24-group-memory",
+    "look24-tuning",
+    "look24-selection-restore",
+    "photo-framing-markers",
+    "video-ntsc-prompt"
+  ]
+}

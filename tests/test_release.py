@@ -67,6 +67,37 @@ class PublicationTests(unittest.TestCase):
             errors = release.inspect(self.root, [name])[1]
             self.assertIn('公开研究私钥内容变化，须重新确认发布身份', [r['reason'] for r in errors])
 
+    def test_machine_evidence_and_restored_assets_stay_local(self):
+        local = [
+            'docs/private-publication/20261111/index.before',
+            'docs/cleanup-audit-20261111/execution-03-deep/surviving-files-before.json',
+            'a7r5-firmware-features/native24-combined/audits/relative-parameters/build.json',
+            'a7r5-firmware-features/releases/4.19-full-repaired-20261111/qemu/qt-driver.json',
+            'a7r5-firmware-features/independent/profiles/native24/12.delta.gz',
+            'sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-shared-c1-c50.json',
+            'sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.ARW.gz',
+        ]
+        source = [
+            'a7r5-firmware-features/native24-combined/audits/relative-parameters/probe.py',
+            'a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md',
+            'a7r5-firmware-features/independent/profiles/native24/resources.json',
+            'source-assets/chunks/sample/0000.chunk', 'scripts/source-assets.json',
+        ]
+        for name in local + source:
+            self.write(name)
+        names = release.candidates(self.root)
+        self.assertFalse(set(local) & set(names), '本地证据或恢复的大资源进入了源码集')
+        self.assertTrue(set(source) <= set(names), '恢复工具、清单或源码被误排除')
+
+    def test_nested_upstream_ignore_does_not_publish_built_templates(self):
+        upstream = 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream'
+        self.write(upstream + '/.gitignore', (PROJECT / upstream / '.gitignore').read_bytes())
+        local = [upstream + '/R5FlashWorkbench/engine/templates/capture.so',
+                 upstream + '/R5FlashWorkbench/engine/templates.json']
+        for name in local:
+            self.write(name)
+        self.assertFalse(set(local) & set(release.candidates(self.root)))
+
     def test_force_tracked_private_file_is_still_rejected(self):
         subprocess.run(['git', 'init', '--quiet', str(self.root)], check=True)
         name = 'hidden.pem'
@@ -84,6 +115,11 @@ class PublicationTests(unittest.TestCase):
                 self.write('notes.txt', raw)
                 _, errors = release.inspect(self.root, ['notes.txt'])
                 self.assertTrue(errors)
+
+    def test_unknown_large_file_is_still_rejected(self):
+        self.write('unknown.data', bytes((10 << 20) + 1))
+        _, errors = release.inspect(self.root, ['unknown.data'])
+        self.assertIn('超过项目源码文件大小门槛10MiB', [row['reason'] for row in errors])
 
     def test_export_matches_bytes_and_refuses_overwrite_change_or_link(self):
         p = self.write('module.py')

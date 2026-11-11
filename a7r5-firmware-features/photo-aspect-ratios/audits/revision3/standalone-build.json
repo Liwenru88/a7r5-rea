@@ -1,0 +1,1283 @@
+{
+  "lens_af": false,
+  "aspect": true,
+  "camera_io": false,
+  "AP": {
+    "source_sha256": "41bd8f4cda1f44c7038912837737e1ce6a650065f2108061ada30e5c7f9ce7c7",
+    "target_sha256": "dd4a75b39ea6f6e575d97e9a109157b4703b1befc21f9b585e7c512a81860e8a",
+    "patches": [
+      {
+        "offset": 32,
+        "before": "4000000000000000",
+        "after": "0000ce0500000000",
+        "feature": "aspect-phoff"
+      },
+      {
+        "offset": 56,
+        "before": "0600",
+        "after": "0800",
+        "feature": "aspect-phnum"
+      },
+      {
+        "offset": 55992184,
+        "before": "810a40b9",
+        "after": "22796695",
+        "feature": "ap_prepare"
+      },
+      {
+        "offset": 55994948,
+        "before": "7ac7ff97",
+        "after": "c6766695",
+        "feature": "ap_send"
+      },
+      {
+        "offset": 24077840,
+        "before": "216e1694",
+        "after": "1538e095",
+        "feature": "register"
+      },
+      {
+        "offset": 24078108,
+        "before": "32701694",
+        "after": "ea37e095",
+        "feature": "parent_register"
+      },
+      {
+        "offset": 24100740,
+        "before": "c65e1694",
+        "after": "da21e095",
+        "feature": "alias_register"
+      },
+      {
+        "offset": 29185044,
+        "before": "fd7bbea9",
+        "after": "77bccc15",
+        "feature": "available"
+      },
+      {
+        "offset": 29112056,
+        "before": "ffc320d1",
+        "after": "0704cd15",
+        "feature": "list"
+      },
+      {
+        "offset": 29162776,
+        "before": "00f80151",
+        "after": "41d2cc15",
+        "feature": "size_class"
+      },
+      {
+        "offset": 29128480,
+        "before": "fd7bbea9",
+        "after": "c6f3cc15",
+        "feature": "apply"
+      },
+      {
+        "offset": 35527892,
+        "before": "cfdde797",
+        "after": "fc8ab495",
+        "feature": "list_commit"
+      },
+      {
+        "offset": 29169896,
+        "before": "fd7bbba9",
+        "after": "2ccbcc15",
+        "feature": "icon"
+      },
+      {
+        "offset": 29170152,
+        "before": "fd7bbba9",
+        "after": "f4cacc15",
+        "feature": "icon_alt"
+      },
+      {
+        "offset": 31046168,
+        "before": "00013fd6",
+        "after": "cda5c595",
+        "feature": "guide_create_call"
+      },
+      {
+        "offset": 31554016,
+        "before": "00013fd6",
+        "after": "dbb5c395",
+        "feature": "guide_create_call"
+      },
+      {
+        "offset": 30496588,
+        "before": "00013fd6",
+        "after": "80bec795",
+        "feature": "guide_create_call"
+      },
+      {
+        "offset": 30496356,
+        "before": "00013fd6",
+        "after": "babec795",
+        "feature": "guide_create_call"
+      },
+      {
+        "offset": 31046516,
+        "before": "dbc71994",
+        "after": "90a6c595",
+        "feature": "guide_produce"
+      },
+      {
+        "offset": 31554332,
+        "before": "f1d71794",
+        "after": "a6b6c395",
+        "feature": "guide_produce"
+      },
+      {
+        "offset": 37805612,
+        "before": "20e7ff35",
+        "after": "d1dcab15",
+        "feature": "guide_visibility_gate"
+      },
+      {
+        "offset": 34890276,
+        "before": "003c4191",
+        "after": "93fcb615",
+        "feature": "guide_cap_a"
+      },
+      {
+        "offset": 34958960,
+        "before": "001c4191",
+        "after": "bfb9b615",
+        "feature": "guide_cap_b"
+      },
+      {
+        "offset": 25354552,
+        "before": "fd7bbea9",
+        "after": "695ddb15",
+        "feature": "guide_draw"
+      },
+      {
+        "offset": 25354668,
+        "before": "fd7bbea9",
+        "after": "a65ddb15",
+        "feature": "guide_destroy"
+      },
+      {
+        "offset": 47969200,
+        "before": "fd7bbfa9",
+        "after": "2c1a8515",
+        "feature": "playback"
+      },
+      {
+        "offset": 44956988,
+        "before": "fd7bbfa9",
+        "after": "17939015",
+        "feature": "capture_value"
+      },
+      {
+        "offset": 44957020,
+        "before": "fd7bbea9",
+        "after": "2d939015",
+        "feature": "restore_value"
+      },
+      {
+        "offset": 29189320,
+        "before": "09bbff97",
+        "after": "6eb9cc95",
+        "feature": "restore_alias"
+      },
+      {
+        "offset": 29189332,
+        "before": "20003fd6",
+        "after": "7bb9cc95",
+        "feature": "restore_commit"
+      },
+      {
+        "offset": 51146524,
+        "before": "35e2f397",
+        "after": "95fb7895",
+        "feature": "zoom_map"
+      },
+      {
+        "offset": 38340252,
+        "before": "020c80b9",
+        "after": "c5d5a915",
+        "feature": "zoom_policy"
+      },
+      {
+        "offset": 38347312,
+        "before": "f30b40f9",
+        "after": "f8cea915",
+        "feature": "zoom_domain"
+      },
+      {
+        "offset": 37611064,
+        "before": "00008012",
+        "after": "569eac15",
+        "feature": "badge"
+      },
+      {
+        "offset": 37616176,
+        "before": "031c8252",
+        "after": "ae99ac15",
+        "feature": "pixels"
+      },
+      {
+        "offset": 70576828,
+        "before": "49500000",
+        "after": "7a500000",
+        "feature": "custom-playback-zoom-domain"
+      },
+      {
+        "offset": 15331944,
+        "before": "0066f40300000000",
+        "after": "8065f00800000000",
+        "feature": "aspect-rela"
+      },
+      {
+        "offset": 92649960,
+        "before": "0066f40300000000",
+        "after": "8065f00800000000",
+        "feature": "aspect-descriptor"
+      },
+      {
+        "offset": 15331992,
+        "before": "dc48c40100000000",
+        "after": "a847f00800000000",
+        "feature": "aspect-rela"
+      },
+      {
+        "offset": 92649992,
+        "before": "dc48c40100000000",
+        "after": "a847f00800000000",
+        "feature": "aspect-descriptor"
+      },
+      {
+        "offset": 15332016,
+        "before": "141dc60100000000",
+        "after": "e047f00800000000",
+        "feature": "aspect-rela"
+      },
+      {
+        "offset": 92650000,
+        "before": "141dc60100000000",
+        "after": "e047f00800000000",
+        "feature": "aspect-descriptor"
+      },
+      {
+        "offset": 15332040,
+        "before": "883dc90100000000",
+        "after": "6848f00800000000",
+        "feature": "aspect-rela"
+      },
+      {
+        "offset": 92650008,
+        "before": "883dc90100000000",
+        "after": "6848f00800000000",
+        "feature": "aspect-descriptor"
+      },
+      {
+        "offset": 92649956,
+        "before": "04000000",
+        "after": "0a000000",
+        "feature": "aspect-count"
+      }
+    ],
+    "inverse_exact": true,
+    "camera_io": false,
+    "device_tested": false,
+    "source_bytes": 97368304,
+    "symbols": {
+      "r5_aspect_parent_register.parents": 149971528,
+      "r5_aspect_alias_register.aliases": 149971576,
+      "r5_aspect_ap_prepare": 149963776,
+      "r5_aspect_ap_send": 149964124,
+      "r5_aspect_restore_once": 149965896,
+      "r5_aspect_stock_list": 149964264,
+      "r5_aspect_available": 149964272,
+      "r5_aspect_size_class": 149964316,
+      "r5_aspect_apply": 149964344,
+      "r5_aspect_icon": 149964184,
+      "r5_aspect_icon_alt": 149964216,
+      "r5_aspect_stock_icon": 149964248,
+      "r5_aspect_stock_icon_alt": 149964256,
+      "r5_aspect_capture_native": 149964300,
+      "r5_aspect_restore_native": 149964308,
+      "r5_aspect_project_apply": 149964820,
+      "r5_aspect_register": 149964388,
+      "r5_aspect_rows": 149972352,
+      "r5_aspect_parent_register": 149964484,
+      "r5_aspect_alias_register": 149964524,
+      "r5_aspect_list": 149964564,
+      "r5_aspect_get": 149964712,
+      "r5_aspect_set": 149964768,
+      "r5_aspect_publish": 149965112,
+      "r5_aspect_commit": 149964904,
+      "r5_aspect_save": 149966484,
+      "r5_aspect_list_commit": 149964996,
+      "r5_aspect_capture_value": 149965208,
+      "r5_aspect_restore_value": 149965328,
+      "r5_aspect_restore_alias": 149965440,
+      "r5_aspect_restore_commit": 149965504,
+      "r5_aspect_restore_record": 149965700,
+      "r5_aspect_guide_create_call": 149967180,
+      "r5_aspect_guide_body": 149967196,
+      "r5_aspect_guide_visibility_gate": 149967216,
+      "r5_aspect_stock_cap_a": 149967272,
+      "r5_aspect_stock_cap_b": 149967280,
+      "r5_aspect_stock_draw": 149967288,
+      "r5_aspect_stock_destroy": 149967296,
+      "r5_aspect_guide_create": 149967460,
+      "r5_aspect_guide_fits": 149967304,
+      "r5_aspect_guide_cap_a": 149967984,
+      "r5_aspect_guide_cap_b": 149968236,
+      "r5_aspect_guide_produce": 149968308,
+      "r5_aspect_guide_draw": 149968604,
+      "r5_aspect_ratios": 149972312,
+      "r5_aspect_guide_destroy": 149968964,
+      "r5_aspect_fit": 149969152,
+      "r5_aspect_viewport": 149969468,
+      "r5_aspect_crop": 149969536,
+      "r5_aspect_playback": 149970016,
+      "r5_aspect_zoom_map": 149970288,
+      "r5_aspect_zoom_eligible": 149970544,
+      "r5_aspect_zoom_policy": 149970352,
+      "r5_aspect_zoom_domain": 149970448,
+      "r5_aspect_badge": 149970832,
+      "r5_aspect_pixels": 149971176
+    },
+    "selection": 150023008,
+    "installable": false,
+    "menu_wired": true,
+    "photo_guide_wired": true,
+    "label_resources": [
+      33598304,
+      33598305,
+      33598306,
+      33598307,
+      33598308,
+      33598309
+    ],
+    "icon_resources": [
+      33562250,
+      33562251,
+      33562252,
+      33562253,
+      33562254,
+      33562255,
+      33562256,
+      33562257,
+      33562258,
+      33562259,
+      33562260,
+      33562261,
+      33562262,
+      33562263,
+      33562264,
+      33562265,
+      33562266,
+      33562267
+    ]
+  },
+  "CP_aspect": {
+    "source_sha256": "3269bf62426339791fcfbe8529698cd4accbe6c3d2ea61cd7c368a90ab7ee7c8",
+    "target_sha256": "8b78810767e9a80196f03fe09fe0b3fea314cac75930b8409f23e53d55b4c045",
+    "patches": [
+      {
+        "offset": 65536,
+        "before": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "after": "10b50d4aa1f1e6041368bff35b8f23f00f031033136014f1060f0c4628bf0224bff35b8fc0f8cc40a1f1dc0028bf0343bff35b8f136010bd80ada3012de9f84f07462248224c9a46224b1646d0f800903846bff35b8fa3460d4654f8288b9847a74201d0bde8f88f184c40f6bc518e4205d119498d4204bf18498a4511d000216268bff35b8f023242f001036360bff35b8fc4f80c80a160bff35b8f6260bde8f88f09f00f01a1f10a0212f1060fe6d3dbf8f420022a04bfdbf800209045ded12268bff35b8f9145d9d1d9e780ada301c8f36301bc515f0010aa57013b15af00f8b5054620380e4600f03cf81a4a80b104460020bff35b8f2070284631469047164800f128018e4204bf6968022905d0f8bd28463146bde8f8401047104b1e68bff35b8f9a685968bff35b8ff70704bf1b689e42ecd145f6c823eb589a4204bf00688242e4d1a1f10a0010f1060f24bfbff35b8f2170f8bdf5964500c8f3630184ada30101460f48c368026813b1b2f5f57f01d9002070470020994211d3b0b5c91a46f28863b1fbf3f4074d63438b424ff0000108bf6119944238bf0846bde8b0407047582c110190ada3010449884218bf704703484ff4f571034a104700bf542c110190ada301b0585f00f8b50e4b0f46064698470446a6f12000fff7c2ff80b10546a7f1200000f010f87168022904d1a0f10a0111f1070f00d80020bff35b8f28702046f8bdbc515f0010b50446fff7a8ff30b1616a022903d10078bff35b8f10bd002010bdb0b5054608480c46854207d12046fff795ff18b10021bff35b8f0170034a28462146bde8b0401047542c11019309ae002de9f04385b01c461b4b15460e468146984780462046fff7cdff07460a3810f1060f03d2404605b0bde8f083204600f025f80c2df6d10028f4d0301b45f6dc71884209d045f678718842ebd1204639464a4600f02cf8e5e702aa2046394600f026f80028ded03846314601220023cdf8009000f07df9d5e7bc515f004ff4b3414158012909d045f688114158012904d04ff4b3414158022901d10120704745f6881140580238b0fa80f040097047e0b50b4645f678710144009218460022002300f056f98cbd00bffeb51646124a0f46044690473046fff76dff05460a3810f1060f00d2febd3046fff7c8ff202ff9d10028f7d0f06b4007f4d46a4630462946fff7d5ff0028edd0a4f1bc01a4f13402284600f053fafebdb0585f007fb50446084616460d46fff745ff01460a3810f1060f15d3042e18bf012e11d145f678702388284482889a420ad16288c088904206d101aa2846fff7aaff08b1029820607fbd00bf004b1847fc535f0070b588b01c4b16460d46984704463046fff71affb6f83412b6f83622adf818107f31adf8162021f07f01adf81a2000220792adf81410e5b1a0f10a0111f1060f17d302a9009105a90023002600f0daf878b10a48bdf80c1028440170090a41708670c670bdf80e100171090a41718671c671204608b070bd3de8ad002c4a01002de91f50eff3008481b02846fff7d6fd01b084f30088bde81f5070477b68fff7ebbd2de91f50eff3008481b04846fff79bfe01b084f30088bde81f500022026070472346fff7e6be2246fff747bf2346fff792bf2de90f50ddf818c082b0cdf800c04bf6d91cc0f2480ce04702b00098214645f68012a258fff75affbde80f902de90f50ddf818c082b0cdf800c04bf6d91cc0f2480ce04702b00098214645f68812a258fff744ffbde80f902de9f8431c46034600209bb391b38ab384b3958875b3d68866b3b2f8009009eb0507b0eb174f25d1b2f8028008eb0602b0eb124f1ed106fb03f005fb01f2824206d21046194600f017f80246294603e000f012f801463246002059b152b1b01ae280a18008eb50006080681a09eb500020800120bde8f88370b5024600201f23012400255e1c0ed022fa03f606f0010646ea4506751a38bf354604fa03f628bf3043013beee770bdb0b5092801d90020b0bd084d0c4635f8201005eb800045880ab1284601e0084629462246bde8b040fff796bfb288110004283cbf002070472de9fe4f04460020092c12d889b1ddf83080b8f1000f0cd0002a18bf10228e883eb1cf882fb116f0010508bf17f0010501d0bde8fe8fb1f800b003f00f030bf07f052b43f5d107eb470073008518ab429cbf1a44904202d90020bde8fe8fb1f8089009eb060ada45f6d84a884989c8199042f1d83348cde9011230f8241000eb8400428801fb07f302fb06f098420ed226f00f0404fb02f000eb8100c900fff77bffc500bd4288bf27f007050de027f0070505fb01f0110100ebc200fff76cff0401b44288bf26f00f04002cc4d0002dc2d004f1700020f07f00834524bf029aaa42b9d3abeb0000aaeb0401814238bf084609f1070121f007018142acd8a8f80220521ba8f806507b1b019da8f8044005eb5303a8f800b0934238bf1a46a8f80a20321b09eb520222f00702824288bf20f007028a4298bf0a460120a8f80820bde8fe8fb28811002de9f04f8db00027002955d0b2f58d6f52d1834608460c4600f06ef802284ad1201d00f069f8400745d504f5d87000f063f8824604f5de7000f05ef8baf1040f18bf042837d10027baf1040f34d8012101fa0af111f0150f2ed004282cd80121814011f0150f27d0baf1040f08bf042822d0204e0df110090df104080025032d1ed036f81500002d2a46215820440191416880680291414603905846cdf8009018bf01220023fff703ff013509f10c090028e4d100e0002738460db0bde8f08f002004ad242809d036f8021b2a180c302144536892684b608a60f3e74ff4e170baf1040f08bf4ff4db70059901272150e2e700bfda8811000068704770b58cb0002641b1144632b10d462189a02904bf6189782902d030460cb070bd2968099106a96a68ab68009109a90a9300230b920122fff7bdfe0028edd0a06804aa059002abbdf81e10bdf81c000496fff744fe0028e0d0bdf80c00002630f003001cbfbdf80e1031f00101d5d0089a01266a60bdf81c202a822a81bdf81e206a826a81bdf814202082101a61824008a081bdf81600401a4008e081bde70300020004000300100009000100010011000600410018000500040007000600bf0064002f001400b402d402f402",
+        "feature": "aspect-code"
+      },
+      {
+        "offset": 11433920,
+        "before": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "after": "10402de9e763d4eb0f502de900400fe1000008e3110040e30020a0e1011aa0e30e30a0e3df63d4eb800d0ae3a30140e38010a0e30020a0e3042080e4011051e2fcffff1a04f028e10f50bde81080bde8",
+        "feature": "aspect-code"
+      },
+      {
+        "offset": 131404,
+        "before": "48248a00",
+        "after": "803f8a00",
+        "feature": "aspect-state"
+      },
+      {
+        "offset": 1744,
+        "before": "240000eb",
+        "after": "3a9c2beb",
+        "feature": "aspect-boot"
+      },
+      {
+        "offset": 2323234,
+        "before": "c5f8cc10",
+        "after": "d9f58ff8",
+        "feature": "select_hook"
+      },
+      {
+        "offset": 10318120,
+        "before": "16f748e0",
+        "after": "39f69ad9",
+        "feature": "snapshot_hook"
+      },
+      {
+        "offset": 10311750,
+        "before": "7bf555f7",
+        "after": "3af64bdc",
+        "feature": "capture_copy"
+      },
+      {
+        "offset": 10313050,
+        "before": "17f730e2",
+        "after": "3af637da",
+        "feature": "clone_copy"
+      },
+      {
+        "offset": 10324186,
+        "before": "00f05af8",
+        "after": "37f6a5dc",
+        "feature": "pool_release"
+      },
+      {
+        "offset": 3511460,
+        "before": "00220260",
+        "after": "b6f4dfff",
+        "feature": "pool_reset_hook"
+      },
+      {
+        "offset": 3585378,
+        "before": "81f12cee",
+        "after": "a4f490ff",
+        "feature": "jpeg_hook"
+      },
+      {
+        "offset": 3582478,
+        "before": "82f1d6eb",
+        "after": "a5f43afd",
+        "feature": "jpeg_hook"
+      },
+      {
+        "offset": 3563646,
+        "before": "87f118ec",
+        "after": "aaf405fa",
+        "feature": "thumbnail_hook"
+      },
+      {
+        "offset": 10352600,
+        "before": "a4f5fef0",
+        "after": "30f65ede",
+        "feature": "primary_hook"
+      },
+      {
+        "offset": 10352674,
+        "before": "a4f5d9f0",
+        "after": "30f64fde",
+        "feature": "secondary_hook"
+      },
+      {
+        "offset": 3678218,
+        "before": "54f217f4",
+        "after": "8ef4dbf9",
+        "feature": "raw_emb"
+      }
+    ],
+    "inverse_exact": true,
+    "camera_io": false,
+    "device_tested": false,
+    "symbols": {
+      "r5_aspect_heif_request.fields": 1149146,
+      "r5_cp_select": 1146881,
+      "r5_cp_snapshot": 1146941,
+      "r5_cp_capture_copy": 1147105,
+      "r5_cp_pool_reset": 1147309,
+      "r5_cp_clone_copy": 1147341,
+      "r5_cp_pool_release": 1147433,
+      "r5_cp_jpeg_copy": 1147481,
+      "r5_aspect_crop": 1148361,
+      "r5_cp_thumbnail_clear": 1147681,
+      "r5_aspect_thumbnail": 1148949,
+      "r5_cp_notify_jpeg": 1147765,
+      "r5_cp_heif_copy": 1147837,
+      "r5_cp_raw_emb": 1147845,
+      "r5_aspect_boot": 12515264,
+      "r5_aspect_select_hook": 1147973,
+      "r5_aspect_snapshot_hook": 1148001,
+      "r5_aspect_pool_reset_hook": 1148007,
+      "r5_aspect_jpeg_hook": 1148039,
+      "r5_aspect_thumbnail_hook": 1148045,
+      "r5_aspect_heif_hook": 1148051,
+      "r5_aspect_primary_hook": 1148057,
+      "r5_aspect_secondary_hook": 1148101,
+      "r5_aspect_fit": 1148145,
+      "r5_aspect_viewport": 1148313,
+      "r5_aspect_ratios": 1149106,
+      "r5_aspect_heif_request": 1148697
+    },
+    "sections": [
+      {
+        "address": 1146880,
+        "bytes": 2272,
+        "sha256": "62a5d8e48afee8a8223db4ff7e229248b344912f39bff84d32496156b980b427"
+      },
+      {
+        "address": 12515264,
+        "bytes": 80,
+        "sha256": "0ad4839ee180f502e119b2c8bb4fb3593cc5db5be76fbedc2d6f8d14c7a9b8bb"
+      }
+    ],
+    "previous_mapper": 1083240,
+    "installable": false
+  },
+  "AVCAM": {
+    "source_sha256": "640740f3bbd7e20cf49be3288f496415b1d045020c5b9a46ea77fb187699ab04",
+    "target_sha256": "23fb43cb2e5d79aad19414d375c9bb6df97ef3042ecb696e8424243e64ff55bc",
+    "patches": [
+      {
+        "offset": 2051516,
+        "before": "f553bea9f37b01a9f303022af403012af50300aae1030032e203142ae303132a08000094e1031c32e00315aae203142ae303132af37b41a9f553c2a801000014f60f1df8f55301a9f37b02a9f303032af503022af403012a9f420071a00000549f06007101050054169002910200001416900891c80240b9e9030032ca0280521f1100712821c81a08010a0a0499407a20030054d52200b9c0420091d3fe0529df3e00b9e103152ae203132a42faff97d3d60b29d3d60d29d3fe0f29d51200b9d31e00b9d55200b9dfd611299f420071d39e00b901010054c81640b909d696528aed96520901090b08010a0bc91600b9c85600b9f37b42a9f55341a9f60743f8c0035fd6a01100b000e81d91a11100b021643191228e8052f37b42a9f55341a9f60743f80c5b0014",
+        "after": "e07bbfa9e303022ae203012a210080520c000094e07bc1a80102805209000014fe0f1ff8e0fcff978a0240b95f090071fe0340f96892029189da0691260000143f04007108900291800000543f4000718103005408010691090140b93f110071e8020054ca0280524925c91a89020036021100b90389032903fd05291f8907290389092903890b2903890d2903fd0f291f891129039d00b9004100913f400071e1000054091540b90ad696522a010a0b49f102110a1500b9095500b9c0035fd6a11100b020e81d9121643191228e8052215b00147e0028370801069129310091010200540a0140b95f050071a1010054220140792305407942010034230100340a2140b95f000a6b0a2d40b960004a7a80000054009102d121008052c9ffff97fe0741f8c0035fd6",
+        "feature": "jpeg-dimension-setter"
+      },
+      {
+        "offset": 2688,
+        "before": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "after": "ee031f2aea094079eb0d4079ec060010cd0080528e3dc1285f010e6b60014f7aa0000054ad05007161ffff54ee031f2a020000142e008052c0035fd6ef031baaf0ffff978e000034600740b9e0db00b970160814c08240b9f8160814ef0317aae8ffff97ee030034ec0a4079ed0e40798c0300346d0300340a7d0d1b2b7d0c1b5f010b6b88000054e003082a4109cc1a030000146009cd1ae103092a00741e1221781f12e0010034c1010034e0930279e19702790801004b087d0153e88b02792901014b297d0153e98f02790a00a152ea5b00b90b008152ebbb007956170814808240b93b170814500600003802000050060000580200004005000038040000f004000038040000500600005003000050060000b0020000",
+        "feature": "heif-geometry"
+      },
+      {
+        "offset": 2048236,
+        "before": "1d000094",
+        "after": "3c030094",
+        "feature": "jpeg-format"
+      },
+      {
+        "offset": 2048272,
+        "before": "14000094",
+        "after": "33030094",
+        "feature": "jpeg-format"
+      },
+      {
+        "offset": 2123444,
+        "before": "c08240b9",
+        "after": "02e9f717",
+        "feature": "r5_avcam_scn"
+      },
+      {
+        "offset": 2123852,
+        "before": "808240b9",
+        "after": "a4e8f717",
+        "feature": "r5_avcam_thumbnail"
+      },
+      {
+        "offset": 2126956,
+        "before": "c3fbff97",
+        "after": "ef4f2994",
+        "feature": "aspect_avcam_heif_prepare"
+      },
+      {
+        "offset": 2125896,
+        "before": "ccfcff97",
+        "after": "a1512994",
+        "feature": "aspect_avcam_raw_preview_prepare"
+      },
+      {
+        "offset": 2126312,
+        "before": "64fcff97",
+        "after": "39512994",
+        "feature": "aspect_avcam_raw_preview_prepare"
+      },
+      {
+        "offset": 2126436,
+        "before": "45fcff97",
+        "after": "1a512994",
+        "feature": "aspect_avcam_raw_preview_prepare"
+      },
+      {
+        "offset": 2098996,
+        "before": "ff0303d1",
+        "after": "7f6c2914",
+        "feature": "aspect_avcam_heif_entry"
+      },
+      {
+        "offset": 2070896,
+        "before": "ff4b00b9",
+        "after": "06882914",
+        "feature": "aspect_avcam_heif_request"
+      },
+      {
+        "offset": 2070900,
+        "before": "ff2300f9",
+        "after": "1f2003d5",
+        "feature": "heif-offset-clear"
+      },
+      {
+        "offset": 187176,
+        "before": "696100d029011091",
+        "after": "696100d029013691",
+        "feature": "avcam-snapshot-reference"
+      },
+      {
+        "offset": 187224,
+        "before": "746100d094021091",
+        "after": "746100d094023691",
+        "feature": "avcam-snapshot-reference"
+      },
+      {
+        "offset": 187440,
+        "before": "606100d000001091",
+        "after": "606100d000003691",
+        "feature": "avcam-snapshot-reference"
+      },
+      {
+        "offset": 187472,
+        "before": "606100d000001091",
+        "after": "606100d000003691",
+        "feature": "avcam-snapshot-reference"
+      },
+      {
+        "offset": 188972,
+        "before": "616100b021001091",
+        "after": "616100b021003691",
+        "feature": "avcam-snapshot-reference"
+      },
+      {
+        "offset": 3332528,
+        "before": "00b4c501c0ffffff",
+        "after": "80bdc501c0ffffff",
+        "feature": "avcam-snapshot-layout"
+      },
+      {
+        "offset": 3332536,
+        "before": "b8e7d001c0ffffff",
+        "after": "38f1d001c0ffffff",
+        "feature": "avcam-snapshot-layout"
+      },
+      {
+        "offset": 460,
+        "before": "00e8d001c0ffffff",
+        "after": "80f1d001c0ffffff",
+        "feature": "avcam-snapshot-layout"
+      }
+    ],
+    "inverse_exact": true,
+    "camera_io": false,
+    "device_tested": false,
+    "source_bytes": 12956536,
+    "target_bytes": 12959080,
+    "installable": false,
+    "encoder_executed": false,
+    "symbols": {
+      "aspect_native_prepare": 2122616,
+      "aspect_native_headers": 2052820,
+      "aspect_native_header_size": 2044104,
+      "aspect_native_makernote_full_size": 2045820,
+      "aspect_native_encode_body": 2099000,
+      "aspect_native_request_body": 2070904,
+      "aspect_native_raw_headers": 2053000,
+      "aspect_avcam_heif_id": 12956544,
+      "aspect_avcam_heif_prepare": 12956712,
+      "aspect_avcam_heif_encode": 12956832,
+      "aspect_avcam_raw_crop": 12957200,
+      "aspect_avcam_raw_preview_prepare": 12957388,
+      "aspect_avcam_heif_origin": 12957780,
+      "aspect_avcam_heif_entry": 12958000,
+      "aspect_avcam_heif_request": 12958088,
+      "aspect_crop_geometry": 12958152,
+      "r5_aspect_fit": 12958180,
+      "r5_aspect_viewport": 12958496,
+      "r5_aspect_ratios": 12959040,
+      "r5_aspect_crop": 12958564
+    },
+    "view_link": {
+      "relocations": [
+        {
+          "kind": 275,
+          "site": "0xc5b3d4",
+          "target": "0xc5b8ba",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5b3d8",
+          "target": "0xc5b8ba",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b460",
+          "target": "0xc5b380",
+          "symbol": "aspect_avcam_heif_id",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b478",
+          "target": "0xc5b9c8",
+          "symbol": "aspect_crop_geometry",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b4cc",
+          "target": "0xc5b380",
+          "symbol": "aspect_avcam_heif_id",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b57c",
+          "target": "0xc5b9c8",
+          "symbol": "aspect_crop_geometry",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b5c8",
+          "target": "0x1f52d4",
+          "symbol": "aspect_native_headers",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b5d8",
+          "target": "0x1f30c8",
+          "symbol": "aspect_native_header_size",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b5e8",
+          "target": "0x1f377c",
+          "symbol": "aspect_native_makernote_full_size",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b650",
+          "target": "0x1f5388",
+          "symbol": "aspect_native_raw_headers",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0xc5b668",
+          "target": "0xc5b8ba",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5b66c",
+          "target": "0xc5b8ba",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b744",
+          "target": "0xc5b610",
+          "symbol": "aspect_avcam_raw_crop",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0xc5b75c",
+          "target": "0xc5b918",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5b760",
+          "target": "0xc5b918",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0xc5b764",
+          "target": "0xc5b900",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5b768",
+          "target": "0xc5b900",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b7c0",
+          "target": "0xc5b9c8",
+          "symbol": "aspect_crop_geometry",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b834",
+          "target": "0xc5b380",
+          "symbol": "aspect_avcam_heif_id",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b86c",
+          "target": "0xc5b380",
+          "symbol": "aspect_avcam_heif_id",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b87c",
+          "target": "0xc5b380",
+          "symbol": "aspect_avcam_heif_id",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 282,
+          "site": "0xc5b8b4",
+          "target": "0x206378",
+          "symbol": "aspect_native_prepare",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b954",
+          "target": "0xc5b4a0",
+          "symbol": "aspect_avcam_heif_encode",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0xc5b984",
+          "target": "0x200738",
+          "symbol": "aspect_native_encode_body",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_S.o"
+        },
+        {
+          "kind": 283,
+          "site": "0xc5b9a4",
+          "target": "0xc5b854",
+          "symbol": "aspect_avcam_heif_origin",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0xc5b9c4",
+          "target": "0x1f9978",
+          "symbol": "aspect_native_request_body",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0xc5b9e0",
+          "target": "0xc5bb64",
+          "symbol": "r5_aspect_crop",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/crop_core_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0xc5bb30",
+          "target": "0xc5bd40",
+          "symbol": "r5_aspect_ratios",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5bb34",
+          "target": "0xc5bd40",
+          "symbol": "r5_aspect_ratios",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o"
+        },
+        {
+          "kind": 282,
+          "site": "0xc5bb60",
+          "target": "0xc5b9e4",
+          "symbol": "r5_aspect_fit",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0xc5bc3c",
+          "target": "0xc5bd40",
+          "symbol": "r5_aspect_ratios",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0xc5bc40",
+          "target": "0xc5bd40",
+          "symbol": "r5_aspect_ratios",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o"
+        }
+      ],
+      "layout": [
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0xc5b380",
+          "size": 1336,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_c.o",
+          "index": 4,
+          "name": ".rodata",
+          "va": "0xc5b8b8",
+          "size": 120,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/avcam_views_S.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0xc5b930",
+          "size": 152,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/crop_core_c.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0xc5b9c8",
+          "size": 28,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0xc5b9e4",
+          "size": 860,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/views/geometry_c.o",
+          "index": 4,
+          "name": ".rodata",
+          "va": "0xc5bd40",
+          "size": 40,
+          "space": "rx"
+        }
+      ]
+    },
+    "snapshot": {
+      "code_start": 12956544,
+      "code_end": 12959080,
+      "ram_start": 12222400,
+      "ram_end": 12956536,
+      "backup_start": 12959104,
+      "backup_end": 13693240,
+      "tail_end": 13693312
+    }
+  },
+  "MPR": {
+    "source_sha256": "ba1aa289a142c2d0b41d0864a57a0d72a2c796de89c5caf215ebaf124143e9af",
+    "target_sha256": "46fad4e180a90006e5df246400fd4b281c7da5643701ed38d6ab645417efd236",
+    "patches": [
+      {
+        "offset": 2519420,
+        "before": "a16340b9",
+        "after": "21e40714",
+        "feature": "aspect_mpr_heif_aux_entry"
+      },
+      {
+        "offset": 2541548,
+        "before": "41030a8b",
+        "after": "99ce0714",
+        "feature": "aspect_mpr_raw_metadata_entry"
+      },
+      {
+        "offset": 2573088,
+        "before": "27feff97",
+        "after": "b1b00794",
+        "feature": "aspect_mpr_jpeg_metadata"
+      },
+      {
+        "offset": 32,
+        "before": "4000000000000000",
+        "after": "0000370000000000",
+        "feature": "mpr-program-headers"
+      },
+      {
+        "offset": 56,
+        "before": "0500",
+        "after": "0700",
+        "feature": "mpr-header-count"
+      }
+    ],
+    "inverse_exact": true,
+    "camera_io": false,
+    "device_tested": false,
+    "source_bytes": 3541784,
+    "target_bytes": 3606596,
+    "symbols": {
+      "aspect_mpr_native_aux_body": 2519424,
+      "aspect_mpr_native_thumb": 2519444,
+      "aspect_mpr_native_scn": 2519504,
+      "aspect_mpr_native_raw_metadata_body": 2541552,
+      "aspect_mpr_native_raw_metadata_error": 2542608,
+      "aspect_mpr_native_tag": 2551888,
+      "aspect_mpr_native_jpeg_size": 2575172,
+      "aspect_mpr_native_jpeg_vtable": 3139584,
+      "aspect_mpr_native_cammeta": 2571196,
+      "aspect_mpr_heif_aux_entry": 4588032,
+      "aspect_mpr_raw_metadata_entry": 4588112,
+      "aspect_mpr_raw_metadata": 4588312,
+      "aspect_mpr_jpeg_metadata": 4589028
+    },
+    "RX": 4587520,
+    "rx_file": 3604480,
+    "mapped_PT_PHDR": true,
+    "metadata_link": {
+      "relocations": [
+        {
+          "kind": 282,
+          "site": "0x460240",
+          "target": "0x267180",
+          "symbol": "aspect_mpr_native_aux_body",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0x460248",
+          "target": "0x2671d0",
+          "symbol": "aspect_mpr_native_scn",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0x46024c",
+          "target": "0x267194",
+          "symbol": "aspect_mpr_native_thumb",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 283,
+          "site": "0x460298",
+          "target": "0x460318",
+          "symbol": "aspect_mpr_raw_metadata",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0x4602d8",
+          "target": "0x26c7f0",
+          "symbol": "aspect_mpr_native_raw_metadata_body",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 282,
+          "site": "0x4602e4",
+          "target": "0x26cc10",
+          "symbol": "aspect_mpr_native_raw_metadata_error",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o"
+        },
+        {
+          "kind": 275,
+          "site": "0x46039c",
+          "target": "0x460586",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0x4603a0",
+          "target": "0x460586",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0x460410",
+          "target": "0x274b44",
+          "symbol": "aspect_mpr_native_jpeg_size",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0x46041c",
+          "target": "0x4605cc",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0x460420",
+          "target": "0x4605cc",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0x4604fc",
+          "target": "0x26f050",
+          "symbol": "aspect_mpr_native_tag",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0x4605ec",
+          "target": "0x2fe800",
+          "symbol": "aspect_mpr_native_jpeg_vtable",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0x4605f0",
+          "target": "0x2fe800",
+          "symbol": "aspect_mpr_native_jpeg_vtable",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 283,
+          "site": "0x46061c",
+          "target": "0x273bbc",
+          "symbol": "aspect_mpr_native_cammeta",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0x460628",
+          "target": "0x4607b4",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0x46062c",
+          "target": "0x4607b4",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 275,
+          "site": "0x460764",
+          "target": "0x4607b6",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        },
+        {
+          "kind": 277,
+          "site": "0x460768",
+          "target": "0x4607b6",
+          "symbol": "",
+          "source_object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o"
+        }
+      ],
+      "layout": [
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_metadata_S.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0x460200",
+          "size": 280,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0x460318",
+          "size": 620,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_raw_metadata_c.o",
+          "index": 4,
+          "name": ".rodata",
+          "va": "0x460584",
+          "size": 96,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o",
+          "index": 2,
+          "name": ".text",
+          "va": "0x4605e4",
+          "size": 464,
+          "space": "rx"
+        },
+        {
+          "object": "/var/folders/06/935ggv0j2259kmb0t_3nvhpc0000gn/T/r5-aspect-rev3-compr3w9/standalone-verified/metadata/mpr_jpeg_metadata_c.o",
+          "index": 4,
+          "name": ".rodata",
+          "va": "0x4607b4",
+          "size": 144,
+          "space": "rx"
+        }
+      ]
+    }
+  },
+  "resources": {
+    "image_00_23_IPSX.uxc": "ec4ec61471eb14fa35549919e137fac803b8227a0c6012b9cb186cc937f66c6e",
+    "image_00_32_IPSX.uxc": "7727fdf369637f67ae60582b6eac204e6e306446a4ed80060fa1ec8f6fbf823f",
+    "string_arabic_horizontal.uxc": "a334e1a17081204536241a6ae5bafea9a4006fe99ce90bb6b2cc52469e50dc74",
+    "string_arabic_vertical.uxc": "46d127048a6a00790fcbe9e30692ffcd1b824e143548741f7b2c1043812134b5",
+    "string_brazilianportuguese_horizontal.uxc": "c7f0cbc34817d5bc7409d52c1845f31b26cee39d4e56ee18b58a06e94add09aa",
+    "string_brazilianportuguese_vertical.uxc": "7c43e3705d53fb8a6b47bb2e40b338b00a4f830bd4f8c5f1f4e133fdf8d14491",
+    "string_bulgarian_horizontal.uxc": "ca882216c43421da677ee77efce6bf0ce48415a1e9c13010ea0b56b2ec3b54c6",
+    "string_bulgarian_vertical.uxc": "31318144f6a3335707cc7e5fdc2062726e730a7947a8290ff3aadb25646800c6",
+    "string_canadianfrench_horizontal.uxc": "3ad755d21d6ed6b55b9ca973fa6daec8e9a405bf344707d98fbf8bc4d9985b7e",
+    "string_canadianfrench_vertical.uxc": "25597671a653d401d1aa4fc7f98b7c7f5c8a7b6e023b9a935dea8447515e1b6b",
+    "string_croatian_horizontal.uxc": "0a5188877dcafc964e5c7f2918e4eb6b5e13f01e92863e6bd8afa0e8918f5e76",
+    "string_croatian_vertical.uxc": "b97368e22e7df2f5896970cd0be6ffc4ebeb8b6ff9e7870a42d0db35e909adc0",
+    "string_czech_horizontal.uxc": "8e8eadb8d8495e5f4897f543520faf598ae6e593091a0a31596dd24b8b5c86cf",
+    "string_czech_vertical.uxc": "fa4748c91493d05f0f221afb188390ea032f0f6ab312ca3b5a141eb7aa04ca3f",
+    "string_danish_horizontal.uxc": "41674e01bac83b67c92e817458a20c9a4af91c8897da366f1e144512d99f9297",
+    "string_danish_vertical.uxc": "1263d3e4408daa1283f1a306d891ac90a17cfbeafcb312f15d54da78bc043f41",
+    "string_dutch_horizontal.uxc": "c2c97d399b3dd49f61cd2f6a3ca0664e34180ad7b2a6ac177c793ae5d626b61f",
+    "string_dutch_vertical.uxc": "37f789184f1d4e1146f8c0fb99ad9206aaa2a8d92789665ecd09ec29fe4cfe11",
+    "string_english_horizontal.uxc": "5cdd1bb5f8c794f9a79af20e13ea249649ca5bce23388b1f20b0e87819d461cb",
+    "string_english_vertical.uxc": "ae089a91c8c1d2ae7b956dc9d640dca9f2b32fc7adea01f41543f45b62e8b098",
+    "string_finnish_horizontal.uxc": "3b1f7c2800280965d3973ecacdef1fce3153b1562174bb589b9beba94ad6b00e",
+    "string_finnish_vertical.uxc": "95637f2e7dad03bb6fb033d86998df3fd59b76247247f25bb89eb3d7741d7bfd",
+    "string_french_horizontal.uxc": "5f0d55009c7befa7fe9bea7ea124da711c149713ce7cf4eb92dd1da4e7073aa6",
+    "string_french_vertical.uxc": "e7cce340701bc048c1afb14174237c43628b4a57b1008e4944ae6cb45a120560",
+    "string_german_horizontal.uxc": "5e0882f2f83e8a21dce9c26571aefc8ac327c37a61706b226cf49592f51dfabf",
+    "string_german_vertical.uxc": "6f9806c1686749e87d1d1775d0bed08b2c767e5c31c2b5b6aa32cb9fd61751fc",
+    "string_greek_horizontal.uxc": "77894ab61477f804c930b136d8fbef8fd66c84748451d0b253bf7644dc953465",
+    "string_greek_vertical.uxc": "062cc7a0b6871000bdfe48fbdfe4c5f6f883d33d78f57df9f2f8fee453e88c22",
+    "string_hindi_horizontal.uxc": "654d928a6d82908b5c43c3353bb5576400b30cae63b6202ffa05cc0454c6e698",
+    "string_hindi_vertical.uxc": "893311dd83500b2870d6ab8f72e20a5f9b957ccf7ebcb04d48590297ed50f7e5",
+    "string_hungarian_horizontal.uxc": "2f2ac96c550211a46eaf0dd8031ce2e515d638a374d7b5836bdc4b3862abb198",
+    "string_hungarian_vertical.uxc": "3258f557fe59a38208cfa26d80d06e2150f835180ce43d860d9b647987deec66",
+    "string_indonesia_horizontal.uxc": "fe0a8ff2a41cf758079530639299e0291fd8fdac8779e886c61a25aa4b117127",
+    "string_indonesia_vertical.uxc": "afdb7d423fc05c96b1a21e63a4566f6adaffa2b64b159c572f4ab14324e5110e",
+    "string_italian_horizontal.uxc": "7b85b25ba25a266ecc8e606830379f3381c38bb5a0040d772c680dd4a005c35d",
+    "string_italian_vertical.uxc": "88ae8f33185c5a21fb1c82ab006355f198d14c70a30d93be4cb02d3b72839b5f",
+    "string_japanese_horizontal.uxc": "9a77c679dcf933d0b43a06d380d2ffd0f038cc64710fa65ed87ace5c83365ebf",
+    "string_japanese_vertical.uxc": "0af91bd8ecd687f0c96658b83abfff04ff92ae0c17d983430a6b7107a4cf3ab3",
+    "string_korean_horizontal.uxc": "1e63123383226af787255b7475c54067a6cc3236d966398968eaedce05ba4698",
+    "string_korean_vertical.uxc": "5d2587df21066cd76e73250c934e8290c8382b858c6e30f1e542538c7beb712a",
+    "string_malay_horizontal.uxc": "3613101c4ea9beed9ca8cd757dc5573b38bb6a7a5cd5afe6479d88a887b3bf32",
+    "string_malay_vertical.uxc": "f8bba2bd60faea4774395e0521edcf3d353292671e6baf7464f270dbc8d364cd",
+    "string_norwegian_horizontal.uxc": "11177c174fd85643bf8b8558e304db3542bd4d8f48f287cdf9c0cee28084bf82",
+    "string_norwegian_vertical.uxc": "20838734359170a88d6b57265ba5790060069aca083410629cf1923e6bc6a944",
+    "string_persian_horizontal.uxc": "ba581fae927a3e84dda2c448bcd69b87d4e1f293cb41079b88f6453c30a5e0cb",
+    "string_persian_vertical.uxc": "422995a59d0709ec1fc0c819de1273180c1c24943882a027a1b1fc3c2ecd06c7",
+    "string_polish_horizontal.uxc": "f107d95a22dfefe96d34649fc4b423f315971eb1d60285c0272cb11d8663eff3",
+    "string_polish_vertical.uxc": "b42d3c237833acb2c63a34f6d5384b5e9b21916d2e1c16c69e9e8bed1de4b0ae",
+    "string_portuguese_horizontal.uxc": "f3c5e9d5f00b6c09e699bf6ff1eb16bac95e0bc2c2916d3dcc61f5cf0c7049b7",
+    "string_portuguese_vertical.uxc": "83a0156041fd9d39cec8bca667942f5614191e6b70722f1f44b5654ace06b6bd",
+    "string_romanian_horizontal.uxc": "27cd5e3a123ee578a5beca022ad17307186d48659fdb19d345af0f62687631d0",
+    "string_romanian_vertical.uxc": "dd72ce58dc14305bc88d3dfef81c92ae006b9d83f8753f9c3e77a609dc8b1edf",
+    "string_russian_horizontal.uxc": "fd4af9e90454e375920e7a4c7003b851fff9b3b7bf8b4b78d74af016457f1e87",
+    "string_russian_vertical.uxc": "54e433209b77b237de70c1d7b60048b05e5c4f8e785e105f21c169c4a139febc",
+    "string_simplifiedchinese_horizontal.uxc": "805b5c8a82f4daa19dc0a018117c6e0a5b7cd55bc12941204f32b6b879526c59",
+    "string_simplifiedchinese_vertical.uxc": "631aa75c132181bff5645caec4e0b4d224e9e9312d918635bc074d86d6432d17",
+    "string_spanish_horizontal.uxc": "dcdb5de1c251c79652829eb9ef5362bbdda1afe447953dc6dfca701cad4efe66",
+    "string_spanish_vertical.uxc": "a915e2ae5469ae6551bdd2a080a2b6aaf1ee72fbd95d700cbba62fb51e8d00e5",
+    "string_swedish_horizontal.uxc": "151743f77794575c4afc5003d639cd3b41e2028927012c039cf8c9c274ec3d32",
+    "string_swedish_vertical.uxc": "418ec91194f84e9aec1f63a7b16b9269ab3bb818819d959f7098c7e715ed2a9e",
+    "string_thai_horizontal.uxc": "2dfeb65297087cac4400afa03318b814776dc4f31c177b6f00293ee47c068e40",
+    "string_thai_vertical.uxc": "ca587f21d83be1ffd3257f11afc98b8790c91b53984995dd3864db702cbfdc48",
+    "string_traditionalchinese_horizontal.uxc": "00dbee0be88ba1c789f3e9c454ee20b2d999765b5613d94ecec6670a4e6d8e0a",
+    "string_traditionalchinese_vertical.uxc": "5530cd3e225c0087104dbdd35e602cdb10dd8b8a131e28c8bf63b62754b85a5f",
+    "string_turkish_horizontal.uxc": "2f85f2db90cdbd83c73c90331e236dfde0d53a41cd1df3a4ace84a5e8602bc3a",
+    "string_turkish_vertical.uxc": "71bbcded6cd51faa84dc09caba2e41c4afd0b4ff2a8e9d83c2dc792ee3c51db1",
+    "string_ukrainian_horizontal.uxc": "20181377c472c74a3012a3e075423566b601501e52ebc0bdf9bc2c2247561b3f",
+    "string_ukrainian_vertical.uxc": "38527528c214b3b284504d6e7beafea794ddff48b3ec554adb943aeaadba6681",
+    "string_vietnamese_horizontal.uxc": "2043f57d904eb7c47d42c4c14fdd026ca6ece5df4f20599b18273a72952f855d",
+    "string_vietnamese_vertical.uxc": "5afae8376c4e7d99e53ae41061d7482cb7e82bab2f0aad355e91472467f6e0a8"
+  },
+  "CP_sha256": "8b78810767e9a80196f03fe09fe0b3fea314cac75930b8409f23e53d55b4c045"
+}

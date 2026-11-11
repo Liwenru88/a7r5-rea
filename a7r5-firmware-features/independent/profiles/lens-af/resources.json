@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "profile": "lens-af",
+  "base_sha256": "49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda",
+  "version": "4.18",
+  "base_public_key": "research-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha8",
+      "delta": "00.delta.gz",
+      "delta_sha256": "f7ae4b0be9fe7dfc2fe619bd61825758c1f59ab8385889629e4ff0d4b4b18a3b",
+      "bytes": 24531968,
+      "before_sha256": "b0636b8333b61a2495199159591dfbb25295c4d5d0cbcd1e09fd82d479c36a3d",
+      "after_sha256": "2839f5c0eab06c6668dbbc9c9574c81352a2dc0f1c34dda27a3b564b969f625f"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha8": "2839f5c0eab06c6668dbbc9c9574c81352a2dc0f1c34dda27a3b564b969f625f",
+    "0701_part_image_sum/part_image.sum": "83ef2921d3acfb4741792b07a7592e930bd28d99a2e919a82de73ca3a349775f"
+  },
+  "expected_dat_sha256": "0f3ece83ac6c9a74d6d1d47a0acb346672d852cfb2d8e41c6b321ab3d162250a"
+}

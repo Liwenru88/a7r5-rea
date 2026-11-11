@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "base": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "builds": {
+    "ntsc": {
+      "modules": [
+        "video-ntsc-prompt"
+      ],
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "4975845f152c0eb067f04fed2c8ab2851b0c23d825035efc47aaf1c7f7f16a6c",
+        "crc32": "66b56583"
+      },
+      "changed_archive_count": 2,
+      "verification_sha256": "f169225c5b50b3097fea7215bd9a3b2a0f69eaa56da77855e88108243f235efe",
+      "lock_sha256": "b2a0c3a2de43d3a333e2725732411c62fdd55ace5c6e1f10826912da670a3931",
+      "matches_historical_single": true
+    },
+    "electronic-shutter": {
+      "modules": [
+        "photo-electronic-shutter-sound"
+      ],
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "8e3bbcb14bedfec2c38539ea06b82a323f9815b498e2cea15f4108d84b7dec5f",
+        "crc32": "63782181"
+      },
+      "changed_archive_count": 2,
+      "verification_sha256": "5620a344f2fa49b9a78d0fbf661e79f3ab13993e665980ef75f6057c62f9cb0a",
+      "lock_sha256": "6b68e1bcec7955e28427218f17109f326b8ce849e38ab78acd2f9bb30113b69b",
+      "matches_historical_single": true
+    },
+    "r6-st": {
+      "modules": [
+        "color-r6-st"
+      ],
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "554349b82b2d848dd31fea8c952dec16631644a93bee514bbc8bc99cbce299bd",
+        "crc32": "2eb88a16"
+      },
+      "changed_archive_count": 13,
+      "verification_sha256": "ac917045c0ddc778d112fd0f93669fe6aa531c06d384187eb7773b33299e8c8b",
+      "lock_sha256": "39a23d9a91c20f2ef4ff5fd448ba237f7e5469288f1038f67020501b16cbeea8",
+      "matches_historical_single": true
+    },
+    "awb-priority": {
+      "modules": [
+        "color-awb-priority"
+      ],
+      "version": "4.06",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "3c11a64de0a3b6abf2c8e0f77b464e72cd794b9e62c855c3d1aeb520d38fbfd9",
+        "crc32": "572dd606"
+      },
+      "changed_archive_count": 13,
+      "verification_sha256": "78b4a41bcd451a8d06de5aa462217122adaf061984adc7e5d82873f3bb083477",
+      "lock_sha256": "1396a73e547b100f2b7b832b26a8dd845b22dd9889951c2405fd81686935f3b4",
+      "matches_historical_single": true
+    },
+    "ntsc-sound": {
+      "modules": [
+        "photo-electronic-shutter-sound",
+        "video-ntsc-prompt"
+      ],
+      "version": "4.20",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "d72362ae62df692f663e85975f8ec2f7b982d45e5bd73dc957e256e46e23520a",
+        "crc32": "8ae1ba5a"
+      },
+      "changed_archive_count": 3,
+      "verification_sha256": "42c0b7f292f6570925e7ca397c0259a1d8f4f38ebfddfa7e8a679b62b86b1395",
+      "lock_sha256": "7415edf72e9c7b8679e23e1fc9ad9a8d54fcbae6bd17a85a8cdf2fe7e514c693"
+    },
+    "r6-st-awb": {
+      "modules": [
+        "color-awb-priority",
+        "color-r6-st"
+      ],
+      "version": "4.20",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "e403904c2113b8ac57cb59ec18db062316c06bd09f420ba762462f37df5f1854",
+        "crc32": "43d68a15"
+      },
+      "changed_archive_count": 13,
+      "verification_sha256": "3d97ff55ef07675e617bd218a3f7db08891f26a2d16241f6c60de143d67790b7",
+      "lock_sha256": "e854dc9dd8677147aed525135f745eaf92fa46cea62d4ee127c388638687ab9d"
+    },
+    "all-four": {
+      "modules": [
+        "color-awb-priority",
+        "color-r6-st",
+        "photo-electronic-shutter-sound",
+        "video-ntsc-prompt"
+      ],
+      "version": "4.20",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "601af9a0b4f04432d244b6715a16b03019ac3a06d9ac7dfc8a02f88b16835623",
+        "crc32": "cde8ab7a"
+      },
+      "changed_archive_count": 16,
+      "verification_sha256": "421649e204a3e8db34d92e7aaf6085dd15ac3c36dcbc8e9adb96690fa9a5cd73",
+      "lock_sha256": "664ae4d7917e3e58d67ab4457117b5edf78944ff3abebc5d242b60177e2534f5"
+    },
+    "all-four-rebuild": {
+      "modules": [
+        "color-awb-priority",
+        "color-r6-st",
+        "photo-electronic-shutter-sound",
+        "video-ntsc-prompt"
+      ],
+      "version": "4.20",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "601af9a0b4f04432d244b6715a16b03019ac3a06d9ac7dfc8a02f88b16835623",
+        "crc32": "cde8ab7a"
+      },
+      "changed_archive_count": 16,
+      "verification_sha256": "421649e204a3e8db34d92e7aaf6085dd15ac3c36dcbc8e9adb96690fa9a5cd73",
+      "lock_sha256": "664ae4d7917e3e58d67ab4457117b5edf78944ff3abebc5d242b60177e2534f5"
+    }
+  },
+  "all_four_rebuilt_in_reverse_order": true,
+  "verify_command_passed": true,
+  "frames_per_bundle": 736841,
+  "archive_members_per_bundle": 147,
+  "plan_regressions_passed": 12,
+  "packaged_behavior_regressions_passed": 3,
+  "module_subsets_planned": 15,
+  "wbi": "preserve-stock",
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "sources": {
+    "a7r5-firmware-features/compose.py": "5ea5046eeea4917cf03a50a0dac390a212f3debed263a8e5b21e4382f37c893e",
+    "a7r5-firmware-features/core/package.py": "5440d9dbdb1b62823ae5f02856544cd4f4951f3abfa8efbcd8c7c26cc817d6b8",
+    "a7r5-firmware-features/core/plan.py": "2e1ee4520ca722217bc116da8380bc368979b3a56503f215a20f0d4203c19ff2",
+    "a7r5-dat-tool/a7r5dat/__init__.py": "9862b13628758fede9788761cf377adf94be07dee152c5946407b461352047ba",
+    "a7r5-dat-tool/a7r5dat/codec.py": "0cc9fa7cbe99d832dd63d1dff62dc1b6d1f35a8cf8320fb4012678afe84cab7d",
+    "a7r5-dat-tool/a7r5dat/constants.py": "e102c8511ec2a0e1c9713339fee098f304a476fc275dc80fb0dcac43836e2cef",
+    "a7r5-dat-tool/a7r5dat/encryptor.py": "7bba39d9cf5f7e0956775b787cd2ccae297dc113f740146a29e71ad81004dd9d",
+    "a7r5-dat-tool/a7r5dat/ext2_add.py": "179d296b7db9beb0f5e0d492a9d1c16108222e2c17ab217f5ed66fa9a93ee106",
+    "a7r5-dat-tool/a7r5dat/ext2_image_append.py": "b51a928c068c9fc461ae73116a92a9ace3c53bb5c9271bc61261ee728a1aeacb",
+    "a7r5-dat-tool/a7r5dat/ext2_patch.py": "6a22b44f9d9606b4dff49545f5f3fd9e652493867905b364a57395dd31a49404",
+    "a7r5-dat-tool/a7r5dat/ext2read.py": "c2972216e93f7d1fc4b146445e23e43684ae0ad9dd148b3d91f95a3f1a5b2926",
+    "a7r5-dat-tool/a7r5dat/fat.py": "b6530aaa4bff38166fd6989ef4d6138634bfd3512c371ec306359192a971595c",
+    "a7r5-dat-tool/a7r5dat/tool.py": "90c215f76f12f28207e1912bb3cabb0372ccf9fb24972cfabea421f56fcd9ad3",
+    "a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/dependencies/colour_fields.json": "7ceb15461b5b0d7aaa79dd46d05f60b96aeb5c1ffaf7ae54fe1df40cba9dec4e",
+    "a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/templates/prepare_templates.py": "922183422b6663e41cc63f394db5b6d282b9417c507a7ebd6cf222be3bbd9270",
+    "a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/lib/sony_bk4.py": "da9a920d767eeaa8ba8965cc106397e7d1de409fff34c39c73c9debbc631c717"
+  }
+}

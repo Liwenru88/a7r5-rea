@@ -1,0 +1,16 @@
+{
+  "profile": "electronic-shutter",
+  "version": "4.06",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "8e3bbcb14bedfec2c38539ea06b82a323f9815b498e2cea15f4108d84b7dec5f",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha8": "04fad0e0bfbbedc3fc16ab7e89ee9a94d4044b5ef1bafdc82bca7fd053720968",
+    "0701_part_image_sum/part_image.sum": "fb015d7489e369b34726eee203d0ca2f6c08cf3fd4aaa202a70589595981a3fe"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

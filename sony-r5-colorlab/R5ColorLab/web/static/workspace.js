@@ -27,7 +27,7 @@ const trainingOptions=[
   'targetKind','gamut','endpoint','wbTraining','speedPriority','evaluations','weightRandom',
   'weightPrimaries','weightGray','weightCC24','weightSector16','parameterSmoothing',
   'outputContinuity','searchStarts','adaptiveRounds','gammaColorRounds','perceptualWeight',
-  'quantizationSweeps','adamLearningRate','adamSteps','baselineLook'
+  'quantizationSweeps','baselineLook'
 ];
 
 function workspaceTrainingOptions(){
@@ -161,7 +161,7 @@ function resetWorkspaceInputs(){
   lutText='';chartTargetId=undefined;photoFile=undefined;rawFile=undefined;photoId=undefined;photoSlotRequest=undefined;photoShownSlot=undefined;
   photoUploadSerial++;
   $('photoSourceMode').value='slot';
-  clearTimeout(photoTimer);photoBusy=false;clearActual();submittedTraining=completedTraining=undefined;
+  clearTimeout(photoTimer);photoBusy=false;clearPhotoComparisons();submittedTraining=completedTraining=undefined;
   workspaceCandidate=undefined;workspaceCandidateSerial++;
   workspaceJob=undefined;
   clearTrainingTrace();
@@ -432,9 +432,13 @@ async function compareWorkspaceSlot(){
 function renderExportPreview(){
   if(!exportPreview)return;
   const reference=$('exportReference').value;
+  const mode=$('exportEndpointMode').value;
+  const variant={'shared-st':exportPreview.shared_st,'median-offset':exportPreview.median_offset}[mode]??exportPreview;
+  $('sharedEndpointHint').hidden=mode!=='shared-st';
+  $('medianEndpointHint').hidden=mode!=='median-offset';
   const numbers=slots=>slots.map(slot=>slot.number).join('、')||'无';
-  const summaries=[['只导出已保存槽位',exportPreview.saved]];
-  if(exportPreview.draft_slots.length)summaries.push(['保存全部草稿并导出',exportPreview.with_drafts]);
+  const summaries=[['只导出已保存槽位',variant.saved]];
+  if(exportPreview.draft_slots.length)summaries.push(['保存全部草稿并导出',variant.with_drafts]);
   $('exportPreview').replaceChildren(...summaries.map(([label,summary],index)=>{
     const group=document.createElement('section'), title=document.createElement('strong'), details=document.createElement('p');
     title.textContent=label+' · v'+summary.format;
@@ -442,6 +446,9 @@ function renderExportPreview(){
       ...summary.slots.map(slot=>slot.number+' · '+slot.name)];
     if(!index&&exportPreview.draft_slots.length)lines.push('未纳入的草稿 '+exportPreview.draft_slots.join('、'));
     if(!summary.slots.length)lines.push('空 BIN 导入机内后会清空配方库。');
+    if(summary.limited&&summary.slots.length)lines.push(
+      'CC1 限幅槽位 '+(summary.limited.cc1.join('、')||'无'),
+      '色相矩阵限幅槽位 '+(summary.limited.matrix.join('、')||'无'));
     const diff=summary.differences[reference];
     if(diff)lines.push('相比所选原始 BIN · 新增 '+(diff.added.join('、')||'无')+
       ' · 修改 '+(diff.changed.join('、')||'无')+' · 移除 '+(diff.removed.join('、')||'无'));
@@ -550,8 +557,10 @@ async function initWorkspace(){
   });
   $('addCompressed').onclick=()=>workspaceCommand(()=>loadWorkspaceCandidate(true));
   $('exportReference').onchange=renderExportPreview;
+  $('exportEndpointMode').onchange=renderExportPreview;
   $('export').onclick=()=>workspaceCommand(async()=>{
     exportPreview=await(await workspaceRequest('export-preview')).json();
+    $('exportEndpointMode').value='standard';
     const references=Object.keys(exportPreview.saved.differences);
     $('exportReference').replaceChildren(...references.map((sha,index)=>new Option('原始 BIN '+(index+1)+' · '+sha.slice(0,12),sha)));
     $('exportReferenceLabel').hidden=!references.length;
@@ -561,15 +570,17 @@ async function initWorkspace(){
   });
   for(const [id,save] of [['workspaceExportSaved',false],['workspaceSaveAndExport',true]]){
     $(id).onclick=()=>{
+      const endpoint_mode=$('exportEndpointMode').value;
       $('workspaceExportDialog').close();
       if(!collection.length&&(!save||!modifiedSlots().length)&&!confirm('空 BIN 会清空机内自定义滤镜。确认导出？'))return;
       workspaceCommand(async()=>{
         if(save&&modifiedSlots().length)await writeWorkspaceState(saveWorkspaceSlots(modifiedSlots()));
-        const response=await workspaceRequest('export',{allow_saved:!save,allow_empty:!collection.length});
+        const response=await workspaceRequest('export',{allow_saved:!save,allow_empty:!collection.length,endpoint_mode});
         const revision=Number(response.headers.get('X-R5-Project-Revision'));
         const archive=await response.blob();
         workspace.revision=revision;
-        download(archive,'r5-native-config.zip');
+        const suffix=endpoint_mode==='standard'?'':'-'+endpoint_mode;
+        download(archive,'r5-native-config'+suffix+'.zip');
         const updated=await load(workspace.id);
         if(updated.revision===revision)workspace=updated;
         renderWorkspaceInspector();toast('已导出 R5NATIVE.BIN、参数 JSON 与校验回执');

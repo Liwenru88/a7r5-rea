@@ -1,0 +1,18 @@
+{
+  "profile": "photo-aspect",
+  "version": "4.18",
+  "base_sha256": "49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda",
+  "dat_sha256": "9d8d5cb328bcb3bf53fad67268facd39e1293eebf0942435af370f86bf9eea56",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha15": "30badac440546771bb5f304512ce012ff5b68ec701d04ec741bef50319933d71",
+    "0700_part_image/dev/nflasha3": "dbe553d384f4cb93dea3a6949c5f7bf66f6507e6f174b984e7db19dae037ed6b",
+    "0700_part_image/dev/nflasha8": "b8ed66499c3b56a14d749c87431ff4185a3ddc3c0e7c6220ac0b853e335e2d95",
+    "0701_part_image_sum/part_image.sum": "d0c44833fb31d868c6e2a5dd83d7e6aa175f975ea251aca9987116c5fe3d1b34"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

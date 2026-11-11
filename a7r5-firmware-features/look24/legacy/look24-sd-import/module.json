@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "look24-sd-import",
+  "label": "冷启动 SD 导入",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [
+    "look24-core"
+  ],
+  "conflicts": [],
+  "claims": [
+    "native24.sd-import"
+  ],
+  "changes": [
+    {
+      "builder": "native24-option",
+      "option": "sd-import"
+    }
+  ],
+  "reference": "independent/profiles/native24-stock/resources.json"
+}

@@ -120,13 +120,11 @@ def solve_round(objective, vector, residual, lower, upper, evaluations, round_in
     or validation changes, and no float32 candidate bypasses CPU loss acceptance.
     """
     from scipy.optimize import minimize
-    from gpu_runtime import cpu_reference
     current = np.clip(np.asarray(vector, float), lower + 1e-5, upper - 1e-5)
     audit = []
     for name, indices in (('Gamma', slice(104, None)), ('CC1 / block13', slice(0, 104))):
         frozen = current.copy()
-        with cpu_reference():
-            rows = residual(frozen)
+        rows = residual(frozen)
         before = float(rows @ rows)
         calls = 0
         started = time.perf_counter()
@@ -150,8 +148,7 @@ def solve_round(objective, vector, residual, lower, upper, evaluations, round_in
             options=dict(maxiter=evaluations, maxfun=evaluations, ftol=1e-7, gtol=1e-8, maxls=12))
         trial = frozen.copy()
         trial[indices] = result.x
-        with cpu_reference():
-            rows = residual(trial)
+        rows = residual(trial)
         after = float(rows @ rows)
         accepted = bool(np.isfinite(after) and after < before)
         if accepted:

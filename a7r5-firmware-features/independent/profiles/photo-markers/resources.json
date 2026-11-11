@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "profile": "photo-markers",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "version": "4.07",
+  "base_public_key": "sony-original-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha15",
+      "delta": "00.delta.gz",
+      "delta_sha256": "8a6327059478b7ee1361f024ea56c360e10401ef75dcd1b55e4abadc7a475d49",
+      "bytes": 410652672,
+      "before_sha256": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5",
+      "after_sha256": "cd2383823b7b1ffbdae5212d2f062c1668c783d66310cb48cda95154d5ecd41b"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha15": "cd2383823b7b1ffbdae5212d2f062c1668c783d66310cb48cda95154d5ecd41b",
+    "0701_part_image_sum/part_image.sum": "cc531a5979462962af9f152e0f24303e8bebc807c21d74054bb28d0c0dc4094b"
+  },
+  "expected_dat_sha256": "69bc7c3d4dde1083844be3587120a1b9f9ab5845f1013ef9b3d2c4d3a0bb877a"
+}

@@ -1,5 +1,6 @@
 """复用已归档的CPU服务夹具，身份／符号／文件格式显式绑定24槽产物。"""
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -29,6 +30,44 @@ def components():
         data = bytes.fromhex(p['before'])
         before[p['offset']:p['offset'] + len(data)] = data
     assert hashlib.sha256(before).hexdigest() == patch['source_sha256']
+    if folder := os.environ.get('A7R5_FINAL_READBACK'):
+        final = Path(folder)
+        manifest = json.loads((final / 'manifest.json').read_text())
+        lock = json.loads((Path(os.environ['A7R5_FINAL_BUNDLE']) / 'lock.json').read_text())
+        assert manifest['source'] == lock['dat'] and lock['version'] == '4.19'
+        assert lock['plan']['native24']['sound_layout'] == 'custom-dual-full'
+        raw = (final / 'components/usr/lib/appFw.so').read_bytes()
+        cp = (final / 'components/cpapp-b.bin').read_bytes()
+        for name, data in [('usr/lib/appFw.so', raw), ('cpapp-b.bin', cp)]:
+            assert hashlib.sha256(data).hexdigest() == lock['expected']['components'][name]['sha256']
+    if folder := os.environ.get('A7R5_COMPONENT_CAPTURE'):
+        assert not os.environ.get('A7R5_FINAL_READBACK'), '组件回放不能冒充 DAT 回读'
+        folder = Path(folder)
+        manifest = json.loads((folder / 'manifest.json').read_text())
+        assert manifest['schema'] == 'r5-operation-fixes-components/1'
+        assert not manifest['installable'] and not manifest['camera_io']
+        assert hashlib.sha256((BUILD / 'build.json').read_bytes()).hexdigest() == manifest['native24_build_sha256']
+        data = (folder / 'capture-build.json').read_bytes()
+        assert hashlib.sha256(data).hexdigest() == manifest['capture_build_sha256']
+        capture = json.loads(data)
+
+        def inverse(data, proof):
+            assert hashlib.sha256(data).hexdigest() == proof['target_sha256']
+            original = bytearray(data)
+            for row in reversed(proof['patches']):
+                at = row['offset']
+                before, after = bytes.fromhex(row['before']), bytes.fromhex(row['after'])
+                assert original[at:at + len(after)] == after
+                original[at:at + len(before)] = before
+            assert hashlib.sha256(original).hexdigest() == proof['source_sha256']
+            return bytes(original)
+
+        raw = (folder / 'appFw.so').read_bytes()
+        cp = (folder / 'cpapp-b.bin').read_bytes()
+        assert inverse(inverse(raw, manifest['AP']), capture['AP']) == (BUILD / 'appFw.so').read_bytes()
+        assert hashlib.sha256(cp).hexdigest() == capture['CP_sha256'] == manifest['CP_sha256']
+        prior_cp = inverse(cp, capture['CP_lens_af']) if capture['lens_af'] else cp
+        assert inverse(prior_cp, capture['CP_aspect']) == (BUILD / 'cpapp-b.bin').read_bytes()
     return (raw, patch, bytes(before)), cp, record
 
 
@@ -38,11 +77,10 @@ def recipe():
 
 candidate, cp_raw, receipt = components()
 helper = FEATURE / 'tests/unified_verification_support.py'
-archive = FEATURE / 'verification/2026-11-03-unified-cold/source/tests/unified_verification_support.py'
-assert helper.read_bytes() == archive.read_bytes()
+assert hashlib.sha256(helper.read_bytes()).hexdigest() == 'a4a73c18cc0c092b277eb40ba837b1e7f1d76fb47a6ca5d44c584ce63e4cfae4'
 text = helper.read_text()
-text = text.replace("AP_SHA = 'e833e0290fe60207cc5d9d2b7a0a66b253f7ab0db99ed12afb2a0c47ca6f72f1'", f"AP_SHA = '{receipt['AP_sha256']}'")
-text = text.replace("CP_SHA = 'bb8eeaaeb9d13a4687605de6e01ccbe4adc500f595d2f8dbfe886eedd8a643d0'", f"CP_SHA = '{receipt['CP_sha256']}'")
+text = text.replace("AP_SHA = 'e833e0290fe60207cc5d9d2b7a0a66b253f7ab0db99ed12afb2a0c47ca6f72f1'", f"AP_SHA = '{hashlib.sha256(candidate[0]).hexdigest()}'")
+text = text.replace("CP_SHA = 'bb8eeaaeb9d13a4687605de6e01ccbe4adc500f595d2f8dbfe886eedd8a643d0'", f"CP_SHA = '{hashlib.sha256(cp_raw).hexdigest()}'")
 text = text.replace("assert len(sidecar) == 24 and sidecar[:8] == b'R5SEL4\\0\\0'",
     "if not sidecar:return (self.ap.call('r5_filter_selected'), self.cp.words(0x1a3945c + 8, 1)[0], None)\n"
     "        assert len(sidecar) == 24 and sidecar[:8] in (b'R5SEL4\\0\\0', b'R5SEL5\\0\\0')")

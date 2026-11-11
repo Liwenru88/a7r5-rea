@@ -49,3 +49,16 @@ def compare(target, predicted):
                 lightness_rmse=float(np.sqrt(np.mean(dl**2))),
                 ab_rmse=float(np.sqrt(np.mean(np.sum(tint**2,axis=1)))),
                 interpretation='display sRGB, D65 Lab, quantized uint8; not calibrated scene colorimetry')
+
+
+def compare_rgb8(target, predictions):
+    """对同一组 8 位 sRGB 像素计算各路色差，共用目标 Lab。"""
+    target_lab = to_lab(target)
+    result = {}
+    for name, rgb in predictions.items():
+        error = np.subtract(rgb, target, dtype=np.float64)
+        delta = de2000(target_lab, to_lab(rgb))
+        result[name] = dict(rgb_rmse=float(np.sqrt(np.mean(error**2))),
+                            delta_e00_mean=float(delta.mean()),
+                            delta_e00_p95=float(np.percentile(delta, 95)))
+    return result

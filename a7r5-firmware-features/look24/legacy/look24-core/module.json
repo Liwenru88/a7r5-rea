@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "id": "look24-core",
+  "label": "24 槽基础运行时",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "claims": [
+    "ap.creative-look",
+    "cp.native24"
+  ],
+  "changes": [
+    {
+      "builder": "native24-runtime"
+    }
+  ],
+  "reference": "independent/profiles/native24-stock/resources.json"
+}

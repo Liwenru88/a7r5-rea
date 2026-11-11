@@ -12,10 +12,8 @@ def penalty(grid, response, continuity):
     if continuity is None:
         return 0.
     from residual_grid import evaluate
-    from gpu_runtime import cpu_reference
     bank, base, amount = continuity
-    with cpu_reference():
-        return bank.cost(evaluate(base, grid, response), amount)
+    return bank.cost(evaluate(base, grid, response), amount)
 
 
 def constrain(grid, base, target, weights, response, smoothing, continuity, progress=None, *,
@@ -79,16 +77,12 @@ def constrain(grid, base, target, weights, response, smoothing, continuity, prog
         return value, grad
 
     def exact_cost(table):
-        from gpu_runtime import cpu_reference
-        with cpu_reference():
-            rows = display_cost_rows(evaluate(base, table, response), target, .35)
-            return float(rows @ np.asarray(weights) / np.sum(weights)) + grid_cost(table, smoothing,response=response) + penalty(table, response, continuity)
+        rows = display_cost_rows(evaluate(base, table, response), target, .35)
+        return float(rows @ np.asarray(weights) / np.sum(weights)) + grid_cost(table, smoothing,response=response) + penalty(table, response, continuity)
     original = np.array(grid, dtype=np.int8, copy=True)
     # Independent float64 value gate before trusting the accelerated gradient.
     from perceptual import to_lab
-    from gpu_runtime import cpu_reference
-    with cpu_reference():
-        prediction=evaluate(base,original,response)
+    prediction=evaluate(base,original,response)
     data=np.mean((prediction-np.clip(target,0,1))**2,axis=1)
     data+=.35*np.sum(((to_lab(prediction*255)-to_lab(np.clip(target,0,1)*255))/100)**2,axis=1)
     expected=float(data@np.asarray(weights)/np.sum(weights))+(grid_cost(original,smoothing,response=response)+penalty(original,response,continuity))/255**2

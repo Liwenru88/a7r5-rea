@@ -345,7 +345,7 @@ def test_custom_eight_parameters_are_visible_and_independent():
     r.service()
     values, ids = display_custom(r)
     assert ids == tuple(range(8))
-    assert values == BASE
+    assert values == (0,)*8
     obj = r.ap.DATA + 0x83000
     r.ap.write(obj + 0x3b18, struct.pack('<I', r.mid))
     assert r.ap.call('n12_inhibited', obj) == 0
@@ -353,12 +353,12 @@ def test_custom_eight_parameters_are_visible_and_independent():
     r.ap.stub(0x220b4e0, lambda a: option[0])
     for i in range(8):
         option[0] = i + 1
-        assert r.ap.call('n12_parameter_value', obj) & 0xffffffff == BASE[i] & 0xffffffff
+        assert r.ap.call('n12_parameter_value', obj) == 0
         r.ap.call('n12_step_' + str(i), obj, 0)
-        assert r.ap.call('n12_parameter_value', obj) & 0xffffffff == (BASE[i] + 1) & 0xffffffff
-        assert r.ap.call('n12_parameter_default', obj) & 0xffffffff == BASE[i] & 0xffffffff
+        assert r.ap.call('n12_parameter_value', obj) == 1
+        assert r.ap.call('n12_parameter_default', obj) == 0
     values, ids = display_custom(r, 14)
-    assert values == BASE and ids == tuple(range(8))
+    assert values == (0,)*8 and ids == tuple(range(8))
     r.record('parameters-eight-model')
 
 

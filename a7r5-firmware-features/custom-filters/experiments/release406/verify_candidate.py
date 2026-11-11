@@ -38,7 +38,9 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--release',required=True,type=Path);parser.add_argument('--source-workspace',required=True,type=Path)
     parser.add_argument('--version',choices=('4.10','4.12'),default='4.10')
-    parser.add_argument('--output',required=True,type=Path);args=parser.parse_args()
+    parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--source-dat',required=True,type=Path,help='历史研究 DAT，仍须匹配原固定摘要')
+    args=parser.parse_args()
     release=args.release.resolve();out=args.output.resolve()
     assert release.is_relative_to(ROOT/'.local/fixed-custom-filters')
     assert out.is_relative_to(ROOT/'.local/fixed-custom-filters') and not out.exists()
@@ -68,7 +70,7 @@ def main():
             modules.append(dict(path=row['target'],sha256=sha(raw),bytes=len(raw)))
     finally:
         before.close();after.close()
-    source_dat=Path('/Users/wenruli/Desktop/索尼/BODYDATA.DAT')
+    source_dat=args.source_dat
     assert digest(source_dat)=='3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2'
     codec=ROOT/'.local/fixed-custom-filters/integration52-fsys-codec/verification.json'
     source_cp=package/'readback/components/cpapp-b.bin'

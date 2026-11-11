@@ -5,9 +5,6 @@ import numpy as np
 from training_policy import GROUPS, group_importance
 from perceptual import to_lab, de2000
 
-DEFAULT_ADAM_LEARNING_RATE = .015
-DEFAULT_ADAM_STEPS = 2000
-
 def pc_options(value=None):
     from grid_models import default_response
     result={'curve_mode':'tone-tint','grid_enabled':True,'response':default_response()}
@@ -24,11 +21,11 @@ def pc_options(value=None):
 
 
 def search_options(value=None):
-    defaults=dict(starts=4, adaptive_rounds=3, perceptual_weight=.35, quantization_sweeps=1, parameter_smoothing=0, output_continuity=0, gamma_color_rounds=0, primary_tonal_weight=1.0, hue24_tonal_weight=1.0, adam_learning_rate=DEFAULT_ADAM_LEARNING_RATE, adam_steps=DEFAULT_ADAM_STEPS)
+    defaults=dict(starts=4, adaptive_rounds=3, perceptual_weight=.35, quantization_sweeps=1, parameter_smoothing=0, output_continuity=0, gamma_color_rounds=0, primary_tonal_weight=1.0, hue24_tonal_weight=1.0)
     if value is None:return defaults
     if not isinstance(value,dict) or set(value)-set(defaults):raise ValueError('未知优化器选项')
     result={**defaults,**value}
-    for name,low,high in [('starts',2,12),('adaptive_rounds',0,8),('quantization_sweeps',0,3),('gamma_color_rounds',0,12),('adam_steps',1,2000)]:
+    for name,low,high in [('starts',2,12),('adaptive_rounds',0,8),('quantization_sweeps',0,3),('gamma_color_rounds',0,12)]:
         if type(result[name]) is not int or not low<=result[name]<=high:raise ValueError(name+' 超出允许范围')
     for name in ('primary_tonal_weight','hue24_tonal_weight'):
         if type(result[name]) not in (int,float) or not np.isfinite(result[name]) or not .05<=result[name]<=8:
@@ -38,9 +35,6 @@ def search_options(value=None):
     result['output_continuity']=strength(result['output_continuity'])
     v=result['perceptual_weight']
     if type(v) not in (int,float) or not np.isfinite(v) or not 0<=v<=2:raise ValueError('感知权重需在0–2之间')
-    rate = result['adam_learning_rate']
-    if type(rate) not in (int, float) or not np.isfinite(rate) or not .0001 <= rate <= .1:
-        raise ValueError('Adam 学习率需在 0.0001–0.1 之间')
     return result
 
 

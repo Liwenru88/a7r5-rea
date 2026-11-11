@@ -1,0 +1,32 @@
+{
+  "stock_DAT_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "stock_partitions": {
+    "nflasha5": "15020d1afe7f1cf40b3822ea0a7426c5c9b40f6330f163d72cf82fb08b1363e8",
+    "nflasha8": "a625468fbbd6b0e053e1974a3a0f7e9b9151bc88aaf6261aea21813f9e1f8f46",
+    "nflasha15": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5"
+  },
+  "stock_CP_sha256": "3269bf62426339791fcfbe8529698cd4accbe6c3d2ea61cd7c368a90ab7ee7c8",
+  "stock_USR_files": {
+    "/lib/appFw.so": "41bd8f4cda1f44c7038912837737e1ce6a650065f2108061ada30e5c7f9ce7c7",
+    "/share/app/image_00_23_IPSX.uxc": "80637a7bb69ccf2ddc6308a148847d1f14a88aa2001e4fc7de04b3e4c83ef061",
+    "/share/app/image_00_32_IPSX.uxc": "d5ec718d642fa8b813cf05c45bb0bc53f68b9bc4152fe003f01cdc39efc8a9db"
+  },
+  "components": {
+    "appFw.so": {
+      "bytes": 97583104,
+      "sha256": "a12c3a3f6abdda60b8e27037b6ff0a94ac3018491e18ba3486c6fad1d0232601"
+    },
+    "cpapp-b.bin": {
+      "bytes": 17617008,
+      "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+    },
+    "image_00_23_IPSX.uxc": {
+      "bytes": 9611836,
+      "sha256": "6e8c09e8e8a302aa05e7d8dd56f68bdb3675c486ca54a88ba81375b5c02a3bb7"
+    },
+    "image_00_32_IPSX.uxc": {
+      "bytes": 9963512,
+      "sha256": "7e598d75a997c37cea6204e8e35773e9b9ee5e4ce67b0c0ab569011563af3356"
+    }
+  }
+}

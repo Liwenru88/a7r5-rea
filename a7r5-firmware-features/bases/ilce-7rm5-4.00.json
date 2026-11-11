@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "id": "ilce-7rm5-4.00",
+  "model": "ILCE-7RM5",
+  "model_code": "0x11030080",
+  "version": "4.00",
+  "dat": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "updater_sha256": "c4b18a82eea52a507fb82b86ad50bab6047070b8908d03c28edcce4a9577d348",
+  "wbi": "preserve-stock",
+  "components": {
+    "usr/lib/appFw.so": {
+      "image": "0700_part_image/dev/nflasha15",
+      "path": "/lib/appFw.so",
+      "bytes": 97368304,
+      "sha256": "41bd8f4cda1f44c7038912837737e1ce6a650065f2108061ada30e5c7f9ce7c7"
+    },
+    "cpapp-b.bin": {
+      "image": "0700_part_image/dev/nflasha8",
+      "path": "/cpapp-b.bin",
+      "bytes": 17617008,
+      "sha256": "3269bf62426339791fcfbe8529698cd4accbe6c3d2ea61cd7c368a90ab7ee7c8"
+    }
+  },
+  "gl_templates": {
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_ALLLANG.bin": "a3b036d3e1dbeeb7c6e2fc7f02d41e5fc2731b8ba8165c3ee9927d9b504a876c",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_E38.bin": "e6909b4e0df661a1b53621873904ecfaa9af18f1b43f5a278d1d3dc450e42c65",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_J1.bin": "b59bf5066f438263bed0c38a594209bc70494953e244cff063224f0333181826",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_KR2.bin": "fdee34087520675bbfe705bfb8b37cfc871f1143202a73c01b9fbe6bc1d05748",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89200_UC2.bin": "0fa2005692fdc7ca76f5148696efca30559b7043f568412b9c1cec971753f335",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AF1.bin": "b9244f5ea4c48b04bf2ca8107900c9b7c168128b15df5858c6d4f0ff2ffb6370",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_ALLLANG.bin": "92697b50f6e3e25f5560a8c3eee357ea30b54e4e15cf29cd13bc30295759e3ce",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_AP2.bin": "0f072fc81a3148472bd22357af96af081502dc9721345ffc0d87d4f217ce54f1",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CEC.bin": "ce5110035e7429b88ef5261ed6b9d9895d29588b2072bdf7997e9516b6797bdc",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_CN2.bin": "84406c970097c6ceb46f2001528a08d3f1d5aad6cc926b0dbf5850e68a8901ec",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_IN5.bin": "124c4d7e6f6282675952db0b5a827d3123ba01f8aaf2f24376764ba5b7d1dc71",
+    "0110_backup/SYSIPSX-DSLR/GL/CX89201_JE3.bin": "b39366f9f5ae5704edc7f504afef485d526292a6619377a85e1243400b52e66b"
+  }
+}

@@ -2,6 +2,8 @@
 
 发布仓库保存算法、配方、源码、固定输入摘要及经持有人授权公开的当前研究签名公私钥。固件、SDK 等材料继续留在原位置，由 Git 忽略；没有把原件迁移或替换为软链接，也不自动下载固件或生成新的签名身份。下表同时列出随源码提供的签名身份和需要自行准备的本地输入。
 
+首次检出后，还需按[资源恢复说明](source-publication.md)准备固定模型、合成色卡及独立包增量。运行 `.venv/bin/python -B scripts/prepare_source_assets.py restore --download`，再执行同脚本的 `check`；恢复清单逐项验证完整 SHA-256，已有不同内容不会覆盖。该步骤不下载官方固件，也不准备任何相机操作会话。
+
 ## Python 与开发工具
 
 在工程根目录执行 `sh scripts/bootstrap.sh`，准备根 `.venv` 和 `a7r5-dat-tool/.venv`。脚本使用 Python 3.14 和 uv，版本固定在 `requirements-dev.txt` 与 DAT 工具的锁定清单。安装过程需要联网获取依赖，不操作硬件。本次验证复用现存开发环境；另在工程外建立新的环境验证源码测试。

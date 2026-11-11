@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "date": "2026-11-11",
+  "scope": "README、可复制Prompt与截图来源；不修改固件或操作设备",
+  "module_plans": {
+    "custom-example": {
+      "exit_code": 0,
+      "requested": [
+        "lens-af-compat",
+        "look24",
+        "photo-aspect-ratios"
+      ],
+      "base_wbi": "preserve-stock",
+      "effective_wbi": "invalidate-sector"
+    },
+    "single-module": {
+      "exit_code": 0,
+      "requested": [
+        "video-ntsc-prompt"
+      ],
+      "base_wbi": "preserve-stock",
+      "effective_wbi": "preserve-stock"
+    },
+    "full-4.19": {
+      "exit_code": 0,
+      "modules": 10,
+      "base_wbi": "preserve-stock",
+      "effective_wbi": "invalidate-sector"
+    },
+    "unsupported_combination_rejected": {
+      "modules": [
+        "look24",
+        "look-fl2-fl3",
+        "photo-aspect-ratios"
+      ],
+      "exit_code": 1,
+      "reason": "拍摄模块与 look-fl2-fl3 的该组合尚未验证",
+      "note": "文档已改用已支持的组合；未绕过门禁"
+    }
+  },
+  "local_links_checked": 128,
+  "image_copies_checked": 7,
+  "shell_blocks_syntax_checked": 19,
+  "prompt_inline_equals_standalone": true,
+  "files_not_git_ignored": true,
+  "latest_release_checksums_unchanged": 49,
+  "index_unchanged": true,
+  "firmware_rebuilt": false,
+  "qemu_started": false,
+  "camera_io": false,
+  "official_card_instructions_checked": "https://service.sony.com.cn/download/firm/00003037.html",
+  "release_check": {
+    "status": "blocked-existing",
+    "baseline_errors": 109,
+    "introduced_errors": 0
+  },
+  "followup_publication_fix": "source-publication-verification-20261111.json"
+}

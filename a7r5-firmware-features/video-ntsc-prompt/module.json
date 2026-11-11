@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "id": "video-ntsc-prompt",
+  "label": "关闭指定 NTSC 提示",
+  "revision": 1,
+  "supported_bases": [
+    "ilce-7rm5-4.00"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "claims": [
+    "ap.ntsc-prompt"
+  ],
+  "changes": [
+    {
+      "builder": "component-bytes",
+      "component": "usr/lib/appFw.so",
+      "patches": [
+        {
+          "offset": 34380196,
+          "before": "226f8052",
+          "after": "07000014"
+        },
+        {
+          "offset": 34381476,
+          "before": "226f8052",
+          "after": "0a000014"
+        }
+      ]
+    }
+  ],
+  "reference": "independent/profiles/ntsc/resources.json"
+}

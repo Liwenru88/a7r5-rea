@@ -1,0 +1,45 @@
+{
+  "source_sha256": "35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300",
+  "target_sha256": "530b45341bd17649d561bb5f906a23c505724d78e408ec2edc7dbf465eade3d5",
+  "patches": [
+    {
+      "offset": 11433856,
+      "before": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "after": "06b4eff300824ef2b150c0f29c100078012807d14ef25731c0f219110978002908bf002082f3008806bc7047",
+      "feature": "lens-af-auto-compat-getter"
+    },
+    {
+      "offset": 3067312,
+      "before": "76f297f7",
+      "after": "faf3e6f4",
+      "feature": "info7"
+    },
+    {
+      "offset": 3063788,
+      "before": "77f279f6",
+      "after": "fbf3c8f3",
+      "feature": "info8"
+    },
+    {
+      "offset": 3065782,
+      "before": "77f294f2",
+      "after": "faf3e3f7",
+      "feature": "info3D"
+    },
+    {
+      "offset": 9817524,
+      "before": "06f095ff",
+      "after": "8af1e4fc",
+      "feature": "capability-publication-first"
+    },
+    {
+      "offset": 9817928,
+      "before": "06f0cbfe",
+      "after": "8af11afc",
+      "feature": "capability-publication-second"
+    }
+  ],
+  "inverse_exact": true,
+  "camera_io": false,
+  "device_tested": false
+}

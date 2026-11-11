@@ -214,7 +214,8 @@ def archive_overlay(source, replacements, sums, output):
         name = '0701_part_image_sum/part_image.sum'
         raw = archive.extractfile(name).read().decode('ascii')
         text, changed = update_sum(raw, sums, {k: v.stat().st_size for k,v in sums.items()})
-        require(len(changed) == 3, '分区清单更新集合不符')
+        require(len(changed) == len(sums) and {row['path'] for row in changed} == set(sums),
+                '分区清单更新集合不符')
         output.write_text(text)
         replacements = {**replacements, name: output}
         ranges = []

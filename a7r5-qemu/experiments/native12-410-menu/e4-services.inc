@@ -7,6 +7,16 @@ static unsigned n12_hdmi_definition,n12_hdmi_preset,n12_hdmi_format;
 static unsigned n12_aux_configured;
 /* 明确的未完成订阅模型：只持有单个请求，不发送完成或状态事件。 */
 static void *n12_notify_pending;
+
+/* 仅用于纵横比客体。此回执只确认 AP 消息格式，成像仍由原有模拟边界决定。 */
+static int n12_aspect_menu_wire(const unsigned char *p, unsigned n) {
+    const unsigned char tail[]={0,0,1,0,1,1,0,0,1,0,1,1,0,0,0};
+    if(n!=24||p[0]!=5||p[1]||p[2]!=0x2d||p[3]!=0x40||
+        (p[8]>3&&(p[8]<0xe0||p[8]>0xe5)))return 0;
+    for(unsigned i=0;i<sizeof(tail);i++)if(p[9+i]!=tail[i])return 0;
+    return 1;
+}
+
 static int native12_native_send(unsigned id,void *message,int *handled) {
     *handled=0;
     if(!n12_mailbox||!getenv("A7R5_N12_E4_SERVICES")||!message||!real_msg_size)return 0;
@@ -36,14 +46,16 @@ static int native12_native_send(unsigned id,void *message,int *handled) {
             *handled=1;if(n!=lengths[k]||!real_get_source||!real_allocate_msg||!real_set_source||!real_send_msg||!real_free_msg)return -1024;
             unsigned context=(unsigned)p[4]|(unsigned)p[5]<<8|(unsigned)p[6]<<16|(unsigned)p[7]<<24;
             if(context<0x80000001u||context==0xffffffffu)return -1024;
-            for(unsigned i=0;i<n;i++)if((i<4||i>=8)&&p[i]!=requests[k][i])return -1024;
+            int aspect=k==3&&getenv("A7R5_ASPECT_MENU_WIRE")&&n12_aspect_menu_wire(p,n);
+            if(!aspect)for(unsigned i=0;i<n;i++)if((i<4||i>=8)&&p[i]!=requests[k][i])return -1024;
+            unsigned aspect_wire=aspect?p[8]:0;
             unsigned queue=real_get_source(message);if(queue!=0x80020002)return -1024;
             unsigned bytes=k==8?16:12,command=(unsigned)p[2]|(unsigned)p[3]<<8;void *reply=0;int rc=real_allocate_msg(queue,&reply,bytes,1);if(rc)return rc;
             unsigned char *r=reply;for(unsigned i=0;i<bytes;i++)r[i]=0;
             r[0]=0x11;r[4]=p[2];r[5]=p[3];r[9]=0xf0;
             real_set_source(reply,id);rc=real_send_msg(queue,reply);if(rc){real_free_msg(queue,reply);return rc;}
             n12_aux_configured|=1u<<k;real_free_msg(id,message);
-            char s[120];snprintf(s,sizeof(s),"command=%#x context=%#x configured=%#x virtual_aux=1",command,context,n12_aux_configured);
+            char s[140];snprintf(s,sizeof(s),"command=%#x context=%#x configured=%#x virtual_aux=1 aspect_wire=%#x",command,context,n12_aux_configured,aspect_wire);
             record("A7R5_N12_AUX_CONFIG ",s);return 0;
         }
     }

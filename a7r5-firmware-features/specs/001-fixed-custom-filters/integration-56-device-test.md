@@ -1,5 +1,7 @@
 # integration56研究候选：后续实机测试与恢复限制
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 本文件是后续T12的测试清单，不是当前刷机操作指令。本轮没有连接设备或安装授权，也没有执行下列步骤。过去4.09发生过循环重启及MENU资源故障；本地容器验证不能排除启动、运行期或存储故障。
 
 ## 身份与准入
@@ -28,7 +30,7 @@
 
 | 文件 | SHA-256与用途 |
 |---|---|
-| `/Users/wenruli/Desktop/索尼/BODYDATA.DAT` | `3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`；原修改版4.06输入，只是本地恢复研究源，不保证机身允许降级刷回 |
+| `${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT` | `3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2`；原修改版4.06输入，只是本地恢复研究源，不保证机身允许降级刷回 |
 | `integration52-source406/archive/0700_part_image/dev/nflasha15` | 原USR分区；完整来源清单见[manifest.json](../../../.local/fixed-custom-filters/integration52-source406/manifest.json)，不可直接当作已授权写入对象 |
 | [旧第53批4.10](../../../.local/fixed-custom-filters/integration53-release410-v2/update410/BODYDATA.DAT) | `36cf5ff87c9e1f2baac0ac531e22abbaf50c70cf7b5443dc156c9cc31f59619a`；历史候选也未实机验收，不是已验证安全回退包 |
 

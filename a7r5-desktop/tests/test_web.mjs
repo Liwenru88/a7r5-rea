@@ -29,10 +29,15 @@ async function render(result, recoveryAvailable, overrides = {}, picked = null) 
   const pickers = [...html.matchAll(/data-pick="([^"]+)"/g)].map(match => {
     const element = new Element('button'); element.dataset.pick = match[1]; return element;
   });
+  const features = [...html.matchAll(/type="checkbox" name="([^"]+)"( checked)?/g)].map(([, name, checked]) => ({
+    name, checked: Boolean(checked),
+  }));
   const snapshot = {tasks: [{id: 'a'.repeat(32), kind: 'backup', created: 1,
     result, recovery_available: recoveryAvailable}], pending: {id: 'a'.repeat(32)}, ...overrides};
   vm.runInNewContext(readFileSync(new URL('../web/app.js', import.meta.url), 'utf8'), {
-    document: {querySelector: select, querySelectorAll: selector => ['.device', '[data-action]'].includes(selector) ? devices : selector === '[data-pick]' ? pickers : [], createElement: tag => new Element(tag)},
+    document: {querySelector: select, querySelectorAll: selector => ({
+      '.device': devices, '[data-action]': devices, '[data-pick]': pickers, '.feature-grid input': features,
+    })[selector] || [], createElement: tag => new Element(tag)},
     window: {__TAURI__: {core: {invoke: async (name, args) => {
       calls.push({name, args: JSON.parse(JSON.stringify(args))}); return name === 'choose_path' ? picked : snapshot;
     }}}},
@@ -46,6 +51,30 @@ async function render(result, recoveryAvailable, overrides = {}, picked = null) 
   return {buttons: buttons(select('#task-list')), calls, devices, pickers, select,
     content: content(select('#task-list')), banner: select('#banner')};
 }
+
+test('4.17 整合预设独立提交且保留旧四项选择', async () => {
+  const {select, calls} = await render({}, false);
+  const preset = select('#firmware-preset');
+  select('#source-path').value = '/fixture/official.DAT';
+  select('#output-path').value = '/fixture/new/BODYDATA.DAT';
+  select('#version').value = '4.06';
+  preset.value = 'native24';
+  preset.onchange();
+  assert.equal(select('#custom-features').hidden, true);
+  assert.equal(select('#native24-details').hidden, false);
+  await select('#build').onclick();
+  preset.value = 'custom';
+  preset.onchange();
+  assert.equal(select('#custom-version').hidden, false);
+  await select('#build').onclick();
+  const submitted = calls.filter(call => call.name === 'start_task').map(call => call.args.input);
+  assert.deepEqual(submitted, [
+    {kind: 'firmware', source: '/fixture/official.DAT', output: '/fixture/new/BODYDATA.DAT',
+      version: '4.17', features: {native24: true}},
+    {kind: 'firmware', source: '/fixture/official.DAT', output: '/fixture/new/BODYDATA.DAT',
+      version: '4.06', features: {fl23: true, looks: true, ntsc: true, sound: true}},
+  ]);
+});
 
 test('未启动服务的失败任务可以核对MSC，再由用户结束失败状态', async () => {
   const result = {task_complete: false, error: '原始接管失败', USB_recovered: false};
@@ -62,24 +91,26 @@ test('未启动服务的失败任务可以核对MSC，再由用户结束失败�
 test('历史待恢复标记不显示阻塞横幅，也不禁用新任务', async () => {
   const history = await render({task_complete: false, error: '历史失败'}, false);
   assert.equal(history.banner.hidden, true);
-  assert.equal(history.devices.find(b => b.dataset.action === 'backup').disabled, false);
+  assert.equal(history.devices.find(b => b.dataset.action === 'update').disabled, false);
   const running = await render({}, false, {busy: true});
   assert.ok(running.devices.every(b => b.disabled));
 });
 
-test('SSH记录不禁用维护操作，当前执行中的任务仍互斥', async () => {
+test('SSH 启动与本机实例记录无关，当前执行中的任务仍互斥', async () => {
   for (const busy of [false,true]) {
-    const view=await render({},false,{active_ssh:true,busy});
-    for (const kind of ['backup','update','update_force']) {
-      assert.equal(view.devices.find(b=>b.dataset.action===kind).disabled,busy);
+    for (const ssh_stop_available of [false,true]) {
+      const view=await render({},false,{ssh_stop_available,busy});
+      assert.equal(view.devices.find(b=>b.dataset.action==='update').disabled,busy);
+      assert.equal(view.devices.find(b=>b.dataset.action==='ssh_start').disabled,busy);
+      assert.equal(view.devices.find(b=>b.dataset.action==='ssh_stop').disabled,busy||!ssh_stop_available);
     }
   }
+  assert.ok(!actualIds.has('ssh-state'));
 });
 
-test('四种设备操作均指引终端授权，打开确认框不启动事务', async () => {
-  for (const kind of ['backup', 'update', 'ssh_start', 'ssh_stop']) {
+test('设备操作均指引终端授权，打开确认框不启动事务', async () => {
+  for (const kind of ['update', 'ssh_start', 'ssh_stop']) {
     const view = await render({}, false);
-    view.select('#backup-path').value = '/backup/result.json';
     view.select('#password').value = view.select('#password-again').value = 'fixture-password';
     view.devices.find(button => button.dataset.action === kind).onclick();
     assert.equal(view.select('#operation-dialog').open, true);
@@ -109,29 +140,14 @@ test('清理回执单独展示，失败时仍保留完整备份提示', async ()
   }
 });
 
-test('备份携带选择的保存目录，取消确认时不启动任务', async () => {
-  const view = await render({}, false, {}, '/fixture/选择的目录');
-  await view.pickers.find(button => button.dataset.pick === 'backup-output').onclick();
-  assert.equal(view.select('#backup-output-path').value, '/fixture/选择的目录');
-  view.devices.find(button => button.dataset.action === 'backup').onclick();
-  const dialog = view.select('#operation-dialog');
-  dialog.returnValue = 'cancel'; await dialog.close();
-  assert.ok(!view.calls.some(call => call.name === 'start_task'));
-  view.devices.find(button => button.dataset.action === 'backup').onclick();
-  dialog.returnValue = 'go'; await dialog.close();
-  assert.deepEqual(JSON.parse(JSON.stringify(view.calls.find(call => call.name === 'start_task').args.input)),
-    {kind: 'backup', output: '/fixture/选择的目录'});
-});
-
-test('取消文件夹选择保留原选择，未选择目录时沿用默认保存方式', async () => {
-  const view = await render({}, false);
-  view.select('#backup-output-path').value = '/fixture/原目录';
-  await view.pickers.find(button => button.dataset.pick === 'backup-output').onclick();
-  assert.equal(view.select('#backup-output-path').value, '/fixture/原目录');
-  view.select('#backup-output-path').value = '';
-  view.devices.find(button => button.dataset.action === 'backup').onclick();
-  view.select('#operation-dialog').returnValue = 'go'; await view.select('#operation-dialog').close();
-  assert.ok(!('output' in view.calls.find(call => call.name === 'start_task').args.input));
+test('已有备份继续提供目录入口，维护页面无备份和记录选择', async () => {
+  const view = await render({task_complete:true,backup_complete:true,
+    backup_file:'/fixture/partition.bin',trust_state:'original'}, false);
+  assert.deepEqual(view.devices.map(button => button.dataset.action), ['update','ssh_start','ssh_stop']);
+  assert.ok(!view.pickers.some(button => button.dataset.pick.startsWith('backup')));
+  assert.ok(!view.buttons.some(button => button.textContent === '用于信任更新'));
+  await view.buttons.find(button => button.textContent === '打开备份目录').onclick();
+  assert.ok(view.calls.some(call => call.name === 'reveal_backup'));
 });
 
 test('另存失败明确展示，同时保留已校验的原始备份', async () => {
@@ -142,15 +158,18 @@ test('另存失败明确展示，同时保留已校验的原始备份', async ()
 });
 
 
-test('强制安装独立确认，不要求备份记录且仅传显式强制标记', async () => {
+test('直接更新经确认后仅提交无备份依赖的请求', async () => {
   for (const choice of ['cancel', 'go']) {
     const view = await render({}, false);
-    view.devices.find(button => button.dataset.action === 'update_force').onclick();
-    assert.equal(view.select('#operation-dialog').open, true);
-    assert.match(view.select('#operation-risk').textContent, /固定258/);
+    const dialog = view.select('#operation-dialog');
+    dialog.returnValue = 'go';
+    view.devices.find(button => button.dataset.action === 'update').onclick();
+    assert.equal(dialog.open, true);
+    assert.equal(dialog.returnValue, '');
+    assert.match(view.select('#operation-risk').textContent, /固定的 258/);
     assert.match(view.select('#operation-risk').textContent, /没有自动回滚/);
     assert.ok(!view.calls.some(call => call.name === 'start_task'));
-    view.select('#operation-dialog').returnValue = choice; await view.select('#operation-dialog').close();
+    dialog.returnValue = choice; await dialog.close();
     const requests = view.calls.filter(call => call.name === 'start_task');
     assert.equal(requests.length, choice === 'go' ? 1 : 0);
     if (choice === 'go') assert.deepEqual(requests[0].args.input, {kind:'update',force_install:true});

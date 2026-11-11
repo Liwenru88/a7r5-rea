@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "profile": "ntsc",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "version": "4.06",
+  "base_public_key": "sony-original-public.pem",
+  "deltas": [
+    {
+      "path": "0700_part_image/dev/nflasha15",
+      "delta": "00.delta.gz",
+      "delta_sha256": "ce00fc1a5d4065c80413b6c0c040889c3f81fd92c1e51f8ad6b7e0ccb24ef120",
+      "bytes": 410652672,
+      "before_sha256": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5",
+      "after_sha256": "a7e40ea7d90c60bb82d7f0e12a4a54a0e4181b926dea8b7a3af3f9c345e64554"
+    }
+  ],
+  "expected_changes": {
+    "0700_part_image/dev/nflasha15": "a7e40ea7d90c60bb82d7f0e12a4a54a0e4181b926dea8b7a3af3f9c345e64554",
+    "0701_part_image_sum/part_image.sum": "290946b3db665e0819c83e3b6f43798fd68f4f6aa2d29b2f4c0c2aa3660bc55f"
+  },
+  "expected_dat_sha256": "4975845f152c0eb067f04fed2c8ab2851b0c23d825035efc47aaf1c7f7f16a6c"
+}

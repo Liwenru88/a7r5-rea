@@ -1,5 +1,7 @@
 # 固定 32 槽创意外观：实施入口
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 当前第41批新增[CUBE／电脑配方双入口](../specs/001-fixed-custom-filters/integration-41-dual-entry.md)：SD浏览同时接收`.cube`与现有`.a7filter`。CUBE沿用机内拟合；完整AJR2或纯参数AFD1无需拟合模型即可校验、保存到同一用户槽。新增[电脑配方封装工具与用法](tools/README.md)，不新增电脑训练器或对方BIN兼容。619项当前宿主回归通过、6项不适用跳过，13项加载边界另列；配对模块、新未签名USR、367来源和74组件独立回读见[本批交付](../../.local/fixed-custom-filters/implementation41-dual-entry-final/交付说明.md)。
 
 第40批原生接线见[接线与边界](../specs/001-fixed-custom-filters/integration-40-native-and-ui.md)：32槽/八项原UI、C01～C06明确overlay、默认参考LUT转换／保存／完整发送、CP worker与四组件入口及真实HELLO后的启动发布已落源码，沿用原厂分组失败行为。该批565项及未签名USR按[历史离线审计](../../.local/fixed-custom-filters/implementation40-final/verification.json)保留，不能当作新双入口源码的证据。
@@ -93,7 +95,7 @@
 mkdir -p .local/fixed-custom-filters
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --investigate --report .local/fixed-custom-filters/new-baseline-audit.json
 
 ./.venv/bin/python -B -m pytest -q a7r5-firmware-features/custom-filters/tests
@@ -116,7 +118,7 @@ clang --target=aarch64-none-elf -std=c11 -ffreestanding -fno-builtin -Wall -Wext
   -o .local/fixed-custom-filters/ui-adapter-11.elf
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT \
   --investigate-ui --ui-adapter .local/fixed-custom-filters/ui-adapter-11.elf \
   --report .local/fixed-custom-filters/new-ui-audit.json
 ```
@@ -138,7 +140,7 @@ clang --target=aarch64-none-elf -c a7r5-firmware-features/custom-filters/native/
   -o .local/fixed-custom-filters/ap-ui-hooks-11.elf
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT --investigate-ui \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT --investigate-ui \
   --ui-adapter .local/fixed-custom-filters/ui-adapter-11.elf \
   --ap-ui-module .local/fixed-custom-filters/ap-ui-hooks-11.elf \
   --report .local/fixed-custom-filters/new-ap-ui-audit.json

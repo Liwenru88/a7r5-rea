@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "base": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "version": "4.24",
+  "dat": {
+    "bytes": 754525608,
+    "sha256": "60d5129b10270c579d4b15fa35d569ebea1a7730f7aa93bfdbd72a1128a46ece",
+    "crc32": "ba442075"
+  },
+  "modules": [
+    "lens-af-compat",
+    "look-factory-six",
+    "look-fl2-fl3",
+    "look24-core",
+    "look24-preview",
+    "look24-group-memory",
+    "look24-sd-import",
+    "look24-selection-restore",
+    "look24-tuning",
+    "photo-aspect-ratios"
+  ],
+  "companion": {
+    "file": "R5NATIVE.BIN",
+    "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6"
+  },
+  "lock_sha256": "01c346b9351475a9a06bacc8ff80846d4a497733d06e1d56150e086106e89c16",
+  "verification_sha256": "93101136f1acc49e8647a408ef9598421ffda69dbbae241dd0100666695b6456",
+  "frames": 736841,
+  "archive_entries": 147,
+  "changed_archive": [
+    "0700_part_image/dev/nflasha15",
+    "0700_part_image/dev/nflasha3",
+    "0700_part_image/dev/nflasha5",
+    "0700_part_image/dev/nflasha8",
+    "0701_part_image_sum/part_image.sum"
+  ],
+  "components": {
+    "usr/lib/appFw.so": {
+      "image": "0700_part_image/dev/nflasha15",
+      "path": "/lib/appFw.so",
+      "bytes": 97583104,
+      "sha256": "e8e96742880a45df0cd9bf7af9aadb99d8f7b0bffb3ce682ff64abd05b8487da"
+    },
+    "cpapp-b.bin": {
+      "image": "0700_part_image/dev/nflasha8",
+      "path": "/cpapp-b.bin",
+      "bytes": 17617008,
+      "sha256": "ea3ca3c52afebfb074ab5ce1e144119c2b621c3271510e030d0fa74ab515a87e"
+    },
+    "AV-CAM.BIN": {
+      "image": "0700_part_image/dev/nflasha3",
+      "path": "/AV-CAM.BIN",
+      "bytes": 12956536,
+      "sha256": "11351971e97aaf48bbd011a8a15b819392a4ec4eff07b0a1caa39d49c4257c7a"
+    }
+  },
+  "independent_unpack": true,
+  "rebuilt_from_stock_reverified": true,
+  "openssl_signature_verified": true,
+  "usr_filesystem": "checked",
+  "language_banks": 68,
+  "image_banks": 2,
+  "previous_bundles_reverified": {
+    "4.22": {
+      "bytes": 754525608,
+      "sha256": "d632d594c0a32f7d042da597a67769e63fe7bb3c2c5d4bd27f3eecfeb96cf39a",
+      "crc32": "b7f232ce"
+    },
+    "4.23": {
+      "bytes": 754525608,
+      "sha256": "63fbc7b1022b1bb7abf6bbe163a66dd521bda0b528caed19799f43a0cfdfc537",
+      "crc32": "4d737033"
+    }
+  },
+  "targeted_regressions": {
+    "color_slots_selection_and_boot": 6,
+    "aspect_viewfinder_jpeg_heif_raw": 19,
+    "lens_af_five_consumers": 1,
+    "plan_and_actual_dat": 3,
+    "previous_plans": 16
+  },
+  "tests_sha256": {
+    "tests/test_compose_full.py": "42c3b78adaa93717d28238494abad70abeed7ce2062a0a6866521c31e05e2f0e",
+    "native24-combined/tests/test_color_modules.py": "cdedfc3a070e77a7818e5d849624bf9fb005b974789b6501410ba160bf789033",
+    "native24-combined/tests/test_lens_af.py": "8135e37fc155a1496c60bb125eae2451b4548b57e86b69621174f60447a360bd",
+    "native24-combined/aspect/test_ap.py": "bfa5bae88e3e3d371cc0ddaf103e971dac6a82829df49b69532ef131489097bc",
+    "native24-combined/aspect/test_avcam.py": "0078bd9799e9f4f1defd85f012ae6c175f1b860885f417503e3fb0af413e0c38",
+    "native24-combined/aspect/test_cp.py": "55d859e6e5ea69401eac2fa600ca3b77041e688ffe3a9b813fa3911f856d3bc1",
+    "native24-combined/aspect/test_geometry.py": "d4815d6db95dc268b2a406336b2871433e795dd4f1d6c3630f651d040aa40e09",
+    "native24-combined/aspect/test_guide.py": "9b49ff9759188dd2f1f1f2a6fe6df729e789540a352bed27bd900a4dff111c9e",
+    "native24-combined/aspect/test_resources.py": "30d544f6489cf152d8b14a425ae2d7f3847ccef492e1e9c6ab08c598ccb951be"
+  },
+  "wbi": {
+    "invalidated_bytes": 512,
+    "tail_preserved": true
+  },
+  "cp_boot": {
+    "color_mapper": "0x109000",
+    "aspect_page": "0x118000",
+    "page_table_root": "0x1a3c000",
+    "fl23_matrix_copy_preserved": true,
+    "aspect_state_bytes_cleared": 512
+  },
+  "capture_fixture": {
+    "input_pixels": [
+      9504,
+      6336
+    ],
+    "jpeg_and_heif_active_area_pixels": {
+      "17:6": [
+        9504,
+        3352
+      ],
+      "65:24": [
+        9504,
+        3512
+      ],
+      "5:4": [
+        7920,
+        6336
+      ],
+      "7:6": [
+        7392,
+        6336
+      ],
+      "1.91:1": [
+        9504,
+        4976
+      ],
+      "2.35:1": [
+        9504,
+        4048
+      ]
+    },
+    "raw_slot_pixels": [
+      9504,
+      6336
+    ],
+    "raw_and_processed_slot_orders_tested": true,
+    "sensor_and_encoders_executed": false
+  },
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "pending_device_acceptance": [
+    "机身更新后首启",
+    "实际镜头 AF-C／连拍",
+    "物理取景与成像",
+    "JPEG／HEIF／ARW 实拍文件"
+  ]
+}

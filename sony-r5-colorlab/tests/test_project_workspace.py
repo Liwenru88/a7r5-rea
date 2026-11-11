@@ -152,6 +152,97 @@ def test_export_preview_matches_each_mode_and_original_bin(http_server):
     call(http_server, 'export-preview', ref(original), status=409)
 
 
+@pytest.mark.parametrize('slot,version', [(12, 4), (24, 5)])
+def test_shared_st_export_preserves_stock_differences_without_editing_project(http_server, slot, version):
+    recipe = project([1, slot])
+    recipe.pop('export_sources')
+    first, second = recipe['entries']
+    first['cc1_delta'][0][7] = 0
+    first['cc1_delta'][1][7] = first['cc1_delta'][2][7] = 0
+    first['block13'][0][0][0] = 8191
+    original = core.compiler.pack(recipe)
+    status, raw = upload(http_server, original)
+    assert status == 200, raw
+    digest = json.loads(raw)['audit']['binary_sha256']
+    value = call(http_server, 'create', {'name': '共享增量', 'sha256': digest})
+    draft = copy.deepcopy(second)
+    draft['cc1_delta'][0][7] = 0
+    draft['cc1_delta'][1][7] = draft['cc1_delta'][2][7] = 0
+    value = save(http_server, value, drafts={str(slot): {'entry': draft, 'source': None}})
+
+    mode = {'endpoint_mode': 'shared-st'}
+    limited = {'cc1': [1], 'matrix': [1]}
+    preview = call(http_server, 'export-preview', ref(value))
+    assert preview['saved']['differences'][digest]['changed'] == []
+    assert preview['shared_st']['saved']['differences'][digest]['changed'] == [1]
+    assert preview['shared_st']['saved']['limited'] == limited
+    assert preview['shared_st']['with_drafts']['limited'] == {'cc1': [1, slot], 'matrix': [1]}
+    call(http_server, 'export', {**ref(value), **mode}, status=400)
+    call(http_server, 'export', {**ref(value), 'allow_saved': True, 'endpoint_mode': 'typo'}, status=400)
+    assert open_project(http_server, value) == value
+
+    binary, audit = export(http_server, value, allow_saved=True, **mode)
+    assert audit['endpoint_export']['limited_slots'] == limited
+    result = core.compiler.unpack(binary)
+    assert core.compiler.format_version(result) == version
+    converted, untouched = result['entries']
+    assert untouched == second
+    assert [row[7] for row in converted['cc1_delta']] == [197, -154, -197]
+    assert [plane[0][0] for plane in converted['block13']] == [8163, 8160, 8191]
+    for key in ('number', 'short_name', 'full_name', 'gamma_native_129', 'grid_5x9x9'):
+        assert converted[key] == first[key]
+    current = open_project(http_server, value)
+    assert current['entries'] == value['entries'] and current['drafts'] == value['drafts']
+    assert export(http_server, current, allow_saved=True)[0] == original
+
+
+@pytest.mark.parametrize('slot,version', [(12, 4), (24, 5)])
+def test_median_offset_export_limits_only_secondary_endpoints(http_server, slot, version):
+    recipe = project([1, slot])
+    recipe.pop('export_sources')
+    first, edge = recipe['entries']
+    edge['cc1_delta'] = [[0, 1023, 0, 0, 1023, 0, 0, 0], [0]*8, [0]*8]
+    edge['block13'][0][0] = [8191, -8192, 0, 0, 0, 0]
+    original = core.compiler.pack(recipe)
+    status, raw = upload(http_server, original)
+    assert status == 200, raw
+    digest = json.loads(raw)['audit']['binary_sha256']
+    value = call(http_server, 'create', {'name': '通用偏差', 'sha256': digest})
+    draft = dict(first, number=2, full_name='新增草稿')
+    value = save(http_server, value, drafts={'2': {'entry': draft, 'source': None}})
+
+    preview = call(http_server, 'export-preview', ref(value))['median_offset']
+    limited = {'cc1': [slot], 'matrix': [slot]}
+    assert preview['saved']['limited'] == preview['with_drafts']['limited'] == limited
+    assert preview['saved']['differences'][digest] == {'added': [], 'changed': [1, slot], 'removed': []}
+    assert preview['with_drafts']['differences'][digest]['added'] == [2]
+    assert open_project(http_server, value) == value
+
+    binary, audit = export(http_server, value, allow_saved=True, endpoint_mode='median-offset')
+    endpoint_audit = audit['endpoint_export']
+    assert endpoint_audit['mode'] == 'median-offset' and endpoint_audit['anchor'] == 'B'
+    assert endpoint_audit['reference_looks'] == ['ST', 'PT', 'NT', 'VV', 'VV2', 'FL', 'IN', 'SH']
+    assert endpoint_audit['limited_slots'] == limited
+    assert len(endpoint_audit['offsets_sha256']) == 64
+    decoded = core.compiler.unpack(binary)
+    assert core.compiler.format_version(decoded) == version
+    normal, converted_edge = decoded['entries']
+    assert normal['cc1_delta'][1:] == [[0, 21, -72, -7, 32, -54, 0, -73],
+                                       [-34, 55, 1, 0, 53, -106, 0, -102]]
+    assert converted_edge['cc1_delta'][1:] == [[0, 0, -72, -7, 0, 0, 0, 0],
+                                               [-34, 0, 1, 0, 0, 0, 0, 0]]
+    assert converted_edge['block13'][1][0] == [8191, -8168, -76, 105, 85, -93]
+    assert converted_edge['block13'][2][0] == [8191, -8180, 2, 45, 244, -193]
+    for before, after in zip(recipe['entries'], decoded['entries']):
+        for field in ('cc1_delta', 'block13'):
+            assert before[field][0] == after[field][0]
+        for field in ('number', 'short_name', 'full_name', 'gamma_native_129', 'grid_5x9x9'):
+            assert before[field] == after[field]
+    current = open_project(http_server, value)
+    assert all(current[key] == value[key] for key in projects.EDITABLE)
+    assert export(http_server, current, allow_saved=True)[0] == original
+
+
 def test_compare_slot_rebuilds_edited_gamma_on_measured_samples(http_server):
     entry = project([3])['entries'][0]
     tail_only = copy.deepcopy(entry)

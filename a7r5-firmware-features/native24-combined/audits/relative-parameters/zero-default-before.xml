@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="19.727" timestamp="2026-11-05T19:22:02.420137+08:00" hostname="WenrulideMacBook-Pro.local"><testcase classname="a7r5-firmware-features.native24-combined.tests.test_relative_parameters" name="test_all_twenty_four_display_zero_and_signed_native_ranges_preserve_registers" time="19.558"><failure message="AssertionError: 自定义八项初始显示必须全为零&#10;assert ((0, 0, 0, 0, 0, 4, ...) == (0, 0, 0, 0, 0, 0, ...)&#10;  &#10;  At index 5 diff: 4 != 0&#10;  Use -v to get more diff)">def test_all_twenty_four_display_zero_and_signed_native_ranges_preserve_registers():
+        r=NativeE4Replay()
+        r.boot()
+        for slot in range(1,25):
+            values,ids=display_custom(r,slot)
+&gt;           assert values==(0,)*8 and ids==tuple(range(8)), '自定义八项初始显示必须全为零'
+E           AssertionError: 自定义八项初始显示必须全为零
+E           assert ((0, 0, 0, 0, 0, 4, ...) == (0, 0, 0, 0, 0, 0, ...)
+E             
+E             At index 5 diff: 4 != 0
+E             Use -v to get more diff)
+
+a7r5-firmware-features/native24-combined/tests/test_relative_parameters.py:29: AssertionError</failure></testcase></testsuite></testsuites>

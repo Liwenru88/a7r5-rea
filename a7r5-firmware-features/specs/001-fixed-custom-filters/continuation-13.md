@@ -1,5 +1,7 @@
 # 第十三批：CP实时证据与纯参数适配
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 - Feature ID: `001-fixed-custom-filters`
 - Updated: `2026-10-26`
 - Status: `OFFLINE_PARAMETER_ADAPTER_VERIFIED_NOT_INSTALLABLE`
@@ -61,7 +63,7 @@ done
 
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT --investigate \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT --investigate \
   --cp-parameter-adapter "$af_build_dir/cp-parameters.elf" \
   --report .local/fixed-custom-filters/next-cp-audit.json
 

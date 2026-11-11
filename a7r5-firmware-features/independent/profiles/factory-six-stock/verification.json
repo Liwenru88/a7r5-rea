@@ -1,0 +1,17 @@
+{
+  "profile": "factory-six-stock",
+  "version": "4.06",
+  "base_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+  "dat_sha256": "9583b53ea5b193b929eee90c30d2379f6b36022795a5f8289ea92e2aba8ceec4",
+  "archive_entries": 147,
+  "frames": 736841,
+  "changed_members": {
+    "0700_part_image/dev/nflasha15": "6a0d8698053b413c3880237ce441937ec03c820f1a2d24deab816dc3852a3678",
+    "0700_part_image/dev/nflasha8": "8457aeba89f3bb4107a9e7cc5485a750950e44e1bfde449859e5143d4f601b0c",
+    "0701_part_image_sum/part_image.sum": "75df020f90f885bdd614380a182abbbe8c567af44e56d77e0b6843821c7fe0ac"
+  },
+  "independent_unpack": true,
+  "openssl_signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

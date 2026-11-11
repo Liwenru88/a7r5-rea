@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "bundles": {
+    "all-419": {
+      "version": "4.19",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "8cb7eb10d0d4af35ea96681d1fc95f36a2034dd2bcffe47bbe13ebd81df0dabc",
+        "crc32": "5c7ee284"
+      },
+      "modules": [
+        "look24-core",
+        "look24-group-memory",
+        "look24-preview",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning"
+      ],
+      "disabled": [],
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "a12c3a3f6abdda60b8e27037b6ff0a94ac3018491e18ba3486c6fad1d0232601"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+        }
+      },
+      "verification_sha256": "98abca2483dd0c04ac857c55685f01605e79c04821457519013cd2db74bddda1",
+      "matches_historical_package": true
+    },
+    "core-final": {
+      "version": "4.21",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "a913bb97efd7dd6e1c3fe7e0b17e04fcbe138450f21d321d69db08bd824317c0",
+        "crc32": "1c0e05cc"
+      },
+      "modules": [
+        "look24-core"
+      ],
+      "disabled": [
+        "group-memory",
+        "preview",
+        "sd-import",
+        "selection-restore",
+        "tuning"
+      ],
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "31e4bee6f0cf6aca84e39c3efc0b2e88e6cc39743c0437c94ffab126d88fbf52"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+        }
+      },
+      "verification_sha256": "b622791ff8a093895db854f715e9519d46dcdb6edace633badaecfea819ea2c6"
+    },
+    "markers": {
+      "version": "4.07",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "69bc7c3d4dde1083844be3587120a1b9f9ab5845f1013ef9b3d2c4d3a0bb877a",
+        "crc32": "30559f53"
+      },
+      "modules": [
+        "photo-framing-markers"
+      ],
+      "disabled": [],
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97368304,
+          "sha256": "58e79da090f3c65feca721d0392504530a1d35e0cc00bb5986b88ea0d678407f"
+        }
+      },
+      "verification_sha256": "0ca89aa6917dd212c0fcd3a18757b76ee59960e49abe79b2e82288620073e118",
+      "matches_historical_package": true
+    },
+    "look24-ntsc": {
+      "version": "4.21",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "a956e8aab767cd9f4e0b40764c8996935ec588ed845bde3fa5b8cf9877147c09",
+        "crc32": "bee1c4e5"
+      },
+      "modules": [
+        "look24-group-memory",
+        "look24-preview",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning",
+        "video-ntsc-prompt"
+      ],
+      "disabled": [],
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "29f1e6c0cf463f2d0eae00bac0caa21003cd7be335fa76a33fa55f077b8fdc47"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+        }
+      },
+      "verification_sha256": "d3afabe793a0e87d88c866efc7c9ac4d29402b37f27128947749c39cba591f1d"
+    },
+    "look24-markers-ntsc": {
+      "version": "4.21",
+      "dat": {
+        "bytes": 754525608,
+        "sha256": "2b086b976fb752a6df225344b7b617083d94ca85e77976d89acdb2c5298e98f3",
+        "crc32": "e360849d"
+      },
+      "modules": [
+        "look24-group-memory",
+        "look24-preview",
+        "look24-sd-import",
+        "look24-selection-restore",
+        "look24-tuning",
+        "photo-framing-markers",
+        "video-ntsc-prompt"
+      ],
+      "disabled": [],
+      "changed_archive": [
+        "0700_part_image/dev/nflasha15",
+        "0700_part_image/dev/nflasha5",
+        "0700_part_image/dev/nflasha8",
+        "0701_part_image_sum/part_image.sum"
+      ],
+      "components": {
+        "usr/lib/appFw.so": {
+          "image": "0700_part_image/dev/nflasha15",
+          "path": "/lib/appFw.so",
+          "bytes": 97583104,
+          "sha256": "26b3559e881cd1cc9472bde97ef8ef473d6b7865dcadd884e0cc9cd7c4e7a6b9"
+        },
+        "cpapp-b.bin": {
+          "image": "0700_part_image/dev/nflasha8",
+          "path": "/cpapp-b.bin",
+          "bytes": 17617008,
+          "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+        }
+      },
+      "verification_sha256": "1b17293b29747b1271e92bf9f8699711f2d1acb91ee2f88b38f341a954ca4f4b"
+    }
+  },
+  "full_419_and_marker_407_match_historical": true,
+  "combo_final_source_reverify": true,
+  "phase1_old_bundle_reverified": true,
+  "targeted_regressions": {
+    "phase2_plan_and_combo": 4,
+    "full_runtime": 4,
+    "disabled_variants": 7,
+    "phase1_plan": 12
+  },
+  "testing_note": "关闭预览后，旧回放夹具的选槽帮助函数仍调用预览。改为模拟显式确认后，两项回归通过。",
+  "frames_per_bundle": 736841,
+  "archive_members_per_bundle": 147,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

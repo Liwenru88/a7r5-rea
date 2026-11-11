@@ -20,6 +20,8 @@ static uint32_t refresh_request[8],refresh_wait,refresh_done,refresh_serial;
 static uintptr_t refresh_object;
 static uintptr_t native_refresh_object;
 static uint32_t native_refresh_pending;
+static uint32_t e4_stalled;
+static uint64_t refresh_started;
 extern void r5_native_refresh_construct425(void *,const void *);
 extern void r5_native_refresh_execute425(void *);
 extern int r5_stage425_reload(void);
@@ -45,6 +47,7 @@ unsigned r5_filter_command_state(void){return LOAD(&command_state);}
 unsigned r5_filter_command_sequence(void){return LOAD(&command_sequence);}
 unsigned r5_filter_recovery_required(void){unsigned s=LOAD(&command_state);return s==5||s==7;}
 unsigned r5_filter_native_inflight(void){return LOAD(&native_refresh_pending)!=0;}
+unsigned r5_filter_e4_stalled(void){return LOAD(&e4_stalled) && LOAD(&native_refresh_pending);}
 unsigned r5_filter_recovering(void){return LOAD(&auto_recover)!=0;}
 uint32_t r5_filter_bank_crc(void){return LOAD(&bank_crc);}
 unsigned r5_filter_factory_reset_needed(void){return LOAD(&factory_reset);}
@@ -53,14 +56,30 @@ void r5_filter_bank_failed(void){failure_alias=alias;STORE(&command_state,7);r5_
 static int request425(unsigned n,unsigned kind){
     uint32_t state=LOAD(&command_state),serial;uint64_t old;
     if(kind==1 && (n>24 || !LOAD(&mask_ready) || (n && !(r5_filter_available_mask()&(1u<<(n-1))))))return -1;
-    if(kind!=1 || LOAD(&auto_recover) || (r5_filter_recovery_required() && n))return -1;
-    do{if(state==1 || state==4)return -1;}while(!__atomic_compare_exchange_n(&command_state,&state,4,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE));
+    if(kind!=1)return -1;
+    do{
+        if(state==1 || state==4 || ((state==5 || state==7) && n) ||
+           LOAD(&auto_recover) || LOAD(&native_refresh_pending))return -1;
+    }while(!__atomic_compare_exchange_n(&command_state,&state,4,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE));
     old=LOAD(&desired);serial=(uint32_t)(old>>32);
     if(serial==0xffffffffu){STORE(&command_state,3);return -1;}
     serial++;STORE(&auto_recover,0);STORE(&ui_epoch,r5_session_epoch());STORE(&ui_accepted,1);STORE(&command_sequence,serial);STORE(&command_kind,kind);
     STORE(&desired,((uint64_t)serial<<32)|n);STORE(&command_state,1);return 0;
 }
 int r5_filter_request(unsigned n){return request425(n,1);}
+int r5_filter_recovery_retry(void){
+    uint32_t state=5,serial;uint64_t old;
+    /* 不确定的库、仍在执行的原生对象和已运行的恢复均不能被 UI 重置。 */
+    if(!current() || LOAD(&auto_recover) || LOAD(&native_refresh_pending) ||
+       !__atomic_compare_exchange_n(&command_state,&state,4,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE))return -1;
+    old=LOAD(&desired);serial=(uint32_t)(old>>32);
+    if(serial==0xffffffffu){STORE(&command_state,5);return -1;}
+    serial++;
+    STORE(&ui_epoch,r5_session_epoch());STORE(&ui_accepted,1);
+    STORE(&command_sequence,serial);STORE(&desired,((uint64_t)serial<<32)|(uint32_t)old);
+    /* 新代次由唯一工作线程重建预算、恢复旧值及发布日志；不在按键线程做 IO。 */
+    STORE(&auto_recover,2);STORE(&command_state,5);return 0;
+}
 int r5_filter_reload_request(void){return request425(r5_filter_selected(),2);}
 /* These wrappers run on their original native owner threads.  Only the exact
  * private request's allocated E4 object can complete this transaction. */
@@ -187,6 +206,7 @@ static int refresh425(void){
     /* 超时只结束等待，不代表原生队列已取消该对象。 */
     if(LOAD(&native_refresh_pending) || refresh_serial==0xffffffffu)return -1;serial=++refresh_serial;
     if(!clock || !sleep || now(clock,&start))return -1;
+    refresh_started=start;STORE(&e4_stalled,0);
     STORE(&refresh_done,0);STORE(&refresh_object,0);STORE(&refresh_wait,serial);
     refresh_request[1]=1;r5_native_creative_sequence_request(refresh_request);last=start;
     for(poll=0;poll<501;poll++){
@@ -199,12 +219,16 @@ static int refresh425(void){
 /* phase: 1日志、2选择、3原E4、4二次确认、5保存、6回退、7资源诊断。 */
 void r5_filter_service(void){
     uint64_t want,t=0;unsigned n,previous,explicit_command,changed=0,journal=0,rollback=0,error=0;
-    uint32_t busy=0;clock_fn clock=(clock_fn)r5_stage411_dlsym(0,"clock_gettime");
+    uint32_t busy=0,state;clock_fn clock=(clock_fn)r5_stage411_dlsym(0,"clock_gettime");
     if(!current() || !__atomic_compare_exchange_n(&service_busy,&busy,1,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE))return;
-    {unsigned state=LOAD(&command_state);if(state==4 || ((state==3||state>=5)&&failure_alias==alias && !(state==5 && LOAD(&auto_recover))))goto done;}
-    previous=r5_filter_selected();want=LOAD(&desired);n=(uint32_t)want;explicit_command=LOAD(&command_state)==1;
-    if(n>24 || (n && !(mask&(1u<<(n-1))))){error=1;goto failed;}
+    state=LOAD(&command_state);
+    if(state==4 || ((state==3||state>=5)&&failure_alias==alias && !(state==5 && LOAD(&auto_recover))))goto done;
+    /* 先读取发布状态，再取目标。后台恢复也必须取得写入权才能处理该快照。 */
+    explicit_command=state==1;
+    previous=r5_filter_selected();want=LOAD(&desired);n=(uint32_t)want;
     if(!LOAD(&dirty) && want==LOAD(&handled))goto done;
+    if(!explicit_command && !__atomic_compare_exchange_n(&command_state,&state,4,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE))goto done;
+    if(n>24 || (n && !(mask&(1u<<(n-1))))){error=1;goto failed;}
     if(explicit_command && !LOAD(&dirty) && synchronized_alias==alias && synchronized_epoch==r5_session_epoch() &&
        n==previous && saved_valid && saved==n && !r5_tune_changed(n) && current()){
         STORE(&handled,want);STORE(&command_state,2);goto done;
@@ -213,13 +237,17 @@ void r5_filter_service(void){
         attempted_command=want;attempted_alias=alias;attempts=0;retry_at430=0;restore_started=0;
     }
     if(!explicit_command){
+        /* 等原厂对象完成期间不能发起恢复，等待不占用恢复执行窗口。 */
+        if(LOAD(&auto_recover) && LOAD(&native_refresh_pending)){
+            restore_started=0;
+            if(clock && !now(clock,&t) && t>=refresh_started && t-refresh_started>=60000)
+                STORE(&e4_stalled,1);
+            goto restore_state;
+        }
         if(!clock || now(clock,&t)){error=9;goto exhausted;}
         if(!restore_started){restore_start=t;restore_started=1;}
         if(t<restore_start || t-restore_start>=60000 || attempts>=30){error=10;goto exhausted;}
-        if(t<retry_at430)goto done;
-        if(LOAD(&auto_recover) && LOAD(&native_refresh_pending))goto done;
-        uint32_t state=LOAD(&command_state);
-        if(state==1 || state==4 || !__atomic_compare_exchange_n(&command_state,&state,4,0,__ATOMIC_ACQ_REL,__ATOMIC_ACQUIRE))goto done;
+        if(t<retry_at430)goto restore_state;
     }
     attempts++;
     r5_filter_diag425=(struct r5_filter_diag425){LOAD(&command_sequence),n,previous,r5_session_epoch(),library_identity,1,0,0,1};
@@ -237,6 +265,7 @@ void r5_filter_service(void){
                 failure_alias=alias;STORE(&command_state,3);r5_filter_diag425.state=3;r5_filter_diag425.rollback=7;
             }else {STORE(&command_state,0);r5_filter_diag425.state=0;}
         }else{
+            if(LOAD(&native_refresh_pending))restore_started=0;
             if(clock && !now(clock,&t) && t<=UINT64_MAX-1000)retry_at430=t+1000;
             else {STORE(&auto_recover,0);r5_filter_diag425.error=9;}
             failure_alias=alias;STORE(&command_state,5);r5_filter_diag425.state=5;
@@ -280,7 +309,9 @@ failed:
     if((rollback&7)!=7){
         if(clock && !now(clock,&t) && t<=UINT64_MAX-1000){
             retry_at430=t+1000;
-            if(explicit_command){attempts=0;restore_start=t;restore_started=1;}
+            if(explicit_command){
+                attempts=0;restore_start=t;restore_started=!LOAD(&native_refresh_pending);
+            }
             STORE(&auto_recover,explicit_command?2:1);
         }
         failure_alias=alias;STORE(&command_state,5);r5_filter_diag425.state=5;goto done;
@@ -296,6 +327,9 @@ failed:
 exhausted:
     {unsigned terminal=LOAD(&auto_recover)?5:6;STORE(&auto_recover,0);
      failure_alias=alias;STORE(&command_state,terminal);r5_filter_diag425.state=terminal;r5_filter_diag425.error=error;}
+    goto done;
+restore_state:
+    STORE(&command_state,state);
 done:
     STORE(&service_busy,0);
 }

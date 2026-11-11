@@ -27,7 +27,7 @@ def read(relative):
     return json.loads((LOCAL/relative).read_text())
 
 
-def verify(output):
+def verify(output, source_dat):
     output = output.resolve()
     require(output.is_relative_to(LOCAL) and not output.exists(), '只写全新本任务JSON')
     core = read('continuation33-software/verification.json')
@@ -67,7 +67,7 @@ def verify(output):
             placement['modules'][0]['initialized_readonly_bytes'] == 4348 and
             placement['verified_reclaimed_tail']['bytes'] == 408, '当前CP门槛不符')
     require(read('continuation33-placement-integrated/bounded-link.json')['expected_rejection'], '未核实际有界链接拒绝')
-    inputs = [(Path('/Users/wenruli/Desktop/索尼/BODYDATA.DAT'), '3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2'),
+    inputs = [(source_dat, '3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2'),
               (Path(m['source_usr']['path']), m['source_usr']['sha256']),
               (ROOT/'a7r5-qemu/build/aspect-guide406-20261026-01/source-02/source.cpio', 'c01948220e1cced7f4e1d6a6dd28221c587050214d32cc405291cc00d2f1ed80')]
     for p, expected in inputs:
@@ -107,4 +107,6 @@ def verify(output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
-    verify(parser.parse_args().output)
+    parser.add_argument('--source-dat', required=True, type=Path, help='历史研究 DAT，仍须匹配原固定摘要')
+    args = parser.parse_args()
+    verify(args.output, args.source_dat)

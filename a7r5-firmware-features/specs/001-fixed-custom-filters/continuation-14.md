@@ -1,5 +1,7 @@
 # 第十四批：原AP/CP消息联验与JPEG持有关系
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 - Feature ID: `001-fixed-custom-filters`
 - Updated: `2026-10-26`
 - Status: `OFFLINE_NATIVE_MESSAGE_CHAIN_VERIFIED_NOT_INSTALLABLE`
@@ -45,7 +47,7 @@
 ```sh
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT --investigate-ui \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT --investigate-ui \
   --ui-adapter .local/fixed-custom-filters/build-12/ui-adapter.elf \
   --ap-ui-module .local/fixed-custom-filters/build-12/ap-ui-hooks.elf \
   --cp-parameter-adapter .local/fixed-custom-filters/build-13-verified/cp-parameters.elf \

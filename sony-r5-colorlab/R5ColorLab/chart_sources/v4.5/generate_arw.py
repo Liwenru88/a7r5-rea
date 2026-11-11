@@ -4,7 +4,7 @@ Uses Sony's four-component 14-bit lossless JPEG storage. All public and
 encrypted geometry/WB fields are patched in place; original files are read-only.
 """
 from pathlib import Path
-import hashlib, importlib.util, inspect, io, json, struct, sys
+import hashlib, importlib.util, inspect, io, json, os, struct, sys
 import numpy as np
 from PIL import Image, ImageCms
 import tifffile
@@ -12,14 +12,14 @@ import tifffile
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(__file__).resolve().parent
 SCRIPTS=ROOT/'research/r5_custom_lut/scripts'
-PROJECT=Path('/Users/LOCAL_USER/Documents/ChatGPT/ied软件/索尼RAW转GFX无黑边/源码')
+PROJECT=Path(os.environ.get('R5_IED_SOURCE', ROOT/'external/ied-source'))
 sys.path[:0]=[str(SCRIPTS),str(PROJECT),'/Applications/RawAlchemy.app/Contents/Resources']
 from build_synthetic_ljpeg_arw import jpeg
 from arw import parse,one,ints,subifd,maker,ifd,crypt
 import metadata
 from rawpy import _rawpy as rawpy
 
-SOURCE=Path('/Users/LOCAL_USER/Desktop/白平衡对比/DSC00569.ARW')
+SOURCE=Path(os.environ.get('R5_RAW_SOURCE', ROOT/'inputs/DSC00569.ARW'))
 SOURCE_SHA='def6cb63c9687507c2fa1a532e86cfa2e1219fa066060b79259402c0bbc6198e'
 WB_RGGB=[2606,1024,1024,1789]
 W,H,TILE=11648,8736,32

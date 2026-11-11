@@ -1,11 +1,50 @@
 # 二十四槽创意外观研究候选
 
-**4.17 研究更新包已完成离线校验。** 纳入左键一键切组、两组分别恢复上次成功应用项，以及无有效记录时的首款回退。51 项封装测试、736841 帧、独立解包和 OpenSSL 验签通过。28 项 CPU 回归和 39 组 QEMU 客体原帧与本包组件身份一致。自定义滤镜成功应用后的记忆和自动保存仍待实机复验。见[更新包](releases/4.17/BODYDATA.DAT)、[交付说明](releases/4.17/README.md)、[离线校验](releases/4.17/verification.json)和[当前候选身份](current-candidate.json)。
+**4.18 研究升级包已完成离线校验。** 原厂组内置六款、独立二十四槽和十档照片纵横比已合入同一包，并修复从新增比例直接返回 3:2 时的状态残留。101 项运行时回归、29 项封装测试及 736841 帧校验通过，机身验收待完成。[4.18 更新包](releases/4.18/BODYDATA.DAT) · [闭环与稳定性审计](4.18闭环与稳定性审计.md) · [封装回执](releases/4.18/verification.json)
+
+**2026-11-05 八项参数改为相对偏移，已封装 4.17。** 自定义页八项默认和重置均显示 0，发送时按“本次原生参数＋配方偏移”计算并限制在原厂合法范围，归零保留上游原消息。微调仍按配方身份保存，兼容读取旧绝对值记录。原厂外观保持原有参数逻辑。规则和离线证据见[相对偏移调参说明](相对偏移调参说明.md)；参数来源见[上游核对](上游八项参数核对.md)。
+
+**4.17 相对偏移更新包历史。** 纳入八项偏移及原有左键切组、两组成功选择记忆和首款回退。复用同源码及四组件身份的 31 项相关 CPU 回归和上游 48 次 E4／432 条消息比对；本次执行 44 项封装测试、736841 帧校验、独立解包与四组件回读、OpenSSL 验签，均通过。DAT SHA-256 为 `49ec00bd5c179fc0f784bf8c64e5025877fde5b50c3ce48fe05dd3d51a24dcda`。本轮没有运行 QEMU 或连接相机，同版更新准入和实机效果待核验。[交付说明](releases/4.17/README.md) · [离线校验](releases/4.17/verification.json) · [4.17 候选身份](current-candidate.json)
 
 - [实施与复现手册](实施与复现手册.md)涵盖功能、源码落点、原厂基线、两次独立构建、验证和复现封包。
 - [目录归并清单](目录归并清单.md)列出两套迁入依赖、历史归档及旧路径对应关系。
+- [A7M4 功能移植记录](A7M4功能移植记录.md)记录可选的第三方镜头 AF 补丁，以及真实照片裁切在 A7R5 上已核对的入口。
+
+## 原厂组 C1–C6 六款固定滤镜
+
+本次离线组件将 4.06 的六款固定滤镜接回原厂创意外观组的 C1–C6，保留原厂槽位和调参流程。左键切到自定义组后，仍使用 `R5NATIVE.BIN` 的独立 24 槽。六款无需 SD 卡配方。
+
+| 原厂槽位 | 名称 | AP→CP |
+| --- | --- | --- |
+| C1 | Classic Neg. | 249 |
+| C2 | Classic Chrome | 250 |
+| C3 | Nostalgic Neg. | 251 |
+| C4 | Astia | 252 |
+| C5 | GR Positive Film | 253 |
+| C6 | GR Negative Film | 254 |
+
+构建逐字节核对历史六款的 1215 字节原生色表和 108 字节联合增量。CP 继续在原厂 ST 照片处理的输出上叠加 Gamma、矩阵和两套色度增量。Gamma 私有行 75–86 与 SD 库的 51–74 分开，原厂与 SD 色表分支重放原指令。C1–C6 固定对应上述配方，已有槽位微调仍由原厂流程读取。完整联合参数的适用范围沿用旧版照片路径。
+
+先按[十档纵横比复现步骤](../photo-aspect-ratios/src/README.md#离线复现)构建四项输入。AP 使用当前 4.17 构建前像 `eaf0b742…` 的比例组件，CP 支持该整合基底及镜头 AF 补丁的比例组件。从仓库根目录构建：
+
+```sh
+aspect_out=/path/to/aspect-output
+combined_out=/path/to/new-output
+.venv/bin/python -B a7r5-firmware-features/look-factory-six/src/build_legacy_six.py \
+  --ap "$aspect_out/ap/appFw.aspect.NONINSTALLABLE.so" \
+  --cp "$aspect_out/cp/cpapp-b.aspect.NONINSTALLABLE.bin" \
+  --avcam "$aspect_out/avcam/AV-CAM.aspect.NONINSTALLABLE.BIN" \
+  --resources "$aspect_out/resources" \
+  --output "$combined_out"
+```
+
+输出包括 AP、CP、AVCAM、两套图标、68 份横竖文字资源及带摘要的 `build.json`。测试以 `A7R5_LEGACY_SIX_BUILD` 指向该目录，运行 `tests/test_legacy_six.py`。换机器时，`A7R5_LEGACY_SIX_RUNTIME` 指向 4.17 的原 AP 构建目录，`A7R5_LEGACY_SIX_STOCK_CP` 指向原厂 CP 文件，`A7R5_NATIVE24_BUILD` 指向现有测试夹具绑定的二十四槽构建。
+
+QEMU 已逐项核对六款名称和左键双向切组。客体使用智能自动模式，中键确认受原厂拍摄模式限制。带镜头 AF 补丁的组合通过 27 项回放与资源测试，默认 CP 组合另通过 8 项六款专项测试。色表上传缓冲、曲线、矩阵和色度以 CPU 指令回放为证据，取景成像、成片与视频仍待机身验证。
 
 ## 历史版本与阶段记录
+
+**此前同名 4.17 历史。** 原左键切组包 AP 为 `27bc6eb0…`，DAT 为 `7e686382…`，当时的 28 项 CPU、39 组 QEMU 和 51 项封装记录不作为当前相对偏移 AP 的验收证据。当前包版本号仍为 4.17，按完整 DAT 摘要区分，旧候选记录保存在 `current-candidate.json` 的 `previous_candidate` 中。
 
 **4.16 研究更新包历史。** 纳入 019 的 E4 八项逐条发送完成判定，以及 020 的调参和切换状态刷新修复。用户随后报告实机可应用自定义滤镜，同时发现首次按下进入自定义列表时首款未预览。见[4.16 更新包](releases/4.16/BODYDATA.DAT)和[离线校验](releases/4.16/verification.json)。
 

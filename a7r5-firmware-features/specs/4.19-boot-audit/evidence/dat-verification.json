@@ -1,0 +1,29 @@
+{
+  "status": "verified",
+  "sha256": "48341bfbf31c4a97f1673f71d6a60e49bc4f6464b0c5b5a2355c5337b06c0f65",
+  "bytes": 754525608,
+  "version": "4.19",
+  "header": {
+    "major": 4,
+    "minor": 25,
+    "model": "0x11030080",
+    "region": 0,
+    "tar_offset": 1253888,
+    "tar_bytes": 750323200,
+    "updater_offset": 512,
+    "updater_bytes": 1253376,
+    "filesystem_slots": [
+      "U",
+      "P-empty"
+    ]
+  },
+  "full_frame_validation": true,
+  "tar_entries": 147,
+  "plaintext_bytes": 751577088,
+  "plaintext_sha256": "db4d71ad895b1f3e338cd35a8562884aed48793a40e264e72ce65c24b8ee4a11",
+  "frame_count": 736841,
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "signature_verified": true,
+  "camera_io": false,
+  "device_acceptance_verified": false
+}

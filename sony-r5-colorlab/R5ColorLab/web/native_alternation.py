@@ -11,9 +11,7 @@ def solve_round(vector, residual, lower, upper, solve, evaluations, round_index,
     current=np.clip(np.asarray(vector,dtype=float),lower+1e-5,upper-1e-5).copy()
     audit=[]
     def cost(v):
-        from gpu_runtime import cpu_reference
-        with cpu_reference():
-            rows=residual(v)
+        rows=residual(v)
         return float(rows@rows)
     for name,indices in [('Gamma',slice(104,None)),('CC1 / block13',slice(0,104))]:
         frozen=current.copy()

@@ -31,7 +31,7 @@ def test_input_links_devices_and_wrong_size_are_refused(tmp_path):
             check_file(forbidden, expected)
     with pytest.raises(ValueError, match='长度'):
         check_file(path, expected)
-    for forbidden in ('/Users/../dev/null', '/Users/../Volumes/SD/BODYDATA.DAT'):
+    for forbidden in ('/temporary-root/../dev/null', '/temporary-root/../Volumes/SD/BODYDATA.DAT'):
         for boundary in (regular_path, output_path):
             with pytest.raises(ValueError, match='设备'):
                 boundary(forbidden)

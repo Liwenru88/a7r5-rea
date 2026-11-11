@@ -1,0 +1,805 @@
+{
+  "passed": true,
+  "status": "NONINSTALLABLE_PARTITIONS_VERIFIED",
+  "camera_io": false,
+  "DAT_generated": false,
+  "device_tested": false,
+  "modules": {
+    "aspect": true,
+    "lens_af": false,
+    "color": null
+  },
+  "usr": {
+    "changed_files": [
+      {
+        "path": "/lib/appFw.so",
+        "inode": 14597,
+        "before_bytes": 97368304,
+        "after_bytes": 97452032,
+        "new_allocated_blocks": 81,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/lib/libmpr.so",
+        "inode": 14511,
+        "before_bytes": 3541784,
+        "after_bytes": 3606596,
+        "new_allocated_blocks": 64,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/image_00_23_IPSX.uxc",
+        "inode": 84194,
+        "before_bytes": 9598260,
+        "after_bytes": 9610128,
+        "new_allocated_blocks": 11,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/image_00_32_IPSX.uxc",
+        "inode": 84053,
+        "before_bytes": 9949936,
+        "after_bytes": 9961804,
+        "new_allocated_blocks": 12,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_arabic_horizontal.uxc",
+        "inode": 84114,
+        "before_bytes": 175608,
+        "after_bytes": 175672,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_arabic_vertical.uxc",
+        "inode": 84076,
+        "before_bytes": 175780,
+        "after_bytes": 175844,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_brazilianportuguese_horizontal.uxc",
+        "inode": 84202,
+        "before_bytes": 133264,
+        "after_bytes": 133328,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_brazilianportuguese_vertical.uxc",
+        "inode": 84115,
+        "before_bytes": 134128,
+        "after_bytes": 134192,
+        "new_allocated_blocks": 1,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_bulgarian_horizontal.uxc",
+        "inode": 84093,
+        "before_bytes": 193100,
+        "after_bytes": 193164,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_bulgarian_vertical.uxc",
+        "inode": 84082,
+        "before_bytes": 195296,
+        "after_bytes": 195360,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_canadianfrench_horizontal.uxc",
+        "inode": 83980,
+        "before_bytes": 45352,
+        "after_bytes": 45416,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_canadianfrench_vertical.uxc",
+        "inode": 84117,
+        "before_bytes": 36004,
+        "after_bytes": 36068,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_croatian_horizontal.uxc",
+        "inode": 84078,
+        "before_bytes": 129100,
+        "after_bytes": 129164,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_croatian_vertical.uxc",
+        "inode": 83974,
+        "before_bytes": 129908,
+        "after_bytes": 129972,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_czech_horizontal.uxc",
+        "inode": 84124,
+        "before_bytes": 132132,
+        "after_bytes": 132196,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_czech_vertical.uxc",
+        "inode": 84131,
+        "before_bytes": 132952,
+        "after_bytes": 133016,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_danish_horizontal.uxc",
+        "inode": 83981,
+        "before_bytes": 125280,
+        "after_bytes": 125344,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_danish_vertical.uxc",
+        "inode": 83995,
+        "before_bytes": 125760,
+        "after_bytes": 125824,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_dutch_horizontal.uxc",
+        "inode": 84109,
+        "before_bytes": 129504,
+        "after_bytes": 129568,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_dutch_vertical.uxc",
+        "inode": 84004,
+        "before_bytes": 130192,
+        "after_bytes": 130256,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_english_horizontal.uxc",
+        "inode": 84153,
+        "before_bytes": 129872,
+        "after_bytes": 129936,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_english_vertical.uxc",
+        "inode": 83993,
+        "before_bytes": 130388,
+        "after_bytes": 130452,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_finnish_horizontal.uxc",
+        "inode": 84104,
+        "before_bytes": 124616,
+        "after_bytes": 124680,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_finnish_vertical.uxc",
+        "inode": 83986,
+        "before_bytes": 125484,
+        "after_bytes": 125548,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_french_horizontal.uxc",
+        "inode": 84022,
+        "before_bytes": 141192,
+        "after_bytes": 141256,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_french_vertical.uxc",
+        "inode": 84056,
+        "before_bytes": 142464,
+        "after_bytes": 142528,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_german_horizontal.uxc",
+        "inode": 84118,
+        "before_bytes": 134112,
+        "after_bytes": 134176,
+        "new_allocated_blocks": 1,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_german_vertical.uxc",
+        "inode": 84163,
+        "before_bytes": 135584,
+        "after_bytes": 135648,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_greek_horizontal.uxc",
+        "inode": 84142,
+        "before_bytes": 210136,
+        "after_bytes": 210200,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_greek_vertical.uxc",
+        "inode": 84048,
+        "before_bytes": 212068,
+        "after_bytes": 212132,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_hindi_horizontal.uxc",
+        "inode": 84021,
+        "before_bytes": 259924,
+        "after_bytes": 259988,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_hindi_vertical.uxc",
+        "inode": 84178,
+        "before_bytes": 260300,
+        "after_bytes": 260364,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_hungarian_horizontal.uxc",
+        "inode": 83987,
+        "before_bytes": 136576,
+        "after_bytes": 136640,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_hungarian_vertical.uxc",
+        "inode": 84192,
+        "before_bytes": 137848,
+        "after_bytes": 137912,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_indonesia_horizontal.uxc",
+        "inode": 84100,
+        "before_bytes": 123788,
+        "after_bytes": 123852,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_indonesia_vertical.uxc",
+        "inode": 84016,
+        "before_bytes": 124544,
+        "after_bytes": 124608,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_italian_horizontal.uxc",
+        "inode": 84155,
+        "before_bytes": 133680,
+        "after_bytes": 133744,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_italian_vertical.uxc",
+        "inode": 84201,
+        "before_bytes": 137032,
+        "after_bytes": 137096,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_japanese_horizontal.uxc",
+        "inode": 84088,
+        "before_bytes": 166932,
+        "after_bytes": 166996,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_japanese_vertical.uxc",
+        "inode": 84031,
+        "before_bytes": 167092,
+        "after_bytes": 167156,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_korean_horizontal.uxc",
+        "inode": 84187,
+        "before_bytes": 142064,
+        "after_bytes": 142128,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_korean_vertical.uxc",
+        "inode": 84097,
+        "before_bytes": 142748,
+        "after_bytes": 142812,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_malay_horizontal.uxc",
+        "inode": 84077,
+        "before_bytes": 121760,
+        "after_bytes": 121824,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_malay_vertical.uxc",
+        "inode": 84071,
+        "before_bytes": 122344,
+        "after_bytes": 122408,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_norwegian_horizontal.uxc",
+        "inode": 84171,
+        "before_bytes": 122104,
+        "after_bytes": 122168,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_norwegian_vertical.uxc",
+        "inode": 84167,
+        "before_bytes": 122404,
+        "after_bytes": 122468,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_persian_horizontal.uxc",
+        "inode": 84074,
+        "before_bytes": 186328,
+        "after_bytes": 186392,
+        "new_allocated_blocks": 1,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_persian_vertical.uxc",
+        "inode": 84147,
+        "before_bytes": 186504,
+        "after_bytes": 186568,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_polish_horizontal.uxc",
+        "inode": 84062,
+        "before_bytes": 128932,
+        "after_bytes": 128996,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_polish_vertical.uxc",
+        "inode": 84023,
+        "before_bytes": 130776,
+        "after_bytes": 130840,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_portuguese_horizontal.uxc",
+        "inode": 84149,
+        "before_bytes": 132368,
+        "after_bytes": 132432,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_portuguese_vertical.uxc",
+        "inode": 84060,
+        "before_bytes": 133744,
+        "after_bytes": 133808,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_romanian_horizontal.uxc",
+        "inode": 84075,
+        "before_bytes": 133856,
+        "after_bytes": 133920,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_romanian_vertical.uxc",
+        "inode": 84052,
+        "before_bytes": 135504,
+        "after_bytes": 135568,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_russian_horizontal.uxc",
+        "inode": 84146,
+        "before_bytes": 193160,
+        "after_bytes": 193224,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_russian_vertical.uxc",
+        "inode": 83983,
+        "before_bytes": 195736,
+        "after_bytes": 195800,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_simplifiedchinese_horizontal.uxc",
+        "inode": 84159,
+        "before_bytes": 109156,
+        "after_bytes": 109220,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_simplifiedchinese_vertical.uxc",
+        "inode": 84035,
+        "before_bytes": 109248,
+        "after_bytes": 109312,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_spanish_horizontal.uxc",
+        "inode": 84180,
+        "before_bytes": 132416,
+        "after_bytes": 132480,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_spanish_vertical.uxc",
+        "inode": 84136,
+        "before_bytes": 134028,
+        "after_bytes": 134092,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_swedish_horizontal.uxc",
+        "inode": 84055,
+        "before_bytes": 124664,
+        "after_bytes": 124728,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_swedish_vertical.uxc",
+        "inode": 84091,
+        "before_bytes": 126236,
+        "after_bytes": 126300,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_thai_horizontal.uxc",
+        "inode": 84067,
+        "before_bytes": 264984,
+        "after_bytes": 265048,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_thai_vertical.uxc",
+        "inode": 84099,
+        "before_bytes": 267884,
+        "after_bytes": 267948,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_traditionalchinese_horizontal.uxc",
+        "inode": 84054,
+        "before_bytes": 111304,
+        "after_bytes": 111368,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_traditionalchinese_vertical.uxc",
+        "inode": 84063,
+        "before_bytes": 111180,
+        "after_bytes": 111244,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_turkish_horizontal.uxc",
+        "inode": 84073,
+        "before_bytes": 125900,
+        "after_bytes": 125964,
+        "new_allocated_blocks": 1,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_turkish_vertical.uxc",
+        "inode": 84069,
+        "before_bytes": 127192,
+        "after_bytes": 127256,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_ukrainian_horizontal.uxc",
+        "inode": 84134,
+        "before_bytes": 192236,
+        "after_bytes": 192300,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_ukrainian_vertical.uxc",
+        "inode": 84041,
+        "before_bytes": 195188,
+        "after_bytes": 195252,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_vietnamese_horizontal.uxc",
+        "inode": 84182,
+        "before_bytes": 140676,
+        "after_bytes": 140740,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      },
+      {
+        "path": "/share/app/string_vietnamese_vertical.uxc",
+        "inode": 84172,
+        "before_bytes": 141848,
+        "after_bytes": 141912,
+        "new_allocated_blocks": 0,
+        "old_data_block_addresses_preserved": true
+      }
+    ],
+    "new_blocks": [
+      322164,
+      322165,
+      322166,
+      322167,
+      322168,
+      322169,
+      322170,
+      322171,
+      322172,
+      322173,
+      322174,
+      322175,
+      322176,
+      322177,
+      322178,
+      322179,
+      322180,
+      322181,
+      322182,
+      322183,
+      322184,
+      322185,
+      322186,
+      322187,
+      322188,
+      322189,
+      322190,
+      322191,
+      322192,
+      322193,
+      322194,
+      322195,
+      322196,
+      322197,
+      322198,
+      322199,
+      322200,
+      322201,
+      322202,
+      322203,
+      322204,
+      322205,
+      322206,
+      322207,
+      322208,
+      322209,
+      322210,
+      322211,
+      322212,
+      322213,
+      322214,
+      322215,
+      322216,
+      322217,
+      322218,
+      322219,
+      322220,
+      322221,
+      322222,
+      322223,
+      322224,
+      322225,
+      322226,
+      322227,
+      322228,
+      322229,
+      322230,
+      322231,
+      322232,
+      322233,
+      322234,
+      322235,
+      322236,
+      322237,
+      322238,
+      322239,
+      322240,
+      322241,
+      322242,
+      322243,
+      322244,
+      322245,
+      322246,
+      322247,
+      322248,
+      322249,
+      322250,
+      322251,
+      322252,
+      322253,
+      322254,
+      322255,
+      322256,
+      322257,
+      322258,
+      322259,
+      322260,
+      322261,
+      322262,
+      322263,
+      322264,
+      322265,
+      322266,
+      322267,
+      322268,
+      322269,
+      322270,
+      322271,
+      322272,
+      322273,
+      322274,
+      322275,
+      322276,
+      322277,
+      322278,
+      322279,
+      322280,
+      322281,
+      322282,
+      322283,
+      322284,
+      322285,
+      322286,
+      322287,
+      322288,
+      322289,
+      322290,
+      322291,
+      322292,
+      322293,
+      322294,
+      322295,
+      322296,
+      322297,
+      322298,
+      322299,
+      322300,
+      322301,
+      322302,
+      322303,
+      322304,
+      322305,
+      322306,
+      322307,
+      322308,
+      336131,
+      336132,
+      336133,
+      336134,
+      336135,
+      336136,
+      336137,
+      336138,
+      336139,
+      336140,
+      336141,
+      336142,
+      336143,
+      336144,
+      336145,
+      336146,
+      336147,
+      336148,
+      336149,
+      336150,
+      336151,
+      336152,
+      336153,
+      336154,
+      336155,
+      336156,
+      336157
+    ],
+    "filesystem_size_unchanged": true,
+    "inode_identity_and_unrelated_attributes_preserved": true,
+    "status": "PASS",
+    "source_sha256": "197fc934db37ed9b88701ae7fd2e866126f63e098f6d45e3fd767618af638fa5",
+    "target_sha256": "f83785a34f7c83753a5e8a0d271c536543caca6c38c44f1fcee04cebed85c708",
+    "audited_paths": 1043,
+    "unrelated_paths_exact": true,
+    "geometry_unchanged": true
+  },
+  "avcam": {
+    "passed": true,
+    "camera_io": false,
+    "allocation_chain_unchanged": true,
+    "partition_bytes": 31803392,
+    "source_file_bytes": 12956536,
+    "target_file_bytes": 12959080,
+    "allocated_file_bytes": 12959744,
+    "unrelated_bytes_exact": true,
+    "target_sha256": "d340d3fcae2fac9cac2180e57f9dd553101ff67f517365799da062afec9bfa40"
+  },
+  "readback_files": 74,
+  "source_kind": "previously_verified_stock400_extraction",
+  "components": {
+    "appFw.so": {
+      "bytes": 97452032,
+      "sha256": "dd4a75b39ea6f6e575d97e9a109157b4703b1befc21f9b585e7c512a81860e8a"
+    },
+    "cpapp-b.bin": {
+      "bytes": 17617008,
+      "sha256": "8b78810767e9a80196f03fe09fe0b3fea314cac75930b8409f23e53d55b4c045"
+    },
+    "AV-CAM.BIN": {
+      "bytes": 12959080,
+      "sha256": "23fb43cb2e5d79aad19414d375c9bb6df97ef3042ecb696e8424243e64ff55bc"
+    },
+    "libmpr.so": {
+      "bytes": 3606596,
+      "sha256": "46fad4e180a90006e5df246400fd4b281c7da5643701ed38d6ab645417efd236"
+    }
+  }
+}

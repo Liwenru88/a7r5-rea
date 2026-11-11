@@ -1,5 +1,7 @@
 # 第十七批：原任务启动、单调时钟、事件轮询与缓冲身份
 
+> 公开副本已将历史本机目录替换为 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符；复跑时需自行指定输入。原始记录保留在本机私有归档，历史摘要和验证结论保持原样。
+
 - Feature ID: `001-fixed-custom-filters`
 - Updated: `2026-10-26`
 - Status: `OFFLINE_TASK_RUNTIME_VERIFIED_NOT_INSTALLABLE`
@@ -64,7 +66,7 @@ T03f新增原缓冲占用/拒绝/归还/再占用证据与两项反例，仍未�
 ```sh
 PYTHONPATH=a7r5-desktop/prepared/engine/site:a7r5-firmware-features/custom-filters \
   ./.venv/bin/python -B -m a7filters.baseline \
-  /Users/wenruli/Desktop/索尼/BODYDATA.DAT --investigate-ui \
+  ${LOCAL_HOME}/Desktop/索尼/BODYDATA.DAT --investigate-ui \
   --ui-adapter .local/fixed-custom-filters/build-12/ui-adapter.elf \
   --ap-ui-module .local/fixed-custom-filters/build-12/ap-ui-hooks.elf \
   --cp-parameter-adapter .local/fixed-custom-filters/build-13-verified/cp-parameters.elf \

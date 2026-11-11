@@ -107,8 +107,10 @@ class CompressionWorkflowTests(unittest.TestCase):
             root=Path(t);job,key,grid,response=self.fixture(root)
             source=root/'source';source.mkdir()
             rgb=np.random.default_rng(1023).uniform(.1,.8,(2,3,3));target=rgb*.8
-            np.savez_compressed(source/'render_inputs.npz',native=rgb,target=target)
+            corrected=rgb*.85
+            np.savez_compressed(source/'render_inputs.npz',native=rgb,target=target,calibrated=corrected)
             (source/'result.json').write_text(json.dumps(dict(source_sha256='same-RAW',frontend_revision=photo_preview.FRONTEND_REVISION,
+                raw_calibration=photo_preview.RAW_CALIBRATION,
                 recipe_sha256=core.sha((job/'fit/recipe.json').read_bytes()),lut_sha256=core.sha((job/'input.cube').read_bytes()))))
             before=(source/'render_inputs.npz').read_bytes()
             on=root/'on';off=root/'off';again=root/'again'
@@ -118,6 +120,9 @@ class CompressionWorkflowTests(unittest.TestCase):
             np.testing.assert_array_equal(np.asarray(Image.open(off/'model.png')),photo_preview.quantize(rgb))
             self.assertNotEqual((on/'model.png').read_bytes(),(off/'model.png').read_bytes())
             self.assertEqual((on/'model.png').read_bytes(),(again/'model.png').read_bytes())
+            np.testing.assert_array_equal(np.asarray(Image.open(off/'calibrated.png')),photo_preview.quantize(corrected))
+            self.assertNotEqual((on/'calibrated.png').read_bytes(),(off/'calibrated.png').read_bytes())
+            self.assertEqual((on/'calibrated.png').read_bytes(),(again/'calibrated.png').read_bytes())
             self.assertEqual((on/'lut.png').read_bytes(),(off/'lut.png').read_bytes())
             self.assertEqual((on/'lut.png').read_bytes(),(again/'lut.png').read_bytes())
             self.assertEqual((source/'render_inputs.npz').read_bytes(),before)

@@ -1,0 +1,15 @@
+{
+  "base": "ilce-7rm5-4.00",
+  "modules": [
+    "look24",
+    "look-fl2-fl3",
+    "look-factory-six",
+    "lens-af-compat",
+    "photo-aspect-ratios",
+    "photo-framing-markers",
+    "video-ntsc-prompt",
+    "photo-electronic-shutter-sound",
+    "color-r6-st",
+    "color-awb-priority"
+  ]
+}
