@@ -6,6 +6,9 @@
 #include "r5sound_runtime.c"
 static uint32_t mode=1,epoch=1,silent=1,playing,stop_requests,starts,bank,step_now,install_wait,fail_write;
 static unsigned writes,reads;static uint8_t config[96];static size_t config_size;
+static unsigned live,peak,allocations,releases;
+static void *allocate(size_t n){void *p=malloc(n);if(p){allocations++;live++;if(live>peak)peak=live;}return p;}
+static void release(void *p){if(p){assert(live);live--;releases++;}free(p);}
 static int read_file(void *c,const char *name,uint8_t *p,size_t cap,size_t *n){
  (void)c;reads++;if(strcmp(name,"R5SOUND.PRO")||!config_size)return 1;
  assert(cap>=config_size);memcpy(p,config,config_size);*n=config_size;return 0;
@@ -58,7 +61,7 @@ r5ss_ops r5ss_backend_ops(r5ss_native_backend *b){return (r5ss_ops){b,r5ss_backe
 static void drain(void){for(unsigned i=0;i<15;i++)r5sound_service();assert(!run.request&&!run.changing&&!profile_request);}
 static void expose(unsigned n){uint32_t p[7]={0x10010004,n,0xf000,0,0,0,0};unsigned old_writes=writes,old_reads=reads;r5sound_inbound((void *)p,0x90030001);assert(writes==old_writes&&reads==old_reads);}
 int main(void){
- run.alloc=malloc;run.free=free;run.published=1;run.epoch=epoch;run.step=5;active_profile=1;
+ run.alloc=allocate;run.free=release;run.published=1;run.epoch=epoch;run.step=5;active_profile=1;
  profiles.group[0].step=profiles.group[1].step=5;
  run.catalog.count=2;for(unsigned i=0;i<2;i++){r5sound_entry *e=&run.catalog.entries[i];strcpy(e->name,i?"TWO.R5S":"ONE.R5S");memset(e->sha,i+1,32);e->bytes=R5SOUND_PACKAGE_HEADER_BYTES+320;}
  unsigned io=writes+reads;assert(!r5sound_profile_request(0,1));assert(io==writes+reads);drain();
@@ -88,5 +91,19 @@ int main(void){
  epoch++;drain();assert(bank==1&&step_now==3&&r5sound_profile_selected(1)==2);
  mode=1;drain();assert(bank==2&&step_now==8);
  assert(!r5sound_profile_request(1,0));drain();assert(!run.selected&&r5sound_profile_selected(0)==1);
- assert(!run.audio);puts("实际服务回放：异组编辑、延迟退休、模式往返、安装中切换、静音、保存失败、暖恢复、独立关闭均通过");return 0;
+ assert(!run.audio);
+ /* 连续装卸和模式切换不能积累音频缓冲；停止等待期间不提前释放。 */
+ unsigned limit=peak;
+ for(unsigned i=0;i<1000;i++){
+  mode=i&1;drain();
+  assert(!r5sound_profile_request(mode,1+(i&1)));drain();
+  expose(100+i);r5sound_service();assert(playing);
+  assert(!r5sound_profile_request(mode,0));r5sound_service();
+  unsigned before=live,stops=stop_requests;
+  for(unsigned wait=0;wait<100;wait++)r5sound_service();
+  assert(live==before&&stop_requests==stops);
+  playing=0;drain();assert(!run.audio&&live==0);
+ }
+ assert(peak==limit&&allocations==releases);
+ puts("实际服务回放：双组设置与异常恢复、1000次装卸资源归零、停止等待不提前释放均通过");return 0;
 }

@@ -9,9 +9,10 @@ class SmoothGPU:
         import torch
         self.torch=torch
         self.device=device
+        self.dtype=torch.float32 if dtype is None else dtype
         def tensor(x,integer=False):
             return torch.as_tensor(np.array(x,copy=True),device=device,
-                dtype=torch.int64 if integer else (torch.float32 if dtype is None else dtype))
+                dtype=torch.int64 if integer else self.dtype)
         self.tensor=tensor
         if compact_flat and not np.array_equal(smooth.x, np.broadcast_to(smooth.x[:,4:5], smooth.x.shape)):
             raise ValueError('只有九点输入完全相同的色块允许合并计算')
@@ -26,8 +27,13 @@ class SmoothGPU:
         self.quadratic=smooth.quadratic;self.chroma=smooth.chroma
         self.area_selector=bool(smooth.ctx.base.area_controls[64])
         self.pivot=smooth.pivot;self.ygain=smooth.ygain
+        # The optional Gamma shape is the same one used by CPU rendering.
+        # Rendering and every native regularization caller share gamma().
+        self.gamma_shape=getattr(smooth,'gamma_shape',None)
 
     def gamma(self,v):
+        if self.gamma_shape is not None:
+            return self.gamma_shape.tensor_curve(self.torch,v[104:])
         t=self.torch
         return t.cat([v.new_zeros(1),t.cumsum(t.softmax(v[104:],dim=0),dim=0)[:-1]])*16383
 
@@ -100,6 +106,12 @@ def initialize(smooth,seed,target,weights,lower,upper,*,steps=600,
             bank,probe_model,amount=smooth.output_continuity
             probe_gpu=SmoothGPU(probe_model)
             continuity=TensorPenalty(bank,probe_gpu,amount)
+        neighborhood=getattr(smooth,'target_neighborhood',None)
+        if neighborhood is not None:
+            neighbor_bank,neighbor_model,neighbor_amount=neighborhood
+            if len(neighbor_model.x)!=len(neighbor_bank.source_indices):
+                raise ValueError('Target-neighborhood model must match the frozen training bank')
+            neighbor_gpu=SmoothGPU(neighbor_model)
         # Verify the full coarse training batch before permitting any GPU start.
         initial=gpu.render(tensor(seed)).detach().cpu().numpy()
         error=float(np.max(np.abs(initial-smooth.render(seed))))
@@ -120,6 +132,8 @@ def initialize(smooth,seed,target,weights,lower,upper,*,steps=600,
                 parameter_smoothing,cc1=v[:8],config=smooth.ctx.base.config)
             loss=loss+regularization.square().sum()
             if continuity is not None:loss=loss+continuity.loss(probe_gpu.render(v)/16383)
+            if neighborhood is not None:
+                loss=loss+neighbor_bank.tensor_loss(neighbor_gpu,neighbor_gpu.render(v)/16383,neighbor_amount)
             return loss
         for step in range(steps):
             optimizer.zero_grad(set_to_none=True);loss=objective()

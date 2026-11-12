@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from measured_response import default_response,get,legacy_proxy_response,shared_response
+from measured_response import default_response,get,legacy_proxy_response,hybrid_response
 from residual_grid import evaluate
 import pc_stages
 from optimizer_policy import pc_options,refine_grid
@@ -13,7 +13,7 @@ class MeasuredResponseTests(unittest.TestCase):
         self.assertTrue(get(legacy_proxy_response()).proxy)
         x=model.probes(30)
         np.testing.assert_allclose(evaluate(x,np.zeros((405,3),np.int8),response),x,atol=2e-15)
-        self.assertEqual(pc_options()['response'],shared_response())
+        self.assertEqual(pc_options()['response'],hybrid_response())
         altered=dict(response,sha256='0'*64)
         with self.assertRaises(ValueError):get(altered)
 

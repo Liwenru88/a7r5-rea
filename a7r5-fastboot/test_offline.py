@@ -89,6 +89,57 @@ def run(tmp_path, inputs, serial=None, usb_failure=None):
     return report, serial.commands, usb.calls
 
 
+def test_manual_trigger_waits_before_reset(tmp_path, inputs):
+    table, records = inputs
+    serial = FakeSerial()
+    usb = UsbFixture(table)
+    observed = []
+
+    def trigger():
+        observed.append([code for code, _ in serial.commands])
+        assert not usb.calls
+
+    report = r5.run_probe("fake", tmp_path / "manual", table, records,
+                          opener=lambda *_: nullcontext(serial), launch=usb,
+                          sleep=lambda _: None, before_reset=trigger)
+    assert observed == [[1]]
+    assert report["usb_transport_verified"]
+    assert [code for code, _ in serial.commands].count(2) == 1
+
+
+def test_manual_trigger_cancel_does_not_reset(tmp_path, inputs):
+    table, records = inputs
+    serial = FakeSerial()
+    usb = UsbFixture(table)
+
+    def cancel():
+        raise KeyboardInterrupt
+
+    report = r5.run_probe("fake", tmp_path / "cancel", table, records,
+                          opener=lambda *_: nullcontext(serial), launch=usb,
+                          sleep=lambda _: None, before_reset=cancel)
+    assert report["stage"] == "cancelled"
+    assert report["reset_attempted"] is False
+    assert serial.commands == [(1, b"")]
+    assert not usb.calls
+    assert (tmp_path / "cancel" / "report.json").is_file()
+
+
+def test_manual_trigger_eof_does_not_reset(tmp_path, inputs):
+    table, records = inputs
+    serial = FakeSerial()
+
+    def closed_input():
+        raise EOFError("stdin closed")
+
+    report = r5.run_probe("fake", tmp_path / "eof", table, records,
+                          opener=lambda *_: nullcontext(serial),
+                          before_reset=closed_input)
+    assert report["stage"] == "cancelled"
+    assert report["reset_attempted"] is False
+    assert serial.commands == [(1, b"")]
+
+
 def test_full_flow_without_uart_ready_message(tmp_path, inputs):
     report, commands, usb = run(tmp_path, inputs)
     assert report["stage"] == "complete"

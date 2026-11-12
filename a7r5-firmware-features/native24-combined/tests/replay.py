@@ -14,7 +14,13 @@ sys.path[:0] = [str(FEATURE), str(FEATURE / 'tests')]
 import runtime_support
 
 runtime_support.BASELINE = BUILD
-from runtime_support import AP, CP
+from runtime_support import AP
+from cp_services import receiver_services
+
+
+class CP(runtime_support.CP):
+    def receiver_services(self, budget=1048576):
+        receiver_services(self, budget)
 
 
 def components():
@@ -86,6 +92,8 @@ text = text.replace("assert len(sidecar) == 24 and sidecar[:8] == b'R5SEL4\\0\\0
     "        assert len(sidecar) == 24 and sidecar[:8] in (b'R5SEL4\\0\\0', b'R5SEL5\\0\\0')")
 namespace = {'__name__': 'native24_replay_services'}
 exec(compile(text, str(helper) + ':24-slot-derived', 'exec'), namespace)
+# 新的多库夹具按实际长度分配；冻结十二槽夹具的固定步长不适用于24槽。
+namespace['CP'] = CP
 BaseReplay = namespace['UnifiedReplay']
 
 

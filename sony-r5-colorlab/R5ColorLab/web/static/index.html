@@ -41,8 +41,8 @@
     <input id="pcGridEnabled" type="checkbox" checked disabled>
   </div>
   <label hidden>LUT 输入色域<select id="gamut"><option>S-Gamut3</option><option>S-Gamut3.Cine</option></select></label>
-  <label>训练模式<select id="speedPriority"><option value="standard" selected>标准</option><option value="fast">快速</option></select></label>
-  <p id="trainingModeHint" class="hint">标准模式使用上游完整搜索，最终网格直接拟合目标颜色。</p>
+  <label>训练模式<select id="speedPriority"><option value="standard" selected>标准 · 上游正式方案</option><option value="custom">自定义预算</option><option value="fast">快速</option></select></label>
+  <p id="trainingModeHint" class="hint">色卡标准模式：Hybrid · 原生候选 → 整数网格 5 轮 → 联合叠加 3 轮。全部验收通过才采用，失败保留旧配方。正式方案需要 Metal／MPS。</p>
   <div class="training-actions"><button id="fit" class="primary full" type="button">训练并生成滤镜 <span>↗</span></button></div>
   <p class="hint">完成后可预览效果、保存到所选槽位，再导出 BIN。</p>
   <p id="compressionTrainingStatus" class="hint" aria-live="polite"></p>
@@ -71,6 +71,7 @@
 
   <details id="trainingAdvanced">
     <summary>高级设置</summary>
+    <p class="hint">标准色卡模式使用锁定的上游正式参数，以下数值仅供查看。需要手动调整时选择“自定义预算”；LUT 目标使用自定义原生与网格训练，不执行色卡专用叠加。</p>
     <h3>色组权重</h3>
     <p class="hint">权重按整组分配，五组默认都是 1，范围为 0.05–64。比如灰阶设为 2、其余保持 1，拟合就会更重视灰阶，其他颜色的误差可能增加。</p>
     <div class="grid2">
@@ -87,10 +88,10 @@
     </div>
     <h3>平滑与色差</h3>
     <div class="grid2">
-      <label>参数平滑强度 <output id="parameterSmoothingValue" for="parameterSmoothing">30</output><input id="parameterSmoothing" type="range" min="0" max="100" step="1" value="30" aria-describedby="parameterSmoothingHint"></label>
-      <p class="hint" id="parameterSmoothingHint">默认 30，范围 0–100。约束 Gamma、CC1、色相矩阵和网格参数的局部起伏。调高有助于抑制过拟合，也可能削弱目标中较强的局部色彩变化。</p>
-      <label>输出连续性强度<input id="outputContinuity" type="number" min="0" max="100" step="1" value="30" aria-describedby="outputContinuityHint"></label>
-      <p class="hint" id="outputContinuityHint">默认 30，范围 0–100。检查相邻输入的输出颜色是否突然跳变。调高会更重视两个输入域中的暗部、曝光、色相和饱和度过渡。</p>
+      <label>参数平滑强度 <output id="parameterSmoothingValue" for="parameterSmoothing">0</output><input id="parameterSmoothing" type="range" min="0" max="100" step="1" value="0" aria-describedby="parameterSmoothingHint"></label>
+      <p class="hint" id="parameterSmoothingHint">默认 0，范围 0–100。自定义预算下约束参数的局部起伏。正式方案使用拟合后去毛刺和末段目标导数约束，不叠加这项旧平滑惩罚。</p>
+      <label>输出连续性强度<input id="outputContinuity" type="number" min="0" max="100" step="1" value="0" aria-describedby="outputContinuityHint"></label>
+      <p class="hint" id="outputContinuityHint">默认 0，范围 0–100。自定义预算下检查双输入域的暗部、曝光、色相和饱和度过渡。正式叠加阶段使用目标相对导数约束，强度 0.02，并使用色相方向强度 30。</p>
       <label>感知色差权重<input id="perceptualWeight" type="number" min="0" max="2" step="0.05" value="0.35" aria-describedby="perceptualWeightHint"></label>
       <p class="hint" id="perceptualWeightHint">默认 0.35，范围 0–2。原生初始化使用 Lab 色差近似，末段联合拟合使用连续 ΔE00 平方，候选评分使用量化后的 ΔE00。调高会更重视人眼感知的色差，RGB RMSE 可能上升。</p>
     </div>

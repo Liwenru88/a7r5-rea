@@ -39,6 +39,10 @@ def color_resources():
     six = FEATURES / 'look-factory-six/src'
     return [ROOT / 'a7r5-desktop/scripts/feature_builder.py', NATIVE / 'build_stock_color.py',
             six / 'build_legacy_six.py', six / 'legacy_six.py', six / 'legacy_six_cp.S',
+            *sorted((FEATURES / 'look-fl2-fl3/raw').glob('*.py')),
+            *sorted((FEATURES / 'look-fl2-fl3/raw').glob('*.S')),
+            FEATURES / 'photo-electronic-shutter-sound/bindings/upstream/src/lib/thumb_link.py',
+            dependency / 'upstream/firmware/r5/src/lib/thumb_ops.py',
             MATERIALS / 'reproduce.py', MATERIALS / 'recipes.json', MATERIALS / 'matrix-inline.json',
             MATERIALS / 'joint-layout.json', MATERIALS / 'six-looks.json',
             *sorted((MATERIALS / 'upstream-default-six').glob('*.a7look')),

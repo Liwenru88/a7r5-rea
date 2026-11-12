@@ -69,6 +69,11 @@ def build(output, baseline, inputs_directory=None, *, lens_af=False, stock=None,
                     if p.is_file() and p.suffix in ('.c', '.h', '.S', '.py', '.json')]
     if factory_six:
         helpers += [SIX / name for name in ('build_legacy_six.py', 'legacy_six.py', 'legacy_six_cp.S')]
+    if fl23:
+        helpers += list((HERE.parent / 'look-fl2-fl3/raw').glob('*.py'))
+        helpers += list((HERE.parent / 'look-fl2-fl3/raw').glob('*.S'))
+        helpers += [HERE.parent / 'photo-electronic-shutter-sound/bindings/upstream/src/lib/thumb_link.py',
+                    FEATURE / 'upstream/firmware/r5/src/lib/thumb_ops.py']
     if lens_af:
         helpers += [LENS_AF / name for name in ('lens_af.py', 'lens_af.S')]
     external_before = {str(p.relative_to(ROOT)): checker.sha(p) for p in helpers}
@@ -170,6 +175,10 @@ def build(output, baseline, inputs_directory=None, *, lens_af=False, stock=None,
         if lens_af:
             lens = load(LENS_AF / 'lens_af.py', 'native24_lens_af')
             final_cp, record['lens_AF'] = lens.apply_lens_af(final_cp, patches, cp_folder)
+    if fl23:
+        raw_looks = load(HERE.parent / 'look-fl2-fl3/raw/native.py', 'native24_raw_looks')
+        final_cp, record['raw_alternatives'] = raw_looks.apply(
+            final_cp, output / 'raw-alternatives', source_sha256=patches.digest(final_cp))
     (output / 'cpapp-b.bin').write_bytes(final_cp)
     (output / 'local-ap.json').write_text(json.dumps(ap_local, indent=2) + '\n')
     (output / 'local-cp.json').write_text(json.dumps(cp_local, indent=2) + '\n')

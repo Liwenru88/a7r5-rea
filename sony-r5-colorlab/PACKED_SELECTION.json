@@ -1,0 +1,37 @@
+{
+  "schema": "r5-colorlab-packed-selection-update/1",
+  "training_revision": "06c35577255eddef641c695d179b0e6f699ffe62+native24/2",
+  "policy": "native-packed-quality/1",
+  "base_update_manifest": "HYBRID_UPDATE.json",
+  "base_upstream_commit": "06c35577255eddef641c695d179b0e6f699ffe62",
+  "scope": "本地整数候选筛选和旧配方回退；保留上游数值模型和既有训练预算",
+  "format_unchanged": true,
+  "camera_connected": false,
+  "original_filters_unchanged": true,
+  "source_sha256": {
+    "web/packed_training.py": "cb24b109d5fd89719f60b73cd641bb9e1221cf9ad6579e997509510e126aa7bf",
+    "web/native_candidates.py": "92918c95e1bd9685b0da8c70e087668ed83c7266167e7c8299a47f1eb85f8a58",
+    "web/quality_data.py": "862e3a39882df752acb2c29af26caa66ca429e368ba6b207d715e4d454a97f7d",
+    "web/training_profile.py": "737ffef3a65c9f8271021296d966e7db4543c68419d13f4cd7efc852313a1260",
+    "web/fit_anchor_native.py": "1610f90d3d85935d10e09339771d76105b4a448f32f1cf3700abcd4183d05671",
+    "web/stack_training.py": "238f25500f0001e7827ba846c4585dffa9f70323855090336c3bb75ddfa32753",
+    "web/calibrated_guard.py": "bdb92b18b80686dcdc6788cb8af14da6c3faec9594119577875efeac5f48c279",
+    "web/grid_distillation.py": "012bd7cd1b2401fb9bc673f055c39a61e30669e6589f20d273e7543b52368dd0",
+    "web/server.py": "2d8d54ee4c06750261ca0b28397352fa2443e12fa9001fd04211a4e4dc8f07e3",
+    "web/batch_training.py": "5c7091f27d59e2dfb0ad572c8a140d65c9f883821d1cc89f726a36bb6616e68a",
+    "web/static/app.js": "c9e28e0a5a80447deee525cdf71e2f0ae6d2a08c775243221bb3d1748be5e388",
+    "web/static/index.html": "ce1b3b64cb590b034271e8128137a444944862bc3f64e05d3b6f5613acbfe520",
+    "web/formal_profile.json": "cc1fd528b899c05c1338e8c697cd5e8b71bbcbe90a15100db9653272ee28be1f",
+    "tests/test_packed_selection.py": "1ae4f8de0e8fbc194c49659a18fed85bfd443d89d162e214ee44558c040b0a9e"
+  },
+  "verification": {
+    "module_passed": 231,
+    "module_skipped": 1,
+    "subtests_passed": 126,
+    "http_passed": 45,
+    "UI_scenarios": 8,
+    "full_GPU_filters": 3,
+    "adopted_new_recipes": 0
+  },
+  "evidence": "/Users/wenruli/Desktop/索尼/整数候选闭环验证-20261112/README.md"
+}

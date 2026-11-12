@@ -1,0 +1,52 @@
+[
+  {
+    "response": {
+      "schema": "r5-measured-grid-response/1",
+      "preset": "r5-paired-20261024",
+      "sha256": "6852ead83bf381215a8d721d1557cc73803f6ef60a0745971e8783144863c96b",
+      "model": "ILCE-7RM5"
+    },
+    "response_implementation_sha256": "b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec",
+    "response_runtime_sha256": "3ef0730497f92582ca2192875e0d76f0c962969ac6dbe315850a1ddefa0c26f3"
+  },
+  {
+    "response": {
+      "schema": "r5-measured-grid-response/1",
+      "preset": "r5-paired-20261024-v2",
+      "sha256": "8879499fbd9b24899dcbd8fee4135b806fdcba1fd18a677b090b7af212b85a45",
+      "model": "ILCE-7RM5"
+    },
+    "response_implementation_sha256": "b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec",
+    "response_runtime_sha256": "de0b2e8c76b70f24e305d785bfb808b15b846eb6a9e42bdd1d294f53595b7dcd"
+  },
+  {
+    "response": {
+      "schema": "r5-measured-grid-response/1",
+      "preset": "r5-paired-20261102-nonlinear",
+      "sha256": "a312761c8500e8a9ecb3b1b23ad27cf7709cb6eb8bf41c956970e1bdcc2c82f0",
+      "model": "ILCE-7RM5"
+    },
+    "response_implementation_sha256": "b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec",
+    "response_runtime_sha256": "a72347d5b1562a899d66382671bb3cf3b1bc8004577685a8248ce68a65675a97"
+  },
+  {
+    "response": {
+      "schema": "r5-measured-grid-response/1",
+      "preset": "r5-paired-20261102-shared-c1-c50",
+      "sha256": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552",
+      "model": "ILCE-7RM5"
+    },
+    "response_implementation_sha256": "b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec",
+    "response_runtime_sha256": "5b70d7f1f7ca0a114a6cbf7656e1a6d8ac42a1b2adc11aca077b1c4f61b60571"
+  },
+  {
+    "response": {
+      "schema": "r5-measured-grid-response/1",
+      "preset": "r5-paired-20261102-three-experts",
+      "sha256": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
+      "model": "ILCE-7RM5"
+    },
+    "response_implementation_sha256": "b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec",
+    "response_runtime_sha256": "c310904712b65175e0ff68ad6e6da00ce39c979fa52600eaab532bae3b88d34b"
+  }
+]

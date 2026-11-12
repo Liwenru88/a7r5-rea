@@ -12,7 +12,7 @@
   "checkout_normalized_files_read_from_git": [
     "R5ColorLab/启动R5色彩工作台.bat"
   ],
-  "upstream_modified": false,
+  "upstream_modified": true,
   "local_additions": [
     "UPSTREAM_SNAPSHOT.json",
     "SOURCE_MANIFEST.json",
@@ -22,5 +22,11 @@
   "camera_io": false,
   "dependencies_installed": false,
   "firmware_modified": false,
-  "native24_v5_export_added": false
+  "native24_v5_export_added": true,
+  "training_update": {
+    "commit": "06c35577255eddef641c695d179b0e6f699ffe62",
+    "date": "2026-11-12",
+    "selective": true,
+    "manifest": "HYBRID_UPDATE.json"
+  }
 }

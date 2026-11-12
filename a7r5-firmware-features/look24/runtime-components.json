@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "revision": 2,
+  "revision": 3,
   "base_DAT_sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
   "components": {
     "appFw.so": {
@@ -9,7 +9,7 @@
     },
     "cpapp-b.bin": {
       "bytes": 17617008,
-      "sha256": "075e4395438d99244831a668413a2736b4ed9a6a47020819afc9dc8fcf70b00c"
+      "sha256": "bf94dff634ce8369073c4f25728fd02fa1e6a02f5d3e46d69360b85e184b6a9b"
     },
     "image_00_23_IPSX.uxc": {
       "bytes": 9611836,

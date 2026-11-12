@@ -1,5 +1,6 @@
 """通过原有共享选择器构建原厂 FL2／FL3 与 C1–C6，不含 24 槽运行时。"""
 import argparse
+import importlib.util
 from hashlib import sha256
 from pathlib import Path
 import sys
@@ -27,7 +28,15 @@ def main():
     options = dict(fl23=args.fl23, looks=args.factory_six, ntsc=False, sound=False)
     args.output.mkdir(mode=0o700)
     (args.output / 'appFw.so').write_bytes(feature_builder.build_ap(ap, options))
-    (args.output / 'cpapp-b.bin').write_bytes(feature_builder.build_cp(cp, options))
+    result = feature_builder.build_cp(cp, options)
+    if args.fl23:
+        source = HERE.parent / 'look-fl2-fl3/raw/native.py'
+        spec = importlib.util.spec_from_file_location('stock_raw_looks', source)
+        raw_looks = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(raw_looks)
+        result, _ = raw_looks.apply(result, args.output / 'raw-alternatives',
+                                    source_sha256=sha256(result).hexdigest())
+    (args.output / 'cpapp-b.bin').write_bytes(result)
 
 
 if __name__ == '__main__':

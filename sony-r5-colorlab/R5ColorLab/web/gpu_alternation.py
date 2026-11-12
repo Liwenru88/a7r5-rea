@@ -20,6 +20,12 @@ class BlockObjective:
             bank, probe_model, amount = smooth.output_continuity
             self.continuity_gpu = SmoothGPU(probe_model, device=device, dtype=dtype)
             self.continuity = TensorPenalty(bank, self.continuity_gpu, amount)
+        self.target_neighborhood = getattr(smooth, 'target_neighborhood', None)
+        if self.target_neighborhood is not None:
+            bank, neighbor_model, amount = self.target_neighborhood
+            if len(neighbor_model.x) != len(bank.source_indices):
+                raise ValueError('Target-neighborhood model must match the frozen training bank')
+            self.neighbor_gpu = SmoothGPU(neighbor_model, device=device, dtype=dtype)
         tensor = self.gpu.tensor
         self.target = tensor(np.asarray(target) / 16383)
         self.weights = tensor(weights)
@@ -84,13 +90,21 @@ class BlockObjective:
 
     def loss(self, vector):
         predicted = self.corrected(self.gpu.render(vector) / 16383)
-        return self.data_loss(predicted) + self.smoothing_loss(vector)
+        return self.data_loss(predicted) + self.smoothing_loss(vector) + self.target_neighborhood_loss(vector)
 
     def data_loss(self, predicted):
         rows = (predicted - self.target).square().mean(dim=1)
         if self.perceptual_weight:
             rows = rows + ((self.gpu.lab(predicted) - self.target_lab) / 100).square().sum(dim=1) * self.perceptual_weight
         return (rows * self.weights).mean()
+
+    def target_neighborhood_loss(self, vector):
+        """One frozen full-train bank, through the same final correction as data."""
+        if self.target_neighborhood is None:
+            return vector.sum()*0
+        bank, _, amount = self.target_neighborhood
+        predicted = self.corrected(self.neighbor_gpu.render(vector)/16383)
+        return bank.tensor_loss(self.neighbor_gpu, predicted, amount)
 
     def smoothing_loss(self, vector):
         torch = self.torch

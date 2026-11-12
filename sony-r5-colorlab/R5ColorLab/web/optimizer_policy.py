@@ -21,11 +21,34 @@ def pc_options(value=None):
 
 
 def search_options(value=None):
-    defaults=dict(starts=4, adaptive_rounds=3, perceptual_weight=.35, quantization_sweeps=1, parameter_smoothing=0, output_continuity=0, gamma_color_rounds=0, primary_tonal_weight=1.0, hue24_tonal_weight=1.0)
+    defaults=dict(starts=12, adaptive_rounds=8, perceptual_weight=.35, quantization_sweeps=3, parameter_smoothing=0, output_continuity=0, target_neighborhood=0, hue_direction_strength=0, target_polish_rounds=0, postfit_deburr=True, gamma_monotone_concave=True, gamma_global_correction=True, gamma_color_recovery=True, native_strict_stopping=True, gamma_color_rounds=3, primary_tonal_weight=1.0, hue24_tonal_weight=1.0)
     if value is None:return defaults
     if not isinstance(value,dict) or set(value)-set(defaults):raise ValueError('未知优化器选项')
     result={**defaults,**value}
-    for name,low,high in [('starts',2,12),('adaptive_rounds',0,8),('quantization_sweeps',0,3),('gamma_color_rounds',0,12)]:
+    if type(result['gamma_monotone_concave']) is not bool:
+        raise ValueError('gamma_monotone_concave must be a boolean')
+    if type(result['gamma_global_correction']) is not bool:
+        raise ValueError('gamma_global_correction must be a boolean')
+    if type(result['native_strict_stopping']) is not bool:
+        raise ValueError('native_strict_stopping must be a boolean')
+    if type(result['gamma_color_recovery']) is not bool:
+        raise ValueError('gamma_color_recovery must be a boolean')
+    if result['gamma_color_recovery'] and not result['gamma_global_correction']:
+        raise ValueError('Gamma色彩补调需要整体矫正')
+    if result['gamma_global_correction'] and not result['gamma_monotone_concave']:
+        raise ValueError('Gamma整体矫正需要开启单调凹约束')
+    if type(result['postfit_deburr']) is not bool:
+        raise ValueError('postfit_deburr must be a boolean')
+    # 先验证原始输入，不能用正式模式的覆盖掩盖非法参数。
+    from parameter_smoothing import strength
+    for name in ('parameter_smoothing','output_continuity','target_neighborhood'):
+        result[name]=strength(result[name])
+    if result['postfit_deburr']:
+        # Repair belongs after fitting; no legacy or target-shape penalty may
+        # leak through an older request/profile carrying nonzero strengths.
+        for name in ('parameter_smoothing','output_continuity','target_neighborhood'):
+            result[name]=0
+    for name,low,high in [('starts',2,12),('adaptive_rounds',0,8),('quantization_sweeps',0,3),('gamma_color_rounds',0,12),('target_polish_rounds',0,4)]:
         if type(result[name]) is not int or not low<=result[name]<=high:raise ValueError(name+' 超出允许范围')
     for name in ('primary_tonal_weight','hue24_tonal_weight'):
         if type(result[name]) not in (int,float) or not np.isfinite(result[name]) or not .05<=result[name]<=8:
@@ -33,6 +56,11 @@ def search_options(value=None):
     from parameter_smoothing import strength
     result['parameter_smoothing']=strength(result['parameter_smoothing'])
     result['output_continuity']=strength(result['output_continuity'])
+    result['target_neighborhood']=strength(result['target_neighborhood'])
+    from hue_direction import strength as hue_strength
+    result['hue_direction_strength']=hue_strength(result['hue_direction_strength'])
+    if result['target_neighborhood'] and result['output_continuity']:
+        raise ValueError('目标邻域约束应将旧 output_continuity 设为0，避免重复压平目标转折')
     v=result['perceptual_weight']
     if type(v) not in (int,float) or not np.isfinite(v) or not 0<=v<=2:raise ValueError('感知权重需在0–2之间')
     return result
@@ -156,7 +184,7 @@ def refine_grid(grid, base, target, gate, weights, sweeps=1, perceptual_weight=0
                                       objective='train weighted uint8 RGB MSE + perceptual_weight*(2.55*DE00)^2',perceptual_weight=perceptual_weight)
 
 
-def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1, perceptual_weight=0, progress=None, parameter_smoothing=0, output_penalty=None):
+def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1, perceptual_weight=0, progress=None, parameter_smoothing=0, output_penalty=None, target_neighborhood=None):
     """Exact integer CC1, all 96 block13 coefficients and 127 nonzero Gamma nodes.
 
     PC is frozen during moves and rebuilt when the resulting candidate is assessed.
@@ -173,12 +201,15 @@ def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1,
         from parameter_smoothing import native_cost
         return (float(display_cost_rows(rgb,target,perceptual_weight)@weights/np.sum(weights))
             +(native_cost(p,ctx.axis,parameter_smoothing) if parameter_smoothing else 0)
-            +(output_penalty(p) if output_penalty is not None else 0))
+            +(output_penalty(p) if output_penalty is not None else 0)
+            +(target_neighborhood(p,pc_bundle) if target_neighborhood is not None else 0))
     current=copy(parameters)
     original_cost=cost(current)
     # 4.18 serializes Gamma ordinates and the last four CC1 values at half
     # the RAW units. Optimize the values reconstructed from that export.
-    current['gamma_y']=np.minimum(262142,2*((current['gamma_y']+1)//2))
+    shape=getattr(ctx,'gamma_shape',None)
+    current['gamma_y']=(shape.quantize_raw(current['gamma_y']) if shape is not None else
+                        np.minimum(262142,2*((current['gamma_y']+1)//2)))
     current['cc1'][4:]=2*np.minimum(1023,(current['cc1'][4:]+1)//2)
     best=cost(current);before=best;accepted=0;calls=2
     for sweep in range(sweeps):
@@ -196,6 +227,7 @@ def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1,
                         at=index+1;proposal['gamma_y'][at]+=sign*(16 if sweep==0 else 2)
                         y=proposal['gamma_y']
                         if y[at]<y[at-1] or y[at]>262143 or (at<127 and y[at]>y[at+1]):continue
+                        if shape is not None and not shape.audit_even(y)['passed']:continue
                     else:
                         coeff=np.array(struct.unpack_from('<96f',decode_matrix16(current['matrix_payload']),0x28)).reshape(6,16)
                         coeff.flat[index]+=sign*(2 if coeff.flat[index]<0 else 1)/1024
@@ -207,6 +239,8 @@ def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1,
                 if winner is not None:current=winner;best=score;accepted+=1;changed=True
         if not changed:break
     return current,dict(original_before_export_roundtrip=original_cost,before=before,after=best,accepted=accepted,evaluations=calls,sweeps=sweeps,
+                        gamma_concavity=(shape.audit_even(current['gamma_y']) if shape is not None else None),
                         objective='train weighted floating RGB MSE + continuous DE00 squared on integer native outputs; frozen PC',
                         output_continuity=output_penalty is not None,
+                        target_neighborhood=target_neighborhood is not None,
                         gamma_zero_fixed=True,gamma_monotone=True,export_roundtrip='4.18 half-unit Gamma and CC1 gains')

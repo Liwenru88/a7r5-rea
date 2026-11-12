@@ -13,6 +13,21 @@
 
 预检核对相机 RAM 载荷、RP2040 UF2、pySerial wheel、历史 SDM2 参考、两个 macOS USB 辅助程序和 64 条 BootROM 引导记录。测试使用伪终端和模拟 USB 回执。默认入口和 `preflight` 均只读取本地文件。
 
+## 手动回车触发（macOS）
+
+确认更新已停止、电池充足、接线检查通过，相机保持 ON，并关闭占用串口的程序。在项目根目录的交互式终端运行：
+
+```sh
+.venv/bin/python -B a7r5-fastboot/r5_fastboot.py probe \
+  --port /dev/cu.usbmodem101 \
+  --output "a7r5-fastboot/runs/manual-$(date +%Y%m%d-%H%M%S)" \
+  --confirm-reset --wait-for-enter
+```
+
+串口名称需以实际枚举结果为准。脚本先校验本地材料、打开 RP2040 并确认桥接版本，然后等待回车；等待期间不发送相机复位或引导记录。按回车后只进行一次复位、RAM 载荷发送和只读 USB 诊断，不自动重试，不刷写或擦除分区。输出目录必须是新目录，缺失的父目录会自动创建。
+
+回车前按 Ctrl+C 或遇到输入关闭会取消，不触发复位；操作开始后取消不能撤销已经发生的复位或发送，记录会标注中断阶段。报告保存在输出目录的 `report.json`。`records_acknowledged=64` 只代表桥接端应答，不代表相机已执行载荷；`uart_ready_observed` 和 `usb_transport_verified` 分别记录 UART ready 标志与完整 USB 只读验证结果。此模式不修改原有引导时序，也不保证故障机能进入 Fastboot。
+
 ## 材料索引
 
 | 材料 | 位置 |

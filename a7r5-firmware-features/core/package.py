@@ -11,7 +11,7 @@ import zlib
 
 from .plan import (FEATURES, ROOT, GL, GL_DATA, configuration, digest, make_plan, merge_component,
                    read_json, require, require_base, sha)
-from . import capture, native24
+from . import capture, native24, resource_audit
 
 DAT_TOOL = ROOT / 'a7r5-dat-tool'
 KEYS = DAT_TOOL / 'keys'
@@ -139,7 +139,7 @@ def prepare(base, plan, scratch):
     return work, before, expected
 
 
-def verify_readback(dat, work, before, expected, version, scratch):
+def verify_readback(dat, work, before, expected, version, scratch, *, plan):
     readback = scratch / 'readback'
     public = KEYS / 'research-public.pem'
     tool.unpack(dat, readback, public)
@@ -167,6 +167,7 @@ def verify_readback(dat, work, before, expected, version, scratch):
         e2fsck = shutil.which('e2fsck') or '/opt/homebrew/opt/e2fsprogs/sbin/e2fsck'
         subprocess.run([e2fsck, '-fn', str(readback / 'archive' / tool.AP_IMAGE)],
                        check=True, capture_output=True)
+    resources = resource_audit.audit_usr(readback / 'archive' / tool.AP_IMAGE, plan)
     _, signed, signature = verify_signature(dat, public.read_bytes())
     (scratch / 'signed.sha256').write_bytes(signed.digest())
     (scratch / 'signature.bin').write_bytes(signature)
@@ -178,6 +179,7 @@ def verify_readback(dat, work, before, expected, version, scratch):
                 changed_archive=sorted(expected['archive']), components=expected['components'],
                 independent_unpack=True, openssl_signature_verified=True,
                 usr_filesystem='checked' if tool.AP_IMAGE in expected['archive'] else 'stock',
+                resources=resources,
                 camera_io=False, device_acceptance_verified=False)
 
 
@@ -197,7 +199,7 @@ def build(base, plan, output, version):
         work, before, expected = prepare(base, plan, scratch)
         candidate = scratch / 'BODYDATA.DAT'
         packed = tool.pack(work, candidate, version)
-        receipt = verify_readback(candidate, work, before, expected, version, scratch)
+        receipt = verify_readback(candidate, work, before, expected, version, scratch, plan=plan)
         require(receipt['dat']['sha256'] == packed['sha256'], 'DAT 封包与回读摘要不符')
         require(source_snapshot(plan) == sources
                 and make_plan(configuration(plan)) == plan,
@@ -243,7 +245,7 @@ def verify(base, bundle):
         if 'companion' in expected:
             asset = expected['companion']
             require(digest(tool.regular(bundle / asset['file'])) == asset['sha256'], '随包配方摘要不符')
-        result = verify_readback(dat, work, before, expected, version, scratch)
+        result = verify_readback(dat, work, before, expected, version, scratch, plan=plan)
         require(result['dat'] == lock['dat'] and plan == make_plan(configuration(plan))
                 and source_snapshot(plan) == sources, '验证期间输入或源码发生变化')
         if sources != lock['sources']:

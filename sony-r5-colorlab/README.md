@@ -14,7 +14,7 @@ Independent public color training, calibration and technical documentation proje
 - [Existing v4.5 application and synthetic charts download](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/releases/tag/colorlab-v4.5)
 - [Historical FUJ/v4.5 three-expert filters and export audit](filters/FUJ_12_v45_three_experts_20261102/)
 
-Current standard: **no-expert shared C1 + native-operator constraints**. New color-training jobs use the pinned `r5-paired-20261102-shared-c1-c50` response. Grid inference defaults to nonlinear coordinates, C1 structure, 50% curvature penalty, sparse residual shrinkage, and joint RGB/perceptual loss; hue experts are off. See [training settings](R5ColorLab/TRAINING.md) and [grid inference](R5GridCalibrator/README.md). Historical results retain their recorded model identities.
+本地训练工作台已于 2026-11-12 选择性更新到上游 `06c3557`：默认采用 Hybrid 响应，标准色卡训练使用“原生 12 起点 → 网格 5 轮 → 联合叠加 3 轮”。保留本地 24 槽工程、预览、色差统计和双版本导出。启动方式、正式参数、兼容范围和实测回执见 [Hybrid 更新与验证](Hybrid更新与验证.md)。已有滤镜没有重训或替换；历史任务继续按其保存的模型身份加载。网格标定工作台未在本次同步范围内。 后续本地 `/2` 修订已补上 [整数候选筛选和旧配方回退](R5ColorLab/PACKED_TRAINING.md)，应用于新启动的正式训练。
 
 Migrated from firmware repository commit bf71d789262d53ff5fcd23d87aea5bdc07a46f19. Historical release assets stay at their original URLs; current training source and documentation are maintained here. Install each workbench using its own requirements.txt. No firmware build scripts or flash operations are part of this project.
 

@@ -1,4 +1,4 @@
-function gridResponseName(response){return Array.isArray(response)?'旧版 5×9×9 · BT.601 + 固定响应':({'r5-paired-20261102-shared-c1-c50':'R5 无专家共享 C1 · 曲率50%','r5-paired-20261102-three-experts':'R5 共享 C1＋三色相专家 · 2026-11-02','r5-paired-20261102-nonlinear':'历史 R5 非线性坐标＋二阶响应 · 2026-11-02','r5-paired-20261024-v2':'历史 R5 实拍响应 v2 · 2026-10-24','r5-paired-20261024':'历史 R5 实拍响应 v1 · 2026-10-24'}[response?.preset]||'历史实测代理');}
+function gridResponseName(response){return Array.isArray(response)?'旧版 5×9×9 · BT.601 + 固定响应':({'r5-paired-20261107-nonlinear-he3':'R5 Hybrid · 非线性基底＋三色相残差专家 · 2026-11-07','r5-paired-20261102-shared-c1-c50':'R5 无专家共享 C1 · 曲率50%','r5-paired-20261102-three-experts':'R5 共享 C1＋三色相专家 · 2026-11-02','r5-paired-20261102-nonlinear':'历史 R5 非线性坐标＋二阶响应 · 2026-11-02','r5-paired-20261024-v2':'历史 R5 实拍响应 v2 · 2026-10-24','r5-paired-20261024':'历史 R5 实拍响应 v1 · 2026-10-24'}[response?.preset]||'历史实测代理');}
 
 'use strict';
 const $ = id => document.getElementById(id);
@@ -10,13 +10,46 @@ let submittedTraining, completedTraining;
 let libraryVersion=4,libraryImportBusy=false,pendingImport;
 const imageTarget=()=>$('targetKind').value==='chart-image';
 const fastTraining=()=>$('speedPriority').value==='fast';
+const formalTraining=()=>imageTarget()&&$('speedPriority').value==='standard';
+const profileControls={evaluations:'evaluations',searchStarts:'starts',adaptiveRounds:'adaptive_rounds',gammaColorRounds:'gamma_color_rounds',perceptualWeight:'perceptual_weight',quantizationSweeps:'quantization_sweeps',parameterSmoothing:'parameter_smoothing',outputContinuity:'output_continuity',endpoint:'gamma_endpoint128',weightRandom:'random',weightPrimaries:'primaries',weightGray:'gray',weightCC24:'colorchecker24',weightSector16:'sector16',wbTraining:'white_balance'};
+let customTrainingControls;
 
 function trainingModeHint(){
+  const formal=formalTraining(), options=boot?.training_profile?.options;
+  if(formal&&options){
+    if(!customTrainingControls)customTrainingControls=Object.fromEntries(Object.keys(profileControls).map(id=>[id,id==='wbTraining'?$(id).checked:$(id).value]));
+    for(const [id,key]of Object.entries(profileControls)){
+      const value=options[key]??options.search_options[key]??options.group_weights[key]??1;
+      if(id==='wbTraining')$(id).checked=value;else $(id).value=value;
+    }
+  }else if(customTrainingControls){
+    for(const [id,value]of Object.entries(customTrainingControls)){
+      if(id==='wbTraining')$(id).checked=value;else $(id).value=value;
+    }
+    customTrainingControls=undefined;
+  }
+  for(const id of [...Object.keys(profileControls),'resetWeights'])$(id).disabled=busy||formal;
+  $('parameterSmoothingValue').textContent=$('parameterSmoothing').value;
+  if(formal){
+    $('trainingModeHint').textContent='正式方案：Hybrid · 原生 12 起点 → 候选逐项拟合整数网格 5 轮 → 联合叠加 3 轮。两项色差都改善且灰阶、P95、双域过渡通过才采用，否则保留已保存槽位；有匹配照片验收集时同步检查开发与留出照片。需要 Metal／MPS，预算固定。';
+    return;
+  }
   $('trainingModeHint').textContent=fastTraining()
     ?'减少原生拟合搜索和交替轮次。最终网格仍直接拟合目标颜色。'
-    :'使用上游完整搜索。最终网格直接拟合目标颜色，按设置检查双输入域的输出连续性。';
+    :'自定义预算：使用新版原生拟合与 Hybrid 网格，按下方设置训练，不执行正式方案的五轮网格和三轮叠加。';
 }
 const chartJob=()=>diagnosticData?.dataset?.target_kind==='chart-image';
+function qualitySummary(quality){
+  if(!quality)return '';
+  const result=quality.adopted?'新配方已通过两项色差、灰阶、P95 和双域过渡验收。'
+    :'新候选未通过全部验收，保留'+(quality.baseline_identity?'训练前已保存的配方。':'本轮基准配方。');
+  return result+(quality.photo_scope==='development-and-holdout'?' 已核对绑定的开发与留出照片。':' 未绑定照片验收集，照片效果尚未验收。');
+}
+function gridLimitFraction(report){
+  if(Number.isFinite(report.fitting?.limit_fraction))return report.fitting.limit_fraction;
+  const values=report.payload_hex?.toLowerCase().match(/../g)||[];
+  return values.length?values.filter(value=>value==='c0'||value==='3f').length/values.length:0;
+}
 const targetReady=()=>imageTarget()?Boolean(chartTargetId):Boolean(lutText);
 const names = ['ST','PT','NT','VV','VV2','FL','FL2','FL3','IN','SH','BW','SE'];
 const chineseNames = ['标准','人像','中性','鲜艳','鲜艳二','胶片','胶片二','胶片三','即时','柔和高调','黑白','棕褐'];
@@ -391,7 +424,7 @@ function showResult(result){
   toast(result.grid_key?'滤镜已生成；检查压缩后结果，再将原生参数与网格加入导出集。':'拟合完成；结果已载入编辑器，检查后加入导出集。');
   updateSlotStates();
 }
-function setBusy(value){busy=value;for(const id of ['targetKind','chartVersion','chartTarget','lut','gamut','speedPriority','evaluations','endpoint','wbTraining','trainingShortName','trainingFullName','weightRandom','weightPrimaries','weightGray','weightCC24','weightSector16','resetWeights','parameterSmoothing','outputContinuity','searchStarts','adaptiveRounds','gammaColorRounds','perceptualWeight','quantizationSweeps'])$(id).disabled=value;$('pcTraining').disabled=true;$('pcCurveMode').disabled=true;$('pcGridEnabled').disabled=true;$('fit').disabled=value||compressionBusy||chartUploading;$('cancel').hidden=!value;if(value){validationJob=undefined;$('rawExport').disabled=true;$('rawTask').textContent='拟合运行中，等待当前任务配方。';photoReady();$('photoResults').hidden=true;$('photoStatus').textContent='拟合运行中，等待当前任务配方。';}}
+function setBusy(value){busy=value;for(const id of ['targetKind','chartVersion','chartTarget','lut','gamut','speedPriority','evaluations','endpoint','wbTraining','trainingShortName','trainingFullName','weightRandom','weightPrimaries','weightGray','weightCC24','weightSector16','resetWeights','parameterSmoothing','outputContinuity','searchStarts','adaptiveRounds','gammaColorRounds','perceptualWeight','quantizationSweeps'])$(id).disabled=value;$('pcTraining').disabled=true;$('pcCurveMode').disabled=true;$('pcGridEnabled').disabled=true;$('fit').disabled=value||compressionBusy||chartUploading;$('cancel').hidden=!value;trainingModeHint();if(value){validationJob=undefined;$('rawExport').disabled=true;$('rawTask').textContent='拟合运行中，等待当前任务配方。';photoReady();$('photoResults').hidden=true;$('photoStatus').textContent='拟合运行中，等待当前任务配方。';}}
 function histogram(canvas, target, after, color) {
   const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height,left=54,top=15,bottom=h-30,iw=w-left-12,ih=bottom-top;
   const peak=Math.max(...target,...after,1e-9);
@@ -625,7 +658,7 @@ function renderCompression(r,key,identifier){
           $('distillMetrics').append(note,comparison);
         }
         strip('distillTeacherGray',r.samples.gray_combined);strip('distillStudentGray',r.samples.gray_grid);$('distillGray').hidden=false;
-        $('distillStatus').textContent=`已压缩为 405×3 个7位系数（1215 字节），触及幅度边界 ${(r.fitting.limit_fraction*100).toFixed(2)}%。所有 RMSE 均为实际 8 位码值。本次网格模型：${gridResponseName(r.identity.response)}；尚非 R5 实机验收。${r.white_balance?.enabled?' 白平衡仍在网格前单独运算，未压入网格；BIN 不含白平衡。':''}`;
+        $('distillStatus').textContent=`已压缩为 405×3 个7位系数（1215 字节），触及幅度边界 ${(gridLimitFraction(r)*100).toFixed(2)}%。所有 RMSE 均为实际 8 位码值。本次网格模型：${gridResponseName(r.identity.response)}；尚非 R5 实机验收。${r.white_balance?.enabled?' 白平衡仍在网格前单独运算，未压入网格；BIN 不含白平衡。':''} ${qualitySummary(r.fitting?.quality_selection)}`;
         $('distillDownload').href='/api/jobs/'+identifier+'/grid-distillation-download?key='+key;$('distillDownload').hidden=false;$('gridFirmwareDownload').href='/api/jobs/'+identifier+'/grid-firmware-download?key='+key;$('gridFirmwareDownload').hidden=false;$('addCompressed').hidden=false;
 
 }
@@ -871,6 +904,8 @@ function fitOptions(compression){
   const curveMode = $('pcCurveMode').value;
   return {
     speed_priority: fastTraining(),
+    ...(projectMode()?{project_id:workspace.id}:{}),
+    training_profile: formalTraining()?'upstream-formal/1':'custom',
     target_kind: $('targetKind').value,
     dataset_id: $('chartVersion').value,
     target_id: chartTargetId,
@@ -1009,6 +1044,7 @@ async function init(){
     $('importDialog').oncancel=cancelLibraryImport;
     for(const [id,kind] of [['importBin','bin'],['importProject','json']])$(id).onchange=async e=>{try{await importConfiguration(e.target.files[0],kind);}finally{e.target.value='';}};
     $('targetKind').onchange=()=>{
+      trainingModeHint();
       $('chartTargetFields').hidden=!imageTarget();
       $('dropzone').hidden=imageTarget();
       $('gamut').closest('label').hidden=imageTarget();

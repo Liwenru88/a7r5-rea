@@ -3841,11 +3841,12 @@
   "web/data/qaq/LICENSE": "c592870a8504689cbe03449c2ae582ba6517716c9e0cd2f880cea50c187d16e9",
   "web/data/qaq/PROVENANCE.md": "dcdc4516e9a485285162348c0cc1f50841822754143cf066a387c2586bf13c8a",
   "web/data/qaq/a7c2-2.01.virtual.npz": "7e183f46f7acd739a12b7c2989e0ce245628a1f0d72d4f673f48945f4493b0af",
-  "web/data/r5/PROVENANCE.md": "91d8f8f09d57082965db6894f655b68404b77732ea5ebc8d62afd2ea0cbe6bb9",
+  "web/data/r5/PROVENANCE.md": "377d57af0737aca9139732ef74953a3530789a33382fdbdca9953b5296d9ec33",
   "web/data/r5/paired-20261024-v2.json": "8879499fbd9b24899dcbd8fee4135b806fdcba1fd18a677b090b7af212b85a45",
   "web/data/r5/paired-20261024.json": "6852ead83bf381215a8d721d1557cc73803f6ef60a0745971e8783144863c96b",
   "web/data/r5/paired-20261102-nonlinear.json": "a312761c8500e8a9ecb3b1b23ad27cf7709cb6eb8bf41c956970e1bdcc2c82f0",
   "web/data/r5/paired-20261102-three-experts.json": "3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815",
   "web/data/stock_grids423.json": "dda8140f032181e86f59124f835695426cd2b18a83461982204786dd8a2cb0a5",
-  "web/data/r5/paired-20261102-shared-c1-c50.json": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552"
+  "web/data/r5/paired-20261102-shared-c1-c50.json": "e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552",
+  "web/data/r5/paired-20261107-nonlinear-he3.json": "936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677"
 }

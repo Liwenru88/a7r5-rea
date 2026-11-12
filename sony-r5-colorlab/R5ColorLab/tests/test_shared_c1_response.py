@@ -6,7 +6,7 @@ import sys
 import unittest
 import numpy as np
 import measured_response as measured
-from grid_models import default_response
+from measured_response import shared_response as default_response
 
 
 class SharedC1Tests(unittest.TestCase):

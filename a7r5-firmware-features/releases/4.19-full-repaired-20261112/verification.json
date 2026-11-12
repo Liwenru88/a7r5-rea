@@ -1,0 +1,156 @@
+{
+  "schema": "r5-full419-resource-raw-release/1",
+  "status": "OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED",
+  "version": "4.19",
+  "dat": {
+    "bytes": 754525608,
+    "sha256": "d486853533711a282c5e0794f6e98931608c1d2c581e3b25cd70da8b48ce5503",
+    "crc32": "6fdd9a05"
+  },
+  "source_base": {
+    "bytes": 754525608,
+    "sha256": "51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2",
+    "crc32": "0344275f"
+  },
+  "modules": {
+    "color-awb-priority": 1,
+    "color-r6-st": 1,
+    "lens-af-compat": 1,
+    "look-factory-six": 1,
+    "look-fl2-fl3": 2,
+    "look24": 3,
+    "photo-aspect-ratios": 5,
+    "photo-electronic-shutter-sound": 2,
+    "photo-framing-markers": 1,
+    "video-ntsc-prompt": 1
+  },
+  "source_pins": 197,
+  "full_snapshot": {
+    "status": "PASS",
+    "commit": "47f8f022628aef8de382a613ea4d11cd51d0a965",
+    "snapshot_sha256": "c81e5b4681479eccf99224aae820adabaf139df3fb758a1e1927d81787e0ad95",
+    "registered_files": 331,
+    "source_lock_entries": 188,
+    "missing": [],
+    "drifted": [],
+    "unregistered": [],
+    "manifest_modified": false,
+    "camera_io": false
+  },
+  "independent_rebuild_verified": true,
+  "independent_unpack_verified": true,
+  "frozen_unpack_matches_manifest": true,
+  "openssl_signature_verified": true,
+  "public_key_sha256": "7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a",
+  "frames": 736841,
+  "archive_entries": 147,
+  "usr_filesystem": "checked",
+  "resource_audit": {
+    "status": "PASS",
+    "language_banks": 68,
+    "image_banks": 2
+  },
+  "regression": {
+    "main": {
+      "tests": 174,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "color": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "distinct_tests": 180,
+    "current_snapshot_recheck": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "snapshot_recheck_already_counted": true
+  },
+  "qemu": {
+    "status": "PASS",
+    "sessions": [
+      {
+        "run": "native-native12-410-by96c6uv",
+        "restore": false,
+        "actions": 54,
+        "frames": 54,
+        "qemu_exit": 0,
+        "CP_exit": 0
+      },
+      {
+        "run": "native-native12-410-r4e5mdct",
+        "restore": true,
+        "actions": 32,
+        "frames": 32,
+        "qemu_exit": 0,
+        "CP_exit": 0
+      }
+    ],
+    "total_actions": 86,
+    "total_frames": 86,
+    "baseline_frames_included": 2,
+    "no_card_sound_restore": true,
+    "all_frames_independent_pixel_verification": true,
+    "audio_backend": "fixture"
+  },
+  "boot": {
+    "status": "PASS",
+    "DAT": {
+      "bytes": 754525608,
+      "sha256": "d486853533711a282c5e0794f6e98931608c1d2c581e3b25cd70da8b48ce5503",
+      "crc32": "6fdd9a05"
+    },
+    "WBI_first512_zero": true,
+    "WBI_crc32": "dfa823fc",
+    "WBI_tail_exact_to_stock": true,
+    "WBI_image_bytes": 243789184,
+    "partition_bounds": {
+      "nflasha3": {
+        "offset": 46137344,
+        "capacity": 78643200,
+        "payload_bytes": 31803392
+      },
+      "nflasha5": {
+        "offset": 137363456,
+        "capacity": 314572800,
+        "payload_bytes": 243789184
+      },
+      "nflasha7": {
+        "offset": 478150656,
+        "capacity": 16777216,
+        "payload_bytes": 5222400
+      },
+      "nflasha8": {
+        "offset": 494927872,
+        "capacity": 67108864,
+        "payload_bytes": 24531968
+      },
+      "nflasha15": {
+        "offset": 935329792,
+        "capacity": 749731840,
+        "payload_bytes": 410652672
+      }
+    },
+    "updater_unchanged": true,
+    "all_archive_order_and_metadata_preserved": true,
+    "changed_archive_from_20261111": [
+      "0700_part_image/dev/nflasha8",
+      "0701_part_image_sum/part_image.sum"
+    ],
+    "AP_and_AVCAM_and_WBI_unchanged_from_20261111": true,
+    "CP_page_root": "0x1a3c000",
+    "NOR_failure_masking_fixed": false,
+    "device_boot_verified": false,
+    "camera_io": false
+  },
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "real_ARW_Imaging_Edge_verified": false,
+  "physical_audio_verified": false
+}

@@ -69,7 +69,7 @@ int main(void) {
     assert(r5ss_tick(&scheduler, &operations) == R5SS_BUSY);
     expose(&scheduler, 12);
     expose(&scheduler, 13);
-    for (unsigned attempt = 0; attempt < 1000; attempt++) {
+    for (unsigned attempt = 0; attempt < 100000; attempt++) {
         assert(r5ss_tick(&scheduler, &operations) == R5SS_BUSY);
     }
     assert(audio.starts == 1 && audio.stops == 1 && audio.installs == 1);
@@ -116,5 +116,20 @@ int main(void) {
     expose(&scheduler, 18);
     assert(r5ss_tick(&scheduler, &operations) == R5SS_OK);
     assert(audio.starts == 4 && audio.generation == 3);
+    /* 十万曝光、重复通知与跨32位编号回绕；调度器占用保持固定。 */
+    audio.active = 0;
+    assert(r5ss_session(&scheduler) == R5SS_OK);
+    scheduler.serial = scheduler.consumed = UINT32_MAX - 5;
+    for (unsigned i = 0; i < 100000; i++) {
+        uint32_t sequence = UINT32_MAX - 50000 + i;
+        unsigned starts = audio.starts;
+        expose(&scheduler, sequence);
+        expose(&scheduler, sequence);
+        assert(r5ss_tick(&scheduler, &operations) == R5SS_OK);
+        assert(audio.starts == starts + 1);
+        assert(scheduler.serial == scheduler.consumed && scheduler.used <= 64);
+        audio.active = 0;
+    }
+    assert(scheduler.duplicates == 100001);
     return 0;
 }

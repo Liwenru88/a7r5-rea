@@ -1,0 +1,81 @@
+{
+  "schema": "r5-raw-alternative-looks/1",
+  "model": "ILCE-7RM5",
+  "source_sha256": "42729bf16174bdc9a95035968a56140a617ba5e73f104dd3f29eabf9cb0ee465",
+  "target_sha256": "b95d91a332f79b54a578830e6418459df8434ba35baf3eba48b647276c747b84",
+  "patches": [
+    {
+      "offset": 10297358,
+      "before": "47f60c02",
+      "after": "00f001b8",
+      "reason": "mapping-entry"
+    },
+    {
+      "offset": 10297364,
+      "before": "981292f87030834201d1002034e092f87130834201d101202ee092f87230834201d1022028e092f87330834201d1032022e092f87430834201d104201ce092f87530834201d1052016e092f87630834201d1062010e092f87730834201d107200ae092f87830834201d1082004e092f87920824203d109200860",
+      "after": "10b547f60c02c0f29812d3780c2b0fd802f1700202eb030c0023624508d012f8014b844201d00133f7e70b60002010bd6ff0030010bd00bf47f60c01c0f29811c97801700a2904d00c2902d06ff0030070470020704700bf47f60c02c0f29812d3780a2b07d10a2382f87a300b2382f87b300c23d37003f06ab8",
+      "reason": "bounded-native-helpers"
+    },
+    {
+      "offset": 10297334,
+      "before": "47f60c01",
+      "after": "00f029b8",
+      "reason": "quantity-entry"
+    },
+    {
+      "offset": 10315860,
+      "before": "fef785fc",
+      "after": "fbf70afc",
+      "reason": "constructor-call"
+    },
+    {
+      "offset": 12159416,
+      "before": "0400000009000000",
+      "after": "1300000014000000",
+      "reason": "alternative-gamma"
+    }
+  ],
+  "code_bytes": 122,
+  "code_range": [
+    11378708,
+    11378830
+  ],
+  "symbols": {
+    "r5_raw_original_construct": 11391331,
+    "r5_raw_mapping": 11378709,
+    "r5_raw_quantity": 11378765,
+    "r5_raw_construct": 11378797
+  },
+  "config_va": 26769420,
+  "count_before": 10,
+  "count_after": 12,
+  "root_tags": 175,
+  "child_tags": 114,
+  "child_stride": 3110,
+  "child_region_end": 41770,
+  "next_region": 44880,
+  "new_BSS_bytes": 0,
+  "new_heap_bytes": 0,
+  "inverse_exact": true,
+  "original_constructor_preserved": true,
+  "persistent_backup_modified": false,
+  "sensor_path_modified": false,
+  "requires_existing_FL23_color_routes": true,
+  "camera_io": false,
+  "device_acceptance_verified": false,
+  "sources": {
+    "native.py": "c98eb2e9ea791cda461d06b7afb96bb0489645e7f0f606207e9e4e8238f1c529",
+    "raw_alternatives.S": "2a76fd0f1af0cea9f6b2f52264f6c52cf374100fa532944080a822c8deaad795"
+  },
+  "compiler_argv": [
+    "/opt/homebrew/opt/llvm/bin/clang",
+    "--target=arm-none-eabi",
+    "-mthumb",
+    "-march=armv7-a",
+    "-mfloat-abi=soft",
+    "-c",
+    "/Users/wenruli/code/project/sony/a7r5-rea/a7r5-firmware-features/look-fl2-fl3/raw/raw_alternatives.S",
+    "-o",
+    ".local/longrun-raw-20261112/fl23-stock-current/raw-alternatives/raw_alternatives.o"
+  ]
+}

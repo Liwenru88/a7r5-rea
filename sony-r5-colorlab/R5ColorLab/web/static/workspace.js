@@ -33,7 +33,7 @@ const trainingOptions=[
 function workspaceTrainingOptions(){
   return Object.fromEntries(trainingOptions.map(id=>{
     const input=$(id);
-    if(id==='speedPriority')return [id,fastTraining()];
+    if(id==='speedPriority')return [id,input.value];
     return [id,input.type==='checkbox'?input.checked:input.value];
   }));
 }
@@ -193,10 +193,11 @@ async function openWorkspace(value){
       if(item.source)draftSources.set(+key,clone(item.source));
     }
     draft=undefined;
+    customTrainingControls=undefined;
     for(const id of trainingOptions){
       const input=$(id), setting=value.settings[id];
       const defaultInput=workspaceDefaults[id];
-      if(id==='speedPriority')input.value=(typeof setting==='boolean'?setting:defaultInput)?'fast':'standard';
+      if(id==='speedPriority')input.value=typeof setting==='boolean'?(setting?'fast':'standard'):['standard','custom','fast'].includes(setting)?setting:defaultInput;
       else if(input.type==='checkbox')input.checked=typeof setting==='boolean'?setting:defaultInput;
       else input.value=typeof setting==='string'?setting:defaultInput;
     }

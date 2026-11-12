@@ -1,0 +1,283 @@
+{
+  "schema": "r5-colorlab-hybrid-selective-update/1",
+  "date": "2026-11-12",
+  "repository": "https://github.com/Hearts-Ace/sony-r5-colorlab",
+  "upstream_commit": "06c35577255eddef641c695d179b0e6f699ffe62",
+  "prior_training_commit": "5bd1841d8e7f82b5ae4009a61d81a11d97c5ba0e",
+  "training_revision": "06c35577255eddef641c695d179b0e6f699ffe62+native24/1",
+  "method": "三方合并训练数值模块，独立接入上游正式编排；保留本地工程、编译器和照片链路",
+  "default_response": "r5-paired-20261107-nonlinear-he3",
+  "response_sha256": "936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677",
+  "preserved": [
+    "native24/v5 and legacy v4",
+    "project and r5proj",
+    "BIN import/edit/export",
+    "historical model identities and inference fingerprints",
+    "photo previews and ROI metrics",
+    "standard/shared-ST/median-offset exports",
+    "original filters"
+  ],
+  "untouched": [
+    "firmware",
+    "R5GridCalibrator",
+    "AMD package",
+    "delivered filter BIN files"
+  ],
+  "dependencies_changed": false,
+  "camera_connected": false,
+  "full_budget_retraining": false,
+  "verification": "verification/hybrid-20261112/verification.json",
+  "files": {
+    "R5ColorLab/data_manifest.json": {
+      "local_sha256": "0c8f0ab70a1236bc093e0df05faf3ae004e1e5147e4daa39bc4a436d086fc845",
+      "bytes": 522285,
+      "upstream_sha256": "77c71333285bf2e1260a904d8c7f3bb8416b1d4f96dc46cc8741a8de6ab82fa1"
+    },
+    "R5ColorLab/scripts/edit_color_pipeline.py": {
+      "local_sha256": "1e33e2ca39017b7f128967c16514f6c9e9f25a9857f315ab71cdcb4d8c1f888c",
+      "bytes": 16207,
+      "upstream_sha256": "7edc0279586d67b4c01fd50544beb8fdc0d444aa1276f53c9f44bad90c82f701"
+    },
+    "R5ColorLab/tests/fixtures/response-provenance/pre-hybrid-bindings.json": {
+      "local_sha256": "1b327b7ecf3a5c7d3555e466a10f96ab935fcac6eaf0fca3afcd42cbdee2f086",
+      "bytes": 2214
+    },
+    "R5ColorLab/tests/test_hue_direction.py": {
+      "local_sha256": "ee997e4bb0303087b547adefcd07829b628ceca9196ed0acca5cc5ea4b20f58c",
+      "bytes": 3052,
+      "upstream_sha256": "ee997e4bb0303087b547adefcd07829b628ceca9196ed0acca5cc5ea4b20f58c"
+    },
+    "R5ColorLab/tests/test_hybrid_response.py": {
+      "local_sha256": "19e53a01fb39af99dd1f19aaff786da0ab1839bf6e2de40526d45bb6dcc3771f",
+      "bytes": 6914,
+      "upstream_sha256": "19e53a01fb39af99dd1f19aaff786da0ab1839bf6e2de40526d45bb6dcc3771f"
+    },
+    "R5ColorLab/tests/test_hybrid_update.py": {
+      "local_sha256": "ad871c07a379ee45167fc37b9be465eb464ce172a5c8fabf86f9521303fbacb2",
+      "bytes": 7010
+    },
+    "R5ColorLab/tests/test_integrated_training.py": {
+      "local_sha256": "95aa2cd6e9a54d5f362120a5156a39ba4a1755158d5ca7bd961be333cc31ceef",
+      "bytes": 7920,
+      "upstream_sha256": "43a8b9ae2b527d98fc9fceb902f1d336a8a9cf6b7188b2e9be4cffc91ee1a6df"
+    },
+    "R5ColorLab/tests/test_measured_response.py": {
+      "local_sha256": "8e59839b05066744380a3979c3f23ac53ccaa5f0cd20cbcb81c5759a780a7234",
+      "bytes": 2424
+    },
+    "R5ColorLab/tests/test_optimizer_policy.py": {
+      "local_sha256": "29f80f335bc96fd4412d456ad786dad09a57900ae7b7244b47977eb5088af80e",
+      "bytes": 5101,
+      "upstream_sha256": "29f80f335bc96fd4412d456ad786dad09a57900ae7b7244b47977eb5088af80e"
+    },
+    "R5ColorLab/tests/test_portable.py": {
+      "local_sha256": "8a05730a6c9be0687bf1bb3c08f0f4d2fe47a8e095b5a2692108025bc87b3299",
+      "bytes": 2073,
+      "upstream_sha256": "a481296eaff378293ca73e1819e42d98e11fe5f8babb8d29a37bf4004080c06e"
+    },
+    "R5ColorLab/tests/test_pt_hue_precision.py": {
+      "local_sha256": "3bcca5077fc65abcd8123ea5fcbcad0645f0cf344043e7cc6f387ff605b8b237",
+      "bytes": 673,
+      "upstream_sha256": "32b30bd19ae9c85ec4aa2f9d1e755b069706326034f170bf2f7c7c671480a79e"
+    },
+    "R5ColorLab/tests/test_qaq_grid.py": {
+      "local_sha256": "bc746017aa8ac950217c858ed55fdfdb7759aa76b9fdfdde8073c16420409520",
+      "bytes": 2465,
+      "upstream_sha256": "dac6fb2e6e9d61a344a5b4b42e94ebd256a3204d7ccab20daa5647650694dbe4"
+    },
+    "R5ColorLab/tests/test_shared_c1_response.py": {
+      "local_sha256": "3e1569af1d77536205f8d5fab31ff43aeed7f0a6f23b559bd2954ddf6530963d",
+      "bytes": 2831
+    },
+    "R5ColorLab/tests/test_stack_objective.py": {
+      "local_sha256": "8d240b8f4652512c363d721d42a5f30c8afa5b347cc9436d7378f0998efe231e",
+      "bytes": 7048,
+      "upstream_sha256": "92cc3dab53f722f81982efc890a75f32df561cf4bd9e441d2e2995cede7736bb"
+    },
+    "R5ColorLab/tests/test_target_curve_constraints.py": {
+      "local_sha256": "a3fc89d2c6c8c758d52dd04bb04a59011328f41b9b006ee5a51e86bb41f4516c",
+      "bytes": 7573,
+      "upstream_sha256": "a3fc89d2c6c8c758d52dd04bb04a59011328f41b9b006ee5a51e86bb41f4516c"
+    },
+    "R5ColorLab/tests/verify_hybrid_smoke.py": {
+      "local_sha256": "f9c431836918043a2d65ffd9c851ead97ad70e990745e223e4e2a9fb70b0dee7",
+      "bytes": 3880
+    },
+    "R5ColorLab/web/apple_gpu.py": {
+      "local_sha256": "b0d25e07c5ed0f8b818b712d7ed229af4142a61cfeb7e4ffa7d6499b255e247a",
+      "bytes": 9464,
+      "upstream_sha256": "34f0ce79b399f0c5e00317689f4787b4ef75b6fa4b44b0ba1ef3ae437d864df5"
+    },
+    "R5ColorLab/web/batch_multiround.py": {
+      "local_sha256": "7132eabb9128a4a7e04333df96b95bdcb790a8f0f9a749094630aaa7a1677fb0",
+      "bytes": 13133,
+      "upstream_sha256": "7132eabb9128a4a7e04333df96b95bdcb790a8f0f9a749094630aaa7a1677fb0"
+    },
+    "R5ColorLab/web/compressed_alternation.py": {
+      "local_sha256": "36647f120626ecd567f7b8df8e847926bdecf8f84ad7452ed728b76a62275744",
+      "bytes": 3680,
+      "upstream_sha256": "36647f120626ecd567f7b8df8e847926bdecf8f84ad7452ed728b76a62275744"
+    },
+    "R5ColorLab/web/concave_gamma.py": {
+      "local_sha256": "a0716094b918c07373cd8037dc2d19f73f96c220dfce1927832638a8ecb58d19",
+      "bytes": 17617,
+      "upstream_sha256": "a0716094b918c07373cd8037dc2d19f73f96c220dfce1927832638a8ecb58d19"
+    },
+    "R5ColorLab/web/continuity_grid.py": {
+      "local_sha256": "5ec8d37c587d346bb2c251216cf3dc67855509048086797cb7f0064c83de9bbc",
+      "bytes": 10175,
+      "upstream_sha256": "daa57c0dd36f594bb1d52d898fb6b3ff267edb20db70ba96436ee4db0de21e42"
+    },
+    "R5ColorLab/web/data/r5/paired-20261107-nonlinear-he3.json": {
+      "local_sha256": "936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677",
+      "bytes": 52225,
+      "upstream_sha256": "936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677"
+    },
+    "R5ColorLab/web/fit_anchor_native.py": {
+      "local_sha256": "42a7996329f860f37c040f66fd8aa87f56670044763c0d426e10d575918948ce",
+      "bytes": 58555,
+      "upstream_sha256": "42a7996329f860f37c040f66fd8aa87f56670044763c0d426e10d575918948ce"
+    },
+    "R5ColorLab/web/formal_grid_distillation.py": {
+      "local_sha256": "ca7aa581c2fd3e4cd15e40ddcbf9c5558bf92cf7e2f0ce2adb359f568cf64da4",
+      "bytes": 21463
+    },
+    "R5ColorLab/web/formal_profile.json": {
+      "local_sha256": "f3df2a8b247a3742229d75520d9f0c539037ebf0aa1a02704afa496c9dfbaf8d",
+      "bytes": 2309,
+      "upstream_sha256": "f3df2a8b247a3742229d75520d9f0c539037ebf0aa1a02704afa496c9dfbaf8d"
+    },
+    "R5ColorLab/web/gamma_color_recovery.py": {
+      "local_sha256": "a5f1cb1d9dfeb7b57c2419b9010a4d9252ddd73d0f10ea74d12b81009211b2cb",
+      "bytes": 10722,
+      "upstream_sha256": "a5f1cb1d9dfeb7b57c2419b9010a4d9252ddd73d0f10ea74d12b81009211b2cb"
+    },
+    "R5ColorLab/web/gamma_diagnostics.py": {
+      "local_sha256": "bd1c68f8e22c6d5bd7e3973407ff58cc0d0cc5060bb56832cf668047fcd8ea31",
+      "bytes": 7683,
+      "upstream_sha256": "bd1c68f8e22c6d5bd7e3973407ff58cc0d0cc5060bb56832cf668047fcd8ea31"
+    },
+    "R5ColorLab/web/gamma_global_correction.py": {
+      "local_sha256": "ef8230f13cbf9a8c73214e3b0ae179a840aac1e7ad1071d53e642ee315f095f5",
+      "bytes": 5846,
+      "upstream_sha256": "ef8230f13cbf9a8c73214e3b0ae179a840aac1e7ad1071d53e642ee315f095f5"
+    },
+    "R5ColorLab/web/gpu_alternation.py": {
+      "local_sha256": "c6db5520a2560f7daf18f0816a20e6a05aca15f30e4461078e7493742d3e6f80",
+      "bytes": 8960,
+      "upstream_sha256": "7669bc70429ccc7012ace88df6cde16f249a7150a55c7d2f3d48d148e1aa3fde"
+    },
+    "R5ColorLab/web/gpu_optimizer.py": {
+      "local_sha256": "fdb3607a5acad035d0d27ad49b407275f03206ae7d065b9666582ff87ce6eadf",
+      "bytes": 10613,
+      "upstream_sha256": "99011a252bc07fb03aeb8a09d164d15f2e1748f5dfd67318fb8a25d6fa894469"
+    },
+    "R5ColorLab/web/grid_distillation.py": {
+      "local_sha256": "609080bd70bea49ca9a87574949f75655fbd5d3844b721db95dec82ad88b3369",
+      "bytes": 37732,
+      "upstream_sha256": "a189dee9021fa733c23aa1fc549382e58957b7930f32c74578fc44d5a0f20082"
+    },
+    "R5ColorLab/web/grid_models.py": {
+      "local_sha256": "e811967970b0375a13fc38c72a2693314999e9db2f0fedfcd44d55dbe9bfb8e0",
+      "bytes": 195,
+      "upstream_sha256": "e811967970b0375a13fc38c72a2693314999e9db2f0fedfcd44d55dbe9bfb8e0"
+    },
+    "R5ColorLab/web/hue_direction.py": {
+      "local_sha256": "f62bbbf996f2602a26c5300b0c303a86a8d1481abb806b600e68bd63d0426e54",
+      "bytes": 8347,
+      "upstream_sha256": "f62bbbf996f2602a26c5300b0c303a86a8d1481abb806b600e68bd63d0426e54"
+    },
+    "R5ColorLab/web/hybrid_response.py": {
+      "local_sha256": "f64d17260d972a67807ec3623615c3cf06e224786f1e8e7c71fbecef3f575eac",
+      "bytes": 6184,
+      "upstream_sha256": "f64d17260d972a67807ec3623615c3cf06e224786f1e8e7c71fbecef3f575eac"
+    },
+    "R5ColorLab/web/measured_response.py": {
+      "local_sha256": "1b3c8bfd511dd7ae5dac7bc76073ae8eca8f271aa47aa6c70e0ee701dd90eb10",
+      "bytes": 24244,
+      "upstream_sha256": "469676ea7a7f14de664a741f9519de2e36f12f6abe152dd2e33910dcf47c351f"
+    },
+    "R5ColorLab/web/multiround.py": {
+      "local_sha256": "6dd9e6763910c00dfec371ad839a8885297d7e7af46c1b185f56d4a1de33e875",
+      "bytes": 9888,
+      "upstream_sha256": "6dd9e6763910c00dfec371ad839a8885297d7e7af46c1b185f56d4a1de33e875"
+    },
+    "R5ColorLab/web/optimizer_policy.py": {
+      "local_sha256": "d71ec3ca975083348bfa17d534a759199b92cbe12aa49f17fcd7d08dc08c79d5",
+      "bytes": 15048,
+      "upstream_sha256": "de12edd4ba4e2f42a015a48c5c9058a24787c9d819c849415d40274e3383c60a"
+    },
+    "R5ColorLab/web/pc_compensation.py": {
+      "local_sha256": "6ba8ea4025754ae94f37cd24d6ecf4ef162d1cf5278721fe6c8a0b23e9012fa5",
+      "bytes": 6547,
+      "upstream_sha256": "6ba8ea4025754ae94f37cd24d6ecf4ef162d1cf5278721fe6c8a0b23e9012fa5"
+    },
+    "R5ColorLab/web/pc_stages.py": {
+      "local_sha256": "e7fa055feb17f698cca72b4769d86d79b82ab5dee0f5c9d330443cd554e581f6",
+      "bytes": 27160,
+      "upstream_sha256": "38d216ffb7a87b73f045b68f8f55a916f2d5e2f18662b6283797e8da456f11c1"
+    },
+    "R5ColorLab/web/perceptual.py": {
+      "local_sha256": "0d446d303bb8da9a19cd543019169b3789e248f76b452448afbd8aa5f57a5def",
+      "bytes": 3810,
+      "upstream_sha256": "ba20ad62a1abb88cd7ce7ec4ee8b0debfc9f314e8107573bfeef04367d6313a8"
+    },
+    "R5ColorLab/web/postfit_deburr.py": {
+      "local_sha256": "b0ba98b0fa1964ed0675e0c5a19d64a793ef1f32184523266126b7e67617da5f",
+      "bytes": 31406,
+      "upstream_sha256": "b0ba98b0fa1964ed0675e0c5a19d64a793ef1f32184523266126b7e67617da5f"
+    },
+    "R5ColorLab/web/server.py": {
+      "local_sha256": "2b1739ebab9b16120e03d2f649c9a4786e9da000b724845441e1a7777645b5fb",
+      "bytes": 58878,
+      "upstream_sha256": "1f3b266664614a65ffa6509b7b4c2e8d02dc727dd25d2083342f7062072e967d"
+    },
+    "R5ColorLab/web/shape_preserving.py": {
+      "local_sha256": "10d0ef23893cf53eae22aa8adf53560ed12c1f48240274fd9f91966a6ab57a13",
+      "bytes": 3005,
+      "upstream_sha256": "10d0ef23893cf53eae22aa8adf53560ed12c1f48240274fd9f91966a6ab57a13"
+    },
+    "R5ColorLab/web/stack_objective.py": {
+      "local_sha256": "1d8958cd1b51563e79f5a70acb7384c236de61fe7ffcaf5152c926895c08c392",
+      "bytes": 11620,
+      "upstream_sha256": "f3899a87b285bd652718e6efd2a0d3712053712f439f88dc353f42ccef94709a"
+    },
+    "R5ColorLab/web/stack_training.py": {
+      "local_sha256": "dfe2abf4d20abadd58c1de27b878fa33e0494f4c9210a0105c3bc812315632b5",
+      "bytes": 18037,
+      "upstream_sha256": "65811e153aac3c401d166056cdca21dd42ec9cccf00dc5986bc0bb66b81c64a1"
+    },
+    "R5ColorLab/web/static/app.js": {
+      "local_sha256": "49e1c36f688779f46dabbd57409ee49bdd746850c13e08e1334caebed754091e",
+      "bytes": 101348,
+      "upstream_sha256": "665d2d0125e516f50a7d5d2888aefebd37eb40ca737588bba728cc261aac5988"
+    },
+    "R5ColorLab/web/static/index.html": {
+      "local_sha256": "da94bcb09ca94a295ba3b7a786d3049d2efa4bb182cf85d4a990cadf4b6ea7be",
+      "bytes": 41773,
+      "upstream_sha256": "bf53f2f001431172b86a9d6ddb1897738a48dce314fd2bc18c8b731b89b12083"
+    },
+    "R5ColorLab/web/static/workspace.js": {
+      "local_sha256": "92c80739bd12030fbdc019719776e7f84be6524c27c8184427440b371ef8d1eb",
+      "bytes": 31054
+    },
+    "R5ColorLab/web/target_neighborhood.py": {
+      "local_sha256": "0c51bbba9f4ce072fc70f3be6b25288317153ee25a15e9541cf0dae40cfcfbf0",
+      "bytes": 17322,
+      "upstream_sha256": "0c51bbba9f4ce072fc70f3be6b25288317153ee25a15e9541cf0dae40cfcfbf0"
+    },
+    "R5ColorLab/web/training_profile.py": {
+      "local_sha256": "def594b39351d419dea9256c49f0c9ee3e9ed0c87e0eb4dc8cba3156aa12f0ce",
+      "bytes": 7646
+    },
+    "R5ColorLab/web/training_progress.py": {
+      "local_sha256": "dba4bd988ab6ab5e9575685b43e6fc10d41aea8c42b1becce96875071e0024f8",
+      "bytes": 8127,
+      "upstream_sha256": "3679b9e735512320bb05c9cf944bd29c1abbc005f544d1095a702f4bc3a19673"
+    },
+    "tests/hybrid_profile_ui.cjs": {
+      "local_sha256": "86908642ce7ce5eb4711f321446a83da255f00e985193a60ac6ebee44f5e33d2",
+      "bytes": 1880
+    }
+  }
+}

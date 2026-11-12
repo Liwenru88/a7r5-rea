@@ -52,13 +52,16 @@ def pytest_sessionfinish(session, exitstatus):
         return
     target = Path(folder)
     target.mkdir(parents=True, exist_ok=True)
-    selected = [item.nodeid for item in session.items]
-    passed = {r['nodeid'] for r in REPORTS if r['when']=='call' and r['outcome']=='passed'}
+    # 子目录 conftest 只收到本目录报告；混合运行的其他目录由总 JUnit 记录。
+    selected = [item.nodeid for item in session.items if Path(item.path).resolve().is_relative_to(HERE/'tests')]
+    passed = {r['nodeid'] for r in REPORTS if r['when']=='call' and r['outcome']=='passed'
+              and r['nodeid'] in selected}
     full = (len(session.config.args)==1 and Path(session.config.args[0]).resolve()==HERE/'tests'
             and not session.config.option.keyword and not session.config.option.markexpr
             and not getattr(session.config.option, 'lf', False))
     report = {'schema':'native24-cpu-evidence/1', 'status':'PASS' if not exitstatus and unchanged and set(selected)==passed else 'FAIL',
               'exit_code':int(session.exitstatus), 'full_related_suite':full, 'tests':selected,
+              'scope':'native24-combined/tests', 'session_selected_count':len(session.items),
               'seconds':time.monotonic()-value['started'], 'AP_sha256':value['record']['AP_sha256'],
               'CP_sha256':value['record']['CP_sha256'], 'build_receipt_sha256':sha(value['build']/'build.json'),
               'sources_unchanged':unchanged, 'sources':value['sources'], 'reports':REPORTS, 'argv':sys.argv,

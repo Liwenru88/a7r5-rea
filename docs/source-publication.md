@@ -26,6 +26,19 @@
 
 恢复采用同卷临时文件、完整校验和独占发布，失败不会发布半个目标文件，也不会覆盖不同的已有文件。下载仅允许 HTTPS 的 `raw.githubusercontent.com` 固定 40 位 Git 提交路径，下载后再核对完整长度和摘要。
 
+### 2026-11-12 固件冻结树补齐
+
+完整快照检查还要求五项工作台材料及原 `.gitignore`。本轮按原清单恢复后，正常构建新的 4.19 包通过。Git 已跟踪文件对照又发现七项同类易漏输入，统一登记在 [snapshot-repair.json](../a7r5-firmware-features/materials/snapshot-repair.json)，共十三项。该文件只包含固定上游 URL、长度和摘要，没有嵌入口令哈希、配方或模板二进制。
+
+```sh
+# 默认不联网；已完整的树只核对并跳过。
+.venv/bin/python -B a7r5-firmware-features/materials/restore_snapshot.py
+# 新检出时显式允许恢复；另可使用 --source-dir 从精确本地副本离线恢复。
+.venv/bin/python -B a7r5-firmware-features/materials/restore_snapshot.py --apply --download
+```
+
+快照清单和原检查器没有修改。未知二进制拒绝覆盖；仅根 `.gitignore` 可以显式加 `--restore-gitignore --backup NEW_DIRECTORY` 先备份再恢复。恢复出的模板仍为本地构建材料，不自动暂存或提交；现有二进制／固定口令哈希发布检查保持。源码检出并不代表已经拥有官方 DAT、LLVM、SDK 或设备授权。
+
 ## 109 项问题的处理
 
 - **86 项用户绝对路径：** 机器生成的回执、日志和来源现场排除出源码候选；三个冻结模型按原摘要从固定上游恢复；十六份说明文档改用 `${PROJECT_ROOT}`／`${LOCAL_HOME}` 占位符。完整历史文档保留在本机私有归档。历史结论和摘要没有重写。

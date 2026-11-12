@@ -139,9 +139,10 @@ class RuntimeColor:
         smooth = self.smooth_horizontal(p)
         luma_source = smooth if struct.unpack_from('<H',self.config,0)[0] == 1 else p
         chroma_source = smooth if struct.unpack_from('<H',self.config,2)[0] == 1 else p
-        luma = luma_source[...,0]*np.float32(109)
-        luma = fma(luma_source[...,1], np.float32(366), luma)
-        luma = fma(luma_source[...,2], np.float32(37), luma)*np.float32(1/512)
+        # Edit 用双精度累加，最后只作一次 float32 舍入。
+        ls = luma_source.astype(np.float64)
+        luma = (((ls[...,0]*109 + ls[...,1]*366) + ls[...,2]*37)
+                * (1/512)).astype(np.float32)
         dr = chroma_source[...,0]-luma
         db = chroma_source[...,2]-luma
         if struct.unpack_from('<H',self.config,4)[0]:
@@ -152,8 +153,9 @@ class RuntimeColor:
         base_red = np.where(dr < 0, np.where(db < 0,-768,768), np.where(db < 0,256,-256))
         base = np.where(blue_major,base_blue,base_red).astype(np.float32)
         minor, major = np.minimum(ar,ab), np.maximum(ar,ab)
-        ratio = (minor*np.float32(512))/np.where(major == 0,np.float32(1),major)
-        table_index = np.minimum(np.trunc(ratio+np.float32(.5)).astype(np.int64),511)
+        # 保留半索引前的精度，避免临界值取到相邻色相矩阵。
+        ratio = minor.astype(np.float64)*512 / np.where(major == 0,1,major).astype(np.float64)
+        table_index = np.minimum(np.trunc(ratio+.5).astype(np.int64),511)
         angle = static_table(0x100237e00,512,'<f4')[table_index]
         return np.minimum(np.trunc(np.abs(angle+base)).astype(np.int64),1023)
 

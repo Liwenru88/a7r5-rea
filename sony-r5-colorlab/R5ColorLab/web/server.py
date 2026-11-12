@@ -40,7 +40,7 @@ PREVIEWS = {}
 PREVIEW_POOL = ThreadPoolExecutor(max_workers=1)
 COMPARISON_LOCK = threading.Lock()
 MAX_BODY = 65 * 1024 * 1024
-TRAINING_REVISION = '5bd1841d8e7f82b5ae4009a61d81a11d97c5ba0e+chart-grid-holdout/1'
+TRAINING_REVISION = '06c35577255eddef641c695d179b0e6f699ffe62+native24/2'
 
 
 def dump(value):
@@ -97,6 +97,13 @@ def compression_work(identifier,response,post_gray_refinement=False,objective='f
 
 
 def work(identifier, body, resume=False):
+    if body.get('training_profile') == 'upstream-formal/1':
+        from training_profile import work as formal_work
+        return formal_work(sys.modules[__name__], native_work, identifier, body, resume)
+    return native_work(identifier, body, resume)
+
+
+def native_work(identifier, body, resume=False):
     job = JOBS[identifier]
     output = RUNS / identifier
     try:
@@ -150,6 +157,8 @@ def fit_request(identifier):
 
 
 def reserve_job(identifier, body, signature=None):
+    from packed_training import bind_context
+    bind_context(body, RUNS)
     output = RUNS / identifier
     output.mkdir(parents=True, exist_ok=False)
     request = output/'request.tmp'
@@ -164,6 +173,8 @@ def reserve_job(identifier, body, signature=None):
 def queue_fit(body, retry=False):
     expected_target = body.get('target_sha256') if retry else None
     validate_fit(body)
+    from packed_training import bind_context
+    bind_context(body, RUNS)
     if expected_target and body.get('target_sha256') != expected_target:
         raise ValueError('训练目标文件已变化，请重新选择目标')
     signature = None
@@ -222,6 +233,8 @@ def solve_native(body,output,job):
         from training_policy import group_importance
         from optimizer_policy import search_options, pc_options
         cmd += ['--pc-options',json.dumps(pc_options(body.get('pc_options'))), '--group-weights',json.dumps(group_importance(body.get('group_weights'))), '--search-options',json.dumps(search_options(body.get('search_options')))]
+        if body.get('packed_selection_policy'):
+            cmd.append('--save-candidates')
         if body.get('white_balance',False):
             cmd.append('--white-balance')
         if body.get('speed_priority',False):
@@ -229,8 +242,10 @@ def solve_native(body,output,job):
         elif body.get('pc_compensation',False):
             cmd.append('--pc-compensation')
         with (output / 'fit.log').open('w') as log:
+            env={**os.environ, 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIMUM_THREADS': '1'}
+            if body.get('training_profile')=='upstream-formal/1':env['R5_GPU_STRICT']='1'
             process = subprocess.Popen(cmd, stdout=log, stderr=subprocess.STDOUT,
-                                       env={**os.environ, 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIMUM_THREADS': '1'})
+                                       env=env)
             job['process'] = process
             try:
                 code = process.wait()
@@ -260,6 +275,8 @@ def finish_native(identifier,body,output,job):
 
 
 def validate_fit(body):
+    from training_profile import bind
+    body.update(bind(body))
     body['post_gray_refinement']=False
     body['compressed_alternation_rounds']=0
     body.setdefault('compression_objective','fuji-target')
@@ -368,14 +385,16 @@ class Handler(BaseHTTPRequestHandler):
                                          default_chart=chart_target.manifest(),
                                          chart_versions=chart_datasets.catalog(),
                                          compute_backend=__import__('gpu_runtime').policy(),
+                                         training_profile=__import__('training_profile').PROFILE,
+                                         training_revision=TRAINING_REVISION,
                                          latest_batch=batch_training.latest(core.HERE),
                                          template=core.config([]), slot_limit=core.compiler.SLOT_LIMIT,
                                          config_schemas=core.compiler.SCHEMAS, max_project_bytes=core.compiler.MAX_JSON,
                                          stock_grids=__import__("stock_grids").catalog(),
                                          fitting_baseline='PT / v4.5 5300K simulated ITP+SSCS · 99,372 patches; derived context',
                                          grid_response=default_response(), history=[dict(id=k, status=v['status'], started=v['started'], phase=v['phase'],target_kind=v.get('target_kind','lut'),pc_available=(RUNS/k/'pc_compensation.json').is_file())
-                                                  for k, v in sorted(JOBS.items(), key=lambda kv: kv[1]['started'], reverse=True)][:30],
-                                         jobs=[k for k, v in JOBS.items() if v['status'] in ('running', 'queued')]))
+                                                  for k, v in sorted(JOBS.items(), key=lambda kv: kv[1]['started'], reverse=True) if not v.get('internal_parent')][:30],
+                                         jobs=[k for k, v in JOBS.items() if v['status'] in ('running', 'queued') and not v.get('internal_parent')]))
             if path.startswith('/api/previews/'):
                 bits = path.split('/')
                 item = PREVIEWS.get(bits[3])
@@ -475,15 +494,23 @@ class Handler(BaseHTTPRequestHandler):
                     with zipfile.ZipFile(memory, 'w', zipfile.ZIP_DEFLATED) as archive:
                         # Only files from this job, never the original capture/RAW.
                         for name in ['native_config.json', 'conversion_audit.json',
-                                     'input_audit.json', 'chart_target.json', 'target-image.bin', 'fit/recipe.json', 'pc_compensation.json', 'fit.log', 'error.log', 'job.json']:
+                                     'input_audit.json', 'chart_target.json', 'target-image.bin', 'fit/recipe.json', 'pc_compensation.json', 'fit.log', 'error.log', 'job.json',
+                                     'request.json', 'training_progress.json', 'training_progress.jsonl', 'grid_progress.json', 'grid_progress.jsonl',
+                                     'stack_audit.json', 'stack_comparison.json', 'stack_progress.json']:
                             source = RUNS / identifier / name
                             if source.is_file():
                                 archive.write(source, name)
                         from grid_distillation import latest
                         grid_key=latest(RUNS/identifier)
                         if grid_key:
-                            for name in ['result.json','teacher.json','grid.payload']:
-                                archive.write(RUNS/identifier/'grid_distillation'/grid_key/name,'compressed/'+name)
+                            for name in ['result.json','teacher.json','grid.payload','postfit-before.payload']:
+                                item=RUNS/identifier/'grid_distillation'/grid_key/name
+                                if item.is_file():archive.write(item,'compressed/'+name)
+                        if job.get('base_job'):
+                            parent=RUNS/job['base_job']
+                            for name in ('fit.log','training_progress.jsonl','grid_progress.jsonl','grid_4187_five_rounds/multiround.json','grid_4187_five_rounds/selection.json'):
+                                item=parent/name
+                                if item.is_file():archive.write(item,'baseline/'+name)
                     return self.respond(memory.getvalue(), 'application/zip', filename='r5-fit-' + identifier + '.zip')
                 if len(bits) != 4:
                     return self.respond(dict(error='Not found'), status=404)
@@ -876,7 +903,8 @@ class Handler(BaseHTTPRequestHandler):
                 job = JOBS.get(body.get('id'))
                 if not job or job['status'] != 'running':
                     raise ValueError('任务未在运行')
-                process = job.get('process')
+                parent = JOBS.get(job.get('base_job'), {})
+                process = job.get('process') or parent.get('process')
                 if process is None:
                     raise ValueError('正在验证或转换，请稍候')
                 process.terminate()

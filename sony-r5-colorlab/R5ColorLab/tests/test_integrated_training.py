@@ -100,7 +100,7 @@ class IntegratedTrainingTests(unittest.TestCase):
                     self.assertEqual('--white-balance' in commands[0],enabled)
                     self.assertEqual(json.loads(commands[0][commands[0].index('--pc-options')+1]),dict(curve_mode='qaq-grid',grid_enabled=True,response=[[1,0,0],[0,1,0],[0,0,1]]))
                     self.assertEqual(json.loads(commands[0][commands[0].index('--group-weights')+1]),dict(random=1,primaries=2,gray=3,colorchecker24=4))
-                    self.assertEqual(json.loads(commands[0][commands[0].index('--search-options')+1]),dict(starts=3,adaptive_rounds=1,perceptual_weight=.4,quantization_sweeps=2,parameter_smoothing=0,gamma_color_rounds=0,output_continuity=0,primary_tonal_weight=1.0,hue24_tonal_weight=1.0))
+                    self.assertEqual(json.loads(commands[0][commands[0].index('--search-options')+1]),dict(starts=3,adaptive_rounds=1,perceptual_weight=.4,quantization_sweeps=2,parameter_smoothing=0,gamma_color_rounds=0,output_continuity=0,primary_tonal_weight=1.0,hue24_tonal_weight=1.0,target_neighborhood=0,hue_direction_strength=0,target_polish_rounds=0,postfit_deburr=True,gamma_monotone_concave=True,gamma_global_correction=True,gamma_color_recovery=True,native_strict_stopping=True))
                     self.assertEqual(generate.call_count,int(enabled))
                     saved=json.loads((root/identifier/'job.json').read_text())
                     self.assertEqual(saved['result']['pc_compensation']['enabled'],enabled)

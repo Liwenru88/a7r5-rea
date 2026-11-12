@@ -140,6 +140,12 @@ def fit_target(base, target, weights, response, progress=None, parameter_smoothi
 
 def generate(job, response, progress=None, post_gray_refinement=False, objective='pc-teacher', fitted_target=None,
              *, guarded_selection=None, adaptive_color=False, joint_native=False):
+    if (isinstance(response, dict) and response.get('preset')=='r5-paired-20261107-nonlinear-he3'
+            and guarded_selection is None and not adaptive_color and not joint_native):
+        fitting=json.loads((Path(job)/'fit/recipe.json').read_text()).get('fitting',{})
+        if fitting.get('search_options',{}).get('postfit_deburr') or fitting.get('stack_experiment'):
+            from formal_grid_distillation import generate as formal_generate
+            return formal_generate(job, response, progress, post_gray_refinement, objective, fitted_target)
     # Removed from the training pipeline, including requests from older browser tabs.
     post_gray_refinement=False
     job = Path(job)
@@ -473,6 +479,17 @@ def load_result(job, key):
             raise ValueError('压缩参数与当前任务来源不一致，请重新压缩训练')
     if core.sha(json.dumps(identity,sort_keys=True).encode())!=key or value['camera_apply_allowed'] is not False:
         raise ValueError('Compression identity mismatch')
+    if identity.get('quality_policy'):
+        quality=value.get('fitting',{}).get('quality_selection')
+        if (not isinstance(quality,dict) or quality.get('policy')!=identity['quality_policy']
+                or core.sha(json.dumps(quality,sort_keys=True,allow_nan=False).encode())!=identity.get('quality_audit_sha256')):
+            raise ValueError('品质验收记录与最终配方身份不符')
+    before_sha=identity.get('postfit_before_payload_sha256')
+    if before_sha:
+        before=job/'grid_distillation'/key/'postfit-before.payload'
+        if (not before.is_file() or core.sha(before.read_bytes())!=before_sha
+                or value.get('fitting',{}).get('postfit_deburr',{}).get('original_payload_sha256')!=before_sha):
+            raise ValueError('拟合后去毛刺原表身份不一致')
     if isinstance(identity['response'],dict):
         from measured_response import verify_saved_runtime
         verify_saved_runtime(identity)

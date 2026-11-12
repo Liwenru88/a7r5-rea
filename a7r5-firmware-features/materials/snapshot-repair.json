@@ -1,0 +1,125 @@
+{
+  "schema": "r5-frozen-snapshot-repair/1",
+  "commit": "47f8f022628aef8de382a613ea4d11cd51d0a965",
+  "snapshot_sha256": "c81e5b4681479eccf99224aae820adabaf139df3fb758a1e1927d81787e0ad95",
+  "files": [
+    {
+      "path": "R5FlashWorkbench/engine/templates.json",
+      "sha": "f73adba27fe1deb64e3ae249a766f9965ef5014e",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates.json",
+      "display_title": "templates.json",
+      "bytes": 1341,
+      "sha256": "e03da01a52fec0d68735bf8a3e5b4e496e756616c1e220d6b70b519a84de701d",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates.json"
+    },
+    {
+      "path": "R5FlashWorkbench/engine/templates/capture-cleanup.so",
+      "sha": "abddf717396151584b09437cb10c9d60df04b4d6",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/capture-cleanup.so",
+      "display_title": "capture-cleanup.so",
+      "bytes": 20464,
+      "sha256": "0643b270768673a706bfdb3d30e9c3efeafb3fce72a4d2c239b7f44bf74fdfa7",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/capture-cleanup.so"
+    },
+    {
+      "path": "R5FlashWorkbench/engine/templates/capture.so",
+      "sha": "1afe52a45a638597173c7893604aa16edcc97a5d",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/capture.so",
+      "display_title": "capture.so",
+      "bytes": 17096,
+      "sha256": "2dc7f28f192e886b0e57c9b7d0791da2c26b9bb37f2393e32cff096602e79a7f",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/capture.so"
+    },
+    {
+      "path": "R5FlashWorkbench/engine/templates/trust-blank-512.so",
+      "sha": "40976effa3618c4ac5522950c51e978c47de5568",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/trust-blank-512.so",
+      "display_title": "trust-blank-512.so",
+      "bytes": 52960,
+      "sha256": "cfd98c8aca65661f18a139749e6f7db43fee8237b052ccc33455986d92e0fbb7",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/trust-blank-512.so"
+    },
+    {
+      "path": "R5FlashWorkbench/engine/templates/trust-installed-boot-hook.so",
+      "sha": "4c033487f7729f1cc6d4bf905d01d3c54a752ee9",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/trust-installed-boot-hook.so",
+      "display_title": "trust-installed-boot-hook.so",
+      "bytes": 52504,
+      "sha256": "f2f2d3a548ae77b3c1fc9ff46121f66b9ef6ffeb1c0855cc25bfec215df151fd",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/templates/trust-installed-boot-hook.so"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "4ba7abb9772f64cc4fdd6fd56aa8097552bf5c8e",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/.gitignore",
+      "display_title": ".gitignore",
+      "bytes": 546,
+      "sha256": "3103ef5266d4144fdb4b5eb0dc6c8893d544dc0fc3ed6f970ae0606ecaf69bf3",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/.gitignore"
+    },
+    {
+      "path": "R5FlashWorkbench/.gitignore",
+      "sha": "7247d02db447fa1bd0e114975a3842f5d5fcfa23",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/.gitignore",
+      "display_title": ".gitignore",
+      "bytes": 62,
+      "sha256": "da0e176fcc45f85b49815be3a910ce55a03d3127ae792926a019a9f496eb233d",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/.gitignore"
+    },
+    {
+      "path": "R5FlashWorkbench/engine/filters/R5NATIVE.BIN",
+      "sha": "5dc6a97c4fa0dbc319631b6fe03364b8acb9d31e",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/filters/R5NATIVE.BIN",
+      "display_title": "R5NATIVE.BIN",
+      "bytes": 29552,
+      "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/R5FlashWorkbench/engine/filters/R5NATIVE.BIN"
+    },
+    {
+      "path": "filters/FUJ_12_v45/R5NATIVE.BIN",
+      "sha": "5dc6a97c4fa0dbc319631b6fe03364b8acb9d31e",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/filters/FUJ_12_v45/R5NATIVE.BIN",
+      "display_title": "R5NATIVE.BIN",
+      "bytes": 29552,
+      "sha256": "19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/filters/FUJ_12_v45/R5NATIVE.BIN"
+    },
+    {
+      "path": "firmware/r5/.gitignore",
+      "sha": "7c42334d9c14a379466c165ef25b7317d768bc84",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/firmware/r5/.gitignore",
+      "display_title": ".gitignore",
+      "bytes": 63,
+      "sha256": "c3a38f254eb0b2444b71daef6f0d5ddd3eef303bca1e471a066fca3cd8d833ad",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/firmware/r5/.gitignore"
+    },
+    {
+      "path": "publication/4.28/SHA256SUMS",
+      "sha": "00fee66839d5db21f0533ec859f3012a884f6a0a",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.28/SHA256SUMS",
+      "display_title": "SHA256SUMS",
+      "bytes": 420,
+      "sha256": "60b20037020a1e2caad0dd894289e65bd2a7c2324abe2db2e3d935abbc4dabdd",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.28/SHA256SUMS"
+    },
+    {
+      "path": "publication/4.32/SHA256SUMS",
+      "sha": "609a4c2b2b196c0f01441e52be3e4e50b1421d1c",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.32/SHA256SUMS",
+      "display_title": "SHA256SUMS",
+      "bytes": 436,
+      "sha256": "b0a8d2e7722f4e2e603374b057a3cbede9db6c9f2e06f9457fd091b3ce41d54e",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.32/SHA256SUMS"
+    },
+    {
+      "path": "publication/4.34/SHA256SUMS",
+      "sha": "1277f9f290d66caccfcab6a2a7330f0d00e01704",
+      "display_url": "https://github.com/Hearts-Ace/sony-a7r5-custom-firmware/blob/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.34/SHA256SUMS",
+      "display_title": "SHA256SUMS",
+      "bytes": 528,
+      "sha256": "422bc8384928b33e6299b8780222ac7ba0c7e9536b5c2c8987bbe077364c5d01",
+      "url": "https://raw.githubusercontent.com/Hearts-Ace/sony-a7r5-custom-firmware/47f8f022628aef8de382a613ea4d11cd51d0a965/publication/4.34/SHA256SUMS"
+    }
+  ],
+  "distribution": "metadata-only; fixed public upstream or matching local source; no executable payload or password hash embedded"
+}

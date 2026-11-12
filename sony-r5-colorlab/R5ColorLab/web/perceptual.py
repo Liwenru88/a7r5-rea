@@ -45,9 +45,21 @@ def compare(target, predicted):
     de=de2000(la,lb)
     dl=lb[:,0]-la[:,0]
     tint=lb[:,1:]-la[:,1:]
+    ca,cb=np.linalg.norm(la[:,1:],axis=1),np.linalg.norm(lb[:,1:],axis=1)
+    hue_mask=(ca>=5)&(cb>=5)
+    ha,hb=[np.degrees(np.arctan2(v[:,2],v[:,1])) for v in (la,lb)]
+    hue_error=np.abs((hb-ha+180)%360-180)[hue_mask]
     return dict(delta_e00_mean=float(de.mean()), delta_e00_p95=float(np.percentile(de,95)),
                 lightness_rmse=float(np.sqrt(np.mean(dl**2))),
                 ab_rmse=float(np.sqrt(np.mean(np.sum(tint**2,axis=1)))),
+                chroma_rmse=float(np.sqrt(np.mean((cb-ca)**2))),
+                hue_mae_deg=float(hue_error.mean()) if len(hue_error) else None,
+                hue_p95_deg=float(np.percentile(hue_error,95)) if len(hue_error) else None,
+                hue_samples=int(hue_mask.sum()),
+                hue_target_samples=int(np.sum(ca>=5)),
+                hue_prediction_neutral_samples=int(np.sum((ca>=5)&(cb<5))),
+                hue_coverage_percent=float(100*hue_mask.sum()/np.sum(ca>=5)) if np.any(ca>=5) else None,
+                hue_filter='D65 Lab C* >= 5 in both target and prediction; circular shortest hue-angle error',
                 interpretation='display sRGB, D65 Lab, quantized uint8; not calibrated scene colorimetry')
 
 

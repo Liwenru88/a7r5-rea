@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "sound_root_pte_crc_corruption": true,
+  "ntsc_and_marker_native": true,
+  "camera_io": false,
+  "CP_sha256": "745c63742b525f8700142ad310b6f3ec848015aec60044bc19b69cc458d6c441"
+}

@@ -12,8 +12,8 @@ from optimizer_policy import (search_options, adaptive_importance, perturbed_sta
 
 class OptimizerPolicyTests(unittest.TestCase):
     def test_options_and_bounded_train_adaptation(self):
-        self.assertEqual(search_options()['starts'],4)
-        self.assertEqual(search_options()['gamma_color_rounds'],0)
+        self.assertEqual(search_options()['starts'],12)
+        self.assertEqual(search_options()['gamma_color_rounds'],3)
         self.assertEqual(search_options(dict(gamma_color_rounds=3))['gamma_color_rounds'],3)
         for value in [dict(starts=True),dict(starts=13),dict(adaptive_rounds=-1),
                       dict(perceptual_weight=float('nan')),dict(quantization_sweeps=4),dict(unknown=1),

@@ -36,6 +36,10 @@ def nonlinear_response():
 def shared_response():
     return {'schema': 'r5-measured-grid-response/1', 'preset': 'r5-paired-20261102-shared-c1-c50', 'sha256': 'e794ece2fe8f4114eb241e376918bffbc4c182e9fadf0f6fa21d99fdd7a1b552', 'model': 'ILCE-7RM5'}
 
+def hybrid_response():
+    return dict(schema=SCHEMA, preset='r5-paired-20261107-nonlinear-he3',
+        sha256='936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677', model='ILCE-7RM5')
+
 def default_response():
     return dict(schema=SCHEMA,preset='r5-paired-20261102-three-experts',sha256='3cecec3387acbd72524be42db34586237df0c2c7d458d4090467375d28fa0815',model='ILCE-7RM5')
 
@@ -57,6 +61,12 @@ def get(value):
 @lru_cache(maxsize=8)
 def _cached(serialized):
     value = json.loads(serialized)
+    if value.get('preset')=='r5-paired-20261107-nonlinear-he3':
+        if value!=hybrid_response():raise ValueError('R5 hybrid snapshot identity mismatch')
+        raw=(__import__('pathlib').Path(__file__).resolve().parent/'data/r5/paired-20261107-nonlinear-he3.json').read_bytes()
+        if hashlib.sha256(raw).hexdigest()!=value['sha256']:raise ValueError('R5 hybrid model hash mismatch')
+        from hybrid_response import HybridModel
+        return HybridModel(json.loads(raw),value['sha256'],identity=value)
     if value.get('preset')=='r5-paired-20261102-shared-c1-c50':
         if value!=shared_response():raise ValueError('Shared C1 identity mismatch')
         raw=(__import__('pathlib').Path(__file__).resolve().parent/'data/r5/paired-20261102-shared-c1-c50.json').read_bytes()
@@ -179,6 +189,8 @@ def inference_sources(response):
         common['measured_response.py'] = ('Model.__init__', 'Model.coordinates', 'Model.forward', 'Model.stencil', 'Model.predict')
     if response.get('preset')=='r5-paired-20261102-shared-c1-c50':
         common['shared_c1_response.py']=None
+    if response.get('preset')=='r5-paired-20261107-nonlinear-he3':
+        common['hybrid_response.py']=None
     sources = {name: _inference_ast(here / name, names) for name, names in sorted(common.items())}
     if response.get('preset')!='r5-paired-20261102-shared-c1-c50':
         # A new disjoint registry arm cannot execute for an old identity.
@@ -191,6 +203,19 @@ def inference_sources(response):
                 if source.count(addition)!=1:raise ValueError('Shared registry dispatch changed')
                 return source.replace(addition,'',1)
         sources['measured_response.py']=_inference_ast(OldRegistryPath(),common['measured_response.py'])
+    if response.get('preset')!='r5-paired-20261107-nonlinear-he3':
+        # 只剥离无法被历史模型执行的精确分支，保持历史推理指纹。
+        hybrid_addition = "    if value.get('preset')=='r5-paired-20261107-nonlinear-he3':\n        if value!=hybrid_response():raise ValueError('R5 hybrid snapshot identity mismatch')\n        raw=(__import__('pathlib').Path(__file__).resolve().parent/'data/r5/paired-20261107-nonlinear-he3.json').read_bytes()\n        if hashlib.sha256(raw).hexdigest()!=value['sha256']:raise ValueError('R5 hybrid model hash mismatch')\n        from hybrid_response import HybridModel\n        return HybridModel(json.loads(raw),value['sha256'],identity=value)\n"
+        class HistoricalRegistryPath:
+            def read_text(self):
+                source=(here/'measured_response.py').read_text()
+                if source.count(hybrid_addition)!=1:raise ValueError('Hybrid registry dispatch changed')
+                source=source.replace(hybrid_addition,'',1)
+                if response.get('preset')!='r5-paired-20261102-shared-c1-c50':
+                    if source.count(addition)!=1:raise ValueError('Shared registry dispatch changed')
+                    source=source.replace(addition,'',1)
+                return source
+        sources['measured_response.py']=_inference_ast(HistoricalRegistryPath(),common['measured_response.py'])
     return sources
 
 
@@ -211,7 +236,11 @@ def verify_saved_runtime(identity):
     current_sources = inference_sources(response)
     recorded_runtime = identity.get('response_runtime_sha256')
     if recorded_runtime is not None:
-        if (identity.get('response_implementation_sha256') not in (current_registry, '288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1') or
+        registries = {current_registry}
+        if response.get('preset')!='r5-paired-20261107-nonlinear-he3':
+            registries.update(('288a86611ee4cc9fe9aa4caf896f597d44ff406807d1703f7b9d88bbde5d8cb1',
+                'b86deec967a0870a061e54a3fd2cf3d53c950f74da4fc52c41dddf414b60f7ec'))
+        if (identity.get('response_implementation_sha256') not in registries or
                 recorded_runtime != runtime_fingerprint(response)):
             raise ValueError('实测响应推理实现已变化，请重新训练压缩网格')
         return

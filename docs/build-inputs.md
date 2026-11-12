@@ -4,6 +4,8 @@
 
 首次检出后，还需按[资源恢复说明](source-publication.md)准备固定模型、合成色卡及独立包增量。运行 `.venv/bin/python -B scripts/prepare_source_assets.py restore --download`，再执行同脚本的 `check`；恢复清单逐项验证完整 SHA-256，已有不同内容不会覆盖。该步骤不下载官方固件，也不准备任何相机操作会话。
 
+含 24 槽固件还需恢复冻结树中 13 项易被忽略的材料：运行 `.venv/bin/python -B a7r5-firmware-features/materials/restore_snapshot.py --apply --download`，无网络时改用 `--source-dir` 指定精确本地副本。材料来自固定提交，按原快照清单及 Git blob 核对；不执行模板、不修改信任、不放宽构建检查。[本轮完整复现](../a7r5-firmware-features/releases/4.19-full-repaired-20261112/实施与复验.md)
+
 ## Python 与开发工具
 
 在工程根目录执行 `sh scripts/bootstrap.sh`，准备根 `.venv` 和 `a7r5-dat-tool/.venv`。脚本使用 Python 3.14 和 uv，版本固定在 `requirements-dev.txt` 与 DAT 工具的锁定清单。安装过程需要联网获取依赖，不操作硬件。本次验证复用现存开发环境；另在工程外建立新的环境验证源码测试。

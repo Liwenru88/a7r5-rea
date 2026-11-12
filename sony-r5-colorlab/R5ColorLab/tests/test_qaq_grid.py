@@ -38,4 +38,4 @@ class QAQGridTests(unittest.TestCase):
             with self.assertRaises(ValueError):pc_options(value)
         html=(core.HERE/'static/index.html').read_text()
         self.assertNotIn('value="rgb-independent"',html)
-        self.assertIn('value="qaq-grid"',html)
+        self.assertNotIn('value="qaq-grid"',html)

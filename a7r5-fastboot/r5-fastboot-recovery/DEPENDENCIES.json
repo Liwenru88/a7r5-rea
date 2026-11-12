@@ -1,0 +1,24 @@
+{
+  "schema": "r5-fastboot-recovery-entry/1",
+  "implementation": "r5_sd_recovery_impl.py",
+  "probe": "r5_boot_probe_impl.py",
+  "camera_io": true,
+  "write_target": "nflasha2 only",
+  "requires_fresh_current_read": true,
+  "requires_continuous_session": true,
+  "required_private_inputs": [
+    "~/Downloads/bootloader脚本.zip",
+    "backups/R5_4.00_20261014_full/",
+    "analysis/r5_live_system_20261014/host_tools/"
+  ],
+  "preserved_originals": [
+    "backups/R5_4.00_20261014_full/",
+    "analysis/r5_live_system_20261014/"
+  ],
+  "unsupported": [
+    "nflasha1 or updater flashing",
+    "NOR/ROM writing",
+    "automatic rollback",
+    "using historical settings images as current input"
+  ]
+}

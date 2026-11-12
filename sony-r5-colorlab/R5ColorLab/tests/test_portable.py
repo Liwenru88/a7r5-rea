@@ -1,14 +1,22 @@
 import unittest,json,struct,copy,sys
 from pathlib import Path
 import numpy as np
+from html.parser import HTMLParser
 import core,anchor_dataset,sector16,tonal_sampling
 from edit_parameter_context import RuntimeColor
 
 class PortableTests(unittest.TestCase):
     def test_defaults_and_v4_grid_export(self):
         html=(core.HERE/'static/index.html').read_text()
-        self.assertIn('id="wbTraining" type="checkbox">',html)
-        self.assertIn('id="pcTraining" type="checkbox" checked>',html)
+        class Controls(HTMLParser):
+            def __init__(self):super().__init__();self.inputs={}
+            def handle_starttag(self,tag,attrs):
+                values=dict(attrs)
+                if tag=='input' and 'id' in values:self.inputs[values['id']]=values
+        controls=Controls();controls.feed(html)
+        self.assertEqual(controls.inputs['wbTraining']['type'],'checkbox')
+        self.assertNotIn('checked',controls.inputs['wbTraining'])
+        self.assertIn('checked',controls.inputs['pcTraining'])
         entries,_=core.presets();self.assertEqual(len(entries),12)
         cfg=core.config(entries[:1]);cfg['schema']='r5-custom-filter-config/4'
         grid=np.zeros((3,5,9,9),dtype=int);grid[0,0,0,0]=-64;grid[2,4,8,8]=63
@@ -25,4 +33,6 @@ class PortableTests(unittest.TestCase):
                 if p.suffix=='.py':
                     source=p.read_text()
                     self.assertNotIn('/Users/',source)
-                    self.assertNotIn('/Applications/',source)
+                    # 可选 SpektraLab 素材工具显式依赖该外部软件，不是工作台启动依赖。
+                    if p.relative_to(root).as_posix()!='scripts/generate_spektralab_targets.py':
+                        self.assertNotIn('/Applications/',source)

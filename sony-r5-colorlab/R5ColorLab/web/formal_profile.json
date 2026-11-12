@@ -1,0 +1,78 @@
+{
+  "schema": "r5-formal-training-profile/1",
+  "name": "五项叠加正式方案",
+  "runtime": "web",
+  "web": "http://127.0.0.1:4180/",
+  "batch": null,
+  "settings": {
+    "rounds": 3,
+    "native_evaluations": 120,
+    "grid_evaluations": 180,
+    "rounding_steps": 80,
+    "block_budget": 64,
+    "hue_direction_strength": 30,
+    "derivative_strength": 0.02,
+    "exact_de00_gradient": true,
+    "gamma_frozen": true,
+    "adaptive_rounding": true,
+    "joint_integer_search": true
+  },
+  "baseline": "Hybrid NC-Base native12-start + final five-round target grid",
+  "hue_direction_strength": 30,
+  "derivative_strength": 0.02,
+  "gamma": "frozen during stacked three rounds",
+  "selection": "validation fixed color loss; parent included",
+  "status": "ready",
+  "options": {
+    "evaluations": 2000,
+    "speed_priority": false,
+    "pc_compensation": true,
+    "compression_training": true,
+    "white_balance": false,
+    "post_gray_refinement": false,
+    "compression_objective": "fuji-target",
+    "pc_options": {
+      "curve_mode": "tone-tint",
+      "grid_enabled": true,
+      "response": {
+        "schema": "r5-measured-grid-response/1",
+        "preset": "r5-paired-20261107-nonlinear-he3",
+        "sha256": "936af0b27f3c5f1ff422c20dd7c1436f92458407d1dd492a4edca2e5ef45e677",
+        "model": "ILCE-7RM5"
+      }
+    },
+    "search_options": {
+      "starts": 12,
+      "adaptive_rounds": 8,
+      "perceptual_weight": 0.35,
+      "quantization_sweeps": 3,
+      "parameter_smoothing": 0.0,
+      "output_continuity": 0.0,
+      "target_neighborhood": 0.0,
+      "hue_direction_strength": 0.0,
+      "target_polish_rounds": 2,
+      "postfit_deburr": true,
+      "gamma_monotone_concave": true,
+      "gamma_global_correction": true,
+      "gamma_color_recovery": true,
+      "native_strict_stopping": true,
+      "gamma_color_rounds": 3,
+      "primary_tonal_weight": 1.0,
+      "hue24_tonal_weight": 1.0
+    },
+    "group_weights": {
+      "random": 1.0,
+      "primaries": 1.0,
+      "gray": 1.0,
+      "colorchecker24": 1.0
+    },
+    "gamma_endpoint128": 131071,
+    "target_kind": "chart-image",
+    "compressed_alternation_rounds": 0,
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "packed_selection_policy": "native-packed-quality/1"
+  },
+  "backend": "Apple Metal/MPS",
+  "batch_concurrency": 2,
+  "cpu_threads": 8
+}

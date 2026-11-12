@@ -1,0 +1,442 @@
+[
+  {
+    "callsite": "0x244a3a",
+    "target": "0xad9ff6",
+    "context": "00244a26 adds r7, r6, r1\n00244a28 ldrh.w r1, [sp, #0x18]\n00244a2c strb.w r1, [r0, #0x878]\n00244a30 lsrs r1, r1, #8\n00244a32 strb.w r1, [r0, #0x879]\n00244a36 sub.w r0, r7, #0x4d\n00244a3a bl #0xad9ff6\n00244a3e cmp r0, #0\n00244a40 bne.w #0x244b60\n00244a44 ldrb r0, [r7, #-0x4d]\n00244a48 cmp r0, #0\n00244a4a beq.w #0x244b60\n00244a4e add.w r5, fp, #8\n00244a52 mov.w sl, #0\n00244a56 add.w r8, sp, #4\n00244a5a movs r6, #0\n00244a5c b #0x244a92\n00244a5e ldr r0, [sp, #4]\n00244a60 subs r1, r0, #1\n00244a62 cmp r1, #8\n00244a64 bhi #0x244aa2\n00244a66 movs r0, #1\n00244a68 tbb [pc, r1]\n00244a6c lsls r4, r3, #0x14"
+  },
+  {
+    "callsite": "0x244a96",
+    "target": "0xada00e",
+    "context": "00244a82 movs r0, #0x2a\n00244a84 b #0x244aa4\n00244a86 movs r0, #0x2b\n00244a88 b #0x244aa4\n00244a8a movs r0, #0x2c\n00244a8c b #0x244aa4\n00244a8e movs r0, #0x35\n00244a90 b #0x244aa4\n00244a92 uxtb r0, r6\n00244a94 mov r1, r8\n00244a96 bl #0xada00e\n00244a9a adds r0, #4\n00244a9c bne #0x244a5e\n00244a9e str.w sl, [sp, #4]\n00244aa2 movs r0, #0\n00244aa4 uxtb r1, r0\n00244aa6 mov r0, fp\n00244aa8 mov r2, r4\n00244aaa bl #0x71e670\n00244aae mov r0, r4\n00244ab0 bl #0x71bcc0\n00244ab4 movs r1, #0\n00244ab6 ldrsh.w r2, [r5, r1, lsl #1]\n00244aba movs r3, #0x80\n00244abc cmp r2, #0\n00244abe it lt\n00244ac0 mvnlt r3, #0x7f\n00244ac4 mla r2, r2, r0, r3\n00244ac8 asrs r3, r2, #0x1f"
+  },
+  {
+    "callsite": "0x244bfc",
+    "target": "0xad9ff6",
+    "context": "00244be8 adds r7, r0, r2\n00244bea ldrh.w r1, [sp, #0x14]\n00244bee strb.w r1, [r0, #0x888]\n00244bf2 lsrs r1, r1, #8\n00244bf4 strb.w r1, [r0, #0x889]\n00244bf8 sub.w r0, r7, #0x29\n00244bfc bl #0xad9ff6\n00244c00 cmp r0, #0\n00244c02 bne.w #0x244cf0\n00244c06 ldrb r0, [r7, #-0x29]\n00244c0a cmp r0, #0\n00244c0c beq.w #0x244cf0\n00244c10 adds r5, #4\n00244c12 mov.w sb, #0\n00244c16 mov r8, sp\n00244c18 add.w sl, sp, #8\n00244c1c movs r6, #0\n00244c1e b #0x244c54\n00244c20 ldr r0, [sp]\n00244c22 subs r1, r0, #1\n00244c24 cmp r1, #8\n00244c26 bhi #0x244c64\n00244c28 movs r0, #1\n00244c2a tbb [pc, r1]\n00244c2e lsls r4, r3, #0x14"
+  },
+  {
+    "callsite": "0x244c58",
+    "target": "0xada00e",
+    "context": "00244c44 movs r0, #0x2a\n00244c46 b #0x244c66\n00244c48 movs r0, #0x2b\n00244c4a b #0x244c66\n00244c4c movs r0, #0x2c\n00244c4e b #0x244c66\n00244c50 movs r0, #0x35\n00244c52 b #0x244c66\n00244c54 uxtb r0, r6\n00244c56 mov r1, r8\n00244c58 bl #0xada00e\n00244c5c adds r0, #4\n00244c5e bne #0x244c20\n00244c60 str.w sb, [sp]\n00244c64 movs r0, #0\n00244c66 uxtb r2, r0\n00244c68 mov r0, sl\n00244c6a movs r1, #0\n00244c6c mov r3, r4\n00244c6e bl #0x72cc12\n00244c72 ldr.w r0, [r5, r6, lsl #2]\n00244c76 ldrh.w r1, [sp, #0xe]\n00244c7a adds r6, #1\n00244c7c strb.w r1, [r0, #0x56a]\n00244c80 lsrs r1, r1, #8\n00244c82 strb.w r1, [r0, #0x56b]\n00244c86 ldrh.w r1, [sp, #8]"
+  },
+  {
+    "callsite": "0x244d8c",
+    "target": "0xad9ff6",
+    "context": "00244d78 adds r7, r2, r2\n00244d7a ldrh.w r1, [sp, #0x14]\n00244d7e strb.w r1, [r0, #0x898]\n00244d82 lsrs r1, r1, #8\n00244d84 strb.w r1, [r0, #0x899]\n00244d88 sub.w r0, r7, #0x29\n00244d8c bl #0xad9ff6\n00244d90 cmp r0, #0\n00244d92 bne.w #0x244e80\n00244d96 ldrb r0, [r7, #-0x29]\n00244d9a cmp r0, #0\n00244d9c beq.w #0x244e80\n00244da0 adds r5, #4\n00244da2 mov.w sb, #0\n00244da6 mov r8, sp\n00244da8 add.w sl, sp, #8\n00244dac movs r6, #0\n00244dae b #0x244de4\n00244db0 ldr r0, [sp]\n00244db2 subs r1, r0, #1\n00244db4 cmp r1, #8\n00244db6 bhi #0x244df4\n00244db8 movs r0, #1\n00244dba tbb [pc, r1]\n00244dbe lsls r4, r3, #0x14"
+  },
+  {
+    "callsite": "0x244de8",
+    "target": "0xada00e",
+    "context": "00244dd4 movs r0, #0x2a\n00244dd6 b #0x244df6\n00244dd8 movs r0, #0x2b\n00244dda b #0x244df6\n00244ddc movs r0, #0x2c\n00244dde b #0x244df6\n00244de0 movs r0, #0x35\n00244de2 b #0x244df6\n00244de4 uxtb r0, r6\n00244de6 mov r1, r8\n00244de8 bl #0xada00e\n00244dec adds r0, #4\n00244dee bne #0x244db0\n00244df0 str.w sb, [sp]\n00244df4 movs r0, #0\n00244df6 uxtb r2, r0\n00244df8 mov r0, sl\n00244dfa movs r1, #1\n00244dfc mov r3, r4\n00244dfe bl #0x72cc12\n00244e02 ldr.w r0, [r5, r6, lsl #2]\n00244e06 ldrh.w r1, [sp, #0xe]\n00244e0a adds r6, #1\n00244e0c strb.w r1, [r0, #0x57a]\n00244e10 lsrs r1, r1, #8\n00244e12 strb.w r1, [r0, #0x57b]\n00244e16 ldrh.w r1, [sp, #8]"
+  },
+  {
+    "callsite": "0x244f1c",
+    "target": "0xad9ff6",
+    "context": "00244f08 adds r7, r4, r2\n00244f0a ldrh.w r1, [sp, #0x14]\n00244f0e strb.w r1, [r0, #0x8a8]\n00244f12 lsrs r1, r1, #8\n00244f14 strb.w r1, [r0, #0x8a9]\n00244f18 sub.w r0, r7, #0x29\n00244f1c bl #0xad9ff6\n00244f20 cmp r0, #0\n00244f22 bne.w #0x245010\n00244f26 ldrb r0, [r7, #-0x29]\n00244f2a cmp r0, #0\n00244f2c beq.w #0x245010\n00244f30 adds r5, #4\n00244f32 mov.w sb, #0\n00244f36 mov r8, sp\n00244f38 add.w sl, sp, #8\n00244f3c movs r6, #0\n00244f3e b #0x244f74\n00244f40 ldr r0, [sp]\n00244f42 subs r1, r0, #1\n00244f44 cmp r1, #8\n00244f46 bhi #0x244f84\n00244f48 movs r0, #1\n00244f4a tbb [pc, r1]\n00244f4e lsls r4, r3, #0x14"
+  },
+  {
+    "callsite": "0x244f78",
+    "target": "0xada00e",
+    "context": "00244f64 movs r0, #0x2a\n00244f66 b #0x244f86\n00244f68 movs r0, #0x2b\n00244f6a b #0x244f86\n00244f6c movs r0, #0x2c\n00244f6e b #0x244f86\n00244f70 movs r0, #0x35\n00244f72 b #0x244f86\n00244f74 uxtb r0, r6\n00244f76 mov r1, r8\n00244f78 bl #0xada00e\n00244f7c adds r0, #4\n00244f7e bne #0x244f40\n00244f80 str.w sb, [sp]\n00244f84 movs r0, #0\n00244f86 uxtb r2, r0\n00244f88 mov r0, sl\n00244f8a movs r1, #2\n00244f8c mov r3, r4\n00244f8e bl #0x72cc12\n00244f92 ldr.w r0, [r5, r6, lsl #2]\n00244f96 ldrh.w r1, [sp, #0xe]\n00244f9a adds r6, #1\n00244f9c strb.w r1, [r0, #0x58a]\n00244fa0 lsrs r1, r1, #8\n00244fa2 strb.w r1, [r0, #0x58b]\n00244fa6 ldrh.w r1, [sp, #8]"
+  },
+  {
+    "callsite": "0x2450ac",
+    "target": "0xad9ff6",
+    "context": "00245098 adds r7, r6, r2\n0024509a ldrh.w r1, [sp, #0x14]\n0024509e strb.w r1, [r0, #0x8b8]\n002450a2 lsrs r1, r1, #8\n002450a4 strb.w r1, [r0, #0x8b9]\n002450a8 sub.w r0, r7, #0x29\n002450ac bl #0xad9ff6\n002450b0 cmp r0, #0\n002450b2 bne.w #0x2451a0\n002450b6 ldrb r0, [r7, #-0x29]\n002450ba cmp r0, #0\n002450bc beq.w #0x2451a0\n002450c0 adds r5, #4\n002450c2 mov.w sb, #0\n002450c6 mov r8, sp\n002450c8 add.w sl, sp, #8\n002450cc movs r6, #0\n002450ce b #0x245104\n002450d0 ldr r0, [sp]\n002450d2 subs r1, r0, #1\n002450d4 cmp r1, #8\n002450d6 bhi #0x245114\n002450d8 movs r0, #1\n002450da tbb [pc, r1]\n002450de lsls r4, r3, #0x14"
+  },
+  {
+    "callsite": "0x245108",
+    "target": "0xada00e",
+    "context": "002450f4 movs r0, #0x2a\n002450f6 b #0x245116\n002450f8 movs r0, #0x2b\n002450fa b #0x245116\n002450fc movs r0, #0x2c\n002450fe b #0x245116\n00245100 movs r0, #0x35\n00245102 b #0x245116\n00245104 uxtb r0, r6\n00245106 mov r1, r8\n00245108 bl #0xada00e\n0024510c adds r0, #4\n0024510e bne #0x2450d0\n00245110 str.w sb, [sp]\n00245114 movs r0, #0\n00245116 uxtb r2, r0\n00245118 mov r0, sl\n0024511a movs r1, #3\n0024511c mov r3, r4\n0024511e bl #0x72cc12\n00245122 ldr.w r0, [r5, r6, lsl #2]\n00245126 ldrh.w r1, [sp, #0xe]\n0024512a adds r6, #1\n0024512c strb.w r1, [r0, #0x59a]\n00245130 lsrs r1, r1, #8\n00245132 strb.w r1, [r0, #0x59b]\n00245136 ldrh.w r1, [sp, #8]"
+  },
+  {
+    "callsite": "0x24521a",
+    "target": "0xad9ff6",
+    "context": "00245206 lsls r4, r0, #9\n00245208 strb.w r1, [r0, r4, lsl #1]\n0024520c lsrs r1, r1, #8\n0024520e adds r4, #1\n00245210 cmp r4, #9\n00245212 strb r1, [r2, #1]\n00245214 bne #0x2451ee\n00245216 sub.w r0, r7, #0x69\n0024521a bl #0xad9ff6\n0024521e cmp r0, #0\n00245220 bne #0x2452da\n00245222 ldrb r0, [r7, #-0x69]\n00245226 cmp r0, #0\n00245228 beq #0x2452da\n0024522a add r0, sp, #8\n0024522c mov r4, sp\n0024522e mov.w r8, #0\n00245232 add.w fp, r0, #0x12\n00245236 b #0x245270\n00245238 ldr r0, [sp]\n0024523a subs r1, r0, #1\n0024523c cmp r1, #8\n0024523e bhi #0x245282\n00245240 movs r0, #1\n00245242 tbb [pc, r1]\n00245246 lsrs r7, r3, #4\n00245248 lsrs r3, r1, #0x14\n0024524a asrs r7, r1, #4\n0024524c lsls r3, r2, #0x14"
+  },
+  {
+    "callsite": "0x245276",
+    "target": "0xada00e",
+    "context": "00245262 b #0x245284\n00245264 movs r0, #0x2a\n00245266 b #0x245284\n00245268 movs r0, #0x2b\n0024526a b #0x245284\n0024526c movs r0, #0x2c\n0024526e b #0x245284\n00245270 uxtb.w r0, r8\n00245274 mov r1, r4\n00245276 bl #0xada00e\n0024527a adds r0, #4\n0024527c bne #0x245238\n0024527e movs r0, #0\n00245280 str r0, [sp]\n00245282 movs r0, #0\n00245284 uxtb r3, r0\n00245286 add r0, sp, #8\n00245288 movs r1, #0\n0024528a mov r2, sl\n0024528c bl #0x71e41e\n00245290 mov r0, r6\n00245292 mov r1, sl\n00245294 mov r2, fp\n00245296 bl #0x72a384\n0024529a add.w r0, sb, r8, lsl #2\n0024529e movs r1, #0\n002452a0 ldr r0, [r0, #4]\n002452a2 add.w r0, r0, #0x620\n002452a6 smmul r2, r1, r5"
+  },
+  {
+    "callsite": "0x24533a",
+    "target": "0xad9ff6",
+    "context": "00245326 mov r1, r5\n00245328 str r0, [sp]\n0024532a ldr r0, [r6]\n0024532c addw r2, r0, #0x9a4\n00245330 mov r0, r4\n00245332 bl #0x72ccae\n00245336 sub.w r0, r7, #0x1d\n0024533a bl #0xad9ff6\n0024533e cmp r0, #0\n00245340 bne #0x245416\n00245342 ldrb r0, [r7, #-0x1d]\n00245346 cmp r0, #0\n00245348 beq #0x245416\n0024534a add r0, sp, #0x1e8\n0024534c mov.w fp, #0\n00245350 add.w r5, r0, #0x12\n00245354 b #0x24539a\n00245356 ldr r0, [sp, #4]\n00245358 subs r0, #1\n0024535a cmp r0, #8\n0024535c bhi #0x2453ac\n0024535e mov.w sl, #1\n00245362 tbb [pc, r0]\n00245366 lsrs r5, r4, #0x20\n00245368 lsrs r3, r1, #0x18\n0024536a asrs r1, r2, #0x10\n0024536c lsls r7, r2, #0x14"
+  },
+  {
+    "callsite": "0x2453a0",
+    "target": "0xada00e",
+    "context": "0024538c b #0x2453b0\n0024538e mov.w sl, #0x2b\n00245392 b #0x2453b0\n00245394 mov.w sl, #0x2c\n00245398 b #0x2453b0\n0024539a uxtb.w r0, fp\n0024539e add r1, sp, #4\n002453a0 bl #0xada00e\n002453a4 adds r0, #4\n002453a6 bne #0x245356\n002453a8 movs r0, #0\n002453aa str r0, [sp, #4]\n002453ac mov.w sl, #0\n002453b0 movs r6, #0\n002453b2 add.w sb, sp, #0xc8\n002453b6 cmp.w sl, #0x35\n002453ba bne #0x2453c4\n002453bc mov r0, sb\n002453be bl #0x71db8c\n002453c2 b #0x2453e0\n002453c4 uxtb.w r8, r6\n002453c8 uxtb.w r3, sl\n002453cc add r0, sp, #0x1e8\n002453ce mov r2, r4\n002453d0 mov r1, r8"
+  },
+  {
+    "callsite": "0x2454b2",
+    "target": "0xad9ff6",
+    "context": "0024549e adr r1, #0xcc\n002454a0 b #0x2454a8\n002454a2 adr r1, #0xc4\n002454a4 b #0x2454a8\n002454a6 adr r1, #0xbc\n002454a8 movs r2, #0x10\n002454aa blx #0x5f59e8\n002454ae sub.w r0, r7, #0x1d\n002454b2 bl #0xad9ff6\n002454b6 cmp r0, #0\n002454b8 bne #0x245554\n002454ba ldrb r0, [r7, #-0x1d]\n002454be cmp r0, #0\n002454c0 beq #0x245554\n002454c2 add.w r8, r4, #4\n002454c6 mov.w sb, #0\n002454ca add r4, sp, #4\n002454cc adr r5, #0x11c\n002454ce addw fp, pc, #0xa8\n002454d2 mov.w sl, #0\n002454d6 b #0x245524\n002454d8 ldr r0, [sp, #4]\n002454da subs r0, #1\n002454dc cmp r0, #8\n002454de bhi #0x24553e\n002454e0 tbb [pc, r0]\n002454e4 lsrs r5, r0, #0x20"
+  },
+  {
+    "callsite": "0x245532",
+    "target": "0xada00e",
+    "context": "0024551e mov r0, r6\n00245520 mov r1, fp\n00245522 b #0x245542\n00245524 ldr.w r0, [r8, sl, lsl #2]\n00245528 mov r1, r4\n0024552a addw r6, r0, #0xc16\n0024552e uxtb.w r0, sl\n00245532 bl #0xada00e\n00245536 adds r0, #4\n00245538 bne #0x2454d8\n0024553a str.w sb, [sp, #4]\n0024553e mov r0, r6\n00245540 mov r1, r5\n00245542 movs r2, #0x10\n00245544 blx #0x5f59e8\n00245548 ldrb r0, [r7, #-0x1d]\n0024554c add.w sl, sl, #1\n00245550 cmp sl, r0\n00245552 blt #0x245524\n00245554 add sp, #0xc\n00245556 pop.w {r8, sb, sl, fp}\n0024555a pop {r4, r5, r6, r7, pc}\n0024555c str r7, [r1, #0x64]\n0024555e lsls r6, r4, #1\n00245560 movs r0, r0\n00245562 movs r0, r0\n00245564 ldr r0, [pc, #0x14c]"
+  },
+  {
+    "callsite": "0x377eac",
+    "target": "0xad9ff6",
+    "context": "00377e98 movw r0, #0x5924\n00377e9c mov r4, r1\n00377e9e ldr.w r0, [r8, r0]\n00377ea2 cmp r0, #0\n00377ea4 beq.w #0x378166\n00377ea8 sub.w r0, r7, #0x19\n00377eac bl #0xad9ff6\n00377eb0 cmp r0, #0\n00377eb2 bne.w #0x37807c\n00377eb6 ldrb r0, [r7, #-0x19]\n00377eba cmp r0, #0\n00377ebc beq.w #0x37807c\n00377ec0 movs r0, #0\n00377ec2 movw r6, #0x5924\n00377ec6 mov.w sb, #0\n00377eca add.w r5, r8, r0, lsl #2\n00377ece ldrh r2, [r4]\n00377ed0 movw r1, #0x78a0\n00377ed4 ldr r0, [r5, r6]\n00377ed6 bl #0xad9faa\n00377eda ldr r0, [r5, r6]\n00377edc ldrh r2, [r4, #2]"
+  },
+  {
+    "callsite": "0x72b18a",
+    "target": "0xad9ff6",
+    "context": "0072b176 ldrb.w r0, [r0, #0x61]\n0072b17a tst.w r0, #2\n0072b17e beq #0x72b1f4\n0072b180 cmp.w sb, #0\n0072b184 beq #0x72b194\n0072b186 sub.w r0, r7, #0x19\n0072b18a bl #0xad9ff6\n0072b18e cbz r0, #0x72b19a\n0072b190 movs r0, #0\n0072b192 b #0x72b1c4\n0072b194 mov.w r0, #0x18c\n0072b198 b #0x72b1f0\n0072b19a ldrb r0, [r7, #-0x19]\n0072b19e cmp r0, #0\n0072b1a0 beq #0x72b190\n0072b1a2 add.w r2, sb, #4\n0072b1a6 movs r1, #1\n0072b1a8 movs r3, #0\n0072b1aa ldr.w r6, [r2, r3, lsl #2]\n0072b1ae cmp r6, #0\n0072b1b0 it eq\n0072b1b2 moveq r1, r6\n0072b1b4 adds r3, #1\n0072b1b6 cmp r3, r0\n0072b1b8 blt #0x72b1aa\n0072b1ba lsls r0, r1, #0x18"
+  },
+  {
+    "callsite": "0x72b316",
+    "target": "0xad9ff6",
+    "context": "0072b302 cmp r0, #0x43\n0072b304 strb.w r1, [r6, #0x842]\n0072b308 lsrs r1, r0, #8\n0072b30a strb.w r1, [r6, #0x845]\n0072b30e strb.w r0, [r6, #0x844]\n0072b312 sub.w r0, r7, #0x1d\n0072b316 bl #0xad9ff6\n0072b31a cmp r0, #0\n0072b31c bne #0x72b384\n0072b31e ldrb r0, [r7, #-0x1d]\n0072b322 cbz r0, #0x72b384\n0072b324 ldr r0, [sp, #4]\n0072b326 add.w r6, r8, #4\n0072b32a lsr.w fp, r4, #8\n0072b32e movs r5, #0\n0072b330 lsr.w r8, r0, #8\n0072b334 ldr r0, [sp, #8]\n0072b336 lsr.w sb, r0, #8\n0072b33a ldr r0, [sp, #0xc]\n0072b33c lsr.w sl, r0, #8\n0072b340 uxtb r0, r5\n0072b342 add r1, sp, #0x10\n0072b344 bl #0xada00e\n0072b348 adds r0, #4"
+  },
+  {
+    "callsite": "0x72b344",
+    "target": "0xada00e",
+    "context": "0072b330 lsr.w r8, r0, #8\n0072b334 ldr r0, [sp, #8]\n0072b336 lsr.w sb, r0, #8\n0072b33a ldr r0, [sp, #0xc]\n0072b33c lsr.w sl, r0, #8\n0072b340 uxtb r0, r5\n0072b342 add r1, sp, #0x10\n0072b344 bl #0xada00e\n0072b348 adds r0, #4\n0072b34a bne #0x72b350\n0072b34c movs r0, #0\n0072b34e str r0, [sp, #0x10]\n0072b350 ldr.w r0, [r6, r5, lsl #2]\n0072b354 adds r5, #1\n0072b356 strb.w r8, [r0, #0x605]\n0072b35a ldr r1, [sp, #4]\n0072b35c strb.w r1, [r0, #0x604]\n0072b360 strb.w sb, [r0, #0x607]\n0072b364 ldr r1, [sp, #8]\n0072b366 strb.w r1, [r0, #0x606]\n0072b36a strb.w sl, [r0, #0x609]\n0072b36e ldr r1, [sp, #0xc]\n0072b370 strb.w r1, [r0, #0x608]\n0072b374 strb.w fp, [r0, #0x60b]"
+  },
+  {
+    "callsite": "0x72b4fc",
+    "target": "0xad9ff6",
+    "context": "0072b4e8 strb.w r3, [r0, #0x84b]\n0072b4ec strb.w r8, [r0, #0x84a]\n0072b4f0 strb.w r5, [r0, #0x84d]\n0072b4f4 strb.w r1, [r0, #0x84c]\n0072b4f8 sub.w r0, r7, #0x1d\n0072b4fc bl #0xad9ff6\n0072b500 cmp r0, #0\n0072b502 bne #0x72b5a4\n0072b504 ldrb r0, [r7, #-0x1d]\n0072b508 cmp r0, #0\n0072b50a beq #0x72b5a4\n0072b50c ldr.w r5, [sl]\n0072b510 ldr r1, [sp, #0x10]\n0072b512 ldr r2, [sp, #0xc]\n0072b514 ldr r3, [sp, #8]\n0072b516 ldr.w sl, [sp, #0x18]\n0072b51a add.w r0, fp, #2\n0072b51e ldrb r5, [r5, #0x1a]\n0072b520 adds r1, #2\n0072b522 adds r2, #2\n0072b524 adds r3, #2\n0072b526 cmp r5, #0\n0072b528 it eq\n0072b52a lsreq.w sl, r3, #2"
+  },
+  {
+    "callsite": "0x72b560",
+    "target": "0xada00e",
+    "context": "0072b54c lsr.w sb, sb, #8\n0072b550 it eq\n0072b552 lsreq r1, r0, #2\n0072b554 ldr r0, [sp, #0x20]\n0072b556 str r1, [sp, #0x24]\n0072b558 adds r5, r0, #4\n0072b55a uxtb.w r0, sl\n0072b55e add r1, sp, #0x28\n0072b560 bl #0xada00e\n0072b564 adds r0, #4\n0072b566 bne #0x72b56c\n0072b568 movs r0, #0\n0072b56a str r0, [sp, #0x28]\n0072b56c ldr.w r0, [r5, sl, lsl #2]\n0072b570 lsr.w r1, r8, #8\n0072b574 add.w sl, sl, #1\n0072b578 strb.w fp, [r0, #0x60d]\n0072b57c strb.w r6, [r0, #0x60c]\n0072b580 strb.w sb, [r0, #0x60f]\n0072b584 strb.w r4, [r0, #0x60e]\n0072b588 strb.w r1, [r0, #0x611]\n0072b58c strb.w r8, [r0, #0x610]\n0072b590 ldr r2, [sp, #0x24]\n0072b592 lsrs r1, r2, #8"
+  },
+  {
+    "callsite": "0x72b652",
+    "target": "0xad9ff6",
+    "context": "0072b63e strb.w r1, [r0, #0x851]\n0072b642 strb.w r2, [r0, #0x850]\n0072b646 strb.w r1, [r0, #0x853]\n0072b64a strb.w r2, [r0, #0x852]\n0072b64e sub.w r0, r7, #9\n0072b652 bl #0xad9ff6\n0072b656 cbnz r0, #0x72b68c\n0072b658 ldrb ip, [r7, #-0x9]\n0072b65c cmp.w ip, #0\n0072b660 beq #0x72b68c\n0072b662 adds r1, r4, #4\n0072b664 movs r2, #0\n0072b666 movs r3, #4\n0072b668 movs r4, #0\n0072b66a ldr.w r0, [r1, r4, lsl #2]\n0072b66e adds r4, #1\n0072b670 strb.w r3, [r0, #0x615]\n0072b674 strb.w r2, [r0, #0x614]\n0072b678 strb.w r3, [r0, #0x617]\n0072b67c strb.w r2, [r0, #0x616]\n0072b680 strb.w r3, [r0, #0x619]"
+  },
+  {
+    "callsite": "0x72b6ba",
+    "target": "0xad9ff6",
+    "context": "0072b6a6 strb.w r1, [r0, #0x857]\n0072b6aa strb.w r2, [r0, #0x856]\n0072b6ae strb.w r1, [r0, #0x859]\n0072b6b2 strb.w r2, [r0, #0x858]\n0072b6b6 sub.w r0, r7, #9\n0072b6ba bl #0xad9ff6\n0072b6be cbnz r0, #0x72b6f4\n0072b6c0 ldrb ip, [r7, #-0x9]\n0072b6c4 cmp.w ip, #0\n0072b6c8 beq #0x72b6f4\n0072b6ca adds r1, r4, #4\n0072b6cc movs r2, #0\n0072b6ce movs r3, #4\n0072b6d0 movs r4, #0\n0072b6d2 ldr.w r0, [r1, r4, lsl #2]\n0072b6d6 adds r4, #1\n0072b6d8 strb.w r3, [r0, #0x61b]\n0072b6dc strb.w r2, [r0, #0x61a]\n0072b6e0 strb.w r3, [r0, #0x61d]\n0072b6e4 strb.w r2, [r0, #0x61c]\n0072b6e8 strb.w r3, [r0, #0x61f]"
+  },
+  {
+    "callsite": "0x72b898",
+    "target": "0xad9ff6",
+    "context": "0072b884 sub sp, #8\n0072b886 mov r4, r0\n0072b888 movs r1, #0x12\n0072b88a ldr r0, [r4]\n0072b88c addw r0, r0, #0x8dc\n0072b890 blx #0x5f58b0\n0072b894 sub.w r0, r7, #0x11\n0072b898 bl #0xad9ff6\n0072b89c cbnz r0, #0x72b8bc\n0072b89e ldrb r5, [r7, #-0x11]\n0072b8a2 cbz r5, #0x72b8bc\n0072b8a4 adds r4, #4\n0072b8a6 movs r6, #0\n0072b8a8 ldr.w r0, [r4, r6, lsl #2]\n0072b8ac movs r1, #0x12\n0072b8ae addw r0, r0, #0x5aa\n0072b8b2 blx #0x5f58b0\n0072b8b6 adds r6, #1\n0072b8b8 cmp r6, r5\n0072b8ba blt #0x72b8a8\n0072b8bc add sp, #8\n0072b8be ldr fp, [sp], #4\n0072b8c2 pop {r4, r5, r6, r7, pc}\n0072b8c4 push {r4, r5, r6, r7, lr}\n0072b8c6 add r7, sp, #0xc\n0072b8c8 str fp, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72b8e0",
+    "target": "0xad9ff6",
+    "context": "0072b8cc sub sp, #8\n0072b8ce mov r4, r0\n0072b8d0 movs r1, #0x12\n0072b8d2 ldr r0, [r4]\n0072b8d4 addw r0, r0, #0x8ee\n0072b8d8 blx #0x5f58b0\n0072b8dc sub.w r0, r7, #0x11\n0072b8e0 bl #0xad9ff6\n0072b8e4 cbnz r0, #0x72b904\n0072b8e6 ldrb r5, [r7, #-0x11]\n0072b8ea cbz r5, #0x72b904\n0072b8ec adds r4, #4\n0072b8ee movs r6, #0\n0072b8f0 ldr.w r0, [r4, r6, lsl #2]\n0072b8f4 movs r1, #0x12\n0072b8f6 addw r0, r0, #0x5bc\n0072b8fa blx #0x5f58b0\n0072b8fe adds r6, #1\n0072b900 cmp r6, r5\n0072b902 blt #0x72b8f0\n0072b904 add sp, #8\n0072b906 ldr fp, [sp], #4\n0072b90a pop {r4, r5, r6, r7, pc}\n0072b90c push {r4, r5, r6, r7, lr}\n0072b90e add r7, sp, #0xc\n0072b910 str fp, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72b928",
+    "target": "0xad9ff6",
+    "context": "0072b914 sub sp, #8\n0072b916 mov r4, r0\n0072b918 movs r1, #0x12\n0072b91a ldr r0, [r4]\n0072b91c add.w r0, r0, #0x900\n0072b920 blx #0x5f58b0\n0072b924 sub.w r0, r7, #0x11\n0072b928 bl #0xad9ff6\n0072b92c cbnz r0, #0x72b94c\n0072b92e ldrb r5, [r7, #-0x11]\n0072b932 cbz r5, #0x72b94c\n0072b934 adds r4, #4\n0072b936 movs r6, #0\n0072b938 ldr.w r0, [r4, r6, lsl #2]\n0072b93c movs r1, #0x12\n0072b93e addw r0, r0, #0x5ce\n0072b942 blx #0x5f58b0\n0072b946 adds r6, #1\n0072b948 cmp r6, r5\n0072b94a blt #0x72b938\n0072b94c add sp, #8\n0072b94e ldr fp, [sp], #4\n0072b952 pop {r4, r5, r6, r7, pc}\n0072b954 push {r4, r5, r6, r7, lr}\n0072b956 add r7, sp, #0xc\n0072b958 str fp, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72b970",
+    "target": "0xad9ff6",
+    "context": "0072b95c sub sp, #8\n0072b95e mov r4, r0\n0072b960 movs r1, #0x12\n0072b962 ldr r0, [r4]\n0072b964 addw r0, r0, #0x912\n0072b968 blx #0x5f58b0\n0072b96c sub.w r0, r7, #0x11\n0072b970 bl #0xad9ff6\n0072b974 cbnz r0, #0x72b994\n0072b976 ldrb r5, [r7, #-0x11]\n0072b97a cbz r5, #0x72b994\n0072b97c adds r4, #4\n0072b97e movs r6, #0\n0072b980 ldr.w r0, [r4, r6, lsl #2]\n0072b984 movs r1, #0x12\n0072b986 add.w r0, r0, #0x5e0\n0072b98a blx #0x5f58b0\n0072b98e adds r6, #1\n0072b990 cmp r6, r5\n0072b992 blt #0x72b980\n0072b994 add sp, #8\n0072b996 ldr fp, [sp], #4\n0072b99a pop {r4, r5, r6, r7, pc}\n0072b99c push {r4, r5, r6, r7, lr}\n0072b99e add r7, sp, #0xc\n0072b9a0 str fp, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72b9b8",
+    "target": "0xad9ff6",
+    "context": "0072b9a4 sub sp, #8\n0072b9a6 mov r4, r0\n0072b9a8 movs r1, #0x12\n0072b9aa ldr r0, [r4]\n0072b9ac addw r0, r0, #0x924\n0072b9b0 blx #0x5f58b0\n0072b9b4 sub.w r0, r7, #0x11\n0072b9b8 bl #0xad9ff6\n0072b9bc cbnz r0, #0x72b9dc\n0072b9be ldrb r5, [r7, #-0x11]\n0072b9c2 cbz r5, #0x72b9dc\n0072b9c4 adds r4, #4\n0072b9c6 movs r6, #0\n0072b9c8 ldr.w r0, [r4, r6, lsl #2]\n0072b9cc movs r1, #0x12\n0072b9ce addw r0, r0, #0x5f2\n0072b9d2 blx #0x5f58b0\n0072b9d6 adds r6, #1\n0072b9d8 cmp r6, r5\n0072b9da blt #0x72b9c8\n0072b9dc add sp, #8\n0072b9de ldr fp, [sp], #4\n0072b9e2 pop {r4, r5, r6, r7, pc}\n0072b9e4 ldr r0, [r0]\n0072b9e6 movs r1, #0\n0072b9e8 addw r2, r0, #0x93a"
+  },
+  {
+    "callsite": "0x72ba88",
+    "target": "0xad9ff6",
+    "context": "0072ba74 add.w r1, r2, #0x10\n0072ba78 lsrs r2, r1, #0xd\n0072ba7a lsrs r1, r1, #5\n0072ba7c strb.w r2, [r0, #0xabd]\n0072ba80 strb.w r1, [r0, #0xabc]\n0072ba84 sub.w r0, r7, #0x35\n0072ba88 bl #0xad9ff6\n0072ba8c cbnz r0, #0x72bae6\n0072ba8e ldrb ip, [r7, #-0x35]\n0072ba92 cmp.w ip, #0\n0072ba96 beq #0x72bae6\n0072ba98 ldrh.w r0, [sp, #0x10]\n0072ba9c ldrh.w r2, [sp, #0x14]\n0072baa0 movs r3, #0x10\n0072baa2 add.w lr, r4, #4\n0072baa6 adds r1, r2, r0\n0072baa8 adds r0, #0x10\n0072baaa adds r2, #0x10\n0072baac uxtah r1, r3, r1\n0072bab0 movs r3, #0x40\n0072bab2 lsrs r4, r0, #5\n0072bab4 movs r0, #0\n0072bab6 sub.w r8, r3, r1, lsr #5\n0072baba lsrs r3, r2, #5"
+  },
+  {
+    "callsite": "0x72bb16",
+    "target": "0xad9ff6",
+    "context": "0072bb02 strb.w r1, [r0, #0xabf]\n0072bb06 addw r0, r0, #0xabe\n0072bb0a strb r1, [r0], #2\n0072bb0e strb r1, [r0, #1]\n0072bb10 strb r1, [r0]\n0072bb12 sub.w r0, r7, #9\n0072bb16 bl #0xad9ff6\n0072bb1a cbnz r0, #0x72bb4a\n0072bb1c ldrb r0, [r7, #-0x9]\n0072bb20 cbz r0, #0x72bb4a\n0072bb22 adds r1, r4, #4\n0072bb24 movs r2, #0\n0072bb26 movs r3, #0\n0072bb28 ldr.w r4, [r1, r3, lsl #2]\n0072bb2c adds r3, #1\n0072bb2e cmp r3, r0\n0072bb30 strb.w r2, [r4, #0x751]\n0072bb34 strb.w r2, [r4, #0x750]\n0072bb38 strb.w r2, [r4, #0x74d]\n0072bb3c addw r4, r4, #0x74c\n0072bb40 strb r2, [r4], #2\n0072bb44 strb r2, [r4, #1]\n0072bb46 strb r2, [r4]\n0072bb48 blt #0x72bb28"
+  },
+  {
+    "callsite": "0x72bf1a",
+    "target": "0xad9ff6",
+    "context": "0072bf06 mov r4, r0\n0072bf08 movw r1, #0x7849\n0072bf0c mov.w r2, #0x200\n0072bf10 ldr r0, [r4]\n0072bf12 bl #0xad9f12\n0072bf16 sub.w r0, r7, #9\n0072bf1a bl #0xad9ff6\n0072bf1e cbnz r0, #0x72bf44\n0072bf20 ldrb r0, [r7, #-0x9]\n0072bf24 cbz r0, #0x72bf44\n0072bf26 adds r4, #4\n0072bf28 movs r5, #0\n0072bf2a ldr.w r0, [r4, r5, lsl #2]\n0072bf2e movw r1, #0x7849\n0072bf32 mov.w r2, #0x200\n0072bf36 bl #0xad9faa\n0072bf3a ldrb r0, [r7, #-0x9]\n0072bf3e adds r5, #1\n0072bf40 cmp r5, r0\n0072bf42 blt #0x72bf2a\n0072bf44 add sp, #8\n0072bf46 pop {r4, r5, r7, pc}\n0072bf48 push {r4, r5, r7, lr}\n0072bf4a add r7, sp, #8\n0072bf4c sub sp, #8"
+  },
+  {
+    "callsite": "0x72bf62",
+    "target": "0xad9ff6",
+    "context": "0072bf4e mov r4, r0\n0072bf50 movw r1, #0x784a\n0072bf54 mov.w r2, #0x400\n0072bf58 ldr r0, [r4]\n0072bf5a bl #0xad9f12\n0072bf5e sub.w r0, r7, #9\n0072bf62 bl #0xad9ff6\n0072bf66 cbnz r0, #0x72bf8c\n0072bf68 ldrb r0, [r7, #-0x9]\n0072bf6c cbz r0, #0x72bf8c\n0072bf6e adds r4, #4\n0072bf70 movs r5, #0\n0072bf72 ldr.w r0, [r4, r5, lsl #2]\n0072bf76 movw r1, #0x784a\n0072bf7a mov.w r2, #0x400\n0072bf7e bl #0xad9faa\n0072bf82 ldrb r0, [r7, #-0x9]\n0072bf86 adds r5, #1\n0072bf88 cmp r5, r0\n0072bf8a blt #0x72bf72\n0072bf8c add sp, #8\n0072bf8e pop {r4, r5, r7, pc}\n0072bf90 push {r4, r5, r7, lr}\n0072bf92 add r7, sp, #8\n0072bf94 sub sp, #8"
+  },
+  {
+    "callsite": "0x72bfaa",
+    "target": "0xad9ff6",
+    "context": "0072bf96 mov r4, r0\n0072bf98 movw r1, #0x784b\n0072bf9c mov.w r2, #0x800\n0072bfa0 ldr r0, [r4]\n0072bfa2 bl #0xad9f12\n0072bfa6 sub.w r0, r7, #9\n0072bfaa bl #0xad9ff6\n0072bfae cbnz r0, #0x72bfd4\n0072bfb0 ldrb r0, [r7, #-0x9]\n0072bfb4 cbz r0, #0x72bfd4\n0072bfb6 adds r4, #4\n0072bfb8 movs r5, #0\n0072bfba ldr.w r0, [r4, r5, lsl #2]\n0072bfbe movw r1, #0x784b\n0072bfc2 mov.w r2, #0x800\n0072bfc6 bl #0xad9faa\n0072bfca ldrb r0, [r7, #-0x9]\n0072bfce adds r5, #1\n0072bfd0 cmp r5, r0\n0072bfd2 blt #0x72bfba\n0072bfd4 add sp, #8\n0072bfd6 pop {r4, r5, r7, pc}\n0072bfd8 push {r4, r6, r7, lr}\n0072bfda add r7, sp, #8\n0072bfdc sub sp, #8"
+  },
+  {
+    "callsite": "0x72c008",
+    "target": "0xad9ff6",
+    "context": "0072bff4 strb r1, [r2], #2\n0072bff8 strb r1, [r2, #1]\n0072bffa strb r1, [r2]\n0072bffc strb r1, [r0], #2\n0072c000 strb r1, [r0, #1]\n0072c002 strb r1, [r0]\n0072c004 sub.w r0, r7, #9\n0072c008 bl #0xad9ff6\n0072c00c cbnz r0, #0x72c048\n0072c00e ldrb ip, [r7, #-0x9]\n0072c012 cmp.w ip, #0\n0072c016 beq #0x72c048\n0072c018 adds r1, r4, #4\n0072c01a movs r2, #0\n0072c01c movs r3, #0\n0072c01e ldr.w r4, [r1, r3, lsl #2]\n0072c022 adds r3, #1\n0072c024 addw r0, r4, #0xb6a\n0072c028 strb.w r2, [r4, #0xb6b]\n0072c02c strb.w r2, [r4, #0xb67]\n0072c030 strb r2, [r0], #2\n0072c034 strb r2, [r0, #1]\n0072c036 strb r2, [r0]\n0072c038 addw r0, r4, #0xb66"
+  },
+  {
+    "callsite": "0x72c098",
+    "target": "0xad9ff6",
+    "context": "0072c084 strb r3, [r2, #1]\n0072c086 movs r3, #0x60\n0072c088 strb r3, [r2]\n0072c08a strb sb, [r0], #2\n0072c08e strb r1, [r0, #1]\n0072c090 movs r1, #0xa0\n0072c092 strb r1, [r0]\n0072c094 sub.w r0, r7, #0x1d\n0072c098 bl #0xad9ff6\n0072c09c cbnz r0, #0x72c0f0\n0072c09e ldrb ip, [r7, #-0x1d]\n0072c0a2 cmp.w ip, #0\n0072c0a6 beq #0x72c0f0\n0072c0a8 add.w lr, r4, #4\n0072c0ac movs r2, #0\n0072c0ae lsr.w sl, r8, #8\n0072c0b2 lsr.w fp, sb, #8\n0072c0b6 lsr.w r5, r8, #0x18\n0072c0ba lsr.w r6, r8, #0x10\n0072c0be lsr.w r0, sb, #0x18\n0072c0c2 lsr.w r1, sb, #0x10\n0072c0c6 ldr.w r3, [lr, r2, lsl #2]\n0072c0ca adds r2, #1"
+  },
+  {
+    "callsite": "0x72c11c",
+    "target": "0xad9ff6",
+    "context": "0072c108 movs r2, #0x10\n0072c10a ldr r0, [r4]\n0072c10c movt r1, #0xcb\n0072c110 add.w r0, r0, #0xf50\n0072c114 blx #0x5f51bc\n0072c118 sub.w r0, r7, #0x11\n0072c11c bl #0xad9ff6\n0072c120 cbnz r0, #0x72c14a\n0072c122 ldrb r5, [r7, #-0x11]\n0072c126 cbz r5, #0x72c14a\n0072c128 movw r8, #0x2690\n0072c12c adds r6, r4, #4\n0072c12e movs r4, #0\n0072c130 movt r8, #0xcb\n0072c134 ldr.w r0, [r6, r4, lsl #2]\n0072c138 mov r1, r8\n0072c13a movs r2, #0x10\n0072c13c addw r0, r0, #0xb76\n0072c140 blx #0x5f51bc\n0072c144 adds r4, #1\n0072c146 cmp r4, r5\n0072c148 blt #0x72c134\n0072c14a add sp, #8\n0072c14c ldr r8, [sp], #4"
+  },
+  {
+    "callsite": "0x72c176",
+    "target": "0xad9ff6",
+    "context": "0072c162 movw r1, #0x784f\n0072c166 ldr r0, [r5]\n0072c168 movt r4, #0x21\n0072c16c mov r2, r4\n0072c16e bl #0xad9f12\n0072c172 sub.w r0, r7, #0x11\n0072c176 bl #0xad9ff6\n0072c17a cbnz r0, #0x72c19e\n0072c17c ldrb r0, [r7, #-0x11]\n0072c180 cbz r0, #0x72c19e\n0072c182 adds r5, #4\n0072c184 movs r6, #0\n0072c186 ldr.w r0, [r5, r6, lsl #2]\n0072c18a movw r1, #0x784f\n0072c18e mov r2, r4\n0072c190 bl #0xad9faa\n0072c194 ldrb r0, [r7, #-0x11]\n0072c198 adds r6, #1\n0072c19a cmp r6, r0\n0072c19c blt #0x72c186\n0072c19e add sp, #8\n0072c1a0 ldr fp, [sp], #4\n0072c1a4 pop {r4, r5, r6, r7, pc}\n0072c1a6 push {r4, r5, r7, lr}\n0072c1a8 add r7, sp, #8"
+  },
+  {
+    "callsite": "0x72c1be",
+    "target": "0xad9ff6",
+    "context": "0072c1aa sub sp, #8\n0072c1ac mov r4, r0\n0072c1ae movw r1, #0x7850\n0072c1b2 movs r2, #0\n0072c1b4 ldr r0, [r4]\n0072c1b6 bl #0xad9f12\n0072c1ba sub.w r0, r7, #9\n0072c1be bl #0xad9ff6\n0072c1c2 cbnz r0, #0x72c1e6\n0072c1c4 ldrb r0, [r7, #-0x9]\n0072c1c8 cbz r0, #0x72c1e6\n0072c1ca adds r4, #4\n0072c1cc movs r5, #0\n0072c1ce ldr.w r0, [r4, r5, lsl #2]\n0072c1d2 movw r1, #0x7850\n0072c1d6 movs r2, #0\n0072c1d8 bl #0xad9faa\n0072c1dc ldrb r0, [r7, #-0x9]\n0072c1e0 adds r5, #1\n0072c1e2 cmp r5, r0\n0072c1e4 blt #0x72c1ce\n0072c1e6 add sp, #8\n0072c1e8 pop {r4, r5, r7, pc}\n0072c1ea push {r4, r5, r7, lr}\n0072c1ec add r7, sp, #8\n0072c1ee sub sp, #8\n0072c1f0 mov r4, r0"
+  },
+  {
+    "callsite": "0x72c202",
+    "target": "0xad9ff6",
+    "context": "0072c1ee sub sp, #8\n0072c1f0 mov r4, r0\n0072c1f2 movw r1, #0x7870\n0072c1f6 movs r2, #0xa6\n0072c1f8 ldr r0, [r4]\n0072c1fa bl #0xad9f12\n0072c1fe sub.w r0, r7, #9\n0072c202 bl #0xad9ff6\n0072c206 cbnz r0, #0x72c22a\n0072c208 ldrb r0, [r7, #-0x9]\n0072c20c cbz r0, #0x72c22a\n0072c20e adds r4, #4\n0072c210 movs r5, #0\n0072c212 ldr.w r0, [r4, r5, lsl #2]\n0072c216 movw r1, #0x7870\n0072c21a movs r2, #0xa6\n0072c21c bl #0xad9faa\n0072c220 ldrb r0, [r7, #-0x9]\n0072c224 adds r5, #1\n0072c226 cmp r5, r0\n0072c228 blt #0x72c212\n0072c22a add sp, #8\n0072c22c pop {r4, r5, r7, pc}\n0072c22e push {r4, r5, r7, lr}\n0072c230 add r7, sp, #8\n0072c232 sub sp, #8\n0072c234 mov r4, r0"
+  },
+  {
+    "callsite": "0x72c248",
+    "target": "0xad9ff6",
+    "context": "0072c234 mov r4, r0\n0072c236 movw r1, #0x7871\n0072c23a mov.w r2, #0x2580\n0072c23e ldr r0, [r4]\n0072c240 bl #0xad9f12\n0072c244 sub.w r0, r7, #9\n0072c248 bl #0xad9ff6\n0072c24c cbnz r0, #0x72c272\n0072c24e ldrb r0, [r7, #-0x9]\n0072c252 cbz r0, #0x72c272\n0072c254 adds r4, #4\n0072c256 movs r5, #0\n0072c258 ldr.w r0, [r4, r5, lsl #2]\n0072c25c movw r1, #0x7871\n0072c260 mov.w r2, #0x2580\n0072c264 bl #0xad9faa\n0072c268 ldrb r0, [r7, #-0x9]\n0072c26c adds r5, #1\n0072c26e cmp r5, r0\n0072c270 blt #0x72c258\n0072c272 add sp, #8\n0072c274 pop {r4, r5, r7, pc}\n0072c276 push {r4, r5, r6, r7, lr}\n0072c278 add r7, sp, #0xc"
+  },
+  {
+    "callsite": "0x72c29c",
+    "target": "0xad9ff6",
+    "context": "0072c288 lsls r2, r7, #5\n0072c28a movt r5, #0x16a\n0072c28e ldr r0, [r4]\n0072c290 ldrh.w r2, [r5, #0xd42]\n0072c294 bl #0xad9f12\n0072c298 sub.w r0, r7, #0x11\n0072c29c bl #0xad9ff6\n0072c2a0 cbnz r0, #0x72c2c6\n0072c2a2 ldrb r0, [r7, #-0x11]\n0072c2a6 cbz r0, #0x72c2c6\n0072c2a8 adds r4, #4\n0072c2aa movs r6, #0\n0072c2ac ldr.w r0, [r4, r6, lsl #2]\n0072c2b0 ldrh.w r2, [r5, #0xd42]\n0072c2b4 movw r1, #0x787a\n0072c2b8 bl #0xad9faa\n0072c2bc ldrb r0, [r7, #-0x11]\n0072c2c0 adds r6, #1\n0072c2c2 cmp r6, r0\n0072c2c4 blt #0x72c2ac\n0072c2c6 add sp, #8\n0072c2c8 ldr fp, [sp], #4\n0072c2cc pop {r4, r5, r6, r7, pc}\n0072c2ce push {r4, r5, r6, r7, lr}"
+  },
+  {
+    "callsite": "0x72c2f4",
+    "target": "0xad9ff6",
+    "context": "0072c2e0 lsls r3, r7, #5\n0072c2e2 movt r5, #0x16a\n0072c2e6 ldr r0, [r4]\n0072c2e8 ldrh.w r2, [r5, #0xd44]\n0072c2ec bl #0xad9f12\n0072c2f0 sub.w r0, r7, #0x11\n0072c2f4 bl #0xad9ff6\n0072c2f8 cbnz r0, #0x72c31e\n0072c2fa ldrb r0, [r7, #-0x11]\n0072c2fe cbz r0, #0x72c31e\n0072c300 adds r4, #4\n0072c302 movs r6, #0\n0072c304 ldr.w r0, [r4, r6, lsl #2]\n0072c308 ldrh.w r2, [r5, #0xd44]\n0072c30c movw r1, #0x787b\n0072c310 bl #0xad9faa\n0072c314 ldrb r0, [r7, #-0x11]\n0072c318 adds r6, #1\n0072c31a cmp r6, r0\n0072c31c blt #0x72c304\n0072c31e add sp, #8\n0072c320 ldr fp, [sp], #4\n0072c324 pop {r4, r5, r6, r7, pc}\n0072c326 push {r4, r5, r7, lr}"
+  },
+  {
+    "callsite": "0x72c33e",
+    "target": "0xad9ff6",
+    "context": "0072c32a sub sp, #8\n0072c32c mov r4, r0\n0072c32e movw r1, #0x787d\n0072c332 movs r2, #0\n0072c334 ldr r0, [r4]\n0072c336 bl #0xad9f12\n0072c33a sub.w r0, r7, #9\n0072c33e bl #0xad9ff6\n0072c342 cbnz r0, #0x72c366\n0072c344 ldrb r0, [r7, #-0x9]\n0072c348 cbz r0, #0x72c366\n0072c34a adds r4, #4\n0072c34c movs r5, #0\n0072c34e ldr.w r0, [r4, r5, lsl #2]\n0072c352 movw r1, #0x787d\n0072c356 movs r2, #0\n0072c358 bl #0xad9faa\n0072c35c ldrb r0, [r7, #-0x9]\n0072c360 adds r5, #1\n0072c362 cmp r5, r0\n0072c364 blt #0x72c34e\n0072c366 add sp, #8\n0072c368 pop {r4, r5, r7, pc}\n0072c36a push {r4, r5, r6, r7, lr}\n0072c36c add r7, sp, #0xc\n0072c36e str r8, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72c3a6",
+    "target": "0xad9ff6",
+    "context": "0072c392 cmp r5, #0x46\n0072c394 strb.w r2, [r0, r1, lsl #1]\n0072c398 lsrs r2, r2, #8\n0072c39a adds r1, #1\n0072c39c cmp r1, #3\n0072c39e strb r2, [r3, #1]\n0072c3a0 bne #0x72c388\n0072c3a2 sub.w r0, r7, #0x11\n0072c3a6 bl #0xad9ff6\n0072c3aa cbnz r0, #0x72c3e0\n0072c3ac ldrb r0, [r7, #-0x11]\n0072c3b0 cbz r0, #0x72c3e0\n0072c3b2 movs r1, #0\n0072c3b4 add.w r2, r8, r1, lsl #2\n0072c3b8 movs r3, #0\n0072c3ba ldr r2, [r2, #4]\n0072c3bc addw r2, r2, #0xb86\n0072c3c0 add.w r4, r5, r3, lsl #1\n0072c3c4 add.w r6, r2, r3, lsl #1\n0072c3c8 ldrh.w r4, [r4, #0xd46]\n0072c3cc strb.w r4, [r2, r3, lsl #1]\n0072c3d0 lsrs r4, r4, #8\n0072c3d2 adds r3, #1\n0072c3d4 cmp r3, #3\n0072c3d6 strb r4, [r6, #1]\n0072c3d8 bne #0x72c3c0"
+  },
+  {
+    "callsite": "0x72c424",
+    "target": "0xad9ff6",
+    "context": "0072c410 cmp r5, #0x4c\n0072c412 strb.w r2, [r0, r1, lsl #1]\n0072c416 lsrs r2, r2, #8\n0072c418 adds r1, #1\n0072c41a cmp r1, #3\n0072c41c strb r2, [r3, #1]\n0072c41e bne #0x72c406\n0072c420 sub.w r0, r7, #0x11\n0072c424 bl #0xad9ff6\n0072c428 cbnz r0, #0x72c45e\n0072c42a ldrb r0, [r7, #-0x11]\n0072c42e cbz r0, #0x72c45e\n0072c430 movs r1, #0\n0072c432 add.w r2, r8, r1, lsl #2\n0072c436 movs r3, #0\n0072c438 ldr r2, [r2, #4]\n0072c43a addw r2, r2, #0xb8c\n0072c43e add.w r4, r5, r3, lsl #1\n0072c442 add.w r6, r2, r3, lsl #1\n0072c446 ldrh.w r4, [r4, #0xd4c]\n0072c44a strb.w r4, [r2, r3, lsl #1]\n0072c44e lsrs r4, r4, #8\n0072c450 adds r3, #1\n0072c452 cmp r3, #3\n0072c454 strb r4, [r6, #1]\n0072c456 bne #0x72c43e"
+  },
+  {
+    "callsite": "0x72c480",
+    "target": "0xad9ff6",
+    "context": "0072c46c mov r4, r0\n0072c46e mov.w r1, #0x7880\n0072c472 mov.w r2, #0x200\n0072c476 ldr r0, [r4]\n0072c478 bl #0xad9f12\n0072c47c sub.w r0, r7, #9\n0072c480 bl #0xad9ff6\n0072c484 cbnz r0, #0x72c4aa\n0072c486 ldrb r0, [r7, #-0x9]\n0072c48a cbz r0, #0x72c4aa\n0072c48c adds r4, #4\n0072c48e movs r5, #0\n0072c490 ldr.w r0, [r4, r5, lsl #2]\n0072c494 mov.w r1, #0x7880\n0072c498 mov.w r2, #0x200\n0072c49c bl #0xad9faa\n0072c4a0 ldrb r0, [r7, #-0x9]\n0072c4a4 adds r5, #1\n0072c4a6 cmp r5, r0\n0072c4a8 blt #0x72c490\n0072c4aa add sp, #8\n0072c4ac pop {r4, r5, r7, pc}\n0072c4ae push {r4, r5, r7, lr}\n0072c4b0 add r7, sp, #8\n0072c4b2 sub sp, #8"
+  },
+  {
+    "callsite": "0x72c4c6",
+    "target": "0xad9ff6",
+    "context": "0072c4b2 sub sp, #8\n0072c4b4 mov r4, r0\n0072c4b6 movw r1, #0x7881\n0072c4ba movs r2, #0\n0072c4bc ldr r0, [r4]\n0072c4be bl #0xad9f12\n0072c4c2 sub.w r0, r7, #9\n0072c4c6 bl #0xad9ff6\n0072c4ca cbnz r0, #0x72c4ee\n0072c4cc ldrb r0, [r7, #-0x9]\n0072c4d0 cbz r0, #0x72c4ee\n0072c4d2 adds r4, #4\n0072c4d4 movs r5, #0\n0072c4d6 ldr.w r0, [r4, r5, lsl #2]\n0072c4da movw r1, #0x7881\n0072c4de movs r2, #0\n0072c4e0 bl #0xad9faa\n0072c4e4 ldrb r0, [r7, #-0x9]\n0072c4e8 adds r5, #1\n0072c4ea cmp r5, r0\n0072c4ec blt #0x72c4d6\n0072c4ee add sp, #8\n0072c4f0 pop {r4, r5, r7, pc}\n0072c4f2 push {r4, r5, r7, lr}\n0072c4f4 add r7, sp, #8\n0072c4f6 sub sp, #8\n0072c4f8 mov r4, r0"
+  },
+  {
+    "callsite": "0x72c50c",
+    "target": "0xad9ff6",
+    "context": "0072c4f8 mov r4, r0\n0072c4fa movw r1, #0x7882\n0072c4fe movw r2, #0x1efe\n0072c502 ldr r0, [r4]\n0072c504 bl #0xad9f12\n0072c508 sub.w r0, r7, #9\n0072c50c bl #0xad9ff6\n0072c510 cbnz r0, #0x72c536\n0072c512 ldrb r0, [r7, #-0x9]\n0072c516 cbz r0, #0x72c536\n0072c518 adds r4, #4\n0072c51a movs r5, #0\n0072c51c ldr.w r0, [r4, r5, lsl #2]\n0072c520 movw r1, #0x7882\n0072c524 movw r2, #0x1efe\n0072c528 bl #0xad9faa\n0072c52c ldrb r0, [r7, #-0x9]\n0072c530 adds r5, #1\n0072c532 cmp r5, r0\n0072c534 blt #0x72c51c\n0072c536 add sp, #8\n0072c538 pop {r4, r5, r7, pc}\n0072c53a push {r4, r5, r7, lr}\n0072c53c add r7, sp, #8\n0072c53e sub sp, #8"
+  },
+  {
+    "callsite": "0x72c554",
+    "target": "0xad9ff6",
+    "context": "0072c540 mov r4, r0\n0072c542 movw r1, #0x7883\n0072c546 movw r2, #0x94c\n0072c54a ldr r0, [r4]\n0072c54c bl #0xad9f12\n0072c550 sub.w r0, r7, #9\n0072c554 bl #0xad9ff6\n0072c558 cbnz r0, #0x72c57e\n0072c55a ldrb r0, [r7, #-0x9]\n0072c55e cbz r0, #0x72c57e\n0072c560 adds r4, #4\n0072c562 movs r5, #0\n0072c564 ldr.w r0, [r4, r5, lsl #2]\n0072c568 movw r1, #0x7883\n0072c56c movw r2, #0x94c\n0072c570 bl #0xad9faa\n0072c574 ldrb r0, [r7, #-0x9]\n0072c578 adds r5, #1\n0072c57a cmp r5, r0\n0072c57c blt #0x72c564\n0072c57e add sp, #8\n0072c580 pop {r4, r5, r7, pc}\n0072c582 push {r4, r5, r7, lr}\n0072c584 add r7, sp, #8\n0072c586 sub sp, #8"
+  },
+  {
+    "callsite": "0x72c59c",
+    "target": "0xad9ff6",
+    "context": "0072c588 mov r4, r0\n0072c58a movw r1, #0x7884\n0072c58e movw r2, #0x94c\n0072c592 ldr r0, [r4]\n0072c594 bl #0xad9f12\n0072c598 sub.w r0, r7, #9\n0072c59c bl #0xad9ff6\n0072c5a0 cbnz r0, #0x72c5c6\n0072c5a2 ldrb r0, [r7, #-0x9]\n0072c5a6 cbz r0, #0x72c5c6\n0072c5a8 adds r4, #4\n0072c5aa movs r5, #0\n0072c5ac ldr.w r0, [r4, r5, lsl #2]\n0072c5b0 movw r1, #0x7884\n0072c5b4 movw r2, #0x94c\n0072c5b8 bl #0xad9faa\n0072c5bc ldrb r0, [r7, #-0x9]\n0072c5c0 adds r5, #1\n0072c5c2 cmp r5, r0\n0072c5c4 blt #0x72c5ac\n0072c5c6 add sp, #8\n0072c5c8 pop {r4, r5, r7, pc}\n0072c5ca push {r4, r5, r7, lr}\n0072c5cc add r7, sp, #8\n0072c5ce sub sp, #8"
+  },
+  {
+    "callsite": "0x72c5e4",
+    "target": "0xad9ff6",
+    "context": "0072c5d0 mov r4, r0\n0072c5d2 movw r1, #0x7885\n0072c5d6 movw r2, #0x94c\n0072c5da ldr r0, [r4]\n0072c5dc bl #0xad9f12\n0072c5e0 sub.w r0, r7, #9\n0072c5e4 bl #0xad9ff6\n0072c5e8 cbnz r0, #0x72c60e\n0072c5ea ldrb r0, [r7, #-0x9]\n0072c5ee cbz r0, #0x72c60e\n0072c5f0 adds r4, #4\n0072c5f2 movs r5, #0\n0072c5f4 ldr.w r0, [r4, r5, lsl #2]\n0072c5f8 movw r1, #0x7885\n0072c5fc movw r2, #0x94c\n0072c600 bl #0xad9faa\n0072c604 ldrb r0, [r7, #-0x9]\n0072c608 adds r5, #1\n0072c60a cmp r5, r0\n0072c60c blt #0x72c5f4\n0072c60e add sp, #8\n0072c610 pop {r4, r5, r7, pc}\n0072c612 push {r4, r5, r7, lr}\n0072c614 add r7, sp, #8\n0072c616 sub sp, #8"
+  },
+  {
+    "callsite": "0x72c62c",
+    "target": "0xad9ff6",
+    "context": "0072c618 mov r4, r0\n0072c61a movw r1, #0x7886\n0072c61e mov.w r2, #0x2a80\n0072c622 ldr r0, [r4]\n0072c624 bl #0xad9f12\n0072c628 sub.w r0, r7, #9\n0072c62c bl #0xad9ff6\n0072c630 cbnz r0, #0x72c656\n0072c632 ldrb r0, [r7, #-0x9]\n0072c636 cbz r0, #0x72c656\n0072c638 adds r4, #4\n0072c63a movs r5, #0\n0072c63c ldr.w r0, [r4, r5, lsl #2]\n0072c640 movw r1, #0x7886\n0072c644 mov.w r2, #0x2a80\n0072c648 bl #0xad9faa\n0072c64c ldrb r0, [r7, #-0x9]\n0072c650 adds r5, #1\n0072c652 cmp r5, r0\n0072c654 blt #0x72c63c\n0072c656 add sp, #8\n0072c658 pop {r4, r5, r7, pc}\n0072c65a push {r4, r5, r7, lr}\n0072c65c add r7, sp, #8\n0072c65e sub sp, #8"
+  },
+  {
+    "callsite": "0x72c674",
+    "target": "0xad9ff6",
+    "context": "0072c660 mov r4, r0\n0072c662 movw r1, #0x7887\n0072c666 mov.w r2, #0x4b00\n0072c66a ldr r0, [r4]\n0072c66c bl #0xad9f12\n0072c670 sub.w r0, r7, #9\n0072c674 bl #0xad9ff6\n0072c678 cbnz r0, #0x72c69e\n0072c67a ldrb r0, [r7, #-0x9]\n0072c67e cbz r0, #0x72c69e\n0072c680 adds r4, #4\n0072c682 movs r5, #0\n0072c684 ldr.w r0, [r4, r5, lsl #2]\n0072c688 movw r1, #0x7887\n0072c68c mov.w r2, #0x4b00\n0072c690 bl #0xad9faa\n0072c694 ldrb r0, [r7, #-0x9]\n0072c698 adds r5, #1\n0072c69a cmp r5, r0\n0072c69c blt #0x72c684\n0072c69e add sp, #8\n0072c6a0 pop {r4, r5, r7, pc}\n0072c6a2 push {r4, r5, r7, lr}\n0072c6a4 add r7, sp, #8\n0072c6a6 sub sp, #8"
+  },
+  {
+    "callsite": "0x72c6bc",
+    "target": "0xad9ff6",
+    "context": "0072c6a8 mov r4, r0\n0072c6aa movw r1, #0x7888\n0072c6ae mov.w r2, #0x5000\n0072c6b2 ldr r0, [r4]\n0072c6b4 bl #0xad9f12\n0072c6b8 sub.w r0, r7, #9\n0072c6bc bl #0xad9ff6\n0072c6c0 cbnz r0, #0x72c6e6\n0072c6c2 ldrb r0, [r7, #-0x9]\n0072c6c6 cbz r0, #0x72c6e6\n0072c6c8 adds r4, #4\n0072c6ca movs r5, #0\n0072c6cc ldr.w r0, [r4, r5, lsl #2]\n0072c6d0 movw r1, #0x7888\n0072c6d4 mov.w r2, #0x5000\n0072c6d8 bl #0xad9faa\n0072c6dc ldrb r0, [r7, #-0x9]\n0072c6e0 adds r5, #1\n0072c6e2 cmp r5, r0\n0072c6e4 blt #0x72c6cc\n0072c6e6 add sp, #8\n0072c6e8 pop {r4, r5, r7, pc}\n0072c6ea push {r4, r5, r7, lr}\n0072c6ec add r7, sp, #8\n0072c6ee sub sp, #8"
+  },
+  {
+    "callsite": "0x72c702",
+    "target": "0xad9ff6",
+    "context": "0072c6ee sub sp, #8\n0072c6f0 mov r4, r0\n0072c6f2 movw r1, #0x7889\n0072c6f6 movs r2, #0x80\n0072c6f8 ldr r0, [r4]\n0072c6fa bl #0xad9f12\n0072c6fe sub.w r0, r7, #9\n0072c702 bl #0xad9ff6\n0072c706 cbnz r0, #0x72c72a\n0072c708 ldrb r0, [r7, #-0x9]\n0072c70c cbz r0, #0x72c72a\n0072c70e adds r4, #4\n0072c710 movs r5, #0\n0072c712 ldr.w r0, [r4, r5, lsl #2]\n0072c716 movw r1, #0x7889\n0072c71a movs r2, #0x80\n0072c71c bl #0xad9faa\n0072c720 ldrb r0, [r7, #-0x9]\n0072c724 adds r5, #1\n0072c726 cmp r5, r0\n0072c728 blt #0x72c712\n0072c72a add sp, #8\n0072c72c pop {r4, r5, r7, pc}\n0072c72e push {r4, r5, r6, r7, lr}\n0072c730 add r7, sp, #0xc\n0072c732 str r8, [sp, #-0x4]!"
+  },
+  {
+    "callsite": "0x72c752",
+    "target": "0xad9ff6",
+    "context": "0072c73e movs r2, #0x10\n0072c740 ldr r0, [r4]\n0072c742 movt r1, #0xcb\n0072c746 addw r0, r0, #0xf6c\n0072c74a blx #0x5f51bc\n0072c74e sub.w r0, r7, #0x11\n0072c752 bl #0xad9ff6\n0072c756 cbnz r0, #0x72c780\n0072c758 ldrb r5, [r7, #-0x11]\n0072c75c cbz r5, #0x72c780\n0072c75e movw r8, #0x26a0\n0072c762 adds r6, r4, #4\n0072c764 movs r4, #0\n0072c766 movt r8, #0xcb\n0072c76a ldr.w r0, [r6, r4, lsl #2]\n0072c76e mov r1, r8\n0072c770 movs r2, #0x10\n0072c772 addw r0, r0, #0xb92\n0072c776 blx #0x5f51bc\n0072c77a adds r4, #1\n0072c77c cmp r4, r5\n0072c77e blt #0x72c76a\n0072c780 add sp, #8\n0072c782 ldr r8, [sp], #4"
+  },
+  {
+    "callsite": "0x72c7ac",
+    "target": "0xad9ff6",
+    "context": "0072c798 movs r2, #0x3a\n0072c79a ldr r0, [r4]\n0072c79c movt r1, #0xcb\n0072c7a0 addw r0, r0, #0xf7c\n0072c7a4 blx #0x5f51bc\n0072c7a8 sub.w r0, r7, #0x11\n0072c7ac bl #0xad9ff6\n0072c7b0 cbnz r0, #0x72c7da\n0072c7b2 ldrb r5, [r7, #-0x11]\n0072c7b6 cbz r5, #0x72c7da\n0072c7b8 movw r8, #0x26c8\n0072c7bc adds r6, r4, #4\n0072c7be movs r4, #0\n0072c7c0 movt r8, #0xcb\n0072c7c4 ldr.w r0, [r6, r4, lsl #2]\n0072c7c8 mov r1, r8\n0072c7ca movs r2, #0x3a\n0072c7cc addw r0, r0, #0xba2\n0072c7d0 blx #0x5f51bc\n0072c7d4 adds r4, #1\n0072c7d6 cmp r4, r5\n0072c7d8 blt #0x72c7c4\n0072c7da add sp, #8\n0072c7dc ldr r8, [sp], #4"
+  },
+  {
+    "callsite": "0x72c806",
+    "target": "0xad9ff6",
+    "context": "0072c7f2 movs r2, #0x3a\n0072c7f4 ldr r0, [r4]\n0072c7f6 movt r1, #0xcb\n0072c7fa addw r0, r0, #0xfb6\n0072c7fe blx #0x5f51bc\n0072c802 sub.w r0, r7, #0x11\n0072c806 bl #0xad9ff6\n0072c80a cbnz r0, #0x72c834\n0072c80c ldrb r5, [r7, #-0x11]\n0072c810 cbz r5, #0x72c834\n0072c812 movw r8, #0x2708\n0072c816 adds r6, r4, #4\n0072c818 movs r4, #0\n0072c81a movt r8, #0xcb\n0072c81e ldr.w r0, [r6, r4, lsl #2]\n0072c822 mov r1, r8\n0072c824 movs r2, #0x3a\n0072c826 addw r0, r0, #0xbdc\n0072c82a blx #0x5f51bc\n0072c82e adds r4, #1\n0072c830 cmp r4, r5\n0072c832 blt #0x72c81e\n0072c834 add sp, #8\n0072c836 ldr r8, [sp], #4"
+  },
+  {
+    "callsite": "0x72c862",
+    "target": "0xad9ff6",
+    "context": "0072c84e lsls r5, r1, #6\n0072c850 movt r5, #0x16a\n0072c854 ldr r0, [r4]\n0072c856 ldrh.w r2, [r5, #0xd52]\n0072c85a bl #0xad9f12\n0072c85e sub.w r0, r7, #0x11\n0072c862 bl #0xad9ff6\n0072c866 cbnz r0, #0x72c88c\n0072c868 ldrb r0, [r7, #-0x11]\n0072c86c cbz r0, #0x72c88c\n0072c86e adds r4, #4\n0072c870 movs r6, #0\n0072c872 ldr.w r0, [r4, r6, lsl #2]\n0072c876 ldrh.w r2, [r5, #0xd52]\n0072c87a movw r1, #0x788d\n0072c87e bl #0xad9faa\n0072c882 ldrb r0, [r7, #-0x11]\n0072c886 adds r6, #1\n0072c888 cmp r6, r0\n0072c88a blt #0x72c872\n0072c88c add sp, #8\n0072c88e ldr fp, [sp], #4\n0072c892 pop {r4, r5, r6, r7, pc}\n0072c894 push {r4, r5, r6, r7, lr}"
+  },
+  {
+    "callsite": "0x72c8ba",
+    "target": "0xad9ff6",
+    "context": "0072c8a6 lsls r6, r1, #6\n0072c8a8 movt r5, #0x16a\n0072c8ac ldr r0, [r4]\n0072c8ae ldrh.w r2, [r5, #0xd54]\n0072c8b2 bl #0xad9f12\n0072c8b6 sub.w r0, r7, #0x11\n0072c8ba bl #0xad9ff6\n0072c8be cbnz r0, #0x72c8e4\n0072c8c0 ldrb r0, [r7, #-0x11]\n0072c8c4 cbz r0, #0x72c8e4\n0072c8c6 adds r4, #4\n0072c8c8 movs r6, #0\n0072c8ca ldr.w r0, [r4, r6, lsl #2]\n0072c8ce ldrh.w r2, [r5, #0xd54]\n0072c8d2 movw r1, #0x788e\n0072c8d6 bl #0xad9faa\n0072c8da ldrb r0, [r7, #-0x11]\n0072c8de adds r6, #1\n0072c8e0 cmp r6, r0\n0072c8e2 blt #0x72c8ca\n0072c8e4 add sp, #8\n0072c8e6 ldr fp, [sp], #4\n0072c8ea pop {r4, r5, r6, r7, pc}\n0072c8ec push {r4, r5, r6, r7, lr}"
+  },
+  {
+    "callsite": "0x72c912",
+    "target": "0xad9ff6",
+    "context": "0072c8fe lsls r7, r1, #6\n0072c900 movt r5, #0x16a\n0072c904 ldr r0, [r4]\n0072c906 ldrh.w r2, [r5, #0xd56]\n0072c90a bl #0xad9f12\n0072c90e sub.w r0, r7, #0x11\n0072c912 bl #0xad9ff6\n0072c916 cbnz r0, #0x72c93c\n0072c918 ldrb r0, [r7, #-0x11]\n0072c91c cbz r0, #0x72c93c\n0072c91e adds r4, #4\n0072c920 movs r6, #0\n0072c922 ldr.w r0, [r4, r6, lsl #2]\n0072c926 ldrh.w r2, [r5, #0xd56]\n0072c92a movw r1, #0x788f\n0072c92e bl #0xad9faa\n0072c932 ldrb r0, [r7, #-0x11]\n0072c936 adds r6, #1\n0072c938 cmp r6, r0\n0072c93a blt #0x72c922\n0072c93c add sp, #8\n0072c93e ldr fp, [sp], #4\n0072c942 pop {r4, r5, r6, r7, pc}\n0072c944 push {r4, r5, r6, r7, lr}"
+  },
+  {
+    "callsite": "0x72c96a",
+    "target": "0xad9ff6",
+    "context": "0072c956 lsls r0, r2, #6\n0072c958 movt r5, #0x16a\n0072c95c ldr r0, [r4]\n0072c95e ldrh.w r2, [r5, #0xd58]\n0072c962 bl #0xad9f12\n0072c966 sub.w r0, r7, #0x11\n0072c96a bl #0xad9ff6\n0072c96e cbnz r0, #0x72c994\n0072c970 ldrb r0, [r7, #-0x11]\n0072c974 cbz r0, #0x72c994\n0072c976 adds r4, #4\n0072c978 movs r6, #0\n0072c97a ldr.w r0, [r4, r6, lsl #2]\n0072c97e ldrh.w r2, [r5, #0xd58]\n0072c982 movw r1, #0x7890\n0072c986 bl #0xad9faa\n0072c98a ldrb r0, [r7, #-0x11]\n0072c98e adds r6, #1\n0072c990 cmp r6, r0\n0072c992 blt #0x72c97a\n0072c994 add sp, #8\n0072c996 ldr fp, [sp], #4\n0072c99a pop {r4, r5, r6, r7, pc}\n0072c99c push {r4, r5, r7, lr}"
+  },
+  {
+    "callsite": "0x72c9b4",
+    "target": "0xad9ff6",
+    "context": "0072c9a0 sub sp, #8\n0072c9a2 mov r4, r0\n0072c9a4 movw r1, #0x7771\n0072c9a8 movs r2, #0\n0072c9aa ldr r0, [r4]\n0072c9ac bl #0xad9f12\n0072c9b0 sub.w r0, r7, #9\n0072c9b4 bl #0xad9ff6\n0072c9b8 cbnz r0, #0x72c9dc\n0072c9ba ldrb r0, [r7, #-0x9]\n0072c9be cbz r0, #0x72c9dc\n0072c9c0 adds r4, #4\n0072c9c2 movs r5, #0\n0072c9c4 ldr.w r0, [r4, r5, lsl #2]\n0072c9c8 movw r1, #0x7771\n0072c9cc movs r2, #0\n0072c9ce bl #0xad9faa\n0072c9d2 ldrb r0, [r7, #-0x9]\n0072c9d6 adds r5, #1\n0072c9d8 cmp r5, r0\n0072c9da blt #0x72c9c4\n0072c9dc add sp, #8\n0072c9de pop {r4, r5, r7, pc}\n0072c9e0 movw r1, #0xfd14\n0072c9e4 ldr r0, [r0]"
+  },
+  {
+    "callsite": "0x869078",
+    "target": "0xad9ff6",
+    "context": "00869064 vceq.i16 d31, d22, d29\n00869068 movs r0, #0x34\n0086906a mov r0, r5\n0086906c movw r1, #0x780d\n00869070 bl #0xad9f12\n00869074 sub.w r0, r7, #0x25\n00869078 bl #0xad9ff6\n0086907c cmp r0, #0\n0086907e bne #0x869132\n00869080 ldrb r1, [r7, #-0x25]\n00869084 cmp r1, #0\n00869086 beq #0x869132\n00869088 sub.w r8, r7, #0x1f\n0086908c sub.w sl, r7, #0x1e\n00869090 sub.w fp, r7, #0x1d\n00869094 movs r5, #0\n00869096 uxtb r0, r5\n00869098 add.w r6, r4, r0, lsl #2\n0086909c ldr sb, [r6, #4]!\n008690a0 cmp.w sb, #0\n008690a4 beq #0x869128\n008690a6 add r1, sp, #0x2c\n008690a8 bl #0xada00e"
+  },
+  {
+    "callsite": "0x8690a8",
+    "target": "0xada00e",
+    "context": "00869094 movs r5, #0\n00869096 uxtb r0, r5\n00869098 add.w r6, r4, r0, lsl #2\n0086909c ldr sb, [r6, #4]!\n008690a0 cmp.w sb, #0\n008690a4 beq #0x869128\n008690a6 add r1, sp, #0x2c\n008690a8 bl #0xada00e\n008690ac cbnz r0, #0x8690c2\n008690ae ldr r0, [sp, #0x2c]\n008690b0 cmp r0, #0x10\n008690b2 bhi #0x8690c2\n008690b4 movw r1, #0x990\n008690b8 movt r1, #0xca\n008690bc ldr.w r1, [r1, r0, lsl #2]\n008690c0 b #0x8690c4\n008690c2 movs r1, #0\n008690c4 sub.w r0, r7, #0x22\n008690c8 movs r2, #0x80\n008690ca movs r3, #0xa\n008690cc str r0, [sp, #0x20]\n008690ce add r0, sp, #0x34\n008690d0 str r0, [sp, #0x24]\n008690d2 addw r0, sb, #0xb52\n008690d6 str r0, [sp, #0x1c]\n008690d8 movs r0, #0\n008690da str r0, [sp, #0x18]"
+  },
+  {
+    "callsite": "0x945c18",
+    "target": "0xad9ff6",
+    "context": "00945c04 pop {r4, r5, r6, r7, pc}\n00945c06 push {r4, r5, r6, r7, lr}\n00945c08 add r7, sp, #0xc\n00945c0a push.w {r8, sb, fp}\n00945c0e sub sp, #8\n00945c10 mov sb, r0\n00945c12 sub.w r0, r7, #0x19\n00945c16 mov r4, r1\n00945c18 bl #0xad9ff6\n00945c1c cbnz r0, #0x945c46\n00945c1e ldrb r0, [r7, #-0x19]\n00945c22 cbz r0, #0x945c46\n00945c24 movw r0, #0x5924\n00945c28 movs r5, #0\n00945c2a add.w r6, sb, r0\n00945c2e ldr.w r0, [r6, r5, lsl #2]\n00945c32 ldrh r2, [r4]\n00945c34 movw r1, #0x794a\n00945c38 bl #0xad9faa\n00945c3c ldrb r0, [r7, #-0x19]\n00945c40 adds r5, #1\n00945c42 cmp r5, r0\n00945c44 blt #0x945c2e\n00945c46 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945c4a",
+    "target": "0xad9ff6",
+    "context": "00945c36 asrs r2, r1, #5\n00945c38 bl #0xad9faa\n00945c3c ldrb r0, [r7, #-0x19]\n00945c40 adds r5, #1\n00945c42 cmp r5, r0\n00945c44 blt #0x945c2e\n00945c46 sub.w r0, r7, #0x19\n00945c4a bl #0xad9ff6\n00945c4e cbnz r0, #0x945c7c\n00945c50 ldrb r0, [r7, #-0x19]\n00945c54 cbz r0, #0x945c7c\n00945c56 movs r0, #0\n00945c58 movw r8, #0x5924\n00945c5c movs r6, #0\n00945c5e add.w r0, sb, r0, lsl #2\n00945c62 ldrh r2, [r4, #4]\n00945c64 movw r1, #0x794b\n00945c68 ldr.w r0, [r0, r8]\n00945c6c bl #0xad9faa\n00945c70 ldrb r1, [r7, #-0x19]\n00945c74 adds r6, #1\n00945c76 sxth r0, r6\n00945c78 cmp r0, r1\n00945c7a blt #0x945c5e"
+  },
+  {
+    "callsite": "0x945c80",
+    "target": "0xad9ff6",
+    "context": "00945c6c bl #0xad9faa\n00945c70 ldrb r1, [r7, #-0x19]\n00945c74 adds r6, #1\n00945c76 sxth r0, r6\n00945c78 cmp r0, r1\n00945c7a blt #0x945c5e\n00945c7c sub.w r0, r7, #0x19\n00945c80 bl #0xad9ff6\n00945c84 cbnz r0, #0x945cae\n00945c86 ldrb r0, [r7, #-0x19]\n00945c8a cbz r0, #0x945cae\n00945c8c movw r0, #0x5924\n00945c90 movs r5, #0\n00945c92 add.w r6, sb, r0\n00945c96 ldr.w r0, [r6, r5, lsl #2]\n00945c9a ldrh r2, [r4, #6]\n00945c9c movw r1, #0x794c\n00945ca0 bl #0xad9faa\n00945ca4 ldrb r0, [r7, #-0x19]\n00945ca8 adds r5, #1\n00945caa cmp r5, r0\n00945cac blt #0x945c96\n00945cae sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945cb2",
+    "target": "0xad9ff6",
+    "context": "00945c9e asrs r4, r1, #5\n00945ca0 bl #0xad9faa\n00945ca4 ldrb r0, [r7, #-0x19]\n00945ca8 adds r5, #1\n00945caa cmp r5, r0\n00945cac blt #0x945c96\n00945cae sub.w r0, r7, #0x19\n00945cb2 bl #0xad9ff6\n00945cb6 cbnz r0, #0x945ce0\n00945cb8 ldrb r0, [r7, #-0x19]\n00945cbc cbz r0, #0x945ce0\n00945cbe movw r0, #0x5924\n00945cc2 movs r5, #0\n00945cc4 add.w r6, sb, r0\n00945cc8 ldr.w r0, [r6, r5, lsl #2]\n00945ccc ldrh r2, [r4, #8]\n00945cce movw r1, #0x794d\n00945cd2 bl #0xad9faa\n00945cd6 ldrb r0, [r7, #-0x19]\n00945cda adds r5, #1\n00945cdc cmp r5, r0\n00945cde blt #0x945cc8\n00945ce0 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945ce4",
+    "target": "0xad9ff6",
+    "context": "00945cd0 asrs r5, r1, #5\n00945cd2 bl #0xad9faa\n00945cd6 ldrb r0, [r7, #-0x19]\n00945cda adds r5, #1\n00945cdc cmp r5, r0\n00945cde blt #0x945cc8\n00945ce0 sub.w r0, r7, #0x19\n00945ce4 bl #0xad9ff6\n00945ce8 cbnz r0, #0x945d12\n00945cea ldrb r0, [r7, #-0x19]\n00945cee cbz r0, #0x945d12\n00945cf0 movw r0, #0x5924\n00945cf4 movs r5, #0\n00945cf6 add.w r6, sb, r0\n00945cfa ldr.w r0, [r6, r5, lsl #2]\n00945cfe ldrh r2, [r4, #0xa]\n00945d00 movw r1, #0x794e\n00945d04 bl #0xad9faa\n00945d08 ldrb r0, [r7, #-0x19]\n00945d0c adds r5, #1\n00945d0e cmp r5, r0\n00945d10 blt #0x945cfa\n00945d12 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945d16",
+    "target": "0xad9ff6",
+    "context": "00945d02 asrs r6, r1, #5\n00945d04 bl #0xad9faa\n00945d08 ldrb r0, [r7, #-0x19]\n00945d0c adds r5, #1\n00945d0e cmp r5, r0\n00945d10 blt #0x945cfa\n00945d12 sub.w r0, r7, #0x19\n00945d16 bl #0xad9ff6\n00945d1a cbnz r0, #0x945d44\n00945d1c ldrb r0, [r7, #-0x19]\n00945d20 cbz r0, #0x945d44\n00945d22 movw r0, #0x5924\n00945d26 movs r5, #0\n00945d28 add.w r6, sb, r0\n00945d2c ldr.w r0, [r6, r5, lsl #2]\n00945d30 ldrh r2, [r4, #0xc]\n00945d32 movw r1, #0x794f\n00945d36 bl #0xad9faa\n00945d3a ldrb r0, [r7, #-0x19]\n00945d3e adds r5, #1\n00945d40 cmp r5, r0\n00945d42 blt #0x945d2c\n00945d44 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945d48",
+    "target": "0xad9ff6",
+    "context": "00945d34 asrs r7, r1, #5\n00945d36 bl #0xad9faa\n00945d3a ldrb r0, [r7, #-0x19]\n00945d3e adds r5, #1\n00945d40 cmp r5, r0\n00945d42 blt #0x945d2c\n00945d44 sub.w r0, r7, #0x19\n00945d48 bl #0xad9ff6\n00945d4c cbnz r0, #0x945d76\n00945d4e ldrb r0, [r7, #-0x19]\n00945d52 cbz r0, #0x945d76\n00945d54 movw r0, #0x5924\n00945d58 movs r5, #0\n00945d5a add.w r6, sb, r0\n00945d5e ldr.w r0, [r6, r5, lsl #2]\n00945d62 ldrh r2, [r4, #0xe]\n00945d64 movw r1, #0x7950\n00945d68 bl #0xad9faa\n00945d6c ldrb r0, [r7, #-0x19]\n00945d70 adds r5, #1\n00945d72 cmp r5, r0\n00945d74 blt #0x945d5e\n00945d76 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945d7a",
+    "target": "0xad9ff6",
+    "context": "00945d66 asrs r0, r2, #5\n00945d68 bl #0xad9faa\n00945d6c ldrb r0, [r7, #-0x19]\n00945d70 adds r5, #1\n00945d72 cmp r5, r0\n00945d74 blt #0x945d5e\n00945d76 sub.w r0, r7, #0x19\n00945d7a bl #0xad9ff6\n00945d7e cbnz r0, #0x945da8\n00945d80 ldrb r0, [r7, #-0x19]\n00945d84 cbz r0, #0x945da8\n00945d86 movw r0, #0x5924\n00945d8a movs r5, #0\n00945d8c add.w r6, sb, r0\n00945d90 ldr.w r0, [r6, r5, lsl #2]\n00945d94 ldrh r2, [r4, #0x10]\n00945d96 movw r1, #0x7951\n00945d9a bl #0xad9faa\n00945d9e ldrb r0, [r7, #-0x19]\n00945da2 adds r5, #1\n00945da4 cmp r5, r0\n00945da6 blt #0x945d90\n00945da8 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945dac",
+    "target": "0xad9ff6",
+    "context": "00945d98 asrs r1, r2, #5\n00945d9a bl #0xad9faa\n00945d9e ldrb r0, [r7, #-0x19]\n00945da2 adds r5, #1\n00945da4 cmp r5, r0\n00945da6 blt #0x945d90\n00945da8 sub.w r0, r7, #0x19\n00945dac bl #0xad9ff6\n00945db0 cbnz r0, #0x945dda\n00945db2 ldrb r0, [r7, #-0x19]\n00945db6 cbz r0, #0x945dda\n00945db8 movw r0, #0x5924\n00945dbc movs r5, #0\n00945dbe add.w r6, sb, r0\n00945dc2 ldr.w r0, [r6, r5, lsl #2]\n00945dc6 ldrh r2, [r4, #0x12]\n00945dc8 movw r1, #0x7952\n00945dcc bl #0xad9faa\n00945dd0 ldrb r0, [r7, #-0x19]\n00945dd4 adds r5, #1\n00945dd6 cmp r5, r0\n00945dd8 blt #0x945dc2\n00945dda sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945dde",
+    "target": "0xad9ff6",
+    "context": "00945dca asrs r2, r2, #5\n00945dcc bl #0xad9faa\n00945dd0 ldrb r0, [r7, #-0x19]\n00945dd4 adds r5, #1\n00945dd6 cmp r5, r0\n00945dd8 blt #0x945dc2\n00945dda sub.w r0, r7, #0x19\n00945dde bl #0xad9ff6\n00945de2 cbnz r0, #0x945e0c\n00945de4 ldrb r0, [r7, #-0x19]\n00945de8 cbz r0, #0x945e0c\n00945dea movw r0, #0x5924\n00945dee movs r5, #0\n00945df0 add.w r6, sb, r0\n00945df4 ldr.w r0, [r6, r5, lsl #2]\n00945df8 ldrh r2, [r4, #0x14]\n00945dfa movw r1, #0x7953\n00945dfe bl #0xad9faa\n00945e02 ldrb r0, [r7, #-0x19]\n00945e06 adds r5, #1\n00945e08 cmp r5, r0\n00945e0a blt #0x945df4\n00945e0c sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945e10",
+    "target": "0xad9ff6",
+    "context": "00945dfc asrs r3, r2, #5\n00945dfe bl #0xad9faa\n00945e02 ldrb r0, [r7, #-0x19]\n00945e06 adds r5, #1\n00945e08 cmp r5, r0\n00945e0a blt #0x945df4\n00945e0c sub.w r0, r7, #0x19\n00945e10 bl #0xad9ff6\n00945e14 cbnz r0, #0x945e3e\n00945e16 ldrb r0, [r7, #-0x19]\n00945e1a cbz r0, #0x945e3e\n00945e1c movw r0, #0x5924\n00945e20 movs r5, #0\n00945e22 add.w r6, sb, r0\n00945e26 ldr.w r0, [r6, r5, lsl #2]\n00945e2a ldrh r2, [r4, #0x16]\n00945e2c movw r1, #0x7954\n00945e30 bl #0xad9faa\n00945e34 ldrb r0, [r7, #-0x19]\n00945e38 adds r5, #1\n00945e3a cmp r5, r0\n00945e3c blt #0x945e26\n00945e3e sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945e42",
+    "target": "0xad9ff6",
+    "context": "00945e2e asrs r4, r2, #5\n00945e30 bl #0xad9faa\n00945e34 ldrb r0, [r7, #-0x19]\n00945e38 adds r5, #1\n00945e3a cmp r5, r0\n00945e3c blt #0x945e26\n00945e3e sub.w r0, r7, #0x19\n00945e42 bl #0xad9ff6\n00945e46 cbnz r0, #0x945e70\n00945e48 ldrb r0, [r7, #-0x19]\n00945e4c cbz r0, #0x945e70\n00945e4e movw r0, #0x5924\n00945e52 movs r5, #0\n00945e54 add.w r6, sb, r0\n00945e58 ldr.w r0, [r6, r5, lsl #2]\n00945e5c ldrh r2, [r4, #0x18]\n00945e5e movw r1, #0x7955\n00945e62 bl #0xad9faa\n00945e66 ldrb r0, [r7, #-0x19]\n00945e6a adds r5, #1\n00945e6c cmp r5, r0\n00945e6e blt #0x945e58\n00945e70 sub.w r0, r7, #0x19"
+  },
+  {
+    "callsite": "0x945e74",
+    "target": "0xad9ff6",
+    "context": "00945e60 asrs r5, r2, #5\n00945e62 bl #0xad9faa\n00945e66 ldrb r0, [r7, #-0x19]\n00945e6a adds r5, #1\n00945e6c cmp r5, r0\n00945e6e blt #0x945e58\n00945e70 sub.w r0, r7, #0x19\n00945e74 bl #0xad9ff6\n00945e78 cbnz r0, #0x945ea6\n00945e7a ldrb r0, [r7, #-0x19]\n00945e7e cbz r0, #0x945ea6\n00945e80 movs r0, #0\n00945e82 movw r8, #0x5924\n00945e86 movs r6, #0\n00945e88 add.w r0, sb, r0, lsl #2\n00945e8c ldrh r2, [r4, #0x1a]\n00945e8e movw r1, #0x7956\n00945e92 ldr.w r0, [r0, r8]\n00945e96 bl #0xad9faa\n00945e9a ldrb r1, [r7, #-0x19]\n00945e9e adds r6, #1\n00945ea0 sxth r0, r6\n00945ea2 cmp r0, r1\n00945ea4 blt #0x945e88"
+  },
+  {
+    "callsite": "0x945eaa",
+    "target": "0xad9ff6",
+    "context": "00945e96 bl #0xad9faa\n00945e9a ldrb r1, [r7, #-0x19]\n00945e9e adds r6, #1\n00945ea0 sxth r0, r6\n00945ea2 cmp r0, r1\n00945ea4 blt #0x945e88\n00945ea6 sub.w r0, r7, #0x19\n00945eaa bl #0xad9ff6\n00945eae cbnz r0, #0x945edc\n00945eb0 ldrb r0, [r7, #-0x19]\n00945eb4 cbz r0, #0x945edc\n00945eb6 movs r0, #0\n00945eb8 movw r8, #0x5924\n00945ebc movs r6, #0\n00945ebe add.w r0, sb, r0, lsl #2\n00945ec2 ldrh r2, [r4, #0x1c]\n00945ec4 movw r1, #0x7957\n00945ec8 ldr.w r0, [r0, r8]\n00945ecc bl #0xad9faa\n00945ed0 ldrb r1, [r7, #-0x19]\n00945ed4 adds r6, #1\n00945ed6 sxth r0, r6\n00945ed8 cmp r0, r1\n00945eda blt #0x945ebe"
+  },
+  {
+    "callsite": "0x945ee0",
+    "target": "0xad9ff6",
+    "context": "00945ecc bl #0xad9faa\n00945ed0 ldrb r1, [r7, #-0x19]\n00945ed4 adds r6, #1\n00945ed6 sxth r0, r6\n00945ed8 cmp r0, r1\n00945eda blt #0x945ebe\n00945edc sub.w r0, r7, #0x19\n00945ee0 bl #0xad9ff6\n00945ee4 cbnz r0, #0x945f12\n00945ee6 ldrb r0, [r7, #-0x19]\n00945eea cbz r0, #0x945f12\n00945eec movs r0, #0\n00945eee movw r8, #0x5924\n00945ef2 movs r6, #0\n00945ef4 add.w r0, sb, r0, lsl #2\n00945ef8 ldrh r2, [r4, #0x1e]\n00945efa movw r1, #0x7958\n00945efe ldr.w r0, [r0, r8]\n00945f02 bl #0xad9faa\n00945f06 ldrb r1, [r7, #-0x19]\n00945f0a adds r6, #1\n00945f0c sxth r0, r6\n00945f0e cmp r0, r1\n00945f10 blt #0x945ef4"
+  },
+  {
+    "callsite": "0x945f16",
+    "target": "0xad9ff6",
+    "context": "00945f02 bl #0xad9faa\n00945f06 ldrb r1, [r7, #-0x19]\n00945f0a adds r6, #1\n00945f0c sxth r0, r6\n00945f0e cmp r0, r1\n00945f10 blt #0x945ef4\n00945f12 sub.w r0, r7, #0x19\n00945f16 bl #0xad9ff6\n00945f1a cbnz r0, #0x945f4a\n00945f1c ldrb r0, [r7, #-0x19]\n00945f20 cbz r0, #0x945f4a\n00945f22 movs r0, #0\n00945f24 movw r8, #0x5924\n00945f28 movs r6, #0\n00945f2a add.w r0, sb, r0, lsl #2\n00945f2e ldrb.w r2, [r4, #0x20]\n00945f32 movw r1, #0x7959\n00945f36 ldr.w r0, [r0, r8]\n00945f3a bl #0xad9faa\n00945f3e ldrb r1, [r7, #-0x19]\n00945f42 adds r6, #1\n00945f44 sxth r0, r6\n00945f46 cmp r0, r1\n00945f48 blt #0x945f2a"
+  },
+  {
+    "callsite": "0x945f4e",
+    "target": "0xad9ff6",
+    "context": "00945f3a bl #0xad9faa\n00945f3e ldrb r1, [r7, #-0x19]\n00945f42 adds r6, #1\n00945f44 sxth r0, r6\n00945f46 cmp r0, r1\n00945f48 blt #0x945f2a\n00945f4a sub.w r0, r7, #0x19\n00945f4e bl #0xad9ff6\n00945f52 cbnz r0, #0x945f82\n00945f54 ldrb r0, [r7, #-0x19]\n00945f58 cbz r0, #0x945f82\n00945f5a movs r0, #0\n00945f5c movw r8, #0x5924\n00945f60 movs r6, #0\n00945f62 add.w r0, sb, r0, lsl #2\n00945f66 ldrb.w r2, [r4, #0x21]\n00945f6a movw r1, #0x795a\n00945f6e ldr.w r0, [r0, r8]\n00945f72 bl #0xad9faa\n00945f76 ldrb r1, [r7, #-0x19]\n00945f7a adds r6, #1\n00945f7c sxth r0, r6\n00945f7e cmp r0, r1\n00945f80 blt #0x945f62"
+  },
+  {
+    "callsite": "0x945f86",
+    "target": "0xad9ff6",
+    "context": "00945f72 bl #0xad9faa\n00945f76 ldrb r1, [r7, #-0x19]\n00945f7a adds r6, #1\n00945f7c sxth r0, r6\n00945f7e cmp r0, r1\n00945f80 blt #0x945f62\n00945f82 sub.w r0, r7, #0x19\n00945f86 bl #0xad9ff6\n00945f8a cbnz r0, #0x945fba\n00945f8c ldrb r0, [r7, #-0x19]\n00945f90 cbz r0, #0x945fba\n00945f92 movs r0, #0\n00945f94 movw r8, #0x5924\n00945f98 movs r6, #0\n00945f9a add.w r0, sb, r0, lsl #2\n00945f9e ldrb.w r2, [r4, #0x22]\n00945fa2 movw r1, #0x795b\n00945fa6 ldr.w r0, [r0, r8]\n00945faa bl #0xad9faa\n00945fae ldrb r1, [r7, #-0x19]\n00945fb2 adds r6, #1\n00945fb4 sxth r0, r6\n00945fb6 cmp r0, r1\n00945fb8 blt #0x945f9a"
+  },
+  {
+    "callsite": "0x945fbe",
+    "target": "0xad9ff6",
+    "context": "00945faa bl #0xad9faa\n00945fae ldrb r1, [r7, #-0x19]\n00945fb2 adds r6, #1\n00945fb4 sxth r0, r6\n00945fb6 cmp r0, r1\n00945fb8 blt #0x945f9a\n00945fba sub.w r0, r7, #0x19\n00945fbe bl #0xad9ff6\n00945fc2 cbnz r0, #0x945ff2\n00945fc4 ldrb r0, [r7, #-0x19]\n00945fc8 cbz r0, #0x945ff2\n00945fca movs r0, #0\n00945fcc movw r8, #0x5924\n00945fd0 movs r6, #0\n00945fd2 add.w r0, sb, r0, lsl #2\n00945fd6 ldrb.w r2, [r4, #0x23]\n00945fda movw r1, #0x795c\n00945fde ldr.w r0, [r0, r8]\n00945fe2 bl #0xad9faa\n00945fe6 ldrb r1, [r7, #-0x19]\n00945fea adds r6, #1\n00945fec sxth r0, r6\n00945fee cmp r0, r1\n00945ff0 blt #0x945fd2"
+  },
+  {
+    "callsite": "0x945ff6",
+    "target": "0xad9ff6",
+    "context": "00945fe2 bl #0xad9faa\n00945fe6 ldrb r1, [r7, #-0x19]\n00945fea adds r6, #1\n00945fec sxth r0, r6\n00945fee cmp r0, r1\n00945ff0 blt #0x945fd2\n00945ff2 sub.w r0, r7, #0x19\n00945ff6 bl #0xad9ff6\n00945ffa cbnz r0, #0x946028\n00945ffc ldrb r0, [r7, #-0x19]\n00946000 cbz r0, #0x946028\n00946002 movs r0, #0\n00946004 movw r8, #0x5924\n00946008 movs r6, #0\n0094600a add.w r0, sb, r0, lsl #2\n0094600e ldrh r2, [r4, #0x24]\n00946010 movw r1, #0x795d\n00946014 ldr.w r0, [r0, r8]\n00946018 bl #0xad9faa\n0094601c ldrb r1, [r7, #-0x19]\n00946020 adds r6, #1\n00946022 sxth r0, r6\n00946024 cmp r0, r1\n00946026 blt #0x94600a"
+  },
+  {
+    "callsite": "0x94602c",
+    "target": "0xad9ff6",
+    "context": "00946018 bl #0xad9faa\n0094601c ldrb r1, [r7, #-0x19]\n00946020 adds r6, #1\n00946022 sxth r0, r6\n00946024 cmp r0, r1\n00946026 blt #0x94600a\n00946028 sub.w r0, r7, #0x19\n0094602c bl #0xad9ff6\n00946030 cbnz r0, #0x94605e\n00946032 ldrb r0, [r7, #-0x19]\n00946036 cbz r0, #0x94605e\n00946038 movs r0, #0\n0094603a movw r8, #0x5924\n0094603e movs r6, #0\n00946040 add.w r0, sb, r0, lsl #2\n00946044 ldrh r2, [r4, #2]\n00946046 movw r1, #0x795e\n0094604a ldr.w r0, [r0, r8]\n0094604e bl #0xad9faa\n00946052 ldrb r1, [r7, #-0x19]\n00946056 adds r6, #1\n00946058 sxth r0, r6\n0094605a cmp r0, r1\n0094605c blt #0x946040\n0094605e movs r0, #0x2c"
+  },
+  {
+    "callsite": "0xade854",
+    "target": "0xadd162",
+    "context": "00ade840 str fp, [sp, #-0x4]!\n00ade844 mov r4, r2\n00ade846 mov r5, r1\n00ade848 mov r0, r4\n00ade84a bl #0xae96ca\n00ade84e mov r6, r0\n00ade850 mov r0, r5\n00ade852 mov r1, r6\n00ade854 bl #0xadd162\n00ade858 mov r0, r5\n00ade85a mov.w r1, #0x5000\n00ade85e bl #0x45b0c0\n00ade862 mov r0, r5\n00ade864 mov r1, r4\n00ade866 mov r2, r6\n00ade868 ldr fp, [sp], #4\n00ade86c pop.w {r4, r5, r6, r7, lr}\n00ade870 b.w #0x45acbc\n00ade874 ldrh r3, [r2, #4]\n00ade876 cbz r3, #0xade87c\n00ade878 movs r2, #0\n00ade87a b #0xade882\n00ade87c ldrh r3, [r2]\n00ade87e ldrh r2, [r2, #2]\n00ade880 add r2, r3\n00ade882 strh r2, [r0]\n00ade884 ldrh r2, [r1]\n00ade886 strh r2, [r0, #2]"
+  }
+]

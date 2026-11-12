@@ -49,13 +49,6 @@ static void put(uint8_t *p,unsigned o,uint32_t v) {
  p[o]=(uint8_t)v;p[o+1]=(uint8_t)(v>>8);
  p[o+2]=(uint8_t)(v>>16);p[o+3]=(uint8_t)(v>>24);
 }
-static __attribute__((noinline)) uint32_t crc28(const uint8_t *p) {
- uint32_t c=0xffffffffu;unsigned i,j;
- for(i=0;i<28;i++){
-  c^=p[i];for(j=0;j<8;j++)c=(c>>1)^(0xedb88320u&-(c&1u));
- }
- return c^0xffffffffu;
-}
 int r5_cp_stage413_consume(const uint8_t *p,uint32_t source) {
  void *allocation=0;uint8_t *reply;unsigned i;uint32_t bank_result;
  if(source==R5_STAGE413_AP_QUEUE&&p) {
@@ -104,20 +97,26 @@ int r5_cp_stage413_consume(const uint8_t *p,uint32_t source) {
        r5_transfer_bank_crc(active)==word(p,20)) {
      /* Reuse cancels an abandoned staging owner. Late PUT/SEAL must not
       * resurrect a transaction from a prior AP session. */
-     MANAGER[0]=0;
+     /* 取消暂存的会话，但保留未发布缓冲供下次使用；不能改写已发布库。 */
+     uintptr_t staging=MANAGER[0];
+     if(staging&&staging!=STATE[0])
+      ((struct r5_transfer_cp *)(staging+TX_OFFSET))->phase=0;
      r5_filter423_accept(word(p,8),0);
      for(i=0;i<32;i++)ack[i]=p[i];ack[2]=R5_X_ACK;
      put(ack,32,active->state);put(ack,36,0);put(ack,40,active->received_mask);
      put(ack,28,r5_diag_crc(ack,sizeof(ack)));goto transfer_reply;
     }
     if(!MANAGER[0]||((struct r5_boot_bank *)(uintptr_t)MANAGER[0])->state) {
-     uintptr_t a;volatile uint8_t *q;
-     /* Bound retained generations; never overwrite or free reader-owned data. */
-     if(MANAGER[1]>=16)goto generation_failed;
-     a=(uintptr_t)FN(0x5ef69cu,bank_alloc_fn)(ALLOCATION_BYTES);
-     if(!a||(a&7u)||a>UINT32_MAX-(ALLOCATION_BYTES-1u))goto generation_failed;
+     uintptr_t a=MANAGER[0];volatile uint8_t *q;
+     /* 只复用从未发布的暂存；已发布库的所有消费者和代次上限保持。 */
+     if(!a||a==STATE[0]||((const struct r5_boot_bank *)a)->state==0x35424c53u){
+      if(MANAGER[1]>=16)goto generation_failed;
+      a=(uintptr_t)FN(0x5ef69cu,bank_alloc_fn)(ALLOCATION_BYTES);
+      if(!a||(a&7u)||a>UINT32_MAX-(ALLOCATION_BYTES-1u))goto generation_failed;
+      MANAGER[1]++;
+     }
      q=(void *)a;for(i=0;i<ALLOCATION_BYTES;i++)q[i]=0;
-     MANAGER[0]=(uint32_t)a;MANAGER[1]++;
+     MANAGER[0]=(uint32_t)a;
     }
    }
    bank=(void *)(uintptr_t)MANAGER[0];
@@ -157,7 +156,7 @@ transfer_reply:
     p[2]!=R5_STAGE413_REQUEST||p[3]!=R5_STAGE413_BYTES||
     word(p,4)!=R5_STAGE413_MAGIC||!word(p,8)||
     (word(p,16)&~0xffffffu)||word(p,20)||word(p,24)||
-    word(p,28)!=crc28(p))return 0;
+    word(p,28)!=r5_diag_crc(p,28))return 0;
  bank_result=bank_once();
  /* Reply failures do not roll back or reallocate the one retained bank.
   * Original receive task always releases the incoming message once. */
@@ -166,7 +165,7 @@ transfer_reply:
  FN(0xbaaaa1u,source_fn)(reply,R5_STAGE413_CP_QUEUE);
  for(i=0;i<R5_STAGE413_BYTES;i++)reply[i]=p[i];
  reply[2]=R5_STAGE413_ACK;put(reply,20,bank_result);put(reply,24,R5_STAGE413_CP_BUILD);
- put(reply,28,crc28(reply));
+ put(reply,28,r5_diag_crc(reply,28));
  if(FN(0x53bb55u,send_fn)(source,reply))
   (void)FN(0x53c31du,free_fn)(source,reply);
  return 1;

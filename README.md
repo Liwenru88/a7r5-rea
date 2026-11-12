@@ -9,7 +9,7 @@
 > 当前客户端为本地测试版，最低构建目标为 macOS 14，实际验证环境为 macOS 27.0.1 / Apple Silicon。客户端运行不依赖 QEMU、Homebrew、Node 或开发虚拟环境。容器验签、离线回归和模拟结果不能证明相机升级接纳、功能效果或断电恢复；当前客户端未完成实机验收。
 
 - **桌面客户端。** `client-update-20261024-01` 的改动和离线验证见 [2026-10-24 更新记录](a7r5-desktop/docs/updates-20261024.md)。需要该批次对应的功能时，可从当前源码启动或按下文构建客户端。
-- **固件研究。** 当前主线为基于原厂 **4.00** 的 **4.19 全功能修正版（2026-11-11）**，提供十个可组合模块。桌面工坊保留四项组合和固定 4.17 预设；十模块 4.19 使用 `compose.py`。从[当前能力](#当前已实现能力)、[构建示例](#构建全功能与自定义模块升级包)或[完整功能索引](a7r5-firmware-features/README.md)进入。
+- **固件研究。** 当前主线为基于原厂 **4.00** 的 **4.19 全功能修正版（2026-11-12）**，提供十个可组合模块，已封入 CP 暂存资源修复及 FL2／FL3 机内 RAW 备选目录。桌面工坊保留四项组合和固定 4.17 预设；十模块 4.19 使用 `compose.py`。从[当前能力](#当前已实现能力)、[构建示例](#构建全功能与自定义模块升级包)或[完整功能索引](a7r5-firmware-features/README.md)进入。
 
 ## 目录
 
@@ -33,12 +33,12 @@
 
 ## 当前变更与交付状态
 
-本页按 2026-11-11 工作区源码、模块清单和现有验证回执整理。当前变更涵盖以下内容，提交 GitHub 时仍需将相应新源码、配置、测试和文档一并纳入提交；README 不会替代这些文件。
+本页按 2026-11-12 固件构建及验证回执更新；其他工程状态沿用各自记录。提交 GitHub 时仍需将相应新源码、配置、测试和文档一并纳入提交；README 不会替代这些文件。
 
 - **模块化固件工程：** 原厂 4.00 输入，按模块配置、检查依赖与共享组件、构建、独立重建复验；24 槽能力统一为 `look24`，保留旧 ID 的历史复现兼容。
 - **滤镜交互：** 原厂／自定义分组、左键切组、分组成功选择记忆、浏览预览与自动保存、八项相对偏移、快速切换保留最后目标，以及后台恢复耗尽后的中键重试。
 - **画幅与声音：** 十档画幅的逐张锁存、任务复制、取消恢复、开机记忆和保存失败提示；机械／电子双组自定义快门声独立选择与音量，电子前帘归机械组。
-- **4.19 修正版：** 合入滤镜恢复重试、画幅补读和异步保存修复，并纠正 AArch64 配置目录打开标志。保持原版十二款滤镜的成像处理框架。当前包身份如下表。
+- **4.19 修正版：** 保留此前交互与目录 ABI 修复；新增 CP 失败／取消导入暂存复用、FL2／FL3 的 RAW 十二项备选目录和最终资源门禁。完整冻结快照已恢复，保留原版十二款滤镜的成像处理框架。当前包身份如下表。
 - **工具与训练：** 桌面工坊新增 4.17 整合预设；Color Lab 增加量化回读、色卡留出集保护、暗部／中性与连续性检查，以及独立场景验证工具。联合拟合、神经网络教师等实验路径须按训练报告判断，未通过验收的候选回退，不能概括为已优于默认算法。
 - **研究资料整理：** Fastboot／4.18 故障材料归入独立模块；旧构建和重复解包产物已清理，必要证据压缩保存。历史回执中的 `.local`、旧包和工作区路径可能不再存在，复验需重新准备输入。
 
@@ -46,13 +46,13 @@
 |---|---|
 | 原厂基底 | ILCE-7RM5 4.00，精确 DAT 摘要见[输入准备](#1-准备固定输入) |
 | 当前全功能预设 | [`presets/full-4.19.json`](a7r5-firmware-features/presets/full-4.19.json)，十模块，声音变体 `custom-dual-full` |
-| 当前输出 DAT | 754525608 字节；SHA-256 `9b6919ce47c8224efd591945a88849832da0bae01ef4a74dfdbeb85f9675d5dc` |
-| 模块修订 | `look24` 修订 2；`photo-aspect-ratios` 修订 5 |
-| 已有离线证据 | 当前修正版相关回归 116 项；独立重建、解包和研究签名验证；736841 帧、147 个归档成员核对 |
-| 已有 QEMU 证据 | 当前修正版正常初始化、54 次 Qt 操作／53 张原帧；声音设置保存和 MENU 开关。滤镜成功完成仍受原生 E4 服务限制 |
+| 当前输出 DAT | 754525608 字节；SHA-256 `d486853533711a282c5e0794f6e98931608c1d2c581e3b25cd70da8b48ce5503` |
+| 模块修订 | `look24` 修订 3；`look-fl2-fl3` 修订 2；`photo-aspect-ratios` 修订 5 |
+| 已有离线证据 | 最终包 174 项与色彩对照 6 项通过；完整快照 331 项／源码锁 188 项；独立重建、解包和验签；736841 帧、147 个成员 |
+| 已有 QEMU 证据 | 两轮正常客体 86 次 Qt 操作／86 张原帧（含两张基线）；无卡恢复双组声音和 MENU 开关通过。原生 E4 等硬件边界保持 |
 | 当前实机状态 | 本次 4.19 修正版未进行相机升级、启动或成像验收；此前 4.16 的用户实机成功反馈不能替代本包验收 |
 
-**源码与本地产物分开。** GitHub 源码不含完整 DAT、固件镜像、QEMU 大客体和真实设备现场。当前包的[说明](a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md)与[复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261111/实施与复验.md)记录了当时结果；克隆者须自行准备合法输入并重新生成产物。不要按版本号混用历史同名 4.19 包。
+**源码与本地产物分开。** GitHub 源码不含完整 DAT、固件镜像、QEMU 大客体和真实设备现场。当前包的[说明](a7r5-firmware-features/releases/4.19-full-repaired-20261112/README.md)与[复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261112/实施与复验.md)记录实际结果；[前版](a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md)保留。克隆者须自行准备合法输入并恢复固定快照材料。不要按版本号混用历史同名 4.19 包。
 
 ## 当前已实现能力
 
@@ -63,7 +63,7 @@
 | 模块 ID／实施入口 | 实现能力 | 操作与边界 |
 |---|---|---|
 | [`look24`](a7r5-firmware-features/look24/README.md) | 24 槽自定义滤镜，SD 卡冷启动导入、机内库、分组预览与记忆、八项相对调参、选择保存恢复 | 创意外观内分组；逻辑左键切组，上下浏览，右键调参，中键确认／调参返回；预览成功自动保存。可用槽数取决于导入库，容量不等于内置 24 款 |
-| [`look-fl2-fl3`](a7r5-firmware-features/look-fl2-fl3/README.md) | 原厂组开放 FL2／FL3，包含选择器、默认参数及 CP 色彩数据适配 | 原厂组操作；色彩数据和迁移依据见模块文档，真实成像待机身验收 |
+| [`look-fl2-fl3`](a7r5-firmware-features/look-fl2-fl3/README.md) | 原厂组开放 FL2／FL3，包含选择器、默认参数、CP 色彩适配及机内 RAW 十二项备选目录 | 原厂组操作；原十款 RAW 子目录保留，真实 ARW／Imaging Edge 与成像待验收 |
 | [`look-factory-six`](a7r5-firmware-features/look-factory-six/README.md) | C1–C6：Classic Neg.、Classic Chrome、Nostalgic Neg.、Astia、GR Positive Film、GR Negative Film | 固件内置，在原厂组选择；与 SD 卡导入槽分开，沿用原厂调参页 |
 | [`lens-af-compat`](a7r5-firmware-features/lens-af-compat/README.md) | 自动兼容模式保留镜头已上报的 AF 能力，调整能力过滤与发布 | 不为未上报的能力造值；镜头通讯及强制模式保留，实镜 AF-C／连拍待验收 |
 | [`photo-aspect-ratios`](a7r5-firmware-features/photo-aspect-ratios/README.md) | 原有 3:2、4:3、16:9、1:1，加 17:6、65:24、5:4、7:6、1.91:1、2.35:1，共十档 | 取景构图遮罩；JPEG／HEIF 实裁；RAW 像素保留完整幅面，内嵌预览按比例处理。确认后台保存，取消恢复原比例；硬件成片待验收 |
@@ -90,7 +90,7 @@ Color Lab 还可导出标准配方与“原厂多外观通用偏差（实验）�
 
 ## 功能截图与操作说明
 
-以下均为原厂应用在 QEMU 内生成的真实菜单帧，图片原样复制，未绘制替代界面。声音两图来自最新修正版，其余五图来自历史 4.19 会话，用于说明共同的操作界面；不作为最新版本的成像／硬件验收。图片和去除设备现场信息的来源摘要随源码保留，见[截图来源清单](docs/images/features/sources.json)。
+以下均为原厂应用在 QEMU 内生成的真实菜单帧，图片原样复制，未绘制替代界面。声音两图来自 2026-11-12 修正版，其余五图来自历史 4.19 会话，用于说明共同操作；不作为成像／硬件验收。当前声音原帧与回执见[新包截图](a7r5-firmware-features/releases/4.19-full-repaired-20261112/README.md#当前包截图)，历史图来源见[截图来源清单](docs/images/features/sources.json)。
 
 ### 创意外观分组、预览与八项调参
 
@@ -116,7 +116,7 @@ Color Lab 还可导出标准配方与“原厂多外观通用偏差（实验）�
 
 | 电子组选择声音 | 两组独立音量 |
 |---|---|
-| ![电子快门选择自定义声音，机械组关闭](docs/images/features/electronic-sound.png) | ![电子组百分之八十、机械组百分之三十](docs/images/features/dual-sound-volume.png) |
+| ![电子快门选择自定义声音，机械组关闭](a7r5-firmware-features/releases/4.19-full-repaired-20261112/qemu/electronic-sound-confirmed.png) | ![电子组百分之八十、机械组百分之三十](a7r5-firmware-features/releases/4.19-full-repaired-20261112/qemu/mechanical-volume-confirmed.png) |
 
 入口为 `Setup → Sound Option`。两组分别选择声音／关闭和音量；图示电子组 80%、机械组 30%，电子前帘共用机械组。截图验证菜单和设置状态，音频服务使用夹具，未验证扬声器真实输出。NTSC、AF、ST 和 AWB 等底层改动通过模块说明与离线回执呈现。
 
@@ -133,6 +133,9 @@ A7R5_RUN=$(mktemp -d "$PWD/.local/full419.XXXXXX")
 A7R5_STOCK="$PWD/a7r5-firmware-images/官方升级包/BODYDATA.DAT"
 A7R5_DAT_PY="$PWD/a7r5-dat-tool/.venv/bin/python"
 A7R5_FEATURES="$PWD/a7r5-firmware-features"
+
+# 新检出时显式下载固定提交的缺失快照材料；已有相同文件只核对。
+"$PWD/.venv/bin/python" -B "$A7R5_FEATURES/materials/restore_snapshot.py" --apply --download
 
 "$A7R5_DAT_PY" -B "$A7R5_FEATURES/compose.py" plan \
   --config "$A7R5_FEATURES/presets/full-4.19.json" --base "$A7R5_STOCK"
@@ -154,7 +157,7 @@ A7R5_FEATURES="$PWD/a7r5-firmware-features"
 
 单项配置只填一个模块 ID；新配置不要混用 `look24` 与其历史子 ID。全功能预设显式设置 `"variants":{"photo-electronic-shutter-sound":"custom-dual-full"}`；普通声音模块和该变体的依赖、效果不同，不能只加声音 ID 就认为得到双组菜单。当前支持的是经过适配的组合，并非十模块所有子集都已验证；`plan` 拒绝的组合应先分析原因。例如仅选 24 槽、FL2／FL3 和十档画幅会被当前计划拒绝，不能跳过门禁。
 
-输出包括 `BODYDATA.DAT`、`lock.json`、`verification.json`，启用冷启动导入时还有 `R5NATIVE.BIN`。`verify` 从原厂重建期望结果并比较；再用[修正版复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261111/实施与复验.md)的独立解包入口验签回读。历史回归中的夹具路径若已清理，应从同一原厂 USR 重新提取，不改摘要或跳过断言。
+输出包括 `BODYDATA.DAT`、`lock.json`、`verification.json`，启用冷启动导入时还有 `R5NATIVE.BIN`。`verify` 从原厂重建期望结果并比较；再用[修正版复现记录](a7r5-firmware-features/releases/4.19-full-repaired-20261112/实施与复验.md)的独立解包入口验签回读。历史回归中的夹具路径若已清理，应从同一原厂 USR 重新提取，不改摘要或跳过断言。
 
 **启动链仍有已知边界。** 当前全功能包的 WBI 首 512 字节已失效，尾部和长度保持原厂，CRC 为 `dfa823fc`；部分单项配置仍保留原厂 WBI，不能假定任意组合都已采用全功能策略。原厂 NOR 擦写错误漏报尚未修复。自定义组合必须独立审查，构建成功不等于允许实机安装，详见[启动审计](a7r5-firmware-features/specs/4.19-boot-audit/分析报告.md)。
 
@@ -800,13 +803,13 @@ DAT 的冻结来源还记录了 `vendor/fwtool/sony/constants.py`。相关公开
    - a7r5-desktop/README.md、a7r5-desktop/docs/updates-20261024.md、a7r5-desktop/engine/firmware.py、a7r5-desktop/engine/card-guide.html；
    - a7r5-firmware-features/README.md、a7r5-firmware-features/构建工程实施手册.md、a7r5-firmware-features/compose.py、a7r5-firmware-features/core/、a7r5-firmware-features/bases/ 和所选模块的 module.json／README；
    - a7r5-firmware-features/presets/full-4.19.json；
-   - a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md、实施与复验.md（存在时）；
+   - a7r5-firmware-features/releases/4.19-full-repaired-20261112/README.md、实施与复验.md（存在时）；
    - a7r5-firmware-features/specs/4.19-boot-audit/分析报告.md。
    清理后不存在的历史产物只作为记录；不得假装克隆仓库就拥有完整固件、设备现场、QEMU 客体或全部回执。
 3. 输出简短调查结论：当前支持的平台／机型／前像、模块表、两种信任入口的差异、输入缺口和验证计划。不要把桌面工坊的四项组合／4.17 预设当作十模块 4.19 构建器。
 
 二、离线准备与构建（在授权范围内连续完成）
-4. 优先复用项目 .venv；缺少依赖时按锁文件准备环境，不全局安装 Python 包。新检出源码先读取 scripts/source-assets.json，使用 scripts/prepare_source_assets.py restore --download 恢复固定模型、合成色卡和独立包增量，再运行 check；没有网络时需提供摘要一致的原件，不修改摘要。当前主线是 macOS Apple Silicon；不通过删除平台检查伪装跨平台支持。含固件模块需要 LLVM／LLD、OpenSSL 和相应文件系统工具，以当前源码要求为准。
+4. 优先复用项目 .venv；缺少依赖时按锁文件准备环境，不全局安装 Python 包。新检出源码先按 scripts/source-assets.json 恢复固定模型、合成色卡和独立包增量并运行 check；含24槽固件还需执行 a7r5-firmware-features/materials/restore_snapshot.py --apply --download，补齐固定提交的13项易漏快照材料。仅显式 --download 才联网，无网络可提供同摘要本地副本。未知前像停止；根 .gitignore 漂移只能在明确恢复并指定新备份目录时还原。不能改清单、摘要或取消快照检查。当前主线是 macOS Apple Silicon；不通过删除平台检查伪装跨平台支持。含固件模块需要 LLVM／LLD、OpenSSL 和相应文件系统工具，以当前源码要求为准。
 5. 原厂基底必须是适配的 ILCE-7RM5 4.00 DAT：754525608 字节，SHA-256 为 51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2。核对研究公私钥配对；不生成新身份替代机内已有身份，不输出私钥、密码或设备认证载荷。
 6. 全功能使用 presets/full-4.19.json：十个模块及声音 custom-dual-full 变体。自定义组合新建配置，base 为 ilce-7rm5-4.00，modules 为明确 ID；新增配置不覆盖原预设。先运行 compose.py plan，再 build，最后 verify，均使用新的输出目录。不要自行启用未选择的模块或强行绕过组合拒绝。
 7. 新配置优先用 look24，不能同时填入其历史六个子 ID。需要与全功能相同的双组自定义声音时，必须核对 custom-dual-full 的组合依赖；省略 variants 会使用普通声音配方，不能将两者混称。

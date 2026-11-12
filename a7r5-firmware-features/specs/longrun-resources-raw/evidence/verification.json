@@ -1,0 +1,132 @@
+{
+  "schema": "r5-longrun-resources-raw/1",
+  "status": "OFFLINE_COMPONENTS_VERIFIED_RELEASE_BLOCKED",
+  "camera_io": false,
+  "new_DAT_generated": false,
+  "clean_snapshot_build": false,
+  "new_QEMU_session": false,
+  "device_acceptance_verified": false,
+  "CP_single_sha256": "bf94dff634ce8369073c4f25728fd02fa1e6a02f5d3e46d69360b85e184b6a9b",
+  "CP_combined_sha256": "745c63742b525f8700142ad310b6f3ec848015aec60044bc19b69cc458d6c441",
+  "AP_final_unchanged_sha256": "d809ab5fc9d38ca2594bff0cba86a55fc372937d874c745b9da99250a7eaa376",
+  "suites": {
+    "longrun-final.xml": {
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "42.959"
+    },
+    "stock-cp-final.xml": {
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "38.670"
+    },
+    "raw-combined-final-v2.xml": {
+      "tests": "32",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.413"
+    },
+    "resource-tests.xml": {
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.056"
+    },
+    "aspect-final.xml": {
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.569"
+    },
+    "slots-refresh-final.xml": {
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "14.291"
+    },
+    "color-final.xml": {
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "15.547"
+    },
+    "gates-final.xml": {
+      "tests": "30",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.121"
+    },
+    "combined-results.xml": {
+      "tests": "71",
+      "failures": "2",
+      "errors": "0",
+      "skipped": "0",
+      "time": "747.981"
+    }
+  },
+  "sources": {
+    "a7r5-firmware-features/core/resource_audit.py": "cdd32db0ceb2f2e1970643f334c149dc211f6e933a3fcd9a4a33549211f997d7",
+    "a7r5-firmware-features/core/native24.py": "8ab137f99903049b97fb3d64fecff587f9304b80402edeff4da7041aea6e128a",
+    "a7r5-firmware-features/core/package.py": "d19d695efa9cd5867612c64ab7487a14dbf3e02b4a5f1c9b6b36b30f98ecb082",
+    "a7r5-firmware-features/look24/module.json": "b7596268b4d4f63d4f73eecc1c34ef7bc2bd3306ac198eb79418ebe7f6653b25",
+    "a7r5-firmware-features/look24/runtime-components.json": "bd219491a52f48ccf1d1b86e7b0eb9bbf575359e65db51fd070e399a14604e46",
+    "a7r5-firmware-features/look-fl2-fl3/module.json": "d177d6e9bf6c1307f000eff1f0c97b6c4d20633cf80178487a5b24ebbca78d53",
+    "a7r5-firmware-features/look-fl2-fl3/raw/native.py": "c98eb2e9ea791cda461d06b7afb96bb0489645e7f0f606207e9e4e8238f1c529",
+    "a7r5-firmware-features/look-fl2-fl3/raw/raw_alternatives.S": "2a76fd0f1af0cea9f6b2f52264f6c52cf374100fa532944080a822c8deaad795",
+    "a7r5-firmware-features/native24-combined/build.py": "bda50c358b838778f9fb0515ad5ac851e65835ea8d081d83bdb88d25bfa83834",
+    "a7r5-firmware-features/native24-combined/build_stock_color.py": "069d4c1f1ea7c60a618ecfb4336fa37da57470cb3f21b61287334788a9aa26f1",
+    "a7r5-firmware-features/native24-combined/runtime/cp_stage413_probe.c": "77590a5ada5beedf4750c45e39df5d58be5c40abad36d64908e9dcb849c53816",
+    "a7r5-firmware-features/native24-combined/tests/replay.py": "26b768dedc2d1ac92b7de80af787106cabdd7e05cdf1f2e8077ddbb701971469",
+    "a7r5-firmware-features/native24-combined/tests/cp_services.py": "78295063833b873c726b6dc1f618306c1607d9e9479a193235a0cba1d91c417d",
+    "a7r5-firmware-features/tests/test_final_resources.py": "a652327b9aff974f87df875f7adb82baf2e54acecbe76d874125a0f9c973b27a",
+    "a7r5-firmware-features/tests/test_longrun_resources.py": "44e2aba82373985d2b416d8bfad71f23253b73d97cc3d3e8bdf93c41378bf3cb",
+    "a7r5-firmware-features/tests/test_raw_alternatives.py": "ea7546e5cd0b2f560a9cd1b4b4087a1792a85c847d771879d22f0597137a87a4",
+    "a7r5-firmware-features/tests/test_resource_package_gate.py": "f7268e782aed6a8c20d467db049a15247c98e24e6850dac35f08e01d5f918466",
+    "a7r5-firmware-features/photo-electronic-shutter-sound/tests/catalog_replay.c": "d5b22e1dc8a7687803676f12e056486c10e9a8b3302a6f5e6c3b70b0f8ff0296",
+    "a7r5-firmware-features/photo-electronic-shutter-sound/tests/profiles_replay.c": "5687a3089a5a2971b97a602cf47a453ca1d514da6f07b10a46a4f988e444760b",
+    "a7r5-firmware-features/photo-electronic-shutter-sound/tests/replay.c": "41158dd207bb48a3a129819fe70b61dfa3088fd0352f41e5aa38cfdfe7cfa44f",
+    "a7r5-firmware-features/photo-electronic-shutter-sound/tests/runtime_profiles_replay.c": "86e7311952703c76370669505e52b230fea67537aaff8d67bd4834cb99a477e3",
+    "a7r5-firmware-features/photo-electronic-shutter-sound/tests/test_sound.py": "1d891d66962b024286f94e8f5462496821aaeadae77a63b155333cf1f3d995c8"
+  },
+  "evidence": {
+    "slots-refresh-final.xml": "8320907bd01148f212b0722b176871f1910bd47f07c0f0679a32e3ef2e16ebd3",
+    "raw-stock-component.json": "1c0a044dd394419801aff0d4a33500bb89ed6b0cac331dc8db12351e4a3f48ca",
+    "combined-results.xml": "de79e1cc22092cf00a7c32a94be016b6146d65a33493767db010fa1a0d5137be",
+    "stock-cp-final.xml": "b924d8a39c7c9da657a4561e743e1a8d40449824a9899cd03f53f4a0debd0c05",
+    "longrun-final.xml": "cd99dac746cae2201c2dab0aac3f0c162a9ff1fa3ec9b7a4bd1eb40d488b15f8",
+    "resource-tests.xml": "86ced667cb3946c857f151671e0ae6857d333bd7f4280765c756c7abd0a6eb3d",
+    "raw-callers.json": "f0345ee3bab269084c6c4298f80017c1c134f9be39af312c59798a76bbf73ad6",
+    "snapshot-gap.json": "ab264f15511f54ec07dd10438541cf44d3c89e4553439621620cc1dcc47552d0",
+    "stock-cp-diagnostic.json": "dd42845745f292b610949dd71dc8620fb58c61469308e987033ad4e6f416d1c9",
+    "final419-resource-audit-v2.json": "1a2f7507b2da161c805f2351bfdaef277832c6c568693ca4f2e9d3934e2838ce",
+    "stock-cp-before.json": "4456b99ff454db91f64adb44442df2468646e1a70d8e333920a55f92d580872a",
+    "clean-build-check.log": "528e8dc49f8d97b6afc534b65f82175e54b12331752e19b83dfb3a35f0c894a7",
+    "combined-cp-compile.json": "3081919575b5a1a0b58fd8ddbd2401660fd3557db63cdd53575a439433267326",
+    "raw-component.json": "43319135efd52b58ba763253da95a429ade3f2cf32c241d2777361f8883ebb32",
+    "final419-extraction.json": "985bebe78f80fd1ba6712b836fb6b25748f8c6cef8a231d8b1f05d0e4b9b00c2",
+    "combined-component-manifest.json": "cb77bbf558188992ca0d20612ef69f5afaf26adb5b8666e971ed132bf45d296b",
+    "stock-resource-audit.json": "fc17a3d9d2897fb24359c13efbb8d497cdcb00a2c14902aa9de343b0aff99d84",
+    "aspect-final.xml": "f2d77317c387f705a5c67b1892323994bd71b81cb66a407840e502f046453656",
+    "color-final.xml": "a0092db33aba3a284b88aa6ad50a68abd5f43657ac1658c948d670e3920df934",
+    "gates-final.xml": "936f51239a154c80142df62cfe1ff92826c7e31051cb307bf77b821b88ac2f20",
+    "raw-combined-final-v2.xml": "ccb6a21741530935caf946ab6b5a8860f9edf234615b918785bb80212c599758",
+    "final-boot-checks.json": "3b4d0367ec393498b2c0235bc8520c5e1363bdb937fc0f9795d807730c9b11a6"
+  },
+  "notes": [
+    "套件结果不直接相加；多目标重复用例属于不同组件身份验证",
+    "combined-results是旧组件视图扩大回归69通过2失败；两项环境缺口补齐后当前色彩6项全通过",
+    "正式全量构建被完整快照门禁拒绝；无本轮新包",
+    "CP单项采用逐文件验证源子集的非安装诊断，旧C精确复现075e4395，新C生成bf94dff6",
+    "横竖键与八项参数的既有测试体在历史同一AP指令上回放；新组合24槽逐款色彩与刷新另验"
+  ]
+}

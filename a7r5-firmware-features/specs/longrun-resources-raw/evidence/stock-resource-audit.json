@@ -1,0 +1,362 @@
+{
+  "schema": "r5-final-resource-audit/1",
+  "status": "PASS",
+  "language_banks": 68,
+  "image_banks": 2,
+  "files": {
+    "string_croatian_vertical.uxc": {
+      "sha256": "55e24e8105b31522735921a06e925da05d44314620c6e5007a6d9d4a8af69836",
+      "records": 2673,
+      "required": 0
+    },
+    "string_canadianfrench_horizontal.uxc": {
+      "sha256": "e3c887075c4357263089b60e09c39baa4ac120ea6a35169a3c0a18ea26bf3b36",
+      "records": 2673,
+      "required": 0
+    },
+    "string_danish_horizontal.uxc": {
+      "sha256": "71112035eb2dfddd64e658656c72c9fab53bc3d3a80489b9c667dde8eee967b3",
+      "records": 2673,
+      "required": 0
+    },
+    "string_russian_vertical.uxc": {
+      "sha256": "c2eec5a40021f7d854075c08b2e650807bdcd19631f8e3fd6ba3a3ad89d2b710",
+      "records": 2673,
+      "required": 0
+    },
+    "string_finnish_vertical.uxc": {
+      "sha256": "f77e3bbb3792a189725445dc31d68bf0d0a0c927c4bb136913e1626263048dfe",
+      "records": 2673,
+      "required": 0
+    },
+    "string_hungarian_horizontal.uxc": {
+      "sha256": "37175ca5f2bae2175101bd702b9e472cf6b5d6a4318ccc275b09916cb5cce52c",
+      "records": 2673,
+      "required": 0
+    },
+    "string_english_vertical.uxc": {
+      "sha256": "4f9afdc5082c491b3506ccf727428d71f0197f4c7dbc1fff07250fec30a4a30b",
+      "records": 2673,
+      "required": 0
+    },
+    "string_danish_vertical.uxc": {
+      "sha256": "5d8c7a63008b169a46b577083e7748a8d872d6e3630f265760ef2f2f1f843ac1",
+      "records": 2673,
+      "required": 0
+    },
+    "string_dutch_vertical.uxc": {
+      "sha256": "fd31a3d8bb48514208c1674919bed306eaab67403db1e9268a789a32c5572a8c",
+      "records": 2673,
+      "required": 0
+    },
+    "string_indonesia_vertical.uxc": {
+      "sha256": "7c54c1813400f2ecd8bff0789c3c3d9f932903741b75a0711d4ca02f1ed23a76",
+      "records": 2673,
+      "required": 0
+    },
+    "string_hindi_horizontal.uxc": {
+      "sha256": "2088ab6b63d0561fbe12f0d22e9563afb2523078e1e59c7b865222428a0ca760",
+      "records": 2673,
+      "required": 0
+    },
+    "string_french_horizontal.uxc": {
+      "sha256": "ab658941d6160f7fd8c61e404b7aa703afac68f94d87dad151e50de538f7eb59",
+      "records": 2673,
+      "required": 0
+    },
+    "string_polish_vertical.uxc": {
+      "sha256": "11061c3a34ffcbfb4d3519786134acc9f7e62ee81666b3fa02ac420c57ddc95c",
+      "records": 2673,
+      "required": 0
+    },
+    "string_japanese_vertical.uxc": {
+      "sha256": "1ff26eb42ece7952e786da80b0652dbf7c2243f21aec9dd823a7e7badc5a2e5d",
+      "records": 2673,
+      "required": 0
+    },
+    "string_simplifiedchinese_vertical.uxc": {
+      "sha256": "9786e8fab90160e9feda98d597953b283bb5a34d799b6e50d6f6ac35ac18733e",
+      "records": 2673,
+      "required": 0
+    },
+    "string_ukrainian_vertical.uxc": {
+      "sha256": "cc09edb9894dd2b5342794645ab59443870e4882337bef983ddba20d15b98e74",
+      "records": 2673,
+      "required": 0
+    },
+    "string_greek_vertical.uxc": {
+      "sha256": "c55bea293461baf4111214fc60600e4860cce6d050cb2efac857a692838c0f04",
+      "records": 2673,
+      "required": 0
+    },
+    "string_romanian_vertical.uxc": {
+      "sha256": "94e00f0993099848a2227318d7e7b76a5f715b249061d5cb23a4cbffec0d0493",
+      "records": 2673,
+      "required": 0
+    },
+    "string_traditionalchinese_horizontal.uxc": {
+      "sha256": "bdeb385ea116d7420edc47f4bb1df1f07dcad0a9333c17b8011d862294951ea8",
+      "records": 2673,
+      "required": 0
+    },
+    "string_swedish_horizontal.uxc": {
+      "sha256": "b51c780f2efd6b888b335ae5fc74327e0dfbabe36b087a312319b6e388fa45c3",
+      "records": 2673,
+      "required": 0
+    },
+    "string_french_vertical.uxc": {
+      "sha256": "9fade09d908271711890e42306981abb60e237c61d688b6b72c91e65abe40086",
+      "records": 2673,
+      "required": 0
+    },
+    "string_portuguese_vertical.uxc": {
+      "sha256": "199c66681324a5ffb80619b74348f7ba1f59430b7e8950950a07dd42006e5f0c",
+      "records": 2673,
+      "required": 0
+    },
+    "string_polish_horizontal.uxc": {
+      "sha256": "b7b26574b08ce878080a79003c8760f84a533d59be75739e43a6ff9a3dc22067",
+      "records": 2673,
+      "required": 0
+    },
+    "string_traditionalchinese_vertical.uxc": {
+      "sha256": "50a4bc32d20876b84898acac00ff4717971b5286fc23a9854f8edc9dcb78dadb",
+      "records": 2673,
+      "required": 0
+    },
+    "string_thai_horizontal.uxc": {
+      "sha256": "fd3807fc9b0148362fc3efddd63977293726deccaa959ba0a226996231741e1a",
+      "records": 2673,
+      "required": 0
+    },
+    "string_turkish_vertical.uxc": {
+      "sha256": "341c250f9d6608d57642e0d9684286b5fd2c5751a53813f5ac18eeacbdee32a2",
+      "records": 2673,
+      "required": 0
+    },
+    "string_malay_vertical.uxc": {
+      "sha256": "da2d629d4a457e8b14ad6f3588e1c26430b5bb4d0713e55b21e4a051984a3160",
+      "records": 2673,
+      "required": 0
+    },
+    "string_turkish_horizontal.uxc": {
+      "sha256": "ca00cbae912f0140bc572c98d9092203f43fbb921937328c0f47a9b89c5f7dc4",
+      "records": 2673,
+      "required": 0
+    },
+    "string_persian_horizontal.uxc": {
+      "sha256": "9ec170dcec47f00afd0faf16208bcd112cea1e1b2f0c22e6ee2fe44c50482bf8",
+      "records": 2673,
+      "required": 0
+    },
+    "string_romanian_horizontal.uxc": {
+      "sha256": "7611efdfceaa85fba17cf4c4685f38bccb92606736cf0f0beaa7771606fbb15f",
+      "records": 2673,
+      "required": 0
+    },
+    "string_arabic_vertical.uxc": {
+      "sha256": "bd07dc2cb1627a36c5264026244b9d030b57e6e7a45a202817d09ec39d6da00d",
+      "records": 2673,
+      "required": 0
+    },
+    "string_malay_horizontal.uxc": {
+      "sha256": "13abbffea4a40a22c396a860f6666be18093b22c79a2e81179d97b02c6641c0a",
+      "records": 2673,
+      "required": 0
+    },
+    "string_croatian_horizontal.uxc": {
+      "sha256": "d73b9d761920d115fbdaf1cc187c8c2de5645e438f2eed22616f264531de9b9f",
+      "records": 2673,
+      "required": 0
+    },
+    "string_bulgarian_vertical.uxc": {
+      "sha256": "989d9160a1faf1681c40bb90d04cb5c21396910d41f01d2e72c4c4a1c57fd27b",
+      "records": 2673,
+      "required": 0
+    },
+    "string_japanese_horizontal.uxc": {
+      "sha256": "9525330c08601808e1c08f42f6c7c6ddeb5c22936edc712731c6c8602b9405df",
+      "records": 2673,
+      "required": 0
+    },
+    "string_swedish_vertical.uxc": {
+      "sha256": "03bf3fc9603ce0c94dbec81999af2665ea9d96e54570c57f9e0496878e747b7e",
+      "records": 2673,
+      "required": 0
+    },
+    "string_bulgarian_horizontal.uxc": {
+      "sha256": "80f591830ccf1bfd5a20ef399ade23e9036cf6536ec3977a8290abcff4d21884",
+      "records": 2673,
+      "required": 0
+    },
+    "string_korean_vertical.uxc": {
+      "sha256": "4726934d83d763ee549e252a0088cfc22e02a2bca3485bd6f67a81091cf860c4",
+      "records": 2673,
+      "required": 0
+    },
+    "string_thai_vertical.uxc": {
+      "sha256": "a3061f042193934f0246bda7653d32acd19cfd69b17909a7bf04a1184b75454d",
+      "records": 2673,
+      "required": 0
+    },
+    "string_indonesia_horizontal.uxc": {
+      "sha256": "3aa5317132bb7b2129ed905c07c13723bc9c6a8115267e6af5f98683bb924fb3",
+      "records": 2673,
+      "required": 0
+    },
+    "string_finnish_horizontal.uxc": {
+      "sha256": "4b5fac16c4bdf8f7d3c283dcd2767f8d1f80022c98132a54fa6011045e15336e",
+      "records": 2673,
+      "required": 0
+    },
+    "string_dutch_horizontal.uxc": {
+      "sha256": "b6dfe9bb65e00b4ee17a65721e733e4e6a35acc42154d198d33518a25f556565",
+      "records": 2673,
+      "required": 0
+    },
+    "string_arabic_horizontal.uxc": {
+      "sha256": "708a905bbe6434877395788d3940db6e455f1560bb2ade4d5203687a7cf8dc8f",
+      "records": 2673,
+      "required": 0
+    },
+    "string_brazilianportuguese_vertical.uxc": {
+      "sha256": "e1ad8d7b637745ada1cd824891fe32a2c77a7826a1e80d37d27ec3a1ac57af65",
+      "records": 2673,
+      "required": 0
+    },
+    "string_canadianfrench_vertical.uxc": {
+      "sha256": "6906c3988bdc9df0e7cc5696efb3c668e6307ab248cd8a1f0f4fa61df071eaea",
+      "records": 2673,
+      "required": 0
+    },
+    "string_german_horizontal.uxc": {
+      "sha256": "b12fc1f815c7b904cd8230087b9e63fe8f5c31cf9c7b7604c13fafc130343467",
+      "records": 2673,
+      "required": 0
+    },
+    "string_czech_horizontal.uxc": {
+      "sha256": "8dfbb849a720ddd9f71644936a21368c19dfdb3338cafdd90579d67333ed2050",
+      "records": 2673,
+      "required": 0
+    },
+    "string_czech_vertical.uxc": {
+      "sha256": "7bf4691c3384cc112cb5bd910d028897e4db962cfdc876a443fee8fbd3364c81",
+      "records": 2673,
+      "required": 0
+    },
+    "string_ukrainian_horizontal.uxc": {
+      "sha256": "c88405e94078e4ef24c998661b8023e6992c82646af3b6cd83b0ba95ace1eb39",
+      "records": 2673,
+      "required": 0
+    },
+    "string_spanish_vertical.uxc": {
+      "sha256": "d9d29e395081a36fe96c30ac5e38754b13f43a3b1eb6cde7459e634c1ae63fee",
+      "records": 2673,
+      "required": 0
+    },
+    "string_greek_horizontal.uxc": {
+      "sha256": "4a61dd13e94311cfc475a1b7ac7657620b844c1774d51e80aae95eb2caa7847e",
+      "records": 2673,
+      "required": 0
+    },
+    "string_russian_horizontal.uxc": {
+      "sha256": "dda15c969ac474bf94e7be720ab97afb2ea5c90f60b36f9cf9b65ec7e5fc5855",
+      "records": 2673,
+      "required": 0
+    },
+    "string_persian_vertical.uxc": {
+      "sha256": "7966ec923eb23d0c4ea85b77a9eea65042a0f50972c6603bafe849c43f5a7f58",
+      "records": 2673,
+      "required": 0
+    },
+    "string_portuguese_horizontal.uxc": {
+      "sha256": "2fb677254f024426afca2d5dcf904d12cf61a1d19a24695a494b64fc91ca449e",
+      "records": 2673,
+      "required": 0
+    },
+    "string_english_horizontal.uxc": {
+      "sha256": "30818259fb7077f794de0019e96c52bd00d5d08de050e68f05aee7ccffdde6e7",
+      "records": 2673,
+      "required": 0
+    },
+    "string_italian_horizontal.uxc": {
+      "sha256": "c2c2b782cc373f9f4d225812ef3db9059ef4a9d939e9572c9e9069f4b1ecbf1f",
+      "records": 2673,
+      "required": 0
+    },
+    "string_simplifiedchinese_horizontal.uxc": {
+      "sha256": "37dcd92766c8971370bfc50940cc98959440e93bf65d937e816135a92e3f4219",
+      "records": 2673,
+      "required": 0
+    },
+    "string_german_vertical.uxc": {
+      "sha256": "f4c2c4e38392c1ef57fdd0dd783690908cd20db026d16c40334f6afe26e5bcc4",
+      "records": 2673,
+      "required": 0
+    },
+    "string_norwegian_vertical.uxc": {
+      "sha256": "4e83c380c47db31030405fb9e719ca608b97a3ac4020795c3fea0bda67f1795c",
+      "records": 2673,
+      "required": 0
+    },
+    "string_norwegian_horizontal.uxc": {
+      "sha256": "a9361de698991f72074e966ba3f205849a7e2f5ec5240137278bd260bc373333",
+      "records": 2673,
+      "required": 0
+    },
+    "string_vietnamese_vertical.uxc": {
+      "sha256": "1927f3106c8b343fc421bbb5ba8dce14b36f4d0c93bdb7953027a776d230fc07",
+      "records": 2673,
+      "required": 0
+    },
+    "string_hindi_vertical.uxc": {
+      "sha256": "5f93dd4596f7a25560cf07735aaaf56d9c627edbf438a6fc41cd0f5f5d0de8fd",
+      "records": 2673,
+      "required": 0
+    },
+    "string_spanish_horizontal.uxc": {
+      "sha256": "aa9ed5d4244a84552f4333c6d8dcd42e7103a48b5b09aef55c6ab4af9f68ce47",
+      "records": 2673,
+      "required": 0
+    },
+    "string_vietnamese_horizontal.uxc": {
+      "sha256": "e46073b8a5532ad77425d6e23d89da28bd5497d605d31ba614523f81aa7888a7",
+      "records": 2673,
+      "required": 0
+    },
+    "string_korean_horizontal.uxc": {
+      "sha256": "55f2a35ac1ccf7a7312c73b106e85aa53fca4775dfb99ae58b9b03a5e6d3cee7",
+      "records": 2673,
+      "required": 0
+    },
+    "string_hungarian_vertical.uxc": {
+      "sha256": "7ba5ec082aa1961ca905972a7e142bbe90320f48be2b4456aeb8c8ecf70cabf1",
+      "records": 2673,
+      "required": 0
+    },
+    "string_italian_vertical.uxc": {
+      "sha256": "a0fcc5b9e2f5ad654297473ec3a8658a0018ff1fce5fc7ddeab80066319d1e65",
+      "records": 2673,
+      "required": 0
+    },
+    "string_brazilianportuguese_horizontal.uxc": {
+      "sha256": "e6e668e4536c71ace1ecc08238c0261a11a36a0619c8d00433012f7e99f49639",
+      "records": 2673,
+      "required": 0
+    },
+    "image_00_23_IPSX.uxc": {
+      "sha256": "80637a7bb69ccf2ddc6308a148847d1f14a88aa2001e4fc7de04b3e4c83ef061",
+      "records": 3511,
+      "required": 0
+    },
+    "image_00_32_IPSX.uxc": {
+      "sha256": "d5ec718d642fa8b813cf05c45bb0bc53f68b9bc4152fe003f01cdc39efc8a9db",
+      "records": 3511,
+      "required": 0
+    }
+  },
+  "claims": [],
+  "camera_io": false,
+  "glyph_rendering_verified": false,
+  "dynamic_claims": "declared-ranges-only"
+}

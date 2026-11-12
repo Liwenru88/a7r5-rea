@@ -133,9 +133,12 @@ class SerialBridge:
         self.uart.flush()
 
 
-def start_ram(bridge, records, report, sleep=time.sleep):
+def start_ram(bridge, records, report, sleep=time.sleep, before_reset=None):
     if bridge.command(1) != b"uart_boot 1":
         raise ProbeError("RP2040 桥接版本不符")
+    if before_reset is not None:
+        report["stage"] = "waiting_for_trigger"
+        before_reset()
     report["stage"] = "reset"
     report["reset_attempted"] = True
     bridge.command(2)
@@ -248,8 +251,9 @@ def open_bridge(port, root):
     return serial.Serial(port, 115200, timeout=1.0, write_timeout=1.0, exclusive=True)
 
 
-def run_probe(port, run, table, records, opener=open_bridge, launch=run_logged, sleep=time.sleep):
-    run.mkdir(mode=0o700, exist_ok=False)
+def run_probe(port, run, table, records, opener=open_bridge, launch=run_logged, sleep=time.sleep,
+              before_reset=None):
+    run.mkdir(mode=0o700, parents=True, exist_ok=False)
     report = dict(stage="bridge_ping", reset_attempted=False, reset_acknowledged=False,
                   records_acknowledged=0, usb_transport_verified=False, layout_matches_reference=False,
                   sdm2_matches_reference=False, same_physical_body_verified=False,
@@ -258,8 +262,12 @@ def run_probe(port, run, table, records, opener=open_bridge, launch=run_logged, 
     try:
         with opener(port, ROOT) as serial, uart_log.open("xb") as uart:
             bridge = SerialBridge(serial, uart)
-            start_ram(bridge, records, report, sleep)
+            start_ram(bridge, records, report, sleep, before_reset)
             probe_usb(ROOT, run, table, report, bridge, launch, sleep)
+    except (KeyboardInterrupt, EOFError):
+        report["interrupted_stage"] = report["stage"]
+        report["stage"] = "cancelled"
+        report["error"] = "操作已取消；若已触发复位，取消不会撤销相机状态变化"
     except Exception as exc:
         report["error"] = str(exc)
     if uart_log.is_file():
@@ -271,6 +279,13 @@ def run_probe(port, run, table, records, opener=open_bridge, launch=run_logged, 
     return report
 
 
+def wait_for_trigger():
+    print("本地校验和 RP2040 检查通过。请保持相机 ON、连接稳定，并确认更新已停止。", flush=True)
+    print("仅执行一次复位、RAM 引导及只读诊断；不刷写、不擦除、不自动重试。", flush=True)
+    input("准备好后按回车触发；Ctrl+C 取消：")
+    print("已触发：正在复位相机并发送 RAM 载荷，请勿拔插。", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action")
@@ -279,6 +294,8 @@ def main():
     probe.add_argument("--port", required=True)
     probe.add_argument("--output", type=Path, required=True)
     probe.add_argument("--confirm-reset", action="store_true", required=True)
+    probe.add_argument("--wait-for-enter", action="store_true",
+                       help="打开并检查桥接后等待回车，再复位并引导一次；Ctrl+C 取消")
     args = parser.parse_args()
     try:
         table, records = preflight(ROOT)
@@ -287,7 +304,8 @@ def main():
             return 0
         if sys.platform != "darwin" or re.fullmatch(r"/dev/cu\.usbmodem[0-9A-Za-z]+", args.port) is None:
             raise ProbeError("需要 macOS 上显式指定的 RP2040 USB 串口")
-        report = run_probe(args.port, args.output.resolve(), table, records)
+        report = run_probe(args.port, args.output.resolve(), table, records,
+                           before_reset=wait_for_trigger if args.wait_for_enter else None)
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return 0 if report["usb_transport_verified"] else 1
     except (OSError, ValueError, ProbeError) as exc:

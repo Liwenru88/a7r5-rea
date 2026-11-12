@@ -1,0 +1,266 @@
+{
+  "schema": "r5-operation-fixes-components/1",
+  "native24_build_sha256": "ae30c79278318797a4da1772edcc5065d8af39ed54ff9d78a03146cdf8261c1f",
+  "capture_build_sha256": "c0af302db0e95573bf5521998e3987dd122bdeb00bb3f8ba856a40bf8b56efc6",
+  "CP_sha256": "745c63742b525f8700142ad310b6f3ec848015aec60044bc19b69cc458d6c441",
+  "AP": {
+    "source_sha256": "7027344ab48ccb1a4a350acbeb2e6c0b2a37f49c64d2260e3bf667d07aa4f303",
+    "target_sha256": "d809ab5fc9d38ca2594bff0cba86a55fc372937d874c745b9da99250a7eaa376",
+    "patches": [
+      {
+        "offset": 9515448,
+        "before": "50529002",
+        "after": "10fc0005"
+      },
+      {
+        "offset": 9515472,
+        "before": "50529002",
+        "after": "30fc0005"
+      },
+      {
+        "offset": 9515497,
+        "before": "529002",
+        "after": "fc0005"
+      },
+      {
+        "offset": 34380196,
+        "before": "226f8052",
+        "after": "07000014"
+      },
+      {
+        "offset": 34381476,
+        "before": "226f8052",
+        "after": "0a000014"
+      },
+      {
+        "offset": 66560996,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66561124,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66561252,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66561380,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66561508,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66561636,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66669668,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66669796,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66669924,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670052,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670180,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670308,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670436,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670564,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670692,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670820,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66670948,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66671076,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66671204,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66671332,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66671460,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66671588,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66697572,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66697700,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 66976356,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 83950608,
+        "before": "00",
+        "after": "41"
+      },
+      {
+        "offset": 83950611,
+        "before": "0000000000",
+        "after": "1072d56317"
+      },
+      {
+        "offset": 83950620,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 83950624,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 83950640,
+        "before": "00",
+        "after": "41"
+      },
+      {
+        "offset": 83950643,
+        "before": "0000000000",
+        "after": "106ad56317"
+      },
+      {
+        "offset": 83950652,
+        "before": "00",
+        "after": "05"
+      },
+      {
+        "offset": 83950656,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 83950672,
+        "before": "00",
+        "after": "41"
+      },
+      {
+        "offset": 83950675,
+        "before": "0000000000",
+        "after": "1062d56317"
+      },
+      {
+        "offset": 83950684,
+        "before": "00",
+        "after": "0f"
+      },
+      {
+        "offset": 83950688,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 89458432,
+        "before": "50529002",
+        "after": "10fc0005"
+      },
+      {
+        "offset": 89458456,
+        "before": "50529002",
+        "after": "30fc0005"
+      },
+      {
+        "offset": 89458481,
+        "before": "529002",
+        "after": "fc0005"
+      },
+      {
+        "offset": 92874172,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 92882652,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 92882844,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "offset": 97517600,
+        "before": "10",
+        "after": "70"
+      },
+      {
+        "offset": 97517608,
+        "before": "10",
+        "after": "70"
+      }
+    ]
+  },
+  "camera_io": false,
+  "installable": false,
+  "diagnostic_only": true,
+  "clean_snapshot_build": false
+}

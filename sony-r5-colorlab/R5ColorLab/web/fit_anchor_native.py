@@ -14,7 +14,6 @@ from optimizer_policy import pc_options, search_options, adaptive_importance, sm
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 from edit_parameter_context import ParameterContext,RuntimeColor,np,quantize_matrix_coefficients
 ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT/'vendor/fit_eval_python312'))
 from scipy.optimize import least_squares, minimize
 import white_balance as wb
 import tonal_sampling
@@ -28,6 +27,7 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 class SmoothNative:
  def __init__(self,ctx,x):
   self.ctx=ctx;self.x=np.asarray(x,dtype=float);cfg=ctx.base.config
+  self.gamma_shape=getattr(ctx,'gamma_shape',None)
   self.knots=np.arange(128)
   self.axis=ctx.axis/128.;self.controls=self.axis[self.knots]
   self.s=ctx.base.sectors(x).astype(int)
@@ -43,13 +43,15 @@ class SmoothNative:
   self.pivot=struct.unpack_from('<h',ctx.base.runtime,0x91962)[0];self.ygain=struct.unpack_from('<f',ctx.base.runtime,0x91964)[0]
   if any(struct.unpack_from('<h',ctx.base.settings,k)[0] for k in [0x2ac,0x2b0]):raise ValueError('Neutral levels required')
  def gamma(self,v):
+  if self.gamma_shape is not None:return self.gamma_shape.curve(v[104:])
   yi=np.r_[0,np.cumsum(softmax(v[104:])[:-1])]*16383
   return np.interp(self.axis,self.controls,yi)
  def params(self,v):
   payload,_=quantize_matrix_coefficients(self.ctx.payload,v[8:104].reshape(6,16))
   cc=np.r_[np.rint(v[:4]*256).astype(int)*4+(self.ctx.cc1[:4]&3),np.rint(v[4:8]*64).astype(int)*8+(self.ctx.cc1[4:]&7)]
   cc[:4]=np.clip(cc[:4],-1024,1023);cc[4:]=np.clip(cc[4:],0,2047)
-  y=np.maximum.accumulate(np.rint(self.gamma(v)*16)).astype(int);y[0]=0
+  y=(self.gamma_shape.integer_curve(v[104:]) if self.gamma_shape is not None else
+     np.maximum.accumulate(np.rint(self.gamma(v)*16)).astype(int));y[0]=0
   return dict(matrix_payload=payload,cc1=cc,gamma_y=y)
  def render(self,v):
   c=v[8:104].reshape(6,16)
@@ -81,7 +83,9 @@ def vector_for(ctx):
  c=np.array(struct.unpack_from('<96f',ctx.base.config,0x28));bits=(ctx.cc1[:4]&65535)>>2&511;m=np.where(bits>255,bits-512,bits)/256;g=((ctx.cc1[4:]&65535)>>3&255)/64
  knots=np.arange(128)
  increments=np.maximum(np.diff(ctx.gamma_y[knots]/16),.01)
- return np.r_[m,g,c,np.log(np.r_[increments,max(16383-ctx.gamma_y[-1]/16,.01)])]
+ tail=(ctx.gamma_shape.encode(ctx.gamma_y/16) if getattr(ctx,'gamma_shape',None) is not None else
+       np.log(np.r_[increments,max(16383-ctx.gamma_y[-1]/16,.01)]))
+ return np.r_[m,g,c,tail]
 
 def report_metrics(p,t):
  r=metrics(p,t)
@@ -132,17 +136,26 @@ def select_balanced(candidates):
 
 
 def main():
- ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('pairs',type=Path);ap.add_argument('--capture',type=Path,required=True);ap.add_argument('--context',type=int,default=4);ap.add_argument('--gamut',type=int,choices=[0,1],required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--evaluations',type=int,default=80);ap.add_argument('--pc-compensation',action='store_true');ap.add_argument('--white-balance',action='store_true');ap.add_argument('--target-description');ap.add_argument('--group-weights',type=json.loads);ap.add_argument('--search-options',type=json.loads);ap.add_argument('--pc-options',type=json.loads);ap.add_argument('--fast',action='store_true',help='GPU coarse candidate, bounded CPU stages; full holdout evaluation');ap.add_argument('--refine-from',type=Path,help='Continue the identical completed job with block alternation only');a=ap.parse_args();importance=group_importance(a.group_weights);options=search_options(a.search_options);pc_policy=pc_options(a.pc_options);current_importance=importance.copy();adaptive_history=[];a.output.mkdir(exist_ok=False)
+ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('pairs',type=Path);ap.add_argument('--capture',type=Path,required=True);ap.add_argument('--context',type=int,default=4);ap.add_argument('--gamut',type=int,choices=[0,1],required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--evaluations',type=int,default=80);ap.add_argument('--pc-compensation',action='store_true');ap.add_argument('--white-balance',action='store_true');ap.add_argument('--target-description');ap.add_argument('--group-weights',type=json.loads);ap.add_argument('--search-options',type=json.loads);ap.add_argument('--pc-options',type=json.loads);ap.add_argument('--fast',action='store_true',help='GPU coarse candidate, bounded CPU stages; full holdout evaluation');ap.add_argument('--refine-from',type=Path,help='Continue the identical completed job with block alternation only');ap.add_argument('--save-candidates',action='store_true',help='保存候选供最终整数网格筛选');a=ap.parse_args();importance=group_importance(a.group_weights);options=search_options(a.search_options);pc_policy=pc_options(a.pc_options);current_importance=importance.copy();adaptive_history=[];a.output.mkdir(exist_ok=False)
  from training_progress import TrainingProgress
  progress=TrainingProgress(a.output.parent/'training_progress.json',options['starts']+4+(2 if a.pc_compensation else 0)+options['adaptive_rounds'],gradient_workers=8)
  progress.value['total_rounds'] += 6 if a.white_balance else 0
  progress.value['total_rounds'] += 2*options['gamma_color_rounds']
+ progress.value['total_rounds'] += int(options['gamma_global_correction'])
  if a.refine_from:
   progress.value['total_rounds']=2*options['gamma_color_rounds']
   if not options['gamma_color_rounds'] or a.white_balance:
    raise ValueError('Continuation requires block alternation and fixed white balance')
  progress.update(stage='载入训练数据',state='running')
- p=np.load(a.pairs);x=p['input'];t=p[str(a.gamut)+'_target'];split=p['split'];ctx=ParameterContext(RuntimeColor.from_capture(a.capture,a.context));start=vector_for(ctx)
+ if a.save_candidates and a.white_balance:raise ValueError('整数候选归档要求固定白平衡')
+ candidate_pairs_sha=sha(a.pairs) if a.save_candidates else None
+ p=np.load(a.pairs);x=p['input'];t=p[str(a.gamut)+'_target'];split=p['split'];ctx=ParameterContext(RuntimeColor.from_capture(a.capture,a.context))
+ if options['gamma_monotone_concave']:
+  from concave_gamma import ConcaveGamma
+  ctx.gamma_shape=ConcaveGamma(ctx.axis,control_count=128,global_correction=options['gamma_global_correction'])
+ ctx.gamma_global_correction=options['gamma_global_correction']
+ ctx.native_strict_stopping=options['native_strict_stopping']
+ start=vector_for(ctx)
  train=np.flatnonzero(split=='train');valid=np.flatnonzero(split=='valid');test=np.flatnonzero(split=='test')
  tonal_ids=p['baseline_tonal_index'] if 'baseline_tonal_index' in p else None
  tonal_audit=tonal_sampling.validate(dict(p),ctx.base)
@@ -168,6 +181,7 @@ def main():
  wb_value=wb.ZERO.copy(); current_x=x
  smooth=models['train'];lb=np.r_[np.full(4,-.999),np.full(4,.05),np.full(96,-6),np.full(len(start)-104,-14)]
  ub=np.r_[np.full(4,.996),np.full(4,3.98),np.full(96,6),np.full(len(start)-104,15)]
+ if options['gamma_monotone_concave']:lb[104:]=-30
  calls=0;history=[];candidates=[];active_pc=None;gpu_audit=dict(enabled=False,reason='not run')
  import pc_stages
  gray_mask=(p['anchor_index'][train]>=4)&(p['anchor_index'][train]<260)
@@ -181,8 +195,18 @@ def main():
   continuity_bank=ProbeBank()
   continuity_model=SmoothNative(ctx,continuity_bank.inputs(ctx.base))
   smooth.output_continuity=(continuity_bank,continuity_model,options['output_continuity'])
+ neighborhood_bank=None;neighborhood_model=None
+ if options['target_neighborhood']:
+  if 'design_srgb' not in p:raise ValueError('目标邻域约束需要带 design_srgb 的代码色卡')
+  from target_neighborhood import TargetNeighborhoodBank
+  # Fixed complete TRAIN domain keeps candidate costs comparable when the
+  # ordinary data fit moves from coarse sampling to full/hard-region passes.
+  neighborhood_bank=TargetNeighborhoodBank(p['design_srgb'],t/16383,split)
+  if neighborhood_bank.metadata['enabled']:
+   neighborhood_model=SmoothNative(ctx,x[neighborhood_bank.source_indices])
+   smooth.target_neighborhood=(neighborhood_bank,neighborhood_model,options['target_neighborhood'])
  def set_wb(value):
-  nonlocal wb_value,current_x,smooth,gray_model,models,continuity_model
+  nonlocal wb_value,current_x,smooth,gray_model,models,continuity_model,neighborhood_model
   wb_value=wb.validate(value)
   current_x=wb.inputs(ctx.base,x,p['sensor_codes'],wb_value)
   models={k:SmoothNative(ctx,current_x[v]) for k,v in [('train',train),('valid',valid),('test',test)]}
@@ -190,21 +214,34 @@ def main():
   if continuity_bank is not None:
    continuity_model=SmoothNative(ctx,continuity_bank.inputs(ctx.base,wb_value))
    smooth.output_continuity=(continuity_bank,continuity_model,options['output_continuity'])
+  if neighborhood_bank is not None and neighborhood_bank.metadata['enabled']:
+   neighborhood_model=SmoothNative(ctx,current_x[neighborhood_bank.source_indices])
+   smooth.target_neighborhood=(neighborhood_bank,neighborhood_model,options['target_neighborhood'])
 
  def exact_continuity(params,report=False):
   if continuity_bank is None:return None if report else 0.
   prediction=center_mean(render_native(ctx.build(**params),continuity_model.x))/16383
   return (continuity_bank.report(prediction,options['output_continuity']) if report
           else continuity_bank.cost(prediction,options['output_continuity']))
+ def exact_neighborhood(params,bundle=None,report=False):
+  if neighborhood_bank is None:return None if report else 0.
+  rows=neighborhood_bank.source_indices
+  prediction=corrected(center_mean(render_native(ctx.build(**params),current_x[rows])),bundle)/16383
+  return (neighborhood_bank.report(prediction,options['target_neighborhood']) if report else
+          neighborhood_bank.cost(prediction,options['target_neighborhood']))
 
- def assess(v,label,params_override=None,quantize=False):
+ def assess(v,label,params_override=None,quantize=False,bundles_override=None):
   progress.update(stage='整数候选评估与 PC 重建' if a.pc_compensation else '整数候选评估',candidate=label)
-  params=params_override or smooth.params(v);exact=ctx.build(**params)
+  params=params_override or smooth.params(v)
+  if smooth.gamma_shape is not None and not smooth.gamma_shape.audit_even(params['gamma_y'])['passed']:
+   raise ValueError('Gamma candidate is not monotone-concave after integer serialization')
+  exact=ctx.build(**params)
   bundles=[None]
-  if a.pc_compensation:
+  if a.pc_compensation and bundles_override is None:
    training=center_mean(render_native(exact,current_x[train]))/16383
-   bundles=[pc_stages.fit_training(training,t[train]/16383,gray_mask,group_weights,strategy=strategy,quantization_sweeps=options["quantization_sweeps"] if quantize else 0,perceptual_weight=options["perceptual_weight"],curve_mode=pc_policy["curve_mode"],response=pc_policy["response"],parameter_smoothing=options['parameter_smoothing'])
+   bundles=[pc_stages.fit_training(training,t[train]/16383,gray_mask,group_weights,strategy=strategy,quantization_sweeps=options["quantization_sweeps"] if quantize else 0,perceptual_weight=options["perceptual_weight"],curve_mode=pc_policy["curve_mode"],response=pc_policy["response"],parameter_smoothing=options['parameter_smoothing'],target_neighborhood=options['target_neighborhood'],training_penalties=not options['postfit_deburr'])
             for strategy in (('direct',) if pc_policy['curve_mode']=='qaq-grid' else (('direct','dense-compressed') if pc_policy['grid_enabled'] else ('none',)))]
+  if bundles_override is not None:bundles=bundles_override
   for bundle in bundles:
    candidate_label=label+(' / '+bundle[2]['strategy'] if bundle else '')
    native=corrected(center_mean(render_native(exact,current_x[valid])),bundle)
@@ -233,18 +270,29 @@ def main():
    smoothing_cost=native_cost(params,ctx.axis,options['parameter_smoothing'])+pc_cost(bundle,options['parameter_smoothing'])
    continuity_report=exact_continuity(params,report=True)
    continuity_cost=continuity_report['objective_cost_8bit_squared'] if continuity_report else 0.
-   selection=float(np.sqrt(selection**2+smoothing_cost+continuity_cost))
+   neighborhood_report=exact_neighborhood(params,bundle,report=True)
+   neighborhood_cost=neighborhood_report['objective_cost_8bit_squared'] if neighborhood_report else 0.
+   selection=float(np.sqrt(selection**2+smoothing_cost+continuity_cost+neighborhood_cost))
+   if neighborhood_report is not None:history[-1]['target_neighborhood']=neighborhood_report
    if continuity_report is not None:history[-1]['output_continuity']=continuity_report
    history[-1]['parameter_smoothing_cost_8bit_squared']=smoothing_cost
    history[-1].update(selection_rgb_score=selection_rgb,perceptual_validation=compare(t[valid]/16383,native/16383),training_group_weights=current_importance.copy())
    history[-1].update(primary_training=primary,gray_training=gray,selection_score=selection,candidate_domain='combined-PC' if a.pc_compensation else 'native')
    history[-1]['pc_grid_fitting']=bundle[2] if bundle else None
+   if smooth.gamma_shape is not None:
+    history[-1]['gamma_shape']=smooth.gamma_shape.audit_even(params['gamma_y'])
+    history[-1]['gamma_shape']['maximum_raw_displacement_from_continuous']=float(np.max(np.abs(params['gamma_y']-smooth.gamma(v)*16)))
    native_gray=report_metrics(center_mean(render_native(exact,current_x[gray_indices])),t[gray_indices])['rmse_8bit']
    candidates.append(dict(gray=gray['rmse_8bit'],native_gray=native_gray,color=selection,vector=v.copy(),label=candidate_label,pc=bundle,params=params,importance=current_importance.copy(),wb=wb_value.copy()))
+   if a.save_candidates:
+    from native_candidates import append as save_candidate
+    save_candidate(a.output/'native_candidates.json',params,v,candidate_label,selection,native_gray,candidate_pairs_sha)
  def regularization(v):
   rows=native_rows(v[8:104],smooth.gamma(v)*16,ctx.axis,options['parameter_smoothing'],cc1=v[:8],config=ctx.base.config)
   if continuity_bank is not None:
    rows=np.r_[rows,continuity_bank.rows(continuity_model.render(v)/16383,options['output_continuity'])]
+  if neighborhood_model is not None:
+   rows=np.r_[rows,neighborhood_bank.rows(corrected(neighborhood_model.render(v),active_pc)/16383,options['target_neighborhood'])]
   return rows*np.sqrt(len(train))
  def residual(v):
   nonlocal calls;calls+=1
@@ -262,8 +310,12 @@ def main():
    raise ValueError('Refinement requires identical pairs and native capture')
   if previous.get('white_balance',{}).get('enabled'):
    raise ValueError('White balance refinement is not supported by this continuation')
-  if previous['fitting']['group_total_weights']!=importance or previous['fitting']['search_options']['parameter_smoothing']!=options['parameter_smoothing']:
+  if (previous['fitting']['group_total_weights']!=importance or previous['fitting']['search_options']['parameter_smoothing']!=options['parameter_smoothing']
+      or previous['fitting']['search_options'].get('target_neighborhood',0)!=options['target_neighborhood']
+      or previous['fitting']['search_options'].get('postfit_deburr',False)!=options['postfit_deburr']):
    raise ValueError('Refinement must preserve cohort weights and smoothing')
+  if options['gamma_monotone_concave']!=previous['fitting']['search_options'].get('gamma_monotone_concave',False):
+   raise ValueError('Gamma parameterization differs; use a fresh fit')
   warm=np.load(source/'fit/fit_state.npz')['vector']
   baseline_relax=report_metrics(models['valid'].render(start),center_mean(render_native(ctx.base,x[valid])))
   prior=previous['parameters']
@@ -278,7 +330,8 @@ def main():
   from fit_native_proxy import curve_fit
   z=center_mean(ctx.base.matrix16(x[gray_indices]));curve=curve_fit(z/16383,t[gray_indices]/16383,ctx.axis/128/16383)
   yi=np.maximum.accumulate(np.maximum(curve,0))*16383;inc=np.maximum(np.diff(yi[smooth.knots]),1.)
-  seed=start.copy();seed[104:]=np.log(np.r_[inc,max(16383-yi[-1],1.)]);assess(seed,'monotone-seed')
+  seed=start.copy();seed[104:]=(smooth.gamma_shape.encode(yi) if smooth.gamma_shape is not None else
+                             np.log(np.r_[inc,max(16383-yi[-1],1.)]));assess(seed,'monotone-seed')
   # Tone-first block: optimize Gamma only, match encoded gray luma, leave
   # CC1 and block13 fixed; common gamma is still a native shared curve.
   monotone_seed=seed.copy()
@@ -293,7 +346,7 @@ def main():
    pred=gray_model.render(v)
    return np.r_[((pred-t[gray_indices])@pc_stages.LUMA)/16383,regularization(v)]
   tone_fit=progress.solve(least_squares,'灰阶明暗 Gamma',tone_residual,np.clip(seed[104:],lb[104:]+1e-5,ub[104:]-1e-5),
-   bounds=(lb[104:],ub[104:]),max_nfev=a.evaluations,ftol=2e-5,xtol=2e-5,gtol=1e-6,diff_step=1e-4,gpu_objective=lambda:make_gpu('tone',tone_seed,slice(104,None)))
+   bounds=(lb[104:],ub[104:]),max_nfev=a.evaluations,ftol=(1e-10 if options['gamma_global_correction'] else 2e-5),xtol=(1e-10 if options['gamma_global_correction'] else 2e-5),gtol=(1e-9 if options['gamma_global_correction'] else 1e-6),diff_step=1e-4,gpu_objective=lambda:make_gpu('tone',tone_seed,slice(104,None)))
   seed[104:]=tone_fit.x;assess(seed,'native-gray-tone-gamma-only')
   if not a.fast or gpu_seed is None:
    # Train-only preconditioning avoids fitting gray from an arbitrary color matrix.
@@ -316,7 +369,7 @@ def main():
    progress.value['total_rounds']+=1
    correction_started=time.perf_counter()
    gpu_fit=progress.solve(least_squares,'GPU 起点浮点校正（最多32次评估）',residual,gpu_seed,bounds=(lb,ub),
-    max_nfev=min(32,a.evaluations),ftol=2e-5,xtol=2e-5,gtol=1e-6,diff_step=1e-4)
+    max_nfev=min(32,a.evaluations),ftol=(1e-8 if options['native_strict_stopping'] else 2e-5),xtol=(1e-8 if options['native_strict_stopping'] else 2e-5),gtol=(1e-8 if options['native_strict_stopping'] else 1e-6),diff_step=1e-4)
    gpu_audit.update(cpu_float64_refit=True,cpu_correction_seconds=time.perf_counter()-correction_started,
        cpu_correction_evaluations=int(gpu_fit.nfev),cpu_correction_limit=min(32,a.evaluations))
    assess(gpu_fit.x,'Metal-initialized-CPU-corrected');starts.append(gpu_fit)
@@ -419,6 +472,10 @@ def main():
     if continuity_bank is not None:
      probes=continuity_bank.inputs(ctx.base,value)
      penalty=continuity_bank.cost(center_mean(render_native(exact,probes))/16383,options['output_continuity'])
+    if neighborhood_model is not None:
+     front=wb.inputs(ctx.base,x[neighborhood_bank.source_indices],p['sensor_codes'][neighborhood_bank.source_indices],value)
+     prediction=corrected(center_mean(render_native(exact,front)),active_pc)/16383
+     penalty+=neighborhood_bank.cost(prediction,options['target_neighborhood'])
     return float(costs@group_weights/group_weights.sum())+penalty+0.01*((value['temperature_shift']/1000)**2+(value['tint']/50)**2)
    solved=minimize(wb_cost,[wb_value['temperature_shift'],wb_value['tint']],method='Powell',bounds=[(-1000,1000),(-50,50)],options=dict(maxiter=max(2,a.evaluations),maxfev=max(60,a.evaluations*12),xtol=.5,ftol=1e-5))
    set_wb(dict(temperature_shift=solved.x[0],tint=solved.x[1]));assess(chosen['vector'],'WB-search-'+str(wb_round+1),params_override=chosen['params'])
@@ -442,14 +499,125 @@ def main():
  if options['quantization_sweeps']:
   chosen=select_balanced(candidates);set_wb(chosen['wb']);current_importance=chosen['importance'].copy()
   _,_,_,group_weights=training_plan(split,p['anchor_index'],current_importance,sector_ids,tonal_ids,random_selection,p.get('sample_kind'),options)
-  refined,quantization_audit=refine_native(ctx,chosen['params'],current_x[train],t[train]/16383,group_weights,chosen['pc'],options['quantization_sweeps'],options['perceptual_weight'],progress=lambda **v:progress.update(stage='量化后原生参数微调',**v),parameter_smoothing=options['parameter_smoothing'],output_penalty=exact_continuity if continuity_bank is not None else None)
+  refined,quantization_audit=refine_native(ctx,chosen['params'],current_x[train],t[train]/16383,group_weights,chosen['pc'],options['quantization_sweeps'],options['perceptual_weight'],progress=lambda **v:progress.update(stage='量化后原生参数微调',**v),parameter_smoothing=options['parameter_smoothing'],output_penalty=exact_continuity if continuity_bank is not None else None,target_neighborhood=exact_neighborhood if neighborhood_model is not None else None)
   assess(chosen['vector'],'integer-refinement',params_override=refined)
   if a.pc_compensation:
    assess(chosen['vector'],'integer-refinement-PC',params_override=refined,quantize=True)
    assess(chosen['vector'],'PC-integer-refinement',params_override=chosen['params'],quantize=True)
+ # Correct the entire native Gamma together after colored fitting.  Proposal
+ # construction and all gates are train-only; original candidate ranking stays.
+ gamma_global_audit=dict(executed=False,accepted=False)
+ if options['gamma_global_correction']:
+  import gamma_global_correction as global_gamma
+  chosen=select_balanced(candidates);set_wb(chosen['wb']);active_pc=chosen['pc']
+  current_importance=importance.copy()
+  _,_,_,group_weights=training_plan(split,p['anchor_index'],importance,sector_ids,tonal_ids,random_selection,p.get('sample_kind'),options)
+  fixed=chosen['vector'].copy();fixed_params=chosen['params']
+  fixed[104:]=smooth.gamma_shape.encode(fixed_params['gamma_y']/16)
+  progress.update(stage='全128节点 Gamma 整体矫正',round=progress.value['round']+1,state='running',evaluations=0,iteration=0,max_evaluations=a.evaluations,gpu_backend='Apple Metal/MPS')
+  source_mass,target_mass,gamma_global_audit=global_gamma.solve(gray_model,fixed,t[gray_indices],a.evaluations,progress=progress.update)
+  gray_train_mask=(p['anchor_index'][train]>=4)&(p['anchor_index'][train]<260)
+  def gamma_exact_metrics(params,bundle=None):
+   exact=ctx.build(**params)
+   gray_pred=center_mean(render_native(exact,current_x[gray_indices]))/16383
+   gray_delta=(gray_pred-t[gray_indices]/16383)@pc_stages.LUMA*255
+   native_pred=center_mean(render_native(exact,current_x[train]))/16383
+   full_pred=corrected(native_pred*16383,active_pc if bundle is None else bundle)/16383
+   costs=display_cost_rows(full_pred,t[train]/16383,options['perceptual_weight'])
+   colored=~gray_train_mask
+   return dict(gray_luma_mse_8bit=float(np.mean(gray_delta**2)),gray_rgb_rmse_8bit=float(np.sqrt(np.mean((gray_pred-t[gray_indices]/16383)**2))*255),
+    complete_train_fidelity=float(costs@group_weights/group_weights.sum()),
+    colored_train_fidelity=float(costs[colored]@group_weights[colored]/group_weights[colored].sum()),
+    pc_gray_rgb_rmse_8bit=float(np.sqrt(np.mean((full_pred[gray_train_mask]-t[train][gray_train_mask]/16383)**2))*255),
+    frozen104=bool(np.array_equal(params['cc1'],fixed_params['cc1']) and params['matrix_payload']==fixed_params['matrix_payload']),
+    gamma_concavity=smooth.gamma_shape.audit_even(params['gamma_y']))
+  before_global=gamma_exact_metrics(fixed_params)
+  gamma_global_audit.update(before=before_global,accepted=False,frozen104=True,attempts=[],
+   initial_tone_policy='Gamma-only gray residual divided by 256, scaled to squared 8-bit units for GPU stopping; complementary objectives unchanged',
+   acceptance='native gray luminance improves; frozen-PC complete TRAIN and colored TRAIN original RGB/perceptual fidelity do not increase except numerical tolerance; no holdout gate')
+  # Include a no-floating-change global integer projection to isolate and
+  # potentially remove the old one-way rounding drift.
+  proposals=list(global_gamma.integer_candidates(smooth.gamma_shape,fixed,source_mass,target_mass))
+  proposals.append((0.,fixed.copy(),0.))
+  accepted_global=[]
+  for alpha,proposal,reconstruction in proposals:
+   candidate_params={k:(v.copy() if isinstance(v,np.ndarray) else v) for k,v in fixed_params.items()}
+   candidate_params['gamma_y'],integer_audit=smooth.gamma_shape.quantize_global_raw(smooth.gamma(proposal)*16,return_audit=True)
+   after_global=gamma_exact_metrics(candidate_params)
+   unchanged=bool(np.array_equal(candidate_params['gamma_y'],fixed_params['gamma_y']))
+   gray_ok=after_global['gray_luma_mse_8bit']<before_global['gray_luma_mse_8bit']-1e-10
+   def faithful(name):return after_global[name]<=before_global[name]+max(1e-8,abs(before_global[name])*1e-7)
+   accepted=bool(not unchanged and gray_ok and faithful('complete_train_fidelity') and faithful('colored_train_fidelity') and after_global['frozen104'] and after_global['gamma_concavity']['passed'])
+   gamma_global_audit['attempts'].append(dict(alpha=alpha,accepted=accepted,unchanged=unchanged,
+    reason=('accepted' if accepted else 'unchanged' if unchanged else 'gray luminance or train fidelity gate'),
+    metrics=after_global,integer_projection={**integer_audit,'projected_raw128':candidate_params['gamma_y'].tolist()},mass_logit_reconstruction_14bit=reconstruction))
+   if accepted:accepted_global.append((after_global['gray_luma_mse_8bit'],alpha,proposal,candidate_params,after_global,None))
+  if options['gamma_color_recovery']:
+   import gamma_color_recovery
+   gamma_global_audit['color_recovery']=dict(executed=True,attempts=[],frozen_gamma=True,
+    acceptance='native gray improves versus pre-Gamma baseline; rebuilt-PC full and colored TRAIN fidelity no worse than baseline; exact Gamma bytes fixed; original validation ranking retained',
+    data_scope='TRAIN only for optimization and gates; original validation ranking, test only final evaluation')
+   for attempt,(alpha,proposal,reconstruction) in zip(gamma_global_audit['attempts'],proposals):
+    if alpha==0 or attempt['unchanged'] or attempt['metrics']['gray_luma_mse_8bit']>=before_global['gray_luma_mse_8bit']-1e-10:continue
+    gamma_params={k:(v.copy() if isinstance(v,np.ndarray) else v) for k,v in fixed_params.items()}
+    # Reuse the actual single projection: never solve a time-limited MILP twice.
+    gamma_params['gamma_y']=np.asarray(attempt['integer_projection']['projected_raw128'],dtype=int)
+    progress.update(stage='固定 Gamma 补调 CC1 / block13',evaluations=0,iteration=0,max_evaluations=a.evaluations,gpu_backend='Apple Metal/MPS',gamma_alpha=alpha)
+    repair_proposals,repair_audit=gamma_color_recovery.solve(ctx,smooth,gray_model,t[train],t[gray_indices],group_weights,
+     fixed_params,gamma_params,start,active_pc,options,lb[:104],ub[:104],a.evaluations,progress=progress.update)
+    repair_audit.update(gamma_alpha=alpha,gamma_only=attempt['metrics'],integer_attempts=[])
+    # Quantized candidates are ordered by frozen-PC TRAIN cost before PC rebuilding.
+    scored=[]
+    for repair in repair_proposals:
+     candidate_params=repair['params'];metrics=gamma_exact_metrics(candidate_params)
+     gamma_fixed=bool(np.array_equal(candidate_params['gamma_y'],gamma_params['gamma_y']))
+     gray_ok=metrics['gray_luma_mse_8bit']<before_global['gray_luma_mse_8bit']-1e-10
+     repair['metrics']=metrics
+     repair['frozen_gamma']=gamma_fixed
+     if gray_ok and gamma_fixed and metrics['gamma_concavity']['passed']:scored.append(repair)
+     else:repair_audit['integer_attempts'].append(dict(color_alpha=repair['alpha'],accepted=False,reason='native gray improvement or fixed Gamma gate',metrics=metrics,frozen_gamma=gamma_fixed))
+    scored.sort(key=lambda c:c['metrics']['complete_train_fidelity'])
+    accepted_repair=False
+    for repair in scored:
+     candidate_params=repair['params']
+     training=center_mean(render_native(ctx.build(**candidate_params),current_x[train]))/16383
+     rebuilt=[pc_stages.fit_training(training,t[train]/16383,gray_mask,group_weights,strategy=strategy,
+      quantization_sweeps=0,perceptual_weight=options['perceptual_weight'],curve_mode=pc_policy['curve_mode'],response=pc_policy['response'],
+      parameter_smoothing=options['parameter_smoothing'],target_neighborhood=options['target_neighborhood'],training_penalties=not options['postfit_deburr'])
+      for strategy in (('direct',) if pc_policy['curve_mode']=='qaq-grid' else (('direct','dense-compressed') if pc_policy['grid_enabled'] else ('none',)))] if a.pc_compensation else [None]
+     accepted_bundles=[]
+     for bundle in rebuilt:
+      metrics=gamma_exact_metrics(candidate_params,bundle)
+      def faithful_rebuilt(name):return metrics[name]<=before_global[name]+max(1e-8,abs(before_global[name])*1e-7)
+      accepted=bool(faithful_rebuilt('complete_train_fidelity') and faithful_rebuilt('colored_train_fidelity'))
+      repair_audit['integer_attempts'].append(dict(color_alpha=repair['alpha'],strategy=bundle[2]['strategy'] if bundle else 'native',
+       accepted=accepted,reason='accepted' if accepted else 'rebuilt-PC TRAIN fidelity gate',metrics=metrics,frozen_gamma=repair['frozen_gamma']))
+      if accepted:
+       accepted_bundles.append(bundle)
+     if accepted_bundles:
+      after_repair=min((gamma_exact_metrics(candidate_params,b) for b in accepted_bundles),key=lambda m:m['complete_train_fidelity'])
+      accepted_global.append((after_repair['gray_luma_mse_8bit'],alpha,repair['vector'],candidate_params,after_repair,accepted_bundles))
+      accepted_repair=True;break
+    repair_audit['accepted']=accepted_repair
+    gamma_global_audit['color_recovery']['attempts'].append(repair_audit)
+    # The strongest Gamma with a feasible compensation is sufficient; smaller
+    # Gamma steps are fallbacks, not validation-driven hyperparameter searches.
+    if accepted_repair:break
+  if accepted_global:
+   _,alpha,proposal,candidate_params,after_global,bundles=min(accepted_global,key=lambda c:c[0])
+   gamma_global_audit.update(accepted=True,selected_alpha=alpha,after=after_global,
+    accepted_gamma_y=candidate_params['gamma_y'].tolist(),color_recovery_used=bundles is not None)
+   assess(proposal,'global-gamma-color-recovery' if bundles is not None else 'global-gamma-train-only-correction',params_override=candidate_params,bundles_override=bundles)
+  else:gamma_global_audit.update(after=before_global,reason='No integer whole-curve candidate passed both gray and train-color gates')
+  progress.update(state='round_done',stage='Gamma 整体矫正已验收' if gamma_global_audit['accepted'] else 'Gamma 整体矫正保留原候选')
  chosen=select_balanced(candidates);set_wb(chosen['wb'])
+ if gamma_global_audit['executed']:
+  gamma_global_audit['final_selected_candidate']=chosen['label']
+  gamma_global_audit['selected_final']=bool(gamma_global_audit['accepted'] and np.array_equal(chosen['params']['gamma_y'],gamma_global_audit['accepted_gamma_y']))
  best=[chosen['color'],chosen['vector'],chosen['label']]
  fitted=best[1];params=chosen["params"];model=ctx.build(**params)
+ if smooth.gamma_shape is not None and not smooth.gamma_shape.audit_even(params['gamma_y'])['passed']:
+  raise ValueError('Final Gamma is not monotone-concave')
  exact_before=center_mean(render_native(ctx.base,x[test]));exact_after=center_mean(render_native(model,current_x[test]))
  result=dict(white_balance=wb.report(wb_value,a.white_balance),schema='r5-edit-native-color-fit/1',complete_edit_fitter=False,camera_apply_allowed=False,renderer='measured-Edit-color-subchain-with-native-matrix-builder',input_domain='Edit post-SSCS/pre-matrix integer RGB',output_domain='14-bit encoded RGB',target_description=a.target_description or ['integer RAW -> RawAlchemy S-Gamut3 S-Log3 cube','integer RAW -> RawAlchemy S-Gamut3.Cine S-Log3 cube'][a.gamut],
   additional_compensation_matrix_enabled=False,compensation_grid_enabled=False,photo_pixels_used_for_fitting=False,
@@ -461,9 +629,28 @@ def main():
   full_chain_status=('Experimental WB uses flatfield ITP plus frozen measured frontend residual; Vatr/SSCS WB response is approximate.' if a.white_balance else 'New synthetic RAW frontend measured before matrix; verified original ST color subchain reused; new chart full JPEG not verified.'),
   limitations=['Continuous model only initializes; heldout results use integer model.','New capture contributes only pre-matrix input, never its current-look output.','New chart full JPEG and photographs require independent Edit validation.','No global optimum or arbitrary LUT exact-representation claim.'])
  result['fitting']['gamma_color_alternation']=alternation_history
+ result['fitting']['gamma_global_correction']=gamma_global_audit
+ if smooth.gamma_shape is not None:
+  result['fitting']['gamma_shape']=dict(policy='nonnegative concave native-knot hinge mixture',
+   constraints=dict(zero=True,nonnegative_slope=True,nonincreasing_slope=True),
+   control_sampling='fixed native x; dark dense, progressively sparse highlights; no uniform resampling',
+   control_x_native=smooth.controls.tolist(),control_x_steps=np.diff(smooth.controls).tolist(),
+   targets_unchanged=True,gray_samples_unchanged=256,
+   quantized_native_knots=smooth.gamma_shape.audit_even(params['gamma_y']),
+   maximum_raw_displacement_from_continuous=float(np.max(np.abs(params['gamma_y']-smooth.gamma(fitted)*16))),
+   scope='Continuous piecewise-linear curve and export-decoded 128 nodes; integer lookup quantization can have one-code second differences; separate endpoint129 has no recovered abscissa')
+ if options['postfit_deburr']:
+  result['fitting']['postfit_deburr_policy']=dict(enabled=True,training_shape_penalties=False,
+   disabled=['parameter_smoothing','output_continuity','target_neighborhood','PC curve second-difference','PC grid and dense teacher neighbor penalties'],
+   retained=['RGB and perceptual target fidelity','full hue24 tonal training tracks and configured weights','stage reference-output fidelity and weak seed proximity','initialization-only tone proxy smoothing','numerical solver stabilization','native parameter bounds and monotone Gamma structure','PC tone monotonic projection and zero-luma tint structure'],
+   correction_stage='after final packed-grid fitting; separately audited')
  if continuity_bank is not None:
   result['fitting']['output_continuity']=exact_continuity(params,report=True)
   result['fitting']['training_pipeline'].append('native-output-continuity')
+ if neighborhood_bank is not None:
+  result['fitting']['target_neighborhood']=exact_neighborhood(params,chosen['pc'],report=True)
+  result['fitting']['target_neighborhood']['domain']='complete train split, fixed across coarse/full stages; final PC included when enabled'
+  result['fitting']['training_pipeline'].append('target-neighborhood-differences')
  if a.refine_from:
   result['fitting']['continued_from']=dict(job=str(a.refine_from),recipe_sha256=sha(a.refine_from/'fit/recipe.json'))
   result['fitting']['training_pipeline']=['previous-exact-native-seed','gamma-cc1-block13-alternation','exact-integer-refinement']
@@ -485,6 +672,7 @@ def main():
  from parameter_smoothing import POLICY
  result['fitting']['regularization_policy']=POLICY
  if continuity_bank is not None:result['fitting']['selection']+='; output-space continuity penalty on fixed target-independent probes'
+ if neighborhood_bank is not None:result['fitting']['selection']+='; train-only target-neighborhood derivative fidelity; target turns preserved'
  (a.output/'recipe.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');np.savez(a.output/'fit_state.npz',vector=fitted,start=start,test_prediction=exact_after)
  progress.update(stage='原生拟合完成',state='done')
  print(json.dumps(result['heldout'],indent=2),flush=True)

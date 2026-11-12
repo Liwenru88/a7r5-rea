@@ -33,7 +33,13 @@ def residual(smooth, target, weights, native_start, grid, response, vector,
     coefficients = vector[8:104].reshape(6,16)
     smoothing = native_rows(coefficients, smooth.gamma(vector)*16,
         smooth.ctx.axis, parameter_smoothing,cc1=vector[:8],config=smooth.ctx.base.config)*np.sqrt(len(weights))
-    return np.r_[(data*np.sqrt(weights)[:,None]).ravel(), smoothing]
+    neighborhood = getattr(smooth, 'target_neighborhood', None)
+    target_rows = np.empty(0)
+    if neighborhood is not None:
+        bank, neighbor_model, amount = neighborhood
+        neighbor_prediction = get(response).predict_cpu(neighbor_model.render(vector)/16383, grid)
+        target_rows = bank.rows(neighbor_prediction, amount)*np.sqrt(len(weights))
+    return np.r_[(data*np.sqrt(weights)[:,None]).ravel(), smoothing, target_rows]
 
 
 def optimize_native(smooth, target, weights, native_start, grid, response, vector,

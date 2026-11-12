@@ -2,7 +2,7 @@
   "schema": 1,
   "id": "look24",
   "label": "24 槽自定义滤镜",
-  "revision": 2,
+  "revision": 3,
   "supported_bases": ["ilce-7rm5-4.00"],
   "requires": [],
   "conflicts": [

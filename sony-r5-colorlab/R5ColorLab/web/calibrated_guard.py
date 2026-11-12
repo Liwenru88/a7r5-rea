@@ -109,9 +109,9 @@ class RampBank:
         return {axis: chroma_jumps(self.lines(rgb, axis)) for axis in PROBE_AXES}
 
 
-def calibrate(bank, rendered, photos):
+def calibrate(bank, rendered, photos, *, allow_no_photos=False):
     """用原配方输出和独立照片估计各项容差，先于候选训练冻结。"""
-    if not photos:
+    if not photos and not allow_no_photos:
         raise ValueError('至少需要一张独立校准照片')
     rounded = phase_rgb(rendered)
     reference = bank.jumps(rounded)
@@ -139,7 +139,7 @@ def calibrate(bank, rendered, photos):
                           peak=min(CAPS['peak'], observed['peak']),
                           local=min(CAPS['local'], observed['local']))
     gray = max(gray_margins)
-    p95 = max(row['p95_span'] for row in photo_rows)
+    p95 = max((row['p95_span'] for row in photo_rows), default=0.)
     return dict(gray_rmse=min(gray, CAPS['gray_rmse']), delta_e00_p95=min(p95, CAPS['delta_e00_p95']),
                 axes=axes, measured=dict(gray_rmse=gray, delta_e00_p95=p95, axes=measured),
                 photos=photo_rows, caps=CAPS, phases=PHASES, ramp_sha256=bank.sha256)

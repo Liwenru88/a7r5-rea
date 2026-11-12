@@ -59,6 +59,10 @@ def enqueue(jobs, concurrency, server):
     with server.LOCK:
         if any(j['status'] in ('queued','running') for j in server.JOBS.values()):
             raise ValueError('已有训练运行，请完成后提交批量任务')
+        from packed_training import bind_context
+        for item in jobs:
+            if not item.get('reused'):
+                bind_context(item['options'],server.RUNS)
         identifier=uuid.uuid4().hex
         destination=directory(server.core.HERE)/identifier;destination.mkdir(parents=True)
         state=dict(id=identifier,status='queued',started=time.time(),jobs=jobs,concurrency=concurrency)

@@ -52,7 +52,7 @@ def generate(job):
         base=white_balance.render_pairs(model,p,recipe)/16383
         gray=(ids>=4)&(ids<260)&(split=='train')
         if gray.sum()!=256:raise ValueError('需要完整256级实采灰阶训练色卡，请重新拟合原生任务')
-        curve,grid,audit=pc_stages.fit_training(base[train],target[train],gray[train],weights, strategy=recipe.get("fitting",{}).get("pc_grid_strategy") or "direct", quantization_sweeps=recipe.get("fitting",{}).get("selected_pc_quantization_sweeps",0), perceptual_weight=recipe.get("fitting",{}).get("search_options",{}).get("perceptual_weight",0), curve_mode=recipe.get("fitting",{}).get("pc_options",{}).get("curve_mode","tone-tint"),response=recipe.get("fitting",{}).get("pc_options",{}).get("response"),parameter_smoothing=recipe.get("fitting",{}).get("search_options",{}).get("parameter_smoothing",0))
+        curve,grid,audit=pc_stages.fit_training(base[train],target[train],gray[train],weights, strategy=recipe.get("fitting",{}).get("pc_grid_strategy") or "direct", quantization_sweeps=recipe.get("fitting",{}).get("selected_pc_quantization_sweeps",0), perceptual_weight=recipe.get("fitting",{}).get("search_options",{}).get("perceptual_weight",0), curve_mode=recipe.get("fitting",{}).get("pc_options",{}).get("curve_mode","tone-tint"),response=recipe.get("fitting",{}).get("pc_options",{}).get("response"),parameter_smoothing=recipe.get("fitting",{}).get("search_options",{}).get("parameter_smoothing",0),target_neighborhood=recipe.get("fitting",{}).get("search_options",{}).get("target_neighborhood",0),training_penalties=not recipe.get("fitting",{}).get("search_options",{}).get("postfit_deburr",False))
         tone,tinted,gate=pc_stages.curves(base,curve)
         corrected=pc_stages.render(base,curve,grid)
         metrics={}

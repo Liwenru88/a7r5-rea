@@ -1,0 +1,13 @@
+{
+  "missing": [
+    "R5FlashWorkbench/engine/templates.json",
+    "R5FlashWorkbench/engine/templates/capture-cleanup.so",
+    "R5FlashWorkbench/engine/templates/capture.so",
+    "R5FlashWorkbench/engine/templates/trust-blank-512.so",
+    "R5FlashWorkbench/engine/templates/trust-installed-boot-hook.so"
+  ],
+  "unregistered": [],
+  "drifted": [
+    ".gitignore"
+  ]
+}

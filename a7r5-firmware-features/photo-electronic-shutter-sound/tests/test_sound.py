@@ -81,7 +81,8 @@ def test_reject_invalid_wav_before_publishing(tmp_path, compiler):
 def test_playback_scheduler_replay(tmp_path, compiler):
     exe = tmp_path / 'replay'
     runtime = MODULE / 'runtime'
-    subprocess.run([compiler, '-std=c11', '-O2', '-I', str(runtime), '-o', str(exe),
+    subprocess.run([compiler, '-std=c11', '-O1', '-Wall', '-Wextra', '-Werror',
+                    '-fsanitize=address,undefined', '-I', str(runtime), '-o', str(exe),
                     str(MODULE / 'tests/replay.c'), str(runtime / 'r5_shutter_scheduler.c')],
                    check=True, timeout=30)
     subprocess.run([str(exe)], check=True, timeout=5)
