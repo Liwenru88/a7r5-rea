@@ -1,7 +1,0 @@
-{
-  "a7r5-firmware-features/core/plan.py": "462cfe5cce44cea22a35755d6b158997293b88cfb5adffc78f138fd0a283eb76",
-  "a7r5-firmware-features/core/package.py": "477c06a76a96b932c2f61ef832163e88924d936988dbabe8cfc73e5e60618e98",
-  "a7r5-firmware-features/core/native24.py": "9311804e4c6b5f60a2017bd021b9b77a3438c64e0cace44a2b32581866ba5cd9",
-  "a7r5-firmware-features/native24-combined/release417/container_package.py": "61847860875b468bd68b40f74170128c91d6b9ffac183e8a0c6973d103465089",
-  "a7r5-firmware-features/specs/4.19-boot-audit/audit.py": "d2ababa579cbf3e57d5d8b6f3c722e22dcb584ff4da49962253fcfbe17ee458b"
-}

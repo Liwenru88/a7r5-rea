@@ -40,8 +40,8 @@ def read(path,capture,context,matrix_builder):
     # remain those of the identity-calibration context that was verified.
     if payload[:24]!=model.raw[0xae:0xae+24] or payload[216:]!=model.raw[0xae+216:0xae+276]:
         raise ValueError('Recipe changed unsupported common matrix fields')
-    result=ParameterContext(model,matrix_builder).build(matrix_payload=payload,
-        cc1=params['cc1_direct_raw'],gamma_y=params['gamma_7806_y'])
+    from native_gamma import parameter_values
+    result=ParameterContext(model,matrix_builder).build(**parameter_values(params))
     if 'pc_residual' in recipe:
         from residual_grid import unpack,response_matrix
         grid=recipe['pc_residual']

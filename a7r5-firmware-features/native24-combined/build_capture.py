@@ -47,9 +47,9 @@ def build(stock, output, *, runtime=None, lens_af=False, aspect=False):
             raise ValueError('拍摄模块需要原厂 4.00 的 24 槽组件回执')
         colors = record.get('color_modules')
         custom_sound = record.get('sound_layout') == 'custom-dual-full'
-        if colors is not None and (colors != {'fl23': True, 'factory_six': True} or
-                                   record['disabled_modules'] or not (lens_af and aspect)):
-            raise ValueError('色彩和拍摄组合需要全开 24 槽、FL2／FL3、六款、AF 与纵横比')
+        if colors is not None and (not colors.get('fl23') or record['disabled_modules'] or
+                                   not aspect or (not lens_af and colors.get('factory_six'))):
+            raise ValueError('色彩和拍摄组合需要全开 24 槽、FL2／FL3 与已登记的拍摄组合')
         cp_path, cp_sha = runtime / 'cpapp-b.bin', record['CP_sha256']
         ap_path, ap_sha = runtime / 'appFw.so', record['AP_sha256']
         icons = {name: record['components'][name]['sha256'] for name in icons}
@@ -64,7 +64,8 @@ def build(stock, output, *, runtime=None, lens_af=False, aspect=False):
         ap_elf = build_ap.compile_ap(output, ap, source_sha=ap_sha)
         ap, receipt['AP'] = build_ap.apply_ap(ap, ap_elf, source_sha=ap_sha)
         (output / 'appFw.so').write_bytes(ap)
-        cp_elf = build_cp.compile_cp(output, stock=runtime is None, shared_color=colors is not None)
+        cp_elf = build_cp.compile_cp(output, stock=runtime is None, shared_color=colors is not None,
+                                      custom_sound=custom_sound)
         cp, receipt['CP_aspect'] = build_cp.apply_cp(cp, cp_elf, source_sha=cp_sha,
             shared_color=colors is not None, custom_sound=custom_sound)
         cp_sha = receipt['CP_aspect']['target_sha256']

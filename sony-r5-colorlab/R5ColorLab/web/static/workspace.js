@@ -197,7 +197,7 @@ async function openWorkspace(value){
     for(const id of trainingOptions){
       const input=$(id), setting=value.settings[id];
       const defaultInput=workspaceDefaults[id];
-      if(id==='speedPriority')input.value=typeof setting==='boolean'?(setting?'fast':'standard'):['standard','custom','fast'].includes(setting)?setting:defaultInput;
+      if(id==='speedPriority')input.value='standard';
       else if(input.type==='checkbox')input.checked=typeof setting==='boolean'?setting:defaultInput;
       else input.value=typeof setting==='string'?setting:defaultInput;
     }
@@ -367,7 +367,8 @@ async function saveBatchResults(jobs){
 function renderWorkspaceJob(job){
   workspaceJob=job;
   const linked=job&&workspace?.jobs[job.id];
-  $('workspaceJobStatus').textContent=linked?'第 '+linked+' 槽 · '+(job.name?job.name+' · ':'')+job.phase:'';
+  $('workspaceJobStatus').textContent=linked?'第 '+linked+' 槽 · '+(job.name?job.name+' · ':'')+job.phase+' '+qualitySummary(job.quality_selection):'';
+  $('workspaceJobStatus').classList.toggle('quality-warning',Boolean(linked&&job.quality_selection?.policy==='native-joint-forced/1'&&!job.quality_selection.quality_passed));
   $('workspaceViewJob').hidden=!(linked&&job.status==='done');
   $('workspaceViewTrace').hidden=!(linked&&job.training_trace_available);
   const trainingLog=$('workspaceTrainingLog');
@@ -375,12 +376,20 @@ function renderWorkspaceJob(job){
   if(!trainingLog.hidden)trainingLog.href='/api/jobs/'+job.id+'/training-log';
   $('workspaceRetryJob').hidden=!(linked&&job.retry_available&&['done','error'].includes(job.status));
   const fitting=linked?job.result?.fitting:undefined;
+  const joint=linked?job.result?.native_joint:undefined;
   const settings=$('workspaceJobSettings');
-  settings.hidden=!fitting?.search_options;
+  settings.hidden=!joint&&!fitting?.search_options;
   if(settings.hidden)settings.open=false;
   const options=fitting?.search_options||{};
   const weights=fitting?.group_total_weights||{};
-  const rows=[
+  const rows=joint?[
+    ['训练算法','C 原生四组联合训练'],['发布策略',joint.policy],
+    ['四组联合步数',joint.options.steps],['联合 Adam 学习率',joint.options.lr],
+    ['条件网格步数',joint.options.conditional_steps],['整数精修轮数',joint.options.integer_sweeps],
+    ['完整开发照片步数',joint.options.full_photo_steps],['稳健过渡轮数',joint.options.robust_rounds],
+    ['稳健过渡每轮步数',joint.options.robust_steps],
+    ['质量验收',typeof joint.quality_passed==='boolean'?(joint.quality_passed?'通过':'未全部通过，仍可保存和导出'):undefined]
+  ]:[
     ['训练模式',typeof fitting?.speed_priority==='boolean'?(fitting.speed_priority?'快速':'标准'):undefined],
     ['参数平滑',options.parameter_smoothing],['输出连续性强度',options.output_continuity],
     ['感知色差权重',options.perceptual_weight],['搜索起点',options.starts],
@@ -422,7 +431,7 @@ async function compareWorkspaceSlot(){
     $('compareSlotSubject').textContent=modified?'当前草稿':'当前槽位';
     $('compareSlotResults').hidden=false;
     $('compareSlotStatus').textContent=value.samples+' 色块 · 平均差 '+value.mae.toFixed(2)+
-      ' · 均方根差 '+value.rmse.toFixed(2)+'（8 位码值）'+(value.gamma_tail_changed?' · Gamma 第 129 点有变化，色块模拟使用前 128 点。':'');
+      ' · 均方根差 '+value.rmse.toFixed(2)+'（8 位码值）'+(value.gamma_tail_changed?' · Gamma 第 129 点有变化，已按完整曲线计算。':'');
   }catch(error){
     if(serial===slotComparisonSerial)$('compareSlotStatus').textContent=error.message;
   }finally{

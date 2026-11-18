@@ -1,0 +1,9 @@
+{
+  "id": "native-joint/1",
+  "schema": "r5-native-joint-profile/1",
+  "name": "C 原生四组联合训练",
+  "backend": "Apple Metal/MPS",
+  "joint_options": {"steps": 600, "lr": 0.003, "dense_budget": 0.1, "conditional_steps": 2000, "conditional_candidates": 1, "integer_sweeps": 2, "recovery_enabled": true, "full_photo_steps": 600, "robust_rounds": 6, "robust_steps": 500, "selection_policy": "force-new"},
+  "batch_concurrency": 1,
+  "description": "原生初始化 → C 联合拟合完整129点Gamma、CC1、16色相和整数网格600步 → 分组恢复与新候选条件网格2000步 → 整数精修 → 完整开发照片收敛600步 → 19组渐变活动约束修复6×500步。只选本次新候选，独立验收失败仍保存并允许导出，明确标记未通过项；非法 BIN 或非有限数值停止发布。"
+}

@@ -32,7 +32,10 @@ def write(original,recipe_path,destination):
     payload=bytes.fromhex(p['matrix_780f_hex']);cfg=decode_matrix16(payload)
     aa,b,c,d,e,f=np.rint(np.array(struct.unpack_from('<96f',cfg,0x28)).reshape(6,16)[:,0]*1024).astype(int)
     matrix=[1024+aa+b,-aa,-b,-c,1024+c+d,-d,-e,-f,1024+e+f]
-    changes={0x780f:payload,0x7806:struct.pack('<128i',*p['gamma_7806_y']),
+    from native_gamma import raw_projection
+    raw_gamma=(raw_projection(p['gamma_native_129'],require_exact=True)
+               if 'gamma_native_129' in p else p['gamma_7806_y'])
+    changes={0x780f:payload,0x7806:struct.pack('<128i',*raw_gamma),
              0x7842:struct.pack('<8h',*newbase),0x7800:struct.pack('<9h',*matrix)}
     dec=bytearray(a['dec']);allowed=set()
     for tag,data in changes.items():

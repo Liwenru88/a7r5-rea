@@ -214,7 +214,7 @@ def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1,
     best=cost(current);before=best;accepted=0;calls=2
     for sweep in range(sweeps):
         changed=False
-        for family,count in [('cc1',8),('matrix',96),('gamma_y',127)]:
+        for family,count in [('cc1',8),('matrix',96),('gamma_y',len(current['gamma_y'])-1)]:
             for index in range(count):
                 if progress and index%8==0:progress(sweep=sweep+1,total_sweeps=sweeps,point=index,total_points=count,family=family)
                 winner=None;score=best
@@ -226,7 +226,7 @@ def refine_native(ctx, parameters, inputs, target, weights, pc_bundle, sweeps=1,
                     elif family=='gamma_y':
                         at=index+1;proposal['gamma_y'][at]+=sign*(16 if sweep==0 else 2)
                         y=proposal['gamma_y']
-                        if y[at]<y[at-1] or y[at]>262143 or (at<127 and y[at]>y[at+1]):continue
+                        if y[at]<y[at-1] or y[at]>262142 or (at<len(y)-1 and y[at]>y[at+1]):continue
                         if shape is not None and not shape.audit_even(y)['passed']:continue
                     else:
                         coeff=np.array(struct.unpack_from('<96f',decode_matrix16(current['matrix_payload']),0x28)).reshape(6,16)

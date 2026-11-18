@@ -16,7 +16,7 @@ class ResearchPathsTests(unittest.TestCase):
     def test_legacy_dat_audits_accept_explicit_source(self):
         for script in ('packaging406/final_verify.py', 'release406/verify_candidate.py'):
             with self.subTest(script=script):
-                path = ROOT / 'a7r5-firmware-features/custom-filters/experiments' / script
+                path = ROOT / 'a7r5-firmware-features/research/custom-filters/experiments' / script
                 done = subprocess.run([sys.executable, '-B', str(path), '--help'],
                                       capture_output=True, text=True)
                 self.assertEqual(done.returncode, 0, done.stderr)

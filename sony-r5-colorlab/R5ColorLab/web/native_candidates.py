@@ -8,7 +8,8 @@ import numpy as np
 
 def append(path,params,vector,label,score,native_gray,pairs_sha256):
     path=Path(path)
-    fields=dict(matrix_780f_hex=params['matrix_payload'].hex(),cc1_direct_raw=np.asarray(params['cc1']).astype(int).tolist(),gamma_7806_y=np.asarray(params['gamma_y']).astype(int).tolist())
+    from native_gamma import parameter_fields
+    fields=parameter_fields(params)
     identity=hashlib.sha256(json.dumps(fields,sort_keys=True).encode()).hexdigest()
     row=dict(sha256=identity,parameters=fields,vector=np.asarray(vector).tolist(),label=label,score=float(score),native_gray=float(native_gray))
     if not np.isfinite(vector).all() or not all(math.isfinite(row[k]) for k in ('score','native_gray')):raise ValueError('候选含非有限数值')

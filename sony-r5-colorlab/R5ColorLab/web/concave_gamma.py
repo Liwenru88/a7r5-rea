@@ -142,7 +142,7 @@ class ConcaveGamma:
             minimum_cross_product=min(products, default=0),
             concavity_violations=sum(v < 0 for v in products),
             slope_domain='actual nonuniform native x; exact integer cross-products',
-            scope='128 serialized native nodes; separate export endpoint and integer lookup not implied')
+            scope=f'{len(self.axis)} explicit physical nodes; integer lookup quantization audited separately')
 
     def quantize_raw(self, raw_y, *, max_error_raw=None, return_audit=False):
         source = np.asarray(raw_y, dtype=float)

@@ -48,11 +48,11 @@ def submit(body,server):
         options=copy.deepcopy(body.get('options',{}))
         options.update(target_kind='chart-image',target_id=item['target_id'],number=number,
                        short_name=name,full_name=item.get('full_name',name),compression_training=True,white_balance=False,post_gray_refinement=False)
-        # The 129th point is an export-only endpoint, outside the fitted 128-point model.
+        # 初始化端点由完整129点 C 求解接续更新。
         if options.get('gamma_endpoint128') is None:options['gamma_endpoint128']=131071
         server.validate_fit(options)
         jobs.append(dict(id=uuid.uuid4().hex,filename=item['filename'],name=name,options=options))
-    return enqueue(jobs, concurrency, server)
+    return enqueue(jobs, 1, server)
 
 
 def enqueue(jobs, concurrency, server):
@@ -105,7 +105,7 @@ def retry(identifier, server):
 def run(state,destination,server):
     state['status']='running';save(destination/'batch.json',state,server)
     try:
-        entries=[];sources={}
+        entries=[];sources={};quality={}
         from grid_distillation import firmware_config
         # Independent job directories and fitter subprocesses; merge in filename order.
         with ThreadPoolExecutor(max_workers=state.get('concurrency',1)) as pool:
@@ -118,13 +118,14 @@ def run(state,destination,server):
             key=job['result']['grid_key']
             config=firmware_config(server.RUNS/item['id'],key,configuration_only=True)
             entry=config['entries'][0];entries.append(entry)
+            quality[str(entry['number'])]=job.get('quality_selection')
             sources[str(entry['number'])]=dict(kind='compressed',job=item['id'],key=key)
         project=server.core.config(entries);project['export_sources']=sources
         config,receipts=server.export_policy423.validate(project,server.RUNS)
         payload,_,firmware,version=server.core.compile_config(config)
         (destination/'R5NATIVE.BIN').write_bytes(payload)
         (destination/'native_config.json').write_bytes(server.dump(project))
-        (destination/'export_audit.json').write_bytes(server.dump(dict(bytes=len(payload),sha256=server.core.sha(payload),grid_sources=receipts,firmware=firmware,format_version=version,color_accuracy_accepted=False)))
+        (destination/'export_audit.json').write_bytes(server.dump(dict(bytes=len(payload),sha256=server.core.sha(payload),grid_sources=receipts,firmware=firmware,format_version=version,color_accuracy_accepted=False,quality_selection=quality)))
         state.update(status='done',sha256=server.core.sha(payload),bytes=len(payload))
     except Exception as error:
         state.update(status='error',error=str(error))
@@ -154,7 +155,8 @@ def get(handler,path,server):
         progress=read_progress(server.RUNS/item['id']/progress_name) if job['status']=='running' else None
         jobs.append(dict(id=item['id'],name=item['name'],number=item['options'].get('number'),
                          grid_key=job.get('result',{}).get('grid_key'),status=job['status'],
-                         phase=job['phase'],error=job.get('error'),training_progress=progress))
+                         phase=job['phase'],error=job.get('error'),training_progress=progress,
+                         quality_selection=job.get('quality_selection')))
     state['jobs']=jobs
     if state['status'] in ('running','queued') and not any(j['status'] in ('queued','running') for j in jobs):
         state.update(status='error',error='服务重启中断，请重新提交；已完成训练保留在历史记录')

@@ -182,7 +182,7 @@ def solve(ctx, smooth_model, gray_model, target, gray_target, weights, chosen_pa
         acceptance='proposal only; caller must verify integer gray improvement and rebuilt-PC train fidelity',
         frozen_gamma=True, fixed_gamma_sha256=hashlib.sha256(np.asarray(problem.gamma, dtype='<i4').tobytes()).hexdigest(),
         source104='decoded exact chosen integer CC1 and block13; not stale floating vector',
-        opened_parameters=104, fixed_gamma_points=128, training_samples=len(weights),
+        opened_parameters=104, fixed_gamma_points=len(problem.gamma), training_samples=len(weights),
         bounds_extended_parameters=int(np.count_nonzero(bound_extension)),
         maximum_bound_extension=float(np.max(bound_extension)),
         objective='unchanged weighted RGB/Lab76 joint fitting objective; frozen PC; no new gray/color weights',

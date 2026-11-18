@@ -1,0 +1,722 @@
+{
+  "schema": "a7r5-aspect-guide406-patch-plan/1",
+  "baseline": {
+    "DAT_bytes": 754525608,
+    "DAT_sha256": "3cb87fd41de7bf6693375bac66d780556d87e1f73270cadb1a8f02eb8c0f24c2",
+    "AP_bytes": 97368304,
+    "AP_sha256": "d15933ceb5ff9ad0b4f789cbabd6ff0a51526472dd35c90db97196dd227820e9",
+    "model": "ILCE-7RM5",
+    "firmware": "research-4.06"
+  },
+  "scope": "three native registrations plus 28 model-column-16 support bits",
+  "apply_before": "original Application_System_Init capability and menu initialization",
+  "support_writes": [
+    {
+      "id": "descriptor-0x645",
+      "VA": "0x58a46dc",
+      "file_offset": 92882652,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "descriptor",
+      "model_column": 16,
+      "APID": "0x645"
+    },
+    {
+      "id": "option-0x645-0",
+      "VA": "0x3f9b964",
+      "file_offset": 66697572,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x645",
+      "MID": "0x5ab",
+      "selector": 0
+    },
+    {
+      "id": "option-0x645-1",
+      "VA": "0x3f9b9e4",
+      "file_offset": 66697700,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x645",
+      "MID": "0x5ac",
+      "selector": 1
+    },
+    {
+      "id": "descriptor-0x646",
+      "VA": "0x58a25bc",
+      "file_offset": 92874172,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "descriptor",
+      "model_column": 16,
+      "APID": "0x646"
+    },
+    {
+      "id": "option-0x646-0",
+      "VA": "0x3f7a3e4",
+      "file_offset": 66560996,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5ad",
+      "selector": 0
+    },
+    {
+      "id": "option-0x646-1",
+      "VA": "0x3f7a464",
+      "file_offset": 66561124,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5ae",
+      "selector": 1
+    },
+    {
+      "id": "option-0x646-2",
+      "VA": "0x3f7a4e4",
+      "file_offset": 66561252,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5af",
+      "selector": 2
+    },
+    {
+      "id": "option-0x646-3",
+      "VA": "0x3f7a564",
+      "file_offset": 66561380,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5b0",
+      "selector": 3
+    },
+    {
+      "id": "option-0x646-4",
+      "VA": "0x3f7a5e4",
+      "file_offset": 66561508,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5b1",
+      "selector": 4
+    },
+    {
+      "id": "option-0x646-5",
+      "VA": "0x3f7a664",
+      "file_offset": 66561636,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x646",
+      "MID": "0x5b2",
+      "selector": 5
+    },
+    {
+      "id": "descriptor-0x647",
+      "VA": "0x58a479c",
+      "file_offset": 92882844,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "descriptor",
+      "model_column": 16,
+      "APID": "0x647"
+    },
+    {
+      "id": "option-0x647-0",
+      "VA": "0x3f94c64",
+      "file_offset": 66669668,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b3",
+      "selector": 0
+    },
+    {
+      "id": "option-0x647-1",
+      "VA": "0x3f94ce4",
+      "file_offset": 66669796,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b4",
+      "selector": 1
+    },
+    {
+      "id": "option-0x647-2",
+      "VA": "0x3f94d64",
+      "file_offset": 66669924,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b5",
+      "selector": 2
+    },
+    {
+      "id": "option-0x647-3",
+      "VA": "0x3f94de4",
+      "file_offset": 66670052,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b6",
+      "selector": 3
+    },
+    {
+      "id": "option-0x647-4",
+      "VA": "0x3f94e64",
+      "file_offset": 66670180,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b7",
+      "selector": 4
+    },
+    {
+      "id": "option-0x647-5",
+      "VA": "0x3f94ee4",
+      "file_offset": 66670308,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b8",
+      "selector": 5
+    },
+    {
+      "id": "option-0x647-6",
+      "VA": "0x3f94f64",
+      "file_offset": 66670436,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5b9",
+      "selector": 6
+    },
+    {
+      "id": "option-0x647-7",
+      "VA": "0x3f94fe4",
+      "file_offset": 66670564,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5ba",
+      "selector": 7
+    },
+    {
+      "id": "option-0x647-8",
+      "VA": "0x3f95064",
+      "file_offset": 66670692,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5bb",
+      "selector": 8
+    },
+    {
+      "id": "option-0x647-9",
+      "VA": "0x3f950e4",
+      "file_offset": 66670820,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5bc",
+      "selector": 9
+    },
+    {
+      "id": "option-0x647-10",
+      "VA": "0x3f95164",
+      "file_offset": 66670948,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5bd",
+      "selector": 10
+    },
+    {
+      "id": "option-0x647-11",
+      "VA": "0x3f951e4",
+      "file_offset": 66671076,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5be",
+      "selector": 11
+    },
+    {
+      "id": "option-0x647-12",
+      "VA": "0x3f95264",
+      "file_offset": 66671204,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5bf",
+      "selector": 12
+    },
+    {
+      "id": "option-0x647-13",
+      "VA": "0x3f952e4",
+      "file_offset": 66671332,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5c0",
+      "selector": 13
+    },
+    {
+      "id": "option-0x647-14",
+      "VA": "0x3f95364",
+      "file_offset": 66671460,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5c1",
+      "selector": 14
+    },
+    {
+      "id": "option-0x647-15",
+      "VA": "0x3f953e4",
+      "file_offset": 66671588,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "option",
+      "model_column": 16,
+      "APID": "0x647",
+      "MID": "0x5c2",
+      "selector": 15
+    },
+    {
+      "id": "entry-0x194",
+      "VA": "0x3fdfa64",
+      "file_offset": 66976356,
+      "bytes": 2,
+      "before_hex": "0000",
+      "after_hex": "0100",
+      "kind": "entry",
+      "model_column": 16,
+      "MID": "0x194"
+    }
+  ],
+  "registrations": [
+    {
+      "APID": "0x645",
+      "VA": "0x5560700",
+      "file_offset": 89458432,
+      "before_hex": "505290020000000000000000000000000000000000000000",
+      "existing_validator_relocation": {
+        "section": ".rela.dyn",
+        "entry_file_offset": 9515432,
+        "r_offset": "0x5560700",
+        "type": 1027,
+        "symbol": 0,
+        "addend": "0x2905250"
+      },
+      "original_range_pointer_has_relocation": false,
+      "runtime_validator": "AP_load_base + 0x29051dc",
+      "runtime_range": "persistent int32[3]",
+      "range": [
+        0,
+        1,
+        1
+      ],
+      "range_payload_hex": "000000000100000001000000",
+      "entry_count_preserved": 0,
+      "future_ELF_range_storage_and_relocation": "not implemented"
+    },
+    {
+      "APID": "0x646",
+      "VA": "0x5560718",
+      "file_offset": 89458456,
+      "before_hex": "505290020000000000000000000000000000000000000000",
+      "existing_validator_relocation": {
+        "section": ".rela.dyn",
+        "entry_file_offset": 9515456,
+        "r_offset": "0x5560718",
+        "type": 1027,
+        "symbol": 0,
+        "addend": "0x2905250"
+      },
+      "original_range_pointer_has_relocation": false,
+      "runtime_validator": "AP_load_base + 0x29051dc",
+      "runtime_range": "persistent int32[3]",
+      "range": [
+        0,
+        5,
+        1
+      ],
+      "range_payload_hex": "000000000500000001000000",
+      "entry_count_preserved": 0,
+      "future_ELF_range_storage_and_relocation": "not implemented"
+    },
+    {
+      "APID": "0x647",
+      "VA": "0x5560730",
+      "file_offset": 89458480,
+      "before_hex": "505290020000000000000000000000000000000000000000",
+      "existing_validator_relocation": {
+        "section": ".rela.dyn",
+        "entry_file_offset": 9515480,
+        "r_offset": "0x5560730",
+        "type": 1027,
+        "symbol": 0,
+        "addend": "0x2905250"
+      },
+      "original_range_pointer_has_relocation": false,
+      "runtime_validator": "AP_load_base + 0x29051dc",
+      "runtime_range": "persistent int32[3]",
+      "range": [
+        0,
+        15,
+        1
+      ],
+      "range_payload_hex": "000000000f00000001000000",
+      "entry_count_preserved": 0,
+      "future_ELF_range_storage_and_relocation": "not implemented"
+    }
+  ],
+  "file_preimages": [
+    {
+      "id": "validator-relocation-0x645",
+      "file_offset": 9515432,
+      "bytes": 24,
+      "before_hex": "000756050000000003040000000000005052900200000000"
+    },
+    {
+      "id": "validator-relocation-0x646",
+      "file_offset": 9515456,
+      "bytes": 24,
+      "before_hex": "180756050000000003040000000000005052900200000000"
+    },
+    {
+      "id": "validator-relocation-0x647",
+      "file_offset": 9515480,
+      "bytes": 24,
+      "before_hex": "300756050000000003040000000000005052900200000000"
+    },
+    {
+      "id": "native-validator-fingerprint",
+      "VA": "0x29051dc",
+      "file_offset": 43012572,
+      "bytes": 16,
+      "before_hex": "230040b9020080527f00006b0c020054"
+    },
+    {
+      "id": "option-0x646-0",
+      "VA": "0x3f7a3e4",
+      "file_offset": 66560996,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x646-1",
+      "VA": "0x3f7a464",
+      "file_offset": 66561124,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x646-2",
+      "VA": "0x3f7a4e4",
+      "file_offset": 66561252,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x646-3",
+      "VA": "0x3f7a564",
+      "file_offset": 66561380,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x646-4",
+      "VA": "0x3f7a5e4",
+      "file_offset": 66561508,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x646-5",
+      "VA": "0x3f7a664",
+      "file_offset": 66561636,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-0",
+      "VA": "0x3f94c64",
+      "file_offset": 66669668,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-1",
+      "VA": "0x3f94ce4",
+      "file_offset": 66669796,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-2",
+      "VA": "0x3f94d64",
+      "file_offset": 66669924,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-3",
+      "VA": "0x3f94de4",
+      "file_offset": 66670052,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-4",
+      "VA": "0x3f94e64",
+      "file_offset": 66670180,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-5",
+      "VA": "0x3f94ee4",
+      "file_offset": 66670308,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-6",
+      "VA": "0x3f94f64",
+      "file_offset": 66670436,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-7",
+      "VA": "0x3f94fe4",
+      "file_offset": 66670564,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-8",
+      "VA": "0x3f95064",
+      "file_offset": 66670692,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-9",
+      "VA": "0x3f950e4",
+      "file_offset": 66670820,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-10",
+      "VA": "0x3f95164",
+      "file_offset": 66670948,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-11",
+      "VA": "0x3f951e4",
+      "file_offset": 66671076,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-12",
+      "VA": "0x3f95264",
+      "file_offset": 66671204,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-13",
+      "VA": "0x3f952e4",
+      "file_offset": 66671332,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-14",
+      "VA": "0x3f95364",
+      "file_offset": 66671460,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x647-15",
+      "VA": "0x3f953e4",
+      "file_offset": 66671588,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x645-0",
+      "VA": "0x3f9b964",
+      "file_offset": 66697572,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "option-0x645-1",
+      "VA": "0x3f9b9e4",
+      "file_offset": 66697700,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "entry-0x194",
+      "VA": "0x3fdfa64",
+      "file_offset": 66976356,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "registration-0x645",
+      "VA": "0x5560700",
+      "file_offset": 89458432,
+      "bytes": 24,
+      "before_hex": "505290020000000000000000000000000000000000000000"
+    },
+    {
+      "id": "registration-0x646",
+      "VA": "0x5560718",
+      "file_offset": 89458456,
+      "bytes": 24,
+      "before_hex": "505290020000000000000000000000000000000000000000"
+    },
+    {
+      "id": "registration-0x647",
+      "VA": "0x5560730",
+      "file_offset": 89458480,
+      "bytes": 24,
+      "before_hex": "505290020000000000000000000000000000000000000000"
+    },
+    {
+      "id": "descriptor-0x646",
+      "VA": "0x58a25bc",
+      "file_offset": 92874172,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "descriptor-0x645",
+      "VA": "0x58a46dc",
+      "file_offset": 92882652,
+      "bytes": 2,
+      "before_hex": "0000"
+    },
+    {
+      "id": "descriptor-0x647",
+      "VA": "0x58a479c",
+      "file_offset": 92882844,
+      "bytes": 2,
+      "before_hex": "0000"
+    }
+  ],
+  "references": {
+    "native_validator": "0x29051dc",
+    "unavailable_placeholder": "0x2905250",
+    "current_value_getters": [
+      "0x28ad8f8",
+      "0x28ad920",
+      "0x28ad948"
+    ],
+    "original_menu_setters": [
+      "0x1c6b560",
+      "0x1c6b654",
+      "0x1c8fe24"
+    ],
+    "model_column_query": "0x1bccec4",
+    "AP_init_anchor": "0x17feac0",
+    "guide_translation": "0x240dae0",
+    "guide_draw": "0x182e138"
+  },
+  "no_change": {
+    "entry_0x195_0x196_original_support": 1,
+    "native_mutex_counts": true,
+    "native_setters_and_validators": true,
+    "CP_and_menu_resources": true
+  },
+  "file_patch_ready": false,
+  "range_storage_layout_selected": false,
+  "new_range_pointer_relocation_implemented": false,
+  "native_AP_entry_hook_implemented": false,
+  "camera_io": false,
+  "installable_firmware": false
+}

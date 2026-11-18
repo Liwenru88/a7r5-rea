@@ -49,8 +49,8 @@ def build(output, baseline, inputs_directory=None, *, lens_af=False, stock=None,
         raise ValueError('色彩模块组合需要原厂 4.00 工作区')
     if relocated_sound and not (stock is not None and fl23):
         raise ValueError('搬迁声音入口需要原厂 4.00 上的 FL2／FL3 曲线布局')
-    if custom_sound and (stock is None or relocated_sound or fl23 != factory_six or disabled):
-        raise ValueError('双组声音需要原厂全开24槽，色彩组合须同时启用FL2/FL3和六款，禁止旧声音补丁')
+    if custom_sound and (stock is None or relocated_sound or not fl23 or disabled):
+        raise ValueError('双组声音需要原厂全开24槽、FL2/FL3 及完整 4.23 运行时，禁止旧声音补丁')
     if stock is not None and (inputs_directory is not None or lens_af):
         raise ValueError('原厂独立版不能同时使用整合基底或镜头 AF 补丁')
     checker = load(FEATURE / 'build.py', 'native24_build_checker')

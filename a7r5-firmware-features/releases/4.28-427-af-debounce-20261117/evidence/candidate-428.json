@@ -1,0 +1,19 @@
+{
+  "base": "4.27",
+  "version": "4.28",
+  "components": {
+    "appFw.so": "202289fa2ce9e1084b989941580d5eeeb82c837aa9c5971f85f129236096de1e",
+    "cpapp-b.bin": "8a722c463f6d52a3ee25d2a6739ef4f23a7ed0dae88c3650bf4c0c6d0fa55503",
+    "image_00_23_IPSX.uxc": "6e8c09e8e8a302aa05e7d8dd56f68bdb3675c486ca54a88ba81375b5c02a3bb7",
+    "image_00_32_IPSX.uxc": "7e598d75a997c37cea6204e8e35773e9b9ee5e4ce67b0c0ab569011563af3356"
+  },
+  "enhancements": [
+    "lens-af-compat",
+    "unified-look-lightweight-debounce"
+  ],
+  "excluded": [
+    "look-factory-six",
+    "photo-aspect-ratios"
+  ],
+  "camera_io": false
+}

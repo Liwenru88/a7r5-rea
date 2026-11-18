@@ -300,7 +300,7 @@ def refine(config, grid, context, inputs, target, train, weights, eligible, gray
         warm = context.build(**core.slot_native_parameters(context, best_entry))
         vector = vector_for(ParameterContext(warm))
         probes = bank.inputs(warm)
-        smooth = SmoothNative(context, np.concatenate((inputs[train], probes)))
+        smooth = SmoothNative(ParameterContext(warm), np.concatenate((inputs[train], probes)))
         objective = JointObjective(smooth, vector, np.concatenate((current_base[train], current_probes)),
             target[train], weights, np.flatnonzero(gray[train]), bank, grid_from(best_entry),
             response, perceptual, smoothing, strength)

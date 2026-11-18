@@ -146,7 +146,7 @@ def make_trigger(original):
 def check_dependencies():
     for name, digest in PINS.items():
         require(digest_file(ROOT / name) == digest, 'Pinned dependency changed: ' + name)
-    with zipfile.ZipFile('/Users/zhaoyunpeng/Downloads/bootloader脚本.zip') as z:
+    with zipfile.ZipFile(os.environ.get('A7R5_BOOTLOADER_ZIP', str(Path.home() / 'Downloads/bootloader脚本.zip'))) as z:
         for name, digest in {
             'a7m4fb.py': 'f944d89d012f356afd5fbf47b54739dc811f06b4acf6f11872a1ad7f20cc77c3',
             'bin/fastboot.bin': '330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc',

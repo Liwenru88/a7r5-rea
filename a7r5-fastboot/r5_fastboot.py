@@ -116,6 +116,7 @@ class SerialBridge:
         # USB 轮询有自己的时限。串口只取当前可读的数据，跨轮询保留未完成的帧。
         self.serial.timeout = 0
         self.pending_uart.extend(self.serial.read(65536))
+        observed = bytearray()
         while len(self.pending_uart) >= 3:
             event, length = struct.unpack_from("<BH", self.pending_uart)
             if length > MAX_BRIDGE_FRAME:
@@ -130,7 +131,9 @@ class SerialBridge:
             if event != 0x83:
                 raise ProbeError(f"RP2040 返回非预期的异步事件：{event:#x}")
             self.uart.write(content)
+            observed.extend(content)
         self.uart.flush()
+        return bytes(observed)
 
 
 def start_ram(bridge, records, report, sleep=time.sleep, before_reset=None):
@@ -191,25 +194,53 @@ def run_logged(executable, args, log, timeout):
     return result.returncode
 
 
+USB_POLL_TIMEOUT = 0.5
+USB_CONFIGURATION_TIMEOUT = 15
+
+
 def probe_usb(root, run, table, report, bridge, launch=run_logged, sleep=time.sleep):
     report["stage"] = "usb_enumeration"
     deadline = time.monotonic() + 15
     while (left := deadline - time.monotonic()) > 0:
         try:
-            result = launch(root / CONFIGURE, [], run / "usb-config.log", min(3, left))
+            try:
+                result = launch(root / CONFIGURE, ["--check"], run / "usb-presence.log",
+                                min(USB_POLL_TIMEOUT, left))
+            except subprocess.TimeoutExpired:
+                # 仅重试注册表检查；这里不打开或配置设备。
+                result = 2
         finally:
-            if "uart_capture_error" not in report:
+            if bridge is not None and "uart_capture_error" not in report:
                 try:
-                    bridge.poll_uart()
+                    observed = bridge.poll_uart()
+                    if UART_READY in observed:
+                        report["uart_ready_observed"] = True
                 except (OSError, ProbeError) as exc:
                     report["uart_capture_error"] = str(exc)
         if result == 0:
             break
         if result != 2:
-            raise ProbeError(f"USB 配置失败：{result}")
+            raise ProbeError(f"USB 枚举检查失败：{result}")
         sleep(0.2)
     else:
         raise ProbeError("15 秒内未枚举 Fastboot")
+
+    report["stage"] = "usb_configuration"
+    try:
+        result = launch(root / CONFIGURE, [], run / "usb-config.log", USB_CONFIGURATION_TIMEOUT)
+    except subprocess.TimeoutExpired as exc:
+        # 配置超时后状态未知，不重新配置或重新引导。
+        raise ProbeError("USB 配置超时；已停止，未自动重试") from exc
+    finally:
+        if bridge is not None and "uart_capture_error" not in report:
+            try:
+                observed = bridge.poll_uart()
+                if UART_READY in observed:
+                    report["uart_ready_observed"] = True
+            except (OSError, ProbeError) as exc:
+                report["uart_capture_error"] = str(exc)
+    if result != 0:
+        raise ProbeError(f"USB 配置失败：{result}；已停止，未自动重试")
 
     report["stage"] = "partition_listing"
     log = run / "usb-layout.log"
@@ -279,6 +310,48 @@ def run_probe(port, run, table, records, opener=open_bridge, launch=run_logged, 
     return report
 
 
+def run_usb_check(run, table, launch=run_logged, sleep=time.sleep):
+    """只验证现有 USB 会话，不打开串口，不发送复位或引导记录。"""
+    run.mkdir(mode=0o700, parents=True, exist_ok=False)
+    report = dict(stage="usb_enumeration", reset_attempted=False, serial_opened=False,
+                  persistent_write_commands_sent=False, usb_transport_verified=False,
+                  stable_communication_verified=False, layout_matches_reference=False,
+                  sdm2_matches_reference=False, same_physical_body_verified=False,
+                  stability_samples=0)
+    try:
+        probe_usb(ROOT, run, table, report, None, launch, sleep)
+        report["stage"] = "usb_stability"
+        started = time.monotonic()
+        # 13 次查询之间等待 12×5 秒，至少观察一分钟，不在失败后重配或重试。
+        for index in range(13):
+            if index:
+                sleep(5)
+            log = run / f"stability-version-{index + 1:02d}.log"
+            if launch(ROOT / READER, ["getvar:version"], log, 8) != 0:
+                raise ProbeError(f"第 {index + 1} 次稳定性查询失败；已停止")
+            reply = log.read_text(errors="replace").split("COMMAND getvar:version\n", 1)
+            if len(reply) != 2 or reply[1].splitlines() != ["REPLY OKAY0.5"]:
+                raise ProbeError(f"第 {index + 1} 次稳定性查询协议回执异常")
+            report["stability_samples"] = index + 1
+        report["stability_elapsed_seconds"] = time.monotonic() - started
+        report["stage"] = "sdm2_repeat_readback"
+        repeat = run / "sdm2.repeat.raw.bin"
+        if launch(ROOT / READER, [TABLE_DUMP, "upload:" + str(repeat)],
+                  run / "usb-sdm2-repeat.log", 8) != 0:
+            raise ProbeError("第二次 SDM2 回读失败")
+        if repeat.read_bytes() != (run / "sdm2.raw.bin").read_bytes():
+            raise ProbeError("两次 SDM2 回读不一致")
+        report.update(stage="complete", stable_communication_verified=True,
+                      repeated_sdm2_sha256=digest(repeat.read_bytes()))
+    except KeyboardInterrupt:
+        report["interrupted_stage"] = report["stage"]
+        report.update(stage="cancelled", error="USB 检查已取消")
+    except Exception as exc:
+        report["error"] = str(exc)
+    (run / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    return report
+
+
 def wait_for_trigger():
     print("本地校验和 RP2040 检查通过。请保持相机 ON、连接稳定，并确认更新已停止。", flush=True)
     print("仅执行一次复位、RAM 引导及只读诊断；不刷写、不擦除、不自动重试。", flush=True)
@@ -290,6 +363,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action")
     sub.add_parser("preflight", help="仅核对本地文件与引导记录")
+    usb_check = sub.add_parser("usb-check", help="检查现有 USB 会话；不复位、不打开串口、不写分区")
+    usb_check.add_argument("--output", type=Path, required=True)
     probe = sub.add_parser("probe", help="一次相机复位、RAM 引导和只读探测")
     probe.add_argument("--port", required=True)
     probe.add_argument("--output", type=Path, required=True)
@@ -299,6 +374,12 @@ def main():
     args = parser.parse_args()
     try:
         table, records = preflight(ROOT)
+        if args.action == "usb-check":
+            if sys.platform != "darwin":
+                raise ProbeError("需要 macOS USB 工具")
+            report = run_usb_check(args.output.resolve(), table)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report["stable_communication_verified"] else 1
         if args.action != "probe":
             print(f"本地校验通过：{len(records)} 条引导记录。")
             return 0

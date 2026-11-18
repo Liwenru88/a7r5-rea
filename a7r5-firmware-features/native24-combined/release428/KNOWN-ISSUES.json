@@ -1,0 +1,25 @@
+{
+  "version": "4.28",
+  "status": "OFFLINE_AND_DEVICE_VERIFIED",
+  "base_version": "4.27",
+  "package_generated": true,
+  "included_enhancements": [
+    "4.27 全部稳定能力（24 槽、横竖屏切组、RAW 12 项、微调容量提示与重置锁）",
+    "lens-af-compat 镜头自动对焦能力过滤适配 (CP .text 安全区)",
+    "轻量防抖：同目标队列去重、忙态合并排队与快速微调合并"
+  ],
+  "excluded_modules": [
+    "look-factory-six (C1-C6)",
+    "photo-aspect-ratios",
+    "4.23 延迟确认 / 心跳切组 / 恢复重试 / 暂存缓冲复用"
+  ],
+  "wbi_marker": "WBI3",
+  "usr_modified_files": 3,
+  "QEMU_executed": false,
+  "camera_io": false,
+  "device_acceptance_verified": true,
+  "installability_confirmed": true,
+  "known_limitations": [
+    "已由项目作者在实机完成安装与功能验证，各项功能正常；自行重新编译或修改参数后仍须先完成离线摘要核对再上机"
+  ]
+}

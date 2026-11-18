@@ -190,8 +190,16 @@ def from_fit(path, capture, slot, short_name, full_name, gamma_endpoint128=None)
     endpoint = native_endpoint if gamma_endpoint128 is None else gamma_endpoint128
     if type(endpoint) is not int or not 0 <= endpoint <= 131071:
         raise ValueError('Native final ordinate outside supported range')
+    from native_gamma import from_raw, raw_projection, validate
     target = parameters['gamma_7806_y']
-    gamma = [min(131071, (v+1)//2) for v in target] + [endpoint]
+    if 'gamma_native_129' in parameters:
+        gamma = validate(parameters['gamma_native_129']).tolist()
+        endpoint = gamma[-1]
+    else:
+        gamma = from_raw(target).tolist()
+        if gamma_endpoint128 is not None:
+            gamma[-1] = endpoint
+    endpoint = gamma[-1]
     result = config([dict(number=slot, short_name=short_name, full_name=full_name,
         cc1_delta=[rounded, [0]*8, [0]*8], block13=[matrix, matrix, matrix],
         gamma_native_129=gamma, grid_5x9x9=zero_grid())])
@@ -202,7 +210,7 @@ def from_fit(path, capture, slot, short_name, full_name, gamma_endpoint128=None)
         firmware_required='native24-combined' if format_version(result) == 5 else '4.23',
         format_version=format_version(result), config_number_is_independent=True, grid_required=True, grid_is_zero=True,
         cc1_raw_max_quantization_error=max(abs(a-b) for a, b in zip(raw, back)),
-        gamma_raw_max_quantization_error=max(abs(a-2*b) for a, b in zip(target, gamma)),
+        gamma_raw_max_quantization_error=max(abs(a-int(b)) for a,b in zip(target,raw_projection(gamma))),
         gamma_point128=endpoint, original_ST_gamma_point128=native_endpoint,
         gamma_ancillary_policy='runtime actual Creative Look tail preserved; never serialized',
         matrix_coefficients_bitfield_equal=all(((matrix[s][k]<<2)&0xfffc) ==

@@ -153,6 +153,9 @@ def entry_from_parameters(source, params, folder):
     """先走冻结编译器，再用解码后的真实单位训练网格。"""
     source=Path(source);folder=Path(folder);folder.mkdir(parents=True,exist_ok=True)
     recipe=json.loads((source/'fit/recipe.json').read_text());recipe.pop('fitting',None)
+    if 'gamma_native_129' not in params:
+        recipe['parameters'].pop('gamma_native_129',None)
+        recipe['parameters'].pop('gamma_domain',None)
     recipe['parameters'].update(params)
     path=folder/'native-recipe.json';save(path,recipe)
     original=json.loads((source/'native_config.json').read_text())['entries'][0]
@@ -185,10 +188,11 @@ def prepare(source, output, body, progress, *, validation_runs=None):
         native.append(('saved-native',reference))
         from concave_gamma import ConcaveGamma
         context=gate.context;old=core.slot_native_parameters(context,reference)
-        shape=ConcaveGamma(context.axis,global_correction=True)
+        shape=ConcaveGamma(context.native_axis,control_count=129,parameter_count=129,global_correction=True)
         gamma=shape.curve(shape.encode(np.asarray(old['gamma_y'])/16))*16
         quantized,audit=shape.quantize_global_raw(gamma,time_limit=2,return_audit=True)
-        p=dict(matrix_780f_hex=old['matrix_payload'].hex(),cc1_direct_raw=list(old['cc1']),gamma_7806_y=quantized.tolist())
+        from native_gamma import parameter_fields
+        p=parameter_fields(dict(old,gamma_y=quantized))
         projected=entry_from_parameters(source,p,output/'saved-concave')
         save(output/'saved-concave/gamma-audit.json',audit);native.append(('saved-concave',projected))
     data=gate.data;fitting=json.loads((source/'fit/recipe.json').read_text())['fitting']
@@ -230,12 +234,12 @@ def attach_result(job, state, selected, quality):
     config=core.compiler.config([entry],5 if entry['number']>12 else 4)
     binary=core.compiler.pack(config);grid=grid_from(entry)
     identity=copy.deepcopy(report['identity'])
-    # 旧修复表属于原始结果，新结果以完整已验收配置和品质审计重新绑定。
+    # 旧修复表属于原始结果，新结果以完整所选配置和品质审计重新绑定。
     for key in tuple(identity):
         if key.startswith('postfit_') or key=='shape_preserving_implementation_sha256':identity.pop(key)
     identity.update(native_config_sha256=core.sha((job/'native_config.json').read_bytes()),
         selected_bin_sha256=core.sha(binary),grid_payload_sha256=core.sha(pack(grid)),
-        quality_policy=POLICY,quality_audit_sha256=core.sha(json.dumps(quality,sort_keys=True,allow_nan=False).encode()))
+        quality_policy=quality.get('policy',POLICY),quality_audit_sha256=core.sha(json.dumps(quality,sort_keys=True,allow_nan=False).encode()))
     key=core.sha(json.dumps(identity,sort_keys=True).encode())
     report.update(identity=identity,payload_hex=pack(grid).hex(),selected_config=config)
     report['fitting']=dict(training_only=False,quality_selection=quality,original_stack_report=old_key)
@@ -290,7 +294,8 @@ def finalize(job, state, gate, reference, candidates):
     accepted=chosen
     final=gate.assess(chosen['entry'],chosen['label'],final=True)
     if chosen['sha256']!=reference['sha256'] and final['failures']:accepted=reference
-    quality=dict(policy=POLICY,screen_selected=chosen['label'],accepted=accepted['label'],adopted=accepted['sha256']!=reference['sha256'],
+    from native_gamma import POLICY as GAMMA_POLICY
+    quality=dict(policy=POLICY,gamma_forward_policy=GAMMA_POLICY,screen_selected=chosen['label'],accepted=accepted['label'],adopted=accepted['sha256']!=reference['sha256'],
         baseline_sha256=reference['sha256'],baseline_identity=getattr(gate,'baseline_identity',None),
         comparison_response=gate.response.identity,selected_sha256=accepted['sha256'],stack_screen=row,final=final,
         independent_checks=1,holdout_used_for_training=False,holdout_used_to_try_other_candidates=False,
@@ -298,5 +303,7 @@ def finalize(job, state, gate, reference, candidates):
         photo_scope='development-and-holdout' if gate.photos else 'not-bound',fallback_reason=final['failures'] if final['failures'] else ([] if accepted is not reference else ['no-qualified-screen-candidate']),
         implementation_sha256={name:core.sha(Path(__file__).with_name(name).read_bytes())
             for name in ('packed_training.py','native_candidates.py','quality_data.py','calibrated_guard.py')})
+    quality['implementation_sha256']['scripts/native_gamma.py']=core.sha((core.ROOT/'scripts/native_gamma.py').read_bytes())
+    quality['implementation_sha256']['scripts/edit_parameter_context.py']=core.sha((core.ROOT/'scripts/edit_parameter_context.py').read_bytes())
     attach_result(job,state,accepted['entry'],quality)
     return quality

@@ -61,5 +61,6 @@ dialog{width:min(540px,90vw);border:1px solid var(--line);border-radius:12px;pad
 #folderFiles label{display:flex;align-items:center;justify-content:space-between;gap:10px}
 #folderFiles select{width:auto;min-width:6rem}
 .training-trace{border-top:1px solid var(--line);margin-top:18px;padding-top:10px}
+.quality-warning{color:#85441d!important;background:#fff4e9;border-left:3px solid var(--orange);padding:10px;white-space:normal}
 #trainingLossChart{display:block;width:100%;height:clamp(150px,20vw,220px);background:#fafbf8;border-radius:6px}
 #trainingGridRounds th,#trainingGridRounds td{white-space:nowrap;padding:7px 6px}

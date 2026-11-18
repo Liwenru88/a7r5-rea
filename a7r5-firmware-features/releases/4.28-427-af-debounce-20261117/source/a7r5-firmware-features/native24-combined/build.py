@@ -1,0 +1,323 @@
+"""二十四槽独立离线构建；不签名、不封DAT、不接设备。"""
+import argparse
+import io
+import inspect
+import json
+from pathlib import Path
+import shutil
+import struct
+import subprocess
+import sys
+
+from elftools.elf.elffile import ELFFile
+from derive import FEATURE, FORMAT, HERE, derive, load, unified_source
+from stability import replace_exact
+from icon_codec import native_lz77_stream
+import stock400
+import module_options
+
+ROOT = HERE.parents[1]
+SIX = HERE.parent / 'look-factory-six/src'
+LENS_AF = HERE.parent / 'lens-af-compat/src'
+
+
+def restore_icons(raw, module):
+    """从已归档十二槽资源精确逆还原，随后必须核对原资源完整摘要。"""
+    count, new_base, _, records, bitmap = module.layout(raw)
+    if count != module.COUNT + 24:
+        raise ValueError('旧十二槽图标前像不符')
+    base = new_base - 48
+    boundary = min(target for index, target, _ in bitmap if index < module.COUNT) - 480
+    appended = sum(records[index][3] for index in range(module.COUNT, count))
+    old_length = len(raw) - 48 - 480 - appended
+    result = bytearray(raw[:base] + raw[new_base:boundary] + raw[boundary + 480:old_length + 528])
+    struct.pack_into('<I', result, 12, module.COUNT | module.COUNT << 12)
+    for index, (at, flags, *_) in records.items():
+        if index >= module.COUNT:
+            continue
+        field, _, offset = module.payload_fields(raw, at, flags)
+        struct.pack_into('<I', result, at - 48 + field + 4, offset - 480)
+    return bytes(result)
+
+
+def build(output, baseline, inputs_directory=None, *, lens_af=False, stock=None, disabled=(),
+          fl23=False, factory_six=False, relocated_sound=False, custom_sound=False):
+    disabled = tuple(sorted(set(disabled)))
+    if set(disabled) - set(module_options.OPTIONS) or (disabled and stock is None):
+        raise ValueError('功能开关只适用于原厂独立版')
+    if (fl23 or factory_six) and stock is None:
+        raise ValueError('色彩模块组合需要原厂 4.00 工作区')
+    if relocated_sound and not (stock is not None and fl23):
+        raise ValueError('搬迁声音入口需要原厂 4.00 上的 FL2／FL3 曲线布局')
+    if custom_sound and (stock is None or relocated_sound or not fl23 or disabled):
+        raise ValueError('双组声音需要原厂全开24槽、FL2/FL3 及完整 4.23 运行时，禁止旧声音补丁')
+    if stock is not None and (inputs_directory is not None or lens_af):
+        raise ValueError('原厂独立版不能同时使用整合基底或镜头 AF 补丁')
+    checker = load(FEATURE / 'build.py', 'native24_build_checker')
+    def owned_inputs():
+        return {str(p.relative_to(HERE)): checker.sha(p) for p in sorted(HERE.rglob('*'))
+                if p.is_file() and (p.parent == HERE or p.parent == HERE/'runtime')
+                and p.suffix in ('.py','.c','.h','.json','.S') and p.name != 'current-candidate.json'}
+    owned_before = owned_inputs()
+    helpers = [FEATURE/name for name in ('build.py','patches.py','unified_look.py','unified_icons.py',
+                                        'selection.S','integration.S','integration.ld','menu-font.c')]
+    helpers += [FORMAT/'prepare.py', FEATURE/'upstream/UPSTREAM_SNAPSHOT.json']
+    if custom_sound:
+        sound_sources = HERE.parent / 'photo-electronic-shutter-sound'
+        helpers += [sound_sources / name for name in ('bindings.py', 'profiles.py', 'unified.py', 'upstream.json')]
+        helpers += [p for directory in ('runtime', 'bindings') for p in (sound_sources / directory).rglob('*')
+                    if p.is_file() and p.suffix in ('.c', '.h', '.S', '.py', '.json')]
+    if factory_six:
+        helpers += [SIX / name for name in ('build_legacy_six.py', 'legacy_six.py', 'legacy_six_cp.S')]
+    if fl23:
+        helpers += list((HERE.parent / 'look-fl2-fl3/raw').glob('*.py'))
+        helpers += list((HERE.parent / 'look-fl2-fl3/raw').glob('*.S'))
+        helpers += [HERE.parent / 'photo-electronic-shutter-sound/bindings/upstream/src/lib/thumb_link.py',
+                    FEATURE / 'upstream/firmware/r5/src/lib/thumb_ops.py']
+    if lens_af:
+        helpers += [LENS_AF / name for name in ('lens_af.py', 'lens_af.S')]
+    external_before = {str(p.relative_to(ROOT)): checker.sha(p) for p in helpers}
+    output.mkdir(mode=0o700, parents=True, exist_ok=False)
+    work = output / 'work'
+    changes = derive(work)
+    inputs = work / 'inputs'
+    inputs.mkdir()
+    if stock is not None:
+        stock400.prepare(work, stock, changes, fl23=fl23)
+        module_options.derived(work, disabled, changes)
+        if custom_sound:
+            sound = load(HERE.parent / 'photo-electronic-shutter-sound/bindings.py', 'custom_sound_bindings')
+            sound.apply(work, changes, native_ap=stock / 'components/usr/lib/appFw.so', shared_color=fl23)
+        (work / 'derive-ledger.json').write_text(json.dumps(changes, ensure_ascii=False, indent=2) + '\n')
+    else:
+        for name, expected in [('ap_baseline.so', stock400.UPSTREAM_AP), ('cp_baseline.bin', stock400.UPSTREAM_CP)]:
+            source = (inputs_directory or baseline / 'work/inputs') / name
+            if checker.sha(source) != expected:
+                raise ValueError('原厂派生基底身份不符：' + name)
+            shutil.copyfile(source, inputs / name)
+    record = {'schema': 'native24-runtime-build/1', 'commands': [], 'derived_files': changes,
+              'stability_revision': 1, 'interaction_revision': 1, 'parameter_revision': 1, 'tabs_revision': 1,
+              'DAT_generated': False, 'camera_io': False, 'installable': False}
+    if stock is not None:
+        record['profile'] = 'native24-stock'
+        record['base_DAT_sha256'] = stock400.DAT_SHA
+        record['disabled_modules'] = disabled
+        if fl23 or factory_six:
+            record['color_modules'] = {'fl23': fl23, 'factory_six': factory_six}
+        if relocated_sound:
+            record['sound_layout'] = 'relocated-fl23'
+    contract = json.loads((HERE / 'layout.json').read_text())
+    if custom_sound:
+        contract.update(AP_BSS_capacity=393216, CP_code_capacity=7584)
+        record['sound_layout'] = 'custom-dual-full' if fl23 else 'custom-dual-profile-candidate'
+    record['contract'] = contract
+    record['toolchain'] = {}
+    for name, command in [('clang', ['clang', '--version']), ('llvm', ['/opt/homebrew/opt/llvm/bin/clang', '--version']),
+                          ('lld', ['/opt/homebrew/opt/lld/bin/ld.lld', '--version']), ('python', [sys.executable, '--version'])]:
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        record['toolchain'][name] = {'argv': command, 'version': result.stdout.strip()}
+
+    def run(script, *args):
+        command = [sys.executable, str(script), *map(str, args)]
+        result = subprocess.run(command, capture_output=True, text=True)
+        record['commands'].append({'argv': command, 'exit_code': result.returncode,
+                                   'stdout': result.stdout, 'stderr': result.stderr})
+        (output / 'build-progress.json').write_text(json.dumps(record, indent=2) + '\n')
+        if result.returncode:
+            raise RuntimeError(result.stderr + result.stdout)
+
+    run(work / 'import/build_ap_image.py', '--output', output / 'upstream-ap')
+    run(work / 'gamma/getter_gates.py')
+    run(work / 'cp/build_cp.py')
+    audit_path = work / 'import/module_audit.json'
+    audit = json.loads(audit_path.read_text())
+    cp_report = json.loads((work / 'cp/build.json').read_text())
+    # 本地补丁仍逐点校验原厂指令和数据。完整前像绑定本次严格构建产物。
+    patches = load(FEATURE / 'patches.py', 'native24_local_patches')
+    raw_ap = (output / 'upstream-ap/appFw.so').read_bytes()
+    raw_cp = (work / 'cp/cp423.NONINSTALLABLE.bin').read_bytes()
+    if patches.digest(raw_ap) != json.loads((output / 'upstream-ap/ap_build.json').read_text())['AP_sha256']:
+        raise ValueError('AP构建收据身份不符')
+    if patches.digest(raw_cp) != cp_report['candidate_sha256']:
+        raise ValueError('CP构建收据身份不符')
+    if stock is not None:
+        final_ap, final_cp = raw_ap, raw_cp
+        ap_local = cp_local = {'patches': [], 'inverse_exact': True}
+        if fl23:
+            ap_set = patches.PatchSet(raw_ap)
+            patches.add_fl23_ap(ap_set)
+            final_ap, ap_local = ap_set.finish()
+            cp_folder = output / 'fl23'
+            cp_folder.mkdir()
+            patches.CP_SHA = cp_report['candidate_sha256']
+            final_cp, cp_local = patches.cp_patch(raw_cp, cp_folder, sound=relocated_sound,
+                                                 custom_sound=custom_sound)
+        if factory_six:
+            sys.path.insert(0, str(SIX))
+            try:
+                from build_legacy_six import apply_ap, apply_cp, load_grid_builder, load_recipes
+            finally:
+                sys.path.remove(str(SIX))
+            six_folder = output / 'factory-six'
+            six_folder.mkdir()
+            recipes, grid = load_recipes(), load_grid_builder()
+            final_ap, six_ap = apply_ap(final_ap, grid, runtime_sha=patches.digest(final_ap), fl23=fl23)
+            final_cp, six_cp = apply_cp(final_cp, six_folder, recipes, grid,
+                                        runtime_sha=patches.digest(final_cp), fl23=fl23,
+                                        prior_mapper=0x109100 if custom_sound else 0x108f40)
+            record['factory_six'] = {'AP': six_ap, 'CP': six_cp}
+    else:
+        patches.AP_SHA, patches.CP_SHA = patches.digest(raw_ap), patches.digest(raw_cp)
+        final_ap, ap_local = patches.ap_patch(raw_ap)
+        cp_folder = output / 'local-cp'
+        cp_folder.mkdir()
+        final_cp, cp_local = patches.cp_patch(raw_cp, cp_folder)
+        if lens_af:
+            lens = load(LENS_AF / 'lens_af.py', 'native24_lens_af')
+            final_cp, record['lens_AF'] = lens.apply_lens_af(final_cp, patches, cp_folder)
+    if fl23:
+        raw_looks = load(HERE.parent / 'look-fl2-fl3/raw/native.py', 'native24_raw_looks')
+        final_cp, record['raw_alternatives'] = raw_looks.apply(
+            final_cp, output / 'raw-alternatives', source_sha256=patches.digest(final_cp))
+    (output / 'cpapp-b.bin').write_bytes(final_cp)
+    (output / 'local-ap.json').write_text(json.dumps(ap_local, indent=2) + '\n')
+    (output / 'local-cp.json').write_text(json.dumps(cp_local, indent=2) + '\n')
+    tools = output / 'unified-tools'
+    tools.mkdir()
+    source = (FEATURE / 'unified_look.py').read_text()
+    source = replace_exact(source, "SOURCE_SHA = '65e33ba2075bb59f65a97e6cec550bd8b1d54bac040fe28427cd3922924ffde0'",
+                            "SOURCE_SHA = '" + patches.digest(final_ap) + "'")
+    source = replace_exact(source, "AUDIT_SHA = '91fc50f73bef7fcb6862a16e890fde765f8055d146d7756b05f072825a1ae569'",
+                            "AUDIT_SHA = '" + checker.sha(audit_path) + "'")
+    source = replace_exact(source, "(0x8e983a4,'text')", f"({hex(audit['symbols']['r5_filter_menu_text'])},'text')")
+    source = replace_exact(source, '0x8eb9df0', hex(audit['symbols']['r5_filter_menu_descriptor']))
+    source = replace_exact(source, "struct.pack('<I',31)", "struct.pack('<I',43)")
+    source = replace_exact(source, 'custom_count=12', 'custom_count=24')
+    source = replace_exact(source, "'r5_filter_full_name'))", "'r5_filter_full_name','r5_filter_bank_crc','r5_filter_recovery_required','r5_filter_factory_reset_needed','r5_filter_factory_reset_done','r5_filter_recovering','r5_tune_seed','r5_tune_value','r5_tune_default','r5_tune_edit','r5_tune_reset','r5_tune_changed','r5_tune_pending_changed','r5_tune_status','r5_tune_overlay','r5_tune_observe425','r5_tune_sent425','r5_osal_msg_size'))")
+    source = replace_exact(source, "'r5_tune_seed',", "'r5_filter_recovery_retry','r5_filter_e4_stalled','r5_tune_slot_full','r5_tune_offset','r5_tune_offset_edit','r5_tune_offset_limit','r5_tune_seed',")
+    table_hooks = """
+    for at,name,before in [(0x220ba78,'n12_parameter_table_x27','3beb43f9'),
+                           (0x220bd5c,'n12_parameter_table_x1','21e843f9'),
+                           (0x220be94,'n12_parameter_table_x0','00e843f9')]:
+        if raw[file_at(at,4):file_at(at,4)+4] != bytes.fromhex(before):
+            raise ValueError('参数范围表读取前像不符')
+        put(file_at(at,4),branch(at,symbols[name],True),'自定义偏移范围表')
+"""
+    source = replace_exact(source, '    # 完整 PHT 另存；', table_hooks+'    # 完整 PHT 另存；')
+    source = replace_exact(source, "(0x1a6d8cc,'dispatch'),", "(0x1a6d8cc,'dispatch'), (0x1a6df54,'parameter_dispatch'), (0x263d558,'reset'), (0x220b89c,'parameter_layout'), (0x220c830,'parameter_labels'),")
+    # 原vtable的visible先经过上游包装器；附加MID会绕过原visible入口。
+    source = replace_exact(source, "('r5_filter_row_available_direct','n12_available')]",
+                            "('r5_filter_row_available_direct','n12_available'),('r5_filter_row_available','n12_visible')]")
+    extra_calls = [(0x220c8a0,'n12_title_name',0x1bd5508), (0x220c87c,'n12_base_label',0x1bd54d8),
+                   (0x220c8dc,'n12_base_icon',0x220b838)]
+    extra_calls += [(0x2208e68,'n12_group_title',0x1bd54d8),
+                    (0x2208f7c,'n12_list_projection',0x1bc36f8),(0x220847c,'n12_list_projection',0x1bc36f8),
+                    (0x22074b4,'n12_tabs_nextrow',0x1bd7234)]
+    extra_calls += [(at,'n12_tune_send',0x355882c) for at in (0x355a4a4,0x3561498,0x35613dc,0x3561364,
+                    0x35612ec,0x3561274,0x35611fc,0x3561184,0x356110c)]
+    extra_calls += [(0x35589d8,'n12_tune_transport_send',0x16dafc0)]
+    source = replace_exact(source, "(0x2208e8c,'n12_title_name',0x1bd5508)]",
+                            "(0x2208e8c,'n12_title_name',0x1bd5508),"+','.join(repr(row) for row in extra_calls)+']')
+    menu_source = module_options.menu(unified_source(), disabled)
+    if custom_sound:
+        sound_unified = load(HERE.parent / 'photo-electronic-shutter-sound/unified.py', 'sound_unified')
+        source, menu_source = sound_unified.apply(source, menu_source, replace_exact)
+    (tools / 'unified_look.py').write_text(source)
+    (tools / 'unified-look.c').write_text(menu_source)
+    unified = load(tools / 'unified_look.py', 'native24_unified_builder')
+    ap_path, unified_receipt = unified.build(final_ap, output / 'unified', audit_path)
+    shutil.copyfile(ap_path, output / 'appFw.so')
+    icons12 = load(FEATURE / 'unified_icons.py', 'native24_old_icons')
+    icon_source = replace_exact((FEATURE / 'unified_icons.py').read_text(), 'ADDED=24', 'ADDED=48')
+    icon_source = replace_exact(icon_source, 'range(1,13)', 'range(1,25)')
+    icon_source = replace_exact(icon_source, inspect.getsource(icons12.literal_stream),
+                                inspect.getsource(native_lz77_stream).replace('native_lz77_stream', 'literal_stream'))
+    # 与原厂资源一致，载荷起点四字节对齐；填充不计入压缩流长度。
+    icon_source = replace_exact(icon_source, '        candidate.extend(stream)\n',
+                                '        candidate.extend(stream)\n        candidate.extend(bytes((-len(candidate))%4))\n')
+    icon_source = replace_exact(icon_source, "'selected':selected,'pixel_sha256'",
+                                "'selected':selected,'encoding':'sony-lz77-f0','pixel_sha256'")
+    (tools / 'unified_icons.py').write_text(icon_source)
+    icons24 = load(tools / 'unified_icons.py', 'native24_new_icons')
+    icon_reports = {}
+    ext2 = load(FEATURE / 'upstream/firmware/r5/src/lib/ext2read.py', 'native24_stock_resource_reader')
+    usr_image = stock / stock400.USR if stock is not None else (inputs_directory or baseline / 'work/inputs') / 'nflasha15'
+    usr = ext2.Ext2(str(usr_image))
+    try:
+        for name, expected in icons12.SOURCES.items():
+            original = usr.read_inode(usr.walk(name.removeprefix('usr/')))
+            if patches.digest(original) != expected:
+                raise ValueError('原厂图形资源身份不符：' + name)
+            candidate, proof = icons24.append_icons(original)
+            (output / Path(name).name).write_bytes(candidate)
+            icon_reports[name] = proof
+    finally:
+        usr.mm.close()
+        usr.f.close()
+    (output / 'unified-icons.json').write_text(json.dumps(icon_reports, indent=2) + '\n')
+    stack_usage = {}
+    for path in (work / 'import/objects').glob('*.su'):
+        stack_usage[path.name] = path.read_text()
+    (output / 'stack-usage.json').write_text(json.dumps(stack_usage, indent=2) + '\n')
+    frames = {}
+    for data in stack_usage.values():
+        for line in data.splitlines():
+            function, size, _ = line.split('\t')
+            frames[function.rsplit(':', 1)[-1]] = int(size)
+    chain = ['r5_stage411_child', 'r5_stage421_parameters_ready', 'r5_filter_service', 'storage',
+             'r5_lut_directory_acquire', 'read_complete', 'r5_stable_publish425', 'r5_stable_read425']
+    if not {'r5_stage411_child','r5_filter_service','r5_stable_publish425','r5_stable_read425'} <= frames.keys():
+        raise ValueError('关键栈帧证据缺失')
+    known = sum(frames.get(name, 0) for name in chain)
+    if max(frames.values()) >= 16384 or known >= contract['AP_known_chain_budget']:
+        raise ValueError('已知AP栈预算超出')
+    if known + contract['AP_external_stack_reserve'] >= contract['AP_thread_stack']:
+        raise ValueError('AP线程栈预留不足')
+    if cp_report['heap_bytes'] != contract['CP_heap_bytes'] or cp_report['code_bytes'] > contract['CP_code_capacity']:
+        raise ValueError('CP布局合同不符')
+    if audit['bss_bytes'] > contract['AP_BSS_capacity']:
+        raise ValueError('AP BSS合同不符')
+    upstream_receipt = json.loads((output/'upstream-ap/ap_build.json').read_text())
+    if upstream_receipt['rx_bytes'] > contract['AP_RX_capacity'] or audit['rw']+audit['bss_bytes']>(0x8f10000 if custom_sound else 0x8f00000):
+        raise ValueError('AP新增代码／BSS与统一入口冲突')
+    record['stack_budget'] = {'known_frames': {name: frames.get(name, 0) for name in chain},
+                              'conservative_sum': known, 'external_reserve': contract['AP_external_stack_reserve'],
+                              'physical_high_water_measured': False}
+    elf = ELFFile(io.BytesIO(ap_path.read_bytes()))
+    loads = [s for s in elf.iter_segments() if s['p_type'] == 'PT_LOAD']
+    if any(max(x['p_vaddr'], y['p_vaddr']) < min(x['p_vaddr'] + x['p_memsz'], y['p_vaddr'] + y['p_memsz'])
+           for i, x in enumerate(loads) for y in loads[:i]):
+        raise ValueError('最终AP段重叠')
+    record.update(AP_sha256=patches.digest(ap_path.read_bytes()), CP_sha256=patches.digest(final_cp),
+                  AP_bss_bytes=audit['bss_bytes'], CP_code_bytes=cp_report['code_bytes'],
+                  CP_heap_bytes=cp_report['heap_bytes'], module_audit_sha256=checker.sha(audit_path),
+                  unified=unified_receipt, local_AP=ap_local, local_CP=cp_local,
+                  AP_segments=[dict(va=s['p_vaddr'], bytes=s['p_memsz'], flags=s['p_flags']) for s in loads])
+    if owned_inputs() != owned_before or any(checker.sha(ROOT/name)!=value for name,value in external_before.items()):
+        raise ValueError('构建期间源文件变化，拒绝生成最终收据')
+    record['owned_sources'] = owned_before
+    record['external_sources'] = external_before
+    record['components'] = {name: {'bytes': (output/name).stat().st_size, 'sha256': checker.sha(output/name)}
+                            for name in ['appFw.so','cpapp-b.bin', *[Path(x).name for x in icons12.SOURCES]]}
+    (output / 'build.json').write_text(json.dumps(record, indent=2) + '\n')
+    print(json.dumps({key: record[key] for key in ('AP_sha256', 'CP_sha256', 'AP_bss_bytes', 'CP_code_bytes', 'CP_heap_bytes', 'installable')}))
+    return record
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--baseline', type=Path, default=ROOT / '.local/native12-combined-baseline-01')
+    parser.add_argument('--inputs', type=Path, help='直接指定含两个已锁定基底文件的目录，优先于--baseline')
+    parser.add_argument('--stock', type=Path, help='从原厂 4.00 DAT 解包的工作区构建单功能版本')
+    parser.add_argument('--lens-af', action='store_true', help='加入尚未实机验收的镜头 AF 能力过滤适配')
+    parser.add_argument('--disable', action='append', default=[], choices=module_options.OPTIONS)
+    parser.add_argument('--fl23', action='store_true')
+    parser.add_argument('--factory-six', action='store_true')
+    parser.add_argument('--relocated-sound', action='store_true')
+    parser.add_argument('--custom-sound', action='store_true', help='离线双组声音候选，尚不接入compose发布配方')
+    args = parser.parse_args()
+    build(args.output.resolve(), args.baseline.resolve(), args.inputs.resolve() if args.inputs else None,
+          lens_af=args.lens_af, stock=args.stock.resolve() if args.stock else None, disabled=args.disable,
+          fl23=args.fl23, factory_six=args.factory_six, relocated_sound=args.relocated_sound,
+          custom_sound=args.custom_sound)

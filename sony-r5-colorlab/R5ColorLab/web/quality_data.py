@@ -27,8 +27,11 @@ def load(identifier,runs,target_sha256):
         if digest(file)!=item['sha256']:raise ValueError('照片验收集数据摘要不符')
         with np.load(file,allow_pickle=False) as data:
             inputs=data['inputs'].copy();target=data[manifest['target_key']].copy()
+            display=data['display'].copy() if 'display' in data else np.arange(len(target),dtype=int)[None]
         if inputs.shape!=(len(target),9,3) or target.shape!=(len(inputs),3) or not np.isfinite(inputs).all() or not np.isfinite(target).all():raise ValueError('照片验收数据形状或数值无效')
-        rows.append(dict(scene=item['scene'],role=item['role'],inputs=inputs,target=target))
+        if display.ndim!=2 or display.dtype.kind not in 'iu' or display.size==0 or display.min()<0 or display.max()>=len(target):
+            raise ValueError('照片区域显示索引无效')
+        rows.append(dict(scene=item['scene'],role=item['role'],inputs=inputs,target=target,display=display))
     if {r['role'] for r in rows}!={'development','holdout'}:raise ValueError('照片验收集缺少开发或留出照片')
     return tuple(rows)
 

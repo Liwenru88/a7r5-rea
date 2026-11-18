@@ -5,8 +5,6 @@ struct r5_lut_directory;
 unsigned r5_filter_selected(void);
 unsigned r5_filter_pending(void);
 int r5_filter_request(unsigned);
-/* 只重新排队旧状态恢复，目标槽仍由 UI 最后意图在恢复后提交。 */
-int r5_filter_recovery_retry(void);
 /* UI command states persist until another accepted request: idle/pending/success/failure.
  * The UI must not close or publish a success while state is pending/failed. */
 unsigned r5_filter_command_state(void);
@@ -22,7 +20,6 @@ void r5_filter_library_identity(uint32_t,int);
 void r5_filter_bank_failed(void);
 unsigned r5_filter_recovery_required(void);
 unsigned r5_filter_native_inflight(void);
-unsigned r5_filter_e4_stalled(void);
 unsigned r5_filter_recovering(void);
 uint32_t r5_filter_bank_crc(void);
 unsigned r5_filter_factory_reset_needed(void);

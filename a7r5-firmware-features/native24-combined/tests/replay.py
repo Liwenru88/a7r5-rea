@@ -16,6 +16,7 @@ import runtime_support
 runtime_support.BASELINE = BUILD
 from runtime_support import AP
 from cp_services import receiver_services
+from final_binding import validate_final_binding
 
 
 class CP(runtime_support.CP):
@@ -40,12 +41,12 @@ def components():
         final = Path(folder)
         manifest = json.loads((final / 'manifest.json').read_text())
         lock = json.loads((Path(os.environ['A7R5_FINAL_BUNDLE']) / 'lock.json').read_text())
-        assert manifest['source'] == lock['dat'] and lock['version'] == '4.19'
-        assert lock['plan']['native24']['sound_layout'] == 'custom-dual-full'
         raw = (final / 'components/usr/lib/appFw.so').read_bytes()
         cp = (final / 'components/cpapp-b.bin').read_bytes()
-        for name, data in [('usr/lib/appFw.so', raw), ('cpapp-b.bin', cp)]:
-            assert hashlib.sha256(data).hexdigest() == lock['expected']['components'][name]['sha256']
+        validate_final_binding(manifest, lock, {
+            'usr/lib/appFw.so': hashlib.sha256(raw).hexdigest(),
+            'cpapp-b.bin': hashlib.sha256(cp).hexdigest(),
+        })
     if folder := os.environ.get('A7R5_COMPONENT_CAPTURE'):
         assert not os.environ.get('A7R5_FINAL_READBACK'), '组件回放不能冒充 DAT 回读'
         folder = Path(folder)

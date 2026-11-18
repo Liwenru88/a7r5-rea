@@ -160,6 +160,10 @@ def native_rows_tensor(tools,coefficients,gamma,axis,value,cc1=None,config=None)
 
 def native_cost(parameters, axis, value):
     if not strength(value):return 0.0
+    if len(parameters['gamma_y'])==129 and len(axis)==128:
+        from native_gamma import EDIT_AXIS, RAW_AXIS
+        if not np.array_equal(axis,RAW_AXIS):raise ValueError('未验证的原生 Gamma 平滑横坐标')
+        axis=EDIT_AXIS
     from edit_native_model import decode_matrix16
     import struct
     config=decode_matrix16(parameters['matrix_payload'])

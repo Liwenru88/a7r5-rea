@@ -102,7 +102,7 @@ def solve(gray_model, fixed, target, max_evaluations, *, progress=None, device=N
     logits, reconstruction = logits_for_masses(shape, best)
     audit = dict(policy=POLICY, executed=True, backend='Apple Metal/MPS' if device == 'mps' else str(device),
         samples=len(target), objective='mean squared native gray luminance error, in 8-bit units',
-        parameterization='all 127 nonnegative concave hinge masses plus endpoint slack; simplex sum=1',
+        parameterization=f'all {shape.active_ramps} nonnegative concave hinge masses plus endpoint slack; simplex sum=1',
         frozen104=True, controls=len(shape.axis), max_evaluations=max_evaluations,
         evaluations=calls, converged=converged, status=status, message=message,
         budget_exhausted=calls >= max_evaluations,

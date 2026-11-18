@@ -10,32 +10,28 @@ from stack_training import train, save
 from training_progress import TrainingProgress
 
 HERE = Path(__file__).resolve().parent
-REVISION = '06c35577255eddef641c695d179b0e6f699ffe62+native24/2'
+REVISION = '06c35577255eddef641c695d179b0e6f699ffe62+native24/gamma129-3'
 PROFILE = json.loads((HERE/'formal_profile.json').read_text(encoding='utf-8'))
 SETTINGS = PROFILE['settings']
+JOINT_PROFILE = json.loads((HERE/'native_joint_profile.json').read_text(encoding='utf-8'))
+JOINT_PROFILE['options']=copy.deepcopy(PROFILE['options'])
+JOINT_PROFILE['options']['search_options']['postfit_deburr']=False
+JOINT_REVISION='native-joint-20261115/5'
 
 
 def bind(body):
-    """正式色卡模式固定预算；标识、槽号和目标来源仍属于用户。"""
+    """新任务统一 C；历史模式可读取，重试时升级到当前训练策略。"""
     result = copy.deepcopy(body)
     mode = result.get('training_profile')
-    if mode not in (None, 'custom', 'upstream-formal/1'):
+    if mode not in (None,'custom','upstream-formal/1','native-joint/1'):
         raise ValueError('未知训练方案')
-    formal = result.get('target_kind') == 'chart-image' and not result.get('speed_priority', False) and mode != 'custom'
-    if mode == 'upstream-formal/1' and not formal:
-        raise ValueError('正式方案需要色卡图目标及标准训练模式')
-    if formal:
-        if result.get('dataset_id') not in (None, PROFILE['options']['dataset_id']):
-            raise ValueError('正式方案色卡版本不符；旧版色卡请选择自定义预算')
-        result.update(copy.deepcopy(PROFILE['options']))
-        result.update(training_profile='upstream-formal/1', training_revision=REVISION)
-    else:
-        result['training_profile'] = 'custom'
-        for key in ('packed_selection_policy','packed_baseline','quality_set'):
-            result.pop(key,None)
-        options = dict(result.get('search_options') or {})
-        options.setdefault('postfit_deburr', False)
-        result['search_options'] = options
+    if result.get('dataset_id') not in (None,PROFILE['options']['dataset_id']):
+        raise ValueError('C 原生联合训练需要 v4.5 数据；历史任务仍可查看')
+    kind=result.get('target_kind','lut')
+    if kind not in ('chart-image','lut'):raise ValueError('请选择色卡图或 LUT 目标')
+    result.update(copy.deepcopy(JOINT_PROFILE['options']))
+    result.update(target_kind=kind,training_profile='native-joint/1',training_revision=JOINT_REVISION,
+        joint_options=copy.deepcopy(JOINT_PROFILE['joint_options']))
     return result
 
 

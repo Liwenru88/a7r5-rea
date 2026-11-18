@@ -4,6 +4,7 @@ import argparse
 import datetime
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -33,7 +34,7 @@ def main():
     uart = bytearray()
     dev = None
     try:
-        with zipfile.ZipFile('/Users/zhaoyunpeng/Downloads/bootloader脚本.zip') as z:
+        with zipfile.ZipFile(os.environ.get('A7R5_BOOTLOADER_ZIP', str(Path.home() / 'Downloads/bootloader脚本.zip'))) as z:
             source = z.read('bootloader脚本/a7m4fb.py')
             payload = z.read('bootloader脚本/bin/fastboot.bin')
             report['payload_sha256']=hashlib.sha256(payload).hexdigest()

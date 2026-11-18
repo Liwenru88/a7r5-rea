@@ -9,41 +9,39 @@ let chartTargetId, chartUploading=false;
 let submittedTraining, completedTraining;
 let libraryVersion=4,libraryImportBusy=false,pendingImport;
 const imageTarget=()=>$('targetKind').value==='chart-image';
-const fastTraining=()=>$('speedPriority').value==='fast';
-const formalTraining=()=>imageTarget()&&$('speedPriority').value==='standard';
+const fastTraining=()=>false;
+const jointTraining=()=>true;
+const formalTraining=()=>true;
 const profileControls={evaluations:'evaluations',searchStarts:'starts',adaptiveRounds:'adaptive_rounds',gammaColorRounds:'gamma_color_rounds',perceptualWeight:'perceptual_weight',quantizationSweeps:'quantization_sweeps',parameterSmoothing:'parameter_smoothing',outputContinuity:'output_continuity',endpoint:'gamma_endpoint128',weightRandom:'random',weightPrimaries:'primaries',weightGray:'gray',weightCC24:'colorchecker24',weightSector16:'sector16',wbTraining:'white_balance'};
 let customTrainingControls;
 
 function trainingModeHint(){
-  const formal=formalTraining(), options=boot?.training_profile?.options;
-  if(formal&&options){
-    if(!customTrainingControls)customTrainingControls=Object.fromEntries(Object.keys(profileControls).map(id=>[id,id==='wbTraining'?$(id).checked:$(id).value]));
+  $('speedPriority').value='standard';
+  const options=boot?.training_profile?.options;
+  if(options){
     for(const [id,key]of Object.entries(profileControls)){
       const value=options[key]??options.search_options[key]??options.group_weights[key]??1;
       if(id==='wbTraining')$(id).checked=value;else $(id).value=value;
     }
-  }else if(customTrainingControls){
-    for(const [id,value]of Object.entries(customTrainingControls)){
-      if(id==='wbTraining')$(id).checked=value;else $(id).value=value;
-    }
-    customTrainingControls=undefined;
   }
-  for(const id of [...Object.keys(profileControls),'resetWeights'])$(id).disabled=busy||formal;
+  for(const id of [...Object.keys(profileControls),'resetWeights','speedPriority'])$(id).disabled=true;
   $('parameterSmoothingValue').textContent=$('parameterSmoothing').value;
-  if(formal){
-    $('trainingModeHint').textContent='正式方案：Hybrid · 原生 12 起点 → 候选逐项拟合整数网格 5 轮 → 联合叠加 3 轮。两项色差都改善且灰阶、P95、双域过渡通过才采用，否则保留已保存槽位；有匹配照片验收集时同步检查开发与留出照片。需要 Metal／MPS，预算固定。';
-    return;
-  }
-  $('trainingModeHint').textContent=fastTraining()
-    ?'减少原生拟合搜索和交替轮次。最终网格仍直接拟合目标颜色。'
-    :'自定义预算：使用新版原生拟合与 Hybrid 网格，按下方设置训练，不执行正式方案的五轮网格和三轮叠加。';
+  const settings=boot?.training_profile?.joint_options;
+  if(settings)$('jointTrainingSummary').textContent=`GPU 整批：C 四组联合 ${settings.steps} 步，Adam 学习率 ${settings.lr}；新候选条件网格 ${settings.conditional_steps} 步，${settings.integer_sweeps} 轮整数精修；绑定照片时追加 ${settings.full_photo_steps} 步完整开发照片收敛，最后用 19 组渐变进行 ${settings.robust_rounds}×${settings.robust_steps} 步稳健过渡修复。只采用本次新候选，质量未通过仍保存并允许导出，明确显示警告。`;
+  $('trainingModeHint').textContent='统一 C 方案：原生起点准备 → 完整 129 点 Gamma、CC1、16 色相与 5×9×9 网格联合训练 → 最终 BIN 独立验收。不切换旧算法，不回退旧配方；格式非法或数值异常仍停止发布。需要 Metal／MPS。';
 }
 const chartJob=()=>diagnosticData?.dataset?.target_kind==='chart-image';
 function qualitySummary(quality){
   if(!quality)return '';
+  if(quality.policy==='native-joint-forced/1'){
+    const result=quality.quality_passed?'已采用本次 C 新配方，质量验收通过。':'已采用本次 C 新配方，质量验收未全部通过，仍可保存和导出。';
+    const warnings=quality.failed_checks_zh?.length?' 未通过项：'+quality.failed_checks_zh.join('；')+'。':'';
+    return result+warnings+(quality.photo_scope==='development-and-holdout'?' 已检查开发与留出照片。':' 未绑定照片验收集，照片效果尚未验收。');
+  }
   const result=quality.adopted?'新配方已通过两项色差、灰阶、P95 和双域过渡验收。'
     :'新候选未通过全部验收，保留'+(quality.baseline_identity?'训练前已保存的配方。':'本轮基准配方。');
-  return result+(quality.photo_scope==='development-and-holdout'?' 已核对绑定的开发与留出照片。':' 未绑定照片验收集，照片效果尚未验收。');
+  const reason=quality.fallback_reason_zh?.length?' 原因：'+quality.fallback_reason_zh.join('；')+'。':'';
+  return result+reason+(quality.photo_scope==='development-and-holdout'?' 已核对绑定的开发与留出照片。':' 未绑定照片验收集，照片效果尚未验收。');
 }
 function gridLimitFraction(report){
   if(Number.isFinite(report.fitting?.limit_fraction))return report.fitting.limit_fraction;
@@ -504,6 +502,9 @@ async function loadDiagnostics(identifier){
   try{compression=await(await api('/api/jobs/'+identifier+'/grid-training')).json();}
   catch(e){if(request===diagnosticSerial){$('resultMode').disabled=false;$('histStatus').textContent='压缩状态读取失败：'+e.message;}return;}
   if(request!==diagnosticSerial||identifier!==jobId)return;
+  const isJointResult=['native-joint-qualified/1','native-joint-forced/1'].includes(compression.report?.fitting?.quality_selection?.policy);
+  $('trainingPolicy').classList.toggle('quality-warning',compression.report?.fitting?.quality_selection?.policy==='native-joint-forced/1'&&!compression.report.fitting.quality_selection.quality_passed);
+  for(const [value,label]of [['native',isJointResult?'原生初始化基准（诊断）':'原生参数'],['pc',isJointResult?'初始化 PC 补偿（诊断）':'压缩前 · 原生参数 + 完整 PC 补偿'],['compressed',isJointResult?'最终 BIN · 原生参数 + 单网格':'压缩后 · 原生参数 + 单一网格']])$('resultMode').querySelector(`option[value=${value}]`).textContent=label;
   if(compression.key)gridKeys.set(identifier,compression.key);else gridKeys.delete(identifier);
   if(compression.report?.before_gray_refinement_key)beforeGrayKeys.set(identifier,compression.report.before_gray_refinement_key);else beforeGrayKeys.delete(identifier);
   $('grayRefinementViewFields').hidden=!beforeGrayKeys.has(identifier);
@@ -530,10 +531,12 @@ async function loadDiagnostics(identifier){
   if(!slotPhotoMode()){$('photoResults').hidden=true;$('photoStatus').textContent='正在载入任务配方…';}
   $('histStatus').textContent='正在计算测试集直方图与必拟合色卡…';
   try{const data=await(await api('/api/jobs/'+identifier+'/diagnostics?pc='+(pcView()?'1':'0')+'&grid='+(selectedGrid()||''))).json();if(identifier!==jobId||request!==diagnosticSerial)return;
-    diagnosticData=data;$('datasetStatus').textContent=data.dataset?.dataset_id?.startsWith('v4.5-')?'v4.5 · 5300K · 99,372 色块 · 中心5点均值（'+(data.dataset?.edit_validated?'Edit实采验证：模拟输入全部一致，最终PT输出1块微差':'PT模拟派生上下文，按任务保存的验证状态')+'）':data.dataset?.dataset_id==='v4-sony100mp-unity-sim-center5-20261027'?'v4 · unity-WB · 99,372 色块 · Edit PT 已验证 · 中心5点均值':'历史任务：按保存的色卡和基线显示';if(chartJob())$('datasetStatus').textContent+=' · 软件处理色卡目标（'+data.dataset.bits_per_channel+' 位 '+data.dataset.file_format.toUpperCase()+'）';renderComparison();renderNativeStages(data.training_fitting);if(data.training_fitting?.convergence?.length){const rows=data.training_fitting.convergence;$('convergenceNote')?.remove();const note=document.createElement('p');note.id='convergenceNote';note.className='hint';note.textContent='求解诊断：'+rows.map(r=>r.stage+'：'+(r.budget_exhausted?'达到评估上限':r.converged?'已满足收敛条件':'未收敛')+'（'+r.evaluations+'次，最优性 '+r.optimality.toExponential(2)+'）').join('；');$('trainingPolicy').after(note);}renderPCReport(data.grid_key?null:data.pc_report);$('trainingPolicy').textContent=data.fitting_policy+(data.white_balance?.enabled?` 白平衡联合训练（实验）：冷暖 ${data.white_balance.parameters.temperature_shift} K，绿／洋红 ${data.white_balance.parameters.tint}；LUT 目标固定，前端动态响应近似。BIN 不含白平衡。`:'');$('trainingBadge').textContent=pcJobs.has(identifier)?'含 PC 补偿':'仅原生参数';
+    diagnosticData=data;$('datasetStatus').textContent=data.dataset?.dataset_id?.startsWith('v4.5-')?'v4.5 · 5300K · 99,372 色块 · 中心5点均值（'+(data.dataset?.edit_validated?'Edit实采验证：模拟输入全部一致，最终PT输出1块微差':'PT模拟派生上下文，按任务保存的验证状态')+'）':data.dataset?.dataset_id==='v4-sony100mp-unity-sim-center5-20261027'?'v4 · unity-WB · 99,372 色块 · Edit PT 已验证 · 中心5点均值':'历史任务：按保存的色卡和基线显示';if(chartJob())$('datasetStatus').textContent+=' · 软件处理色卡目标（'+data.dataset.bits_per_channel+' 位 '+data.dataset.file_format.toUpperCase()+'）';renderComparison();renderNativeStages(data.training_fitting);if(data.training_fitting?.convergence?.length){const rows=data.training_fitting.convergence;$('convergenceNote')?.remove();const note=document.createElement('p');note.id='convergenceNote';note.className='hint';note.textContent=(isJointResult?'初始化求解诊断：':'求解诊断：')+rows.map(r=>r.stage+'：'+(r.budget_exhausted?'达到评估上限':r.converged?'已满足收敛条件':'未收敛')+'（'+r.evaluations+'次，最优性 '+r.optimality.toExponential(2)+'）').join('；');$('trainingPolicy').after(note);}renderPCReport(data.grid_key?null:data.pc_report);$('trainingPolicy').textContent=data.fitting_policy+(data.white_balance?.enabled?` 白平衡联合训练（实验）：冷暖 ${data.white_balance.parameters.temperature_shift} K，绿／洋红 ${data.white_balance.parameters.tint}；LUT 目标固定，前端动态响应近似。BIN 不含白平衡。`:'');$('trainingBadge').textContent=pcJobs.has(identifier)?'含 PC 补偿':'仅原生参数';
+    if(isJointResult){$('trainingPolicy').textContent='完整129点Gamma、CC1、16色相与整数网格联合训练，分组恢复、条件网格、整数精修和稳健过渡修复后，以最终BIN独立验收。'+qualitySummary(compression.report.fitting.quality_selection);$('trainingBadge').textContent='原生四组联合 · 最终 BIN';}
     if(data.pc_enabled){palette('after',data.test_preview);$('previewBadge').textContent=algorithmName()+' · 非机内';}else{const native=await(await api('/api/jobs/'+identifier)).json();if(identifier!==jobId||request!==diagnosticSerial)return;palette('after',native.result.preview.after);$('previewBadge').textContent='原生参数模型 · 实拍待验收';}
     const n=data.native_tonal.groups.all.metrics,c=data.tonal.groups.all.metrics;
     $('pcStatus').textContent=data.pc_enabled?`${algorithmName()} · 独立测试 RMSE：原生 ${n.rmse.toFixed(2)} → 当前 ${c.rmse.toFixed(2)}；灰阶色卡已显示补偿后结果。导出需选择原厂网格或完成压缩。`:'当前显示原生结果；新任务可在导入目标后开启 PC 补偿整体训练。';
+    if(isJointResult)$('pcStatus').textContent=$('resultMode').value==='compressed'?'当前预览最终采用BIN，与保存和下载使用同一配方。原生初始化与PC补偿选项仅作诊断。':'当前显示初始化诊断；保存和导出仍使用任务绑定的最终BIN。';
     if(data.colorchecker24){
       for(const [key,title]of[['before','Before'],['target','Target'],['after','After']])chart24('cc24'+title,data.colorchecker24[key]);
       $('cc24Status').textContent='24 色全部参与优化 · 训练 RMSE / 8位：'+data.colorchecker24.metrics.after.rmse_8bit.toFixed(2)+'；顺序：'+data.colorchecker24.names.join('、');
@@ -558,7 +561,7 @@ async function loadDiagnostics(identifier){
     if(data.anchors){
       for(const [key,title]of[['input','Input'],['target','Target'],['after','After']]){strip('primary'+title,data.anchors[key].slice(0,4));strip('gray'+title,data.anchors[key].slice(4,260));}
       const m=data.anchors.metrics;
-      $('anchorStatus').textContent=`${data.fitting_policy||'历史任务；请重新拟合以应用当前四组等权设置。'} 全部 ${data.anchors.input.length} 个色块参与优化${data.white_balance?.enabled?'，白平衡前端使用实验近似':data.dataset?.dataset_id?.startsWith('v4.5-')?'，前端为5300K模拟派生上下文':'，前端为已验证的 unity-WB 模拟数据'}。正色训练 RMSE / 8位：${m.primaries.after.rmse_8bit.toFixed(2)}（基线 ${m.primaries.before.rmse_8bit.toFixed(2)}）；灰阶训练 RMSE / 8位：${m.gray.after.rmse_8bit.toFixed(2)}（基线 ${m.gray.before.rmse_8bit.toFixed(2)}）。`;
+      $('anchorStatus').textContent=`${isJointResult?'当前为最终采用BIN的实际回放；原生初始化只提供起点；灰阶、P95、双域过渡与照片诊断以本任务质量报告为准。':data.fitting_policy||'历史任务；请重新拟合以应用当前四组等权设置。'} 全部 ${data.anchors.input.length} 个色块参与优化${data.white_balance?.enabled?'，白平衡前端使用实验近似':data.dataset?.dataset_id?.startsWith('v4.5-')?'，前端为5300K模拟派生上下文':'，前端为已验证的 unity-WB 模拟数据'}。正色训练 RMSE / 8位：${m.primaries.after.rmse_8bit.toFixed(2)}（基线 ${m.primaries.before.rmse_8bit.toFixed(2)}）；灰阶训练 RMSE / 8位：${m.gray.after.rmse_8bit.toFixed(2)}（基线 ${m.gray.before.rmse_8bit.toFixed(2)}）。`;
     }else{
       for(const id of ['primaryInput','primaryTarget','primaryAfter','grayInput','grayTarget','grayAfter']){const c=$(id);c.getContext('2d').clearRect(0,0,c.width,c.height);}
       $('anchorStatus').textContent='旧任务未使用正色与完整灰阶训练。请使用原 LUT 重新拟合；旧结果不会自动变成新版结果。';
@@ -658,7 +661,7 @@ function renderCompression(r,key,identifier){
           $('distillMetrics').append(note,comparison);
         }
         strip('distillTeacherGray',r.samples.gray_combined);strip('distillStudentGray',r.samples.gray_grid);$('distillGray').hidden=false;
-        $('distillStatus').textContent=`已压缩为 405×3 个7位系数（1215 字节），触及幅度边界 ${(gridLimitFraction(r)*100).toFixed(2)}%。所有 RMSE 均为实际 8 位码值。本次网格模型：${gridResponseName(r.identity.response)}；尚非 R5 实机验收。${r.white_balance?.enabled?' 白平衡仍在网格前单独运算，未压入网格；BIN 不含白平衡。':''} ${qualitySummary(r.fitting?.quality_selection)}`;
+        $('distillStatus').textContent=`${['native-joint-qualified/1','native-joint-forced/1'].includes(r.fitting?.quality_selection?.policy)?'最终配方包含':'已压缩为'} 405×3 个7位系数（1215 字节），触及幅度边界 ${(gridLimitFraction(r)*100).toFixed(2)}%。所有 RMSE 均为实际 8 位码值。本次网格模型：${gridResponseName(r.identity.response)}；尚非 R5 实机验收。${r.white_balance?.enabled?' 白平衡仍在网格前单独运算，未压入网格；BIN 不含白平衡。':''} ${qualitySummary(r.fitting?.quality_selection)}`;
         $('distillDownload').href='/api/jobs/'+identifier+'/grid-distillation-download?key='+key;$('distillDownload').hidden=false;$('gridFirmwareDownload').href='/api/jobs/'+identifier+'/grid-firmware-download?key='+key;$('gridFirmwareDownload').hidden=false;$('addCompressed').hidden=false;
 
 }
@@ -774,8 +777,10 @@ async function refreshTrainingTrace(id){
       }
       trace.stages.get(key).push(event);
     }
-    for(const event of data.grid.events){
-      if(event.kind!=='integer')continue;
+    const nativeIntegers=(data.native?.events||[]).filter(event=>event.kind==='integer');
+    if(nativeIntegers.length&&trace.integerSource!=='native'){trace.integerSource='native';trace.rounds=[];trace.gridRun=undefined;}
+    const integerEvents=nativeIntegers.length?nativeIntegers:trace.integerSource==='native'?[]:data.grid.events.filter(event=>event.kind==='integer');
+    for(const event of integerEvents){
       if(trace.gridRun!==event.run){trace.gridRun=event.run;trace.rounds=[];}
       trace.rounds.push(event);
     }
@@ -783,7 +788,7 @@ async function refreshTrainingTrace(id){
     $('trainingGridRounds').hidden=!trace.rounds.length;
     $('trainingTrace').hidden=!trace.stages.size&&!trace.rounds.length;
     if(events.some(event=>event.kind==='loss'))drawTrainingLoss();
-    if(data.grid.events.length){
+    if(integerEvents.length){
       $('trainingGridRoundRows').replaceChildren(...trace.rounds.map(event=>{
         const row=document.createElement('tr');
         const {metrics}=event;
@@ -905,7 +910,7 @@ function fitOptions(compression){
   return {
     speed_priority: fastTraining(),
     ...(projectMode()?{project_id:workspace.id}:{}),
-    training_profile: formalTraining()?'upstream-formal/1':'custom',
+    training_profile: 'native-joint/1',
     target_kind: $('targetKind').value,
     dataset_id: $('chartVersion').value,
     target_id: chartTargetId,
@@ -1141,7 +1146,7 @@ function initFolderTraining(){
       active=['queued','running'].includes(state.status);
       if(projectMode())workspaceBatchActive=active;
       $('batchStatus').textContent=state.jobs.map(job=>
-        '第 '+job.number+' 槽 · '+job.name+' · '+job.phase+trainingProgressText(job.training_progress)).join('\n')+
+        '第 '+job.number+' 槽 · '+job.name+' · '+job.phase+trainingProgressText(job.training_progress)+' '+qualitySummary(job.quality_selection)).join('\n')+
         (state.error?'\n'+state.error:'');
       $('batchStatus').style.whiteSpace='pre-line';
       $('batchSaveProject').hidden=active||!projectMode()||!state.jobs.some(job=>job.status==='done'&&job.grid_key);
@@ -1240,7 +1245,7 @@ function initFolderTraining(){
       if(!response.ok)throw Error(target.file.name+' · '+value.error);
       files.push({filename:target.file.name,target_id:value.id,number:target.number});
     }
-    return (await api('/api/batches',{files,options,concurrency:2})).json();
+    return (await api('/api/batches',{files,options,concurrency:jointTraining()?1:2})).json();
   });
   $('batchRetry').onclick=()=>startBatch(async()=>(await api('/api/batches/retry',{id:batch.id})).json());
   $('batchSaveProject').onclick=()=>workspaceCommand(async()=>{

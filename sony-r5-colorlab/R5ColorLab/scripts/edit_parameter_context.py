@@ -33,7 +33,7 @@ def secondary_inverse(gamma):
 
 
 class ParameterContext:
-    def __init__(self, measured, matrix_builder=None):
+    def __init__(self, measured, matrix_builder=None, *, native_gamma=None):
         self.base = measured
         self.matrix_builder = matrix_builder
         self.payload = measured.raw[0xae:0xae+276]
@@ -48,6 +48,14 @@ class ParameterContext:
             raise ValueError('This parameter editor currently requires measured CC1 mode 1')
         self.axis = np.frombuffer(measured.raw,dtype='<i4',count=128,offset=0x5d8).copy()
         self.gamma_y = np.frombuffer(measured.raw,dtype='<i4',count=128,offset=0x7d8).copy()
+        from native_gamma import EDIT_AXIS, RAW_AXIS, from_raw, validate
+        self.native_axis = EDIT_AXIS.copy()
+        stored_native = getattr(measured, 'native_gamma_129', None)
+        if stored_native is not None:
+            if not np.array_equal(self.axis, RAW_AXIS):
+                raise ValueError('原生 Gamma 与采样 RAW 横坐标不匹配')
+            self.axis = self.native_axis.copy()
+            self.gamma_y = 2*validate(stored_native)
         self.cc1 = measured.coefficients().copy()
         # Identity user contrast/highlight/shadow: the native table still clips
         # the last interval at entry 1023, explaining a seven-code highlight gap.
@@ -66,6 +74,13 @@ class ParameterContext:
         actual_secondary_inv = np.frombuffer(measured.runtime,dtype='<u2',count=16384,offset=0x89962)
         if not np.array_equal(secondary_inverse(secondary),actual_secondary_inv):
             raise ValueError('Secondary inverse builder mismatch')
+        if native_gamma is True and stored_native is None:
+            if not np.array_equal(self.axis, RAW_AXIS):
+                raise ValueError('当前采样上下文未验证原生 129 点横坐标')
+            self.gamma_y = 2*from_raw(self.gamma_y)
+            self.axis = self.native_axis.copy()
+        elif native_gamma is False and stored_native is not None:
+            raise ValueError('完整原生曲线不能隐式退回 RAW 128 点上下文')
 
     def build(self, matrix_payload=None, cc1=None, gamma_y=None):
         runtime,raw = bytearray(self.base.runtime),bytearray(self.base.raw)
@@ -101,17 +116,31 @@ class ParameterContext:
                 struct.pack_into('<8h',raw,0xdec,*shifted)
         if gamma_y is not None:
             a = np.asarray(gamma_y)
-            if (a.shape != (128,) or np.any(~np.isfinite(a)) or np.any(a != np.trunc(a))
+            if (a.shape not in ((128,), (129,)) or np.any(~np.isfinite(a)) or np.any(a != np.trunc(a))
                     or a[0] != 0 or np.any(np.diff(a) < 0) or np.any(a < 0) or np.any(a > 262143)):
                 raise ValueError('Monotone zero-origin 18-bit Gamma ordinates required')
-            struct.pack_into('<128i',raw,0x7d8,*a.astype(int))
-            gamma = expand_gamma(self.axis,a,self.contrast)
+            from native_gamma import RAW_AXIS, EDIT_AXIS, raw_projection, validate
+            if a.shape == (129,):
+                if np.any(a % 2) or not np.array_equal(np.frombuffer(raw,dtype='<i4',count=128,offset=0x5d8), RAW_AXIS):
+                    raise ValueError('原生 Gamma 单位或采样横坐标不符')
+                native = validate(a/2)
+                raw_y, axis = raw_projection(native), EDIT_AXIS
+            else:
+                native, raw_y = None, a
+                axis = np.frombuffer(raw,dtype='<i4',count=128,offset=0x5d8)
+            struct.pack_into('<128i',raw,0x7d8,*raw_y.astype(int))
+            gamma = expand_gamma(axis,a,self.contrast)
             runtime[0x18f6:0x218f6] = gamma.tobytes()
             runtime[0x69962:0x89962] = main_inverse(gamma,self.inverse_zero).tobytes()
             # The captured secondary Gamma depends on its own RAW/settings,
             # not main Gamma. It and its inverse remain valid; main-dependent
             # suppression cutoffs are recomputed by RuntimeColor on every call.
-        return RuntimeColor(runtime,raw,self.base.settings,area_controls=self.base.area_controls)
+        result = RuntimeColor(runtime,raw,self.base.settings,area_controls=self.base.area_controls)
+        if gamma_y is not None and native is not None:
+            result.native_gamma_129 = native.copy()
+        elif gamma_y is None and hasattr(self.base, 'native_gamma_129'):
+            result.native_gamma_129 = self.base.native_gamma_129.copy()
+        return result
 
 
 def quantize_matrix_coefficients(payload, coefficients):

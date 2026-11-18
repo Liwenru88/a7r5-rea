@@ -97,10 +97,11 @@ def compression_work(identifier,response,post_gray_refinement=False,objective='f
 
 
 def work(identifier, body, resume=False):
-    if body.get('training_profile') == 'upstream-formal/1':
-        from training_profile import work as formal_work
-        return formal_work(sys.modules[__name__], native_work, identifier, body, resume)
-    return native_work(identifier, body, resume)
+    from training_profile import bind,JOINT_REVISION
+    from native_joint_workbench import work as joint_work
+    if body.get('training_profile')!='native-joint/1' or body.get('training_revision')!=JOINT_REVISION:
+        body=bind(body)
+    return joint_work(sys.modules[__name__],native_work,identifier,body,resume)
 
 
 def native_work(identifier, body, resume=False):
@@ -181,7 +182,8 @@ def queue_fit(body, retry=False):
     if body.get('project_id'):
         projects.identifier(body['project_id'])
         identity = {k:v for k,v in body.items() if k not in ('target_id', 'lut')}
-        identity['training_revision'] = TRAINING_REVISION
+        identity['training_revision'] = (dict(server=TRAINING_REVISION,profile=body.get('training_revision'))
+            if body.get('training_profile')=='native-joint/1' else TRAINING_REVISION)
         if body.get('target_kind') != 'chart-image':
             identity['lut_sha256'] = core.sha(body['lut'].encode())
         signature = core.sha(json.dumps(identity, sort_keys=True, allow_nan=False).encode())
@@ -243,7 +245,7 @@ def solve_native(body,output,job):
             cmd.append('--pc-compensation')
         with (output / 'fit.log').open('w') as log:
             env={**os.environ, 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIMUM_THREADS': '1'}
-            if body.get('training_profile')=='upstream-formal/1':env['R5_GPU_STRICT']='1'
+            if body.get('training_profile') in ('upstream-formal/1','native-joint/1'):env['R5_GPU_STRICT']='1'
             process = subprocess.Popen(cmd, stdout=log, stderr=subprocess.STDOUT,
                                        env=env)
             job['process'] = process
@@ -385,7 +387,8 @@ class Handler(BaseHTTPRequestHandler):
                                          default_chart=chart_target.manifest(),
                                          chart_versions=chart_datasets.catalog(),
                                          compute_backend=__import__('gpu_runtime').policy(),
-                                         training_profile=__import__('training_profile').PROFILE,
+                                         training_profile=__import__('training_profile').JOINT_PROFILE,
+                                         legacy_training_profile=__import__('training_profile').PROFILE,
                                          training_revision=TRAINING_REVISION,
                                          latest_batch=batch_training.latest(core.HERE),
                                          template=core.config([]), slot_limit=core.compiler.SLOT_LIMIT,
@@ -511,6 +514,18 @@ class Handler(BaseHTTPRequestHandler):
                             for name in ('fit.log','training_progress.jsonl','grid_progress.jsonl','grid_4187_five_rounds/multiround.json','grid_4187_five_rounds/selection.json'):
                                 item=parent/name
                                 if item.is_file():archive.write(item,'baseline/'+name)
+                        for name in ('options.json','joint-audit.json','final-acceptance.json','C/loss.jsonl',
+                                     'conditional-reference/audit.json','conditional-reference/loss.jsonl',
+                                     'conditional-candidate/audit.json','conditional-candidate/loss.jsonl',
+                                     'integer/audit.json','recovery/audit.json','full-photos/audit.json',
+                                     'full-photos/loss.jsonl','full-photos/photo-constraints.jsonl'):
+                            item=RUNS/identifier/'native_joint'/name
+                            if item.is_file():archive.write(item,'native_joint/'+name)
+                        robust=RUNS/identifier/'native_joint'/'robust'
+                        if robust.is_dir():
+                            for item in sorted(robust.rglob('*')):
+                                if item.is_file() and item.suffix in ('.json','.jsonl'):
+                                    archive.write(item,'native_joint/robust/'+str(item.relative_to(robust)))
                     return self.respond(memory.getvalue(), 'application/zip', filename='r5-fit-' + identifier + '.zip')
                 if len(bits) != 4:
                     return self.respond(dict(error='Not found'), status=404)
@@ -904,6 +919,10 @@ class Handler(BaseHTTPRequestHandler):
                 if not job or job['status'] != 'running':
                     raise ValueError('任务未在运行')
                 parent = JOBS.get(job.get('base_job'), {})
+                if job.get('training_profile')=='native-joint/1':
+                    from native_joint_workbench import request_cancel
+                    request_cancel(job,parent)
+                    return self.respond(dict(ok=True))
                 process = job.get('process') or parent.get('process')
                 if process is None:
                     raise ValueError('正在验证或转换，请稍候')

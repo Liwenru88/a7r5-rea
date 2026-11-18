@@ -182,7 +182,7 @@ def slot_native_parameters(context, entry, endpoint=0):
             offset = 24+2*(16*component+(sector^1))
             old, = struct.unpack_from('<H', payload, offset)
             struct.pack_into('<H', payload, offset, ((coefficient<<2)&0xfffc) | (old&3))
-    gamma = [min(262143, 2*y) for y in entry['gamma_native_129'][:128]]
+    gamma = [2*y for y in entry['gamma_native_129']]
     return dict(matrix_payload=bytes(payload), cc1=direct, gamma_y=gamma)
 
 

@@ -94,8 +94,8 @@ def expand_gamma(axis, values, contrast=None):
     """
     x = np.asarray(axis, dtype=np.int64)
     y = np.asarray(values, dtype=np.int64)
-    if x.ndim != 1 or x.size < 2 or x.size > 128 or x.shape != y.shape:
-        raise ValueError('Expected 2..128 equal-size parameter arrays')
+    if x.ndim != 1 or x.size < 2 or x.size > 129 or x.shape != y.shape:
+        raise ValueError('Expected 2..129 equal-size parameter arrays')
     if x[0] != 0 or y[0] != 0 or np.any(np.diff(x) <= 0):
         raise ValueError('Only strictly increasing zero-origin axes are modeled')
     if np.any(x > 2147483647) or np.any(y < 0) or np.any(y > 2147483647):

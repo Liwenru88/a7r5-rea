@@ -41,8 +41,13 @@ def projected(seed, parameters):
     payload = parameters['matrix_payload']
     matrix = [[struct.unpack_from('<h', payload, 24+2*(16*k+(s^1)))[0] >> 2
                for k in range(6)] for s in range(16)]
-    end = entry['gamma_native_129'][-1]
-    entry['gamma_native_129'] = [min(end, (int(v)+1)//2) for v in parameters['gamma_y']] + [end]
+    from native_gamma import from_raw, validate
+    gamma = np.asarray(parameters['gamma_y'])
+    if gamma.shape == (129,):
+        if np.any(gamma % 2):raise ValueError('原生 Gamma 的 Edit 单位必须为偶数')
+        entry['gamma_native_129'] = validate(gamma/2).tolist()
+    else:
+        entry['gamma_native_129'] = from_raw(gamma).tolist()
     entry['cc1_delta'][0] = base
     entry['block13'] = [copy.deepcopy(matrix) for _ in range(3)]
     return entry
@@ -121,7 +126,7 @@ def fit(job, key, output, rounds=2, evaluations=24, neural_start=None, neural_gr
     if not isinstance(response, dict):
         raise ValueError('请选择使用实测网格响应的任务')
     capture, context_id = baseline.for_job(job)
-    context = ParameterContext(RuntimeColor.from_capture(capture, context_id))
+    context = ParameterContext(RuntimeColor.from_capture(capture, context_id),native_gamma=True)
     fitting = recipe['fitting']
     options = fitting['search_options']
     smoothing, continuity_strength = options['parameter_smoothing'], options['output_continuity']

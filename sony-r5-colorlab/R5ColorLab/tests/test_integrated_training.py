@@ -8,7 +8,7 @@ import server
 
 
 class IntegratedTrainingTests(unittest.TestCase):
-    def test_old_request_retrains_with_upstream_options(self):
+    def test_old_request_retrains_with_current_c_options(self):
         from grid_models import default_response
         body=dict(number=24,short_name='J1',full_name='历史重试',evaluations=2,
                   gamut='S-Gamut3',lut='LUT_3D_SIZE 2\n0 0 0',compression_training=True,
@@ -19,7 +19,8 @@ class IntegratedTrainingTests(unittest.TestCase):
         self.assertNotIn('guarded_adam',validated)
         self.assertNotIn('adam_steps',validated['search_options'])
         self.assertNotIn('adam_learning_rate',validated['search_options'])
-        self.assertEqual(validated['search_options']['output_continuity'],30)
+        self.assertEqual(validated['search_options']['output_continuity'],0)
+        self.assertEqual(validated['joint_options']['selection_policy'],'force-new')
         self.assertEqual(validated['pc_options']['response'],default_response())
         self.assertEqual(validated['compression_objective'],'fuji-target')
 
@@ -49,7 +50,7 @@ class IntegratedTrainingTests(unittest.TestCase):
                      patch.object(server.core,'finish_fit',side_effect=finish), \
                      patch('pc_compensation.generate',side_effect=pc), \
                      patch('grid_distillation.generate',side_effect=grid):
-                    server.work(identifier,body)
+                    server.native_work(identifier,body)
                 self.assertEqual(fit.call_count,1)
                 self.assertEqual(order,['native','pc','grid'])
                 saved=json.loads((root/identifier/'job.json').read_text())
@@ -94,7 +95,7 @@ class IntegratedTrainingTests(unittest.TestCase):
                 with patch.object(server,'RUNS',root),patch.dict(server.JOBS,{identifier:job},clear=True), \
                      patch.object(server.core,'prepare_target',side_effect=prepare),patch.object(server.core,'finish_fit',side_effect=finish), \
                      patch.object(server.subprocess,'Popen',Process),patch('pc_compensation.generate',side_effect=pc) as generate:
-                    server.work(identifier,dict(lut='fixture',gamut='S-Gamut3',evaluations=1,number=1,short_name='ST',full_name='ST',white_balance=enabled,pc_compensation=enabled,pc_options=dict(curve_mode='qaq-grid',grid_enabled=True,response=[[1,0,0],[0,1,0],[0,0,1]]),group_weights=dict(random=1,primaries=2,gray=3,colorchecker24=4),search_options=dict(starts=3,adaptive_rounds=1,perceptual_weight=.4,quantization_sweeps=2,parameter_smoothing=0,gamma_color_rounds=0)))
+                    server.native_work(identifier,dict(lut='fixture',gamut='S-Gamut3',evaluations=1,number=1,short_name='ST',full_name='ST',white_balance=enabled,pc_compensation=enabled,pc_options=dict(curve_mode='qaq-grid',grid_enabled=True,response=[[1,0,0],[0,1,0],[0,0,1]]),group_weights=dict(random=1,primaries=2,gray=3,colorchecker24=4),search_options=dict(starts=3,adaptive_rounds=1,perceptual_weight=.4,quantization_sweeps=2,parameter_smoothing=0,gamma_color_rounds=0)))
                     self.assertEqual(job['status'],'done',job.get('error'))
                     self.assertEqual('--pc-compensation' in commands[0],enabled)
                     self.assertEqual('--white-balance' in commands[0],enabled)

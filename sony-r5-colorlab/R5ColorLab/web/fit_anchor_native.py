@@ -28,7 +28,7 @@ class SmoothNative:
  def __init__(self,ctx,x):
   self.ctx=ctx;self.x=np.asarray(x,dtype=float);cfg=ctx.base.config
   self.gamma_shape=getattr(ctx,'gamma_shape',None)
-  self.knots=np.arange(128)
+  self.knots=np.arange(len(ctx.axis))
   self.axis=ctx.axis/128.;self.controls=self.axis[self.knots]
   self.s=ctx.base.sectors(x).astype(int)
   angles=np.array(struct.unpack_from('<16H',cfg,6));right=np.searchsorted(angles,self.s,side='right');self.left=(right-1)%16;self.right=right%16
@@ -52,6 +52,7 @@ class SmoothNative:
   cc[:4]=np.clip(cc[:4],-1024,1023);cc[4:]=np.clip(cc[4:],0,2047)
   y=(self.gamma_shape.integer_curve(v[104:]) if self.gamma_shape is not None else
      np.maximum.accumulate(np.rint(self.gamma(v)*16)).astype(int));y[0]=0
+  if len(self.axis)==129:y=2*np.minimum(131071,(y+1)//2)
   return dict(matrix_payload=payload,cc1=cc,gamma_y=y)
  def render(self,v):
   c=v[8:104].reshape(6,16)
@@ -81,7 +82,7 @@ class SmoothNative:
 
 def vector_for(ctx):
  c=np.array(struct.unpack_from('<96f',ctx.base.config,0x28));bits=(ctx.cc1[:4]&65535)>>2&511;m=np.where(bits>255,bits-512,bits)/256;g=((ctx.cc1[4:]&65535)>>3&255)/64
- knots=np.arange(128)
+ knots=np.arange(len(ctx.axis))
  increments=np.maximum(np.diff(ctx.gamma_y[knots]/16),.01)
  tail=(ctx.gamma_shape.encode(ctx.gamma_y/16) if getattr(ctx,'gamma_shape',None) is not None else
        np.log(np.r_[increments,max(16383-ctx.gamma_y[-1]/16,.01)]))
@@ -149,10 +150,11 @@ def main():
  progress.update(stage='载入训练数据',state='running')
  if a.save_candidates and a.white_balance:raise ValueError('整数候选归档要求固定白平衡')
  candidate_pairs_sha=sha(a.pairs) if a.save_candidates else None
- p=np.load(a.pairs);x=p['input'];t=p[str(a.gamut)+'_target'];split=p['split'];ctx=ParameterContext(RuntimeColor.from_capture(a.capture,a.context))
+ native_gamma=(not a.refine_from or 'gamma_native_129' in json.loads((a.refine_from/'fit/recipe.json').read_text())['parameters'])
+ p=np.load(a.pairs);x=p['input'];t=p[str(a.gamut)+'_target'];split=p['split'];ctx=ParameterContext(RuntimeColor.from_capture(a.capture,a.context),native_gamma=native_gamma)
  if options['gamma_monotone_concave']:
   from concave_gamma import ConcaveGamma
-  ctx.gamma_shape=ConcaveGamma(ctx.axis,control_count=128,global_correction=options['gamma_global_correction'])
+  ctx.gamma_shape=ConcaveGamma(ctx.axis,control_count=len(ctx.axis),parameter_count=len(ctx.axis),global_correction=options['gamma_global_correction'])
  ctx.gamma_global_correction=options['gamma_global_correction']
  ctx.native_strict_stopping=options['native_strict_stopping']
  start=vector_for(ctx)
@@ -319,14 +321,14 @@ def main():
   warm=np.load(source/'fit/fit_state.npz')['vector']
   baseline_relax=report_metrics(models['valid'].render(start),center_mean(render_native(ctx.base,x[valid])))
   prior=previous['parameters']
-  native=dict(matrix_payload=bytes.fromhex(prior['matrix_780f_hex']),cc1=np.array(prior['cc1_direct_raw']),gamma_y=np.array(prior['gamma_7806_y']))
+  from native_gamma import parameter_values
+  native=parameter_values(prior)
   assess(warm,'previous-AS-exact-integer',params_override=native)
   assess(warm,'previous-AS-continuous-seed')
  else:
   assess(start,'baseline')
   baseline_relax=report_metrics(models['valid'].render(start),center_mean(render_native(ctx.base,x[valid])))
-  # Starting curve is a train-only monotone shared curve; all 128 native knots
-  # remain on their original x coordinates. Positive increments avoid collapse.
+  # 保留上下文的全部物理节点；新训练为129点，旧任务继续使用明确的兼容域。
   from fit_native_proxy import curve_fit
   z=center_mean(ctx.base.matrix16(x[gray_indices]));curve=curve_fit(z/16383,t[gray_indices]/16383,ctx.axis/128/16383)
   yi=np.maximum.accumulate(np.maximum(curve,0))*16383;inc=np.maximum(np.diff(yi[smooth.knots]),1.)
@@ -550,7 +552,7 @@ def main():
    accepted=bool(not unchanged and gray_ok and faithful('complete_train_fidelity') and faithful('colored_train_fidelity') and after_global['frozen104'] and after_global['gamma_concavity']['passed'])
    gamma_global_audit['attempts'].append(dict(alpha=alpha,accepted=accepted,unchanged=unchanged,
     reason=('accepted' if accepted else 'unchanged' if unchanged else 'gray luminance or train fidelity gate'),
-    metrics=after_global,integer_projection={**integer_audit,'projected_raw128':candidate_params['gamma_y'].tolist()},mass_logit_reconstruction_14bit=reconstruction))
+    metrics=after_global,integer_projection={**integer_audit,'projected_gamma_y':candidate_params['gamma_y'].tolist(),'serialized_points':len(candidate_params['gamma_y'])},mass_logit_reconstruction_14bit=reconstruction))
    if accepted:accepted_global.append((after_global['gray_luma_mse_8bit'],alpha,proposal,candidate_params,after_global,None))
   if options['gamma_color_recovery']:
    import gamma_color_recovery
@@ -561,7 +563,7 @@ def main():
     if alpha==0 or attempt['unchanged'] or attempt['metrics']['gray_luma_mse_8bit']>=before_global['gray_luma_mse_8bit']-1e-10:continue
     gamma_params={k:(v.copy() if isinstance(v,np.ndarray) else v) for k,v in fixed_params.items()}
     # Reuse the actual single projection: never solve a time-limited MILP twice.
-    gamma_params['gamma_y']=np.asarray(attempt['integer_projection']['projected_raw128'],dtype=int)
+    gamma_params['gamma_y']=np.asarray(attempt['integer_projection']['projected_gamma_y'],dtype=int)
     progress.update(stage='固定 Gamma 补调 CC1 / block13',evaluations=0,iteration=0,max_evaluations=a.evaluations,gpu_backend='Apple Metal/MPS',gamma_alpha=alpha)
     repair_proposals,repair_audit=gamma_color_recovery.solve(ctx,smooth,gray_model,t[train],t[gray_indices],group_weights,
      fixed_params,gamma_params,start,active_pc,options,lb[:104],ub[:104],a.evaluations,progress=progress.update)
@@ -622,7 +624,7 @@ def main():
  result=dict(white_balance=wb.report(wb_value,a.white_balance),schema='r5-edit-native-color-fit/1',complete_edit_fitter=False,camera_apply_allowed=False,renderer='measured-Edit-color-subchain-with-native-matrix-builder',input_domain='Edit post-SSCS/pre-matrix integer RGB',output_domain='14-bit encoded RGB',target_description=a.target_description or ['integer RAW -> RawAlchemy S-Gamut3 S-Log3 cube','integer RAW -> RawAlchemy S-Gamut3.Cine S-Log3 cube'][a.gamut],
   additional_compensation_matrix_enabled=False,compensation_grid_enabled=False,photo_pixels_used_for_fitting=False,
   source=dict(capture_report_sha256=sha(a.capture/'report.json'),context=a.context,runtime_sha256=hashlib.sha256(ctx.base.runtime).hexdigest(),raw_sha256=hashlib.sha256(ctx.base.raw).hexdigest(),settings_sha256=hashlib.sha256(ctx.base.settings).hexdigest(),pairs_sha256=sha(a.pairs)),
-  parameters=dict(matrix_780f_hex=params['matrix_payload'].hex(),cc1_direct_raw=params['cc1'].tolist(),gamma_7806_y=params['gamma_y'].tolist(),gamma_7805_x=ctx.axis.tolist()),
+  parameters=__import__('native_gamma').parameter_fields(params,axis=ctx.axis),
   fitting=dict(tonal_balance=tonal_audit,training_pipeline=(['experimental-WB-native-PC-alternation'] if a.white_balance else [])+['native-gray-tone-gamma-only','native-color-initialization','native-gray-refinement','native-chroma-cc1-block13-gamma-frozen','native-joint','multi-start','train-only-dynamic-weight','exact-integer-refinement']+(['native-PC-alternation','exact-integer-PC-refit'] if a.pc_compensation else []),search_options=options,pc_options=pc_policy,adaptive_history=adaptive_history,quantization_refinement=quantization_audit,selected_training_weights=chosen["importance"],selected_pc_quantization_sweeps=chosen["pc"][2].get("quantization_sweeps",0) if chosen["pc"] else 0,pc_compensation_training=a.pc_compensation,pc_grid_strategy=chosen["pc"][2]["strategy"] if chosen["pc"] else None,candidate_domain='combined-PC' if a.pc_compensation else 'native',gamma_optimized_points=128,gamma_fixed_zero=True,gamma_final_ordinate_fixed=False,native_point128_policy="separate export endpoint, absent from RAW context",anchor_training_samples=len(mandatory),sector16_training_samples=sector_audit['samples'] if sector_audit else 0,sector16=sector_audit,colorchecker24_training_samples=max(0,len(mandatory)-260),gray_training_samples=256,primary_training_samples=4,random_training_samples=len(random_train),loss_groups='user cohort total squared weights; specialized stages are optional candidates',group_total_weights=importance,selection='fixed user-weighted composite of uint8 RGB MSE + perceptual_weight*(2.55*DE00)^2; training adaptation cannot change ranking rule; independent test excluded; optional parameter smoothness penalty',gray_priority=False,training_samples=len(train),validation_samples=len(valid),test_samples=len(test),history=history,selected=best[2],calls=calls,baseline_relaxation_error=baseline_relax,monotone_positive_increment_Gamma=True),
   anchor_training=dict(before=report_metrics(center_mean(render_native(ctx.base,x[mandatory])),t[mandatory]),after=report_metrics(center_mean(render_native(model,current_x[mandatory])),t[mandatory])),
   heldout=dict(before=report_metrics(exact_before,t[test]),after=report_metrics(exact_after,t[test]),relaxation_vs_quantized=report_metrics(models['test'].render(fitted),exact_after)),
@@ -630,6 +632,7 @@ def main():
   limitations=['Continuous model only initializes; heldout results use integer model.','New capture contributes only pre-matrix input, never its current-look output.','New chart full JPEG and photographs require independent Edit validation.','No global optimum or arbitrary LUT exact-representation claim.'])
  result['fitting']['gamma_color_alternation']=alternation_history
  result['fitting']['gamma_global_correction']=gamma_global_audit
+ result['fitting'].update(gamma_optimized_points=len(ctx.axis),native_point128_policy=('full native129; both tail knots participate in forward and serialization' if len(ctx.axis)==129 else 'legacy RAW128 continuation'))
  if smooth.gamma_shape is not None:
   result['fitting']['gamma_shape']=dict(policy='nonnegative concave native-knot hinge mixture',
    constraints=dict(zero=True,nonnegative_slope=True,nonincreasing_slope=True),
@@ -638,7 +641,7 @@ def main():
    targets_unchanged=True,gray_samples_unchanged=256,
    quantized_native_knots=smooth.gamma_shape.audit_even(params['gamma_y']),
    maximum_raw_displacement_from_continuous=float(np.max(np.abs(params['gamma_y']-smooth.gamma(fitted)*16))),
-   scope='Continuous piecewise-linear curve and export-decoded 128 nodes; integer lookup quantization can have one-code second differences; separate endpoint129 has no recovered abscissa')
+   scope=f'Continuous piecewise-linear curve on {len(ctx.axis)} physical nodes; integer lookup quantization can have one-code second differences')
  if options['postfit_deburr']:
   result['fitting']['postfit_deburr_policy']=dict(enabled=True,training_shape_penalties=False,
    disabled=['parameter_smoothing','output_continuity','target_neighborhood','PC curve second-difference','PC grid and dense teacher neighbor penalties'],

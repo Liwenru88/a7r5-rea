@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """One bounded RAM boot probe with read-only USB queries; no flash command."""
-import argparse,datetime,hashlib,json,sys,time,types,zipfile,subprocess
+import argparse,datetime,hashlib,json,os,sys,time,types,zipfile,subprocess
 from pathlib import Path
 ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);args=ap.parse_args()
 root=Path(__file__).resolve().parents[1];run=args.output.resolve();run.mkdir(exist_ok=False)
 report={'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'persistent_storage_write_commands_sent':False,'limitations':['M4-specific BootROM parameters and initializers; compatibility is tested, not assumed.','USB descriptors and getvar product are compiled M4 constants, not live R5 identity.']}
-z=zipfile.ZipFile('/Users/zhaoyunpeng/Downloads/bootloader脚本.zip');s=z.read('bootloader脚本/a7m4fb.py');b=z.read('bootloader脚本/bin/fastboot.bin')
+z=zipfile.ZipFile(os.environ.get('A7R5_BOOTLOADER_ZIP', str(Path.home() / 'Downloads/bootloader脚本.zip')));s=z.read('bootloader脚本/a7m4fb.py');b=z.read('bootloader脚本/bin/fastboot.bin')
 assert hashlib.sha256(b).hexdigest()=='330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc'
 assert b.count(b'flash:\0')==1
 off=b.index(b'flash:\0');b=b[:off]+b'!'+b[off+1:];report['disabled_flash_string_offset']=off;report['payload_sha256']=hashlib.sha256(b).hexdigest()

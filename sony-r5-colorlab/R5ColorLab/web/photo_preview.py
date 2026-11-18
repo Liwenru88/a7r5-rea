@@ -15,7 +15,7 @@ import white_balance
 from edit_native_recipe import read
 from raw_slog3_reference import RawSLog3Reference, Cube
 
-FRONTEND_REVISION = 'itp-native-sscs-v2'
+FRONTEND_REVISION = 'itp-native-sscs-gamma129-v3'
 SRGB_ICC = ImageCms.ImageCmsProfile(ImageCms.createProfile('sRGB')).tobytes()
 
 def raw_camera_identity(source):
@@ -487,7 +487,7 @@ def reuse(source,job,output,pc=False,grid_key=None,grid_enabled=True):
     from grid_distillation import load_result
     value=json.loads((source/'result.json').read_text())
     if value.get('frontend_revision') != FRONTEND_REVISION:
-        raise ValueError('历史 RAW 预览使用旧版前端，请重新上传 RAW 生成包含 SSCS 的预览')
+        raise ValueError('历史照片缓存使用旧版前向，请重新生成包含完整129点Gamma的预览')
     if value.get('raw_calibration') and value['raw_calibration'] != RAW_CALIBRATION:
         raise ValueError('RAW 校准版本已变化，请重新上传照片')
     identity = value.get('target_source') or dict(kind='lut',sha256=value.get('lut_sha256'))

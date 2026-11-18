@@ -84,23 +84,15 @@ def native_update(tools,smooth,vector,base,grid,scorer,render_native,progress,ev
 
 
 def fields(params):
-    return dict(matrix_780f_hex=params['matrix_payload'].hex(),
-        cc1_direct_raw=params['cc1'].tolist(),gamma_7806_y=params['gamma_y'].tolist())
+    from native_gamma import parameter_fields
+    return parameter_fields(params)
 
 
 def decode_model(entry,factory):
     """Independent inverse of the native BIN fields used by the compiler."""
     from edit_parameter_context import ParameterContext
-    ctx=ParameterContext(factory);payload=bytearray(ctx.payload)
-    # 离线 B 端点评分只解码 bank 0；合法旧配方可以保留不同的 A1／A2。
-    for sector in range(16):
-        for coefficient in range(6):
-            at=24+2*(16*coefficient+(sector^1))
-            low=struct.unpack_from('<H',payload,at)[0]&3
-            struct.pack_into('<H',payload,at,((entry['block13'][0][sector][coefficient]<<2)&0xfffc)|low)
-    cc=entry['cc1_delta'][0]
-    return ctx.build(matrix_payload=payload,cc1=[cc[i]for i in (3,0,1,2)]+[2*cc[i]for i in (7,4,5,6)],
-        gamma_y=[2*v for v in entry['gamma_native_129'][:128]])
+    ctx=ParameterContext(factory)
+    return ctx.build(**core.slot_native_parameters(ctx,entry))
 
 
 def metrics(target,predicted):
@@ -152,7 +144,7 @@ def train(job,source,state,progress,settings, *, seed_entry=None):
     train_ids,_,_,weights=training_plan(split,data['anchor_index'],fitting['group_total_weights'],data['sector16_index'],
         data['baseline_tonal_index'] if fitting.get('tonal_balance') else None,selection,data['sample_kind'],options)
     valid=np.flatnonzero(split=='valid')
-    factory=RuntimeColor.from_capture(*baseline.for_job(job));ctx=ParameterContext(factory)
+    factory=RuntimeColor.from_capture(*baseline.for_job(job));ctx=ParameterContext(factory,native_gamma=True)
     if seed_entry is not None:
         from packed_training import canonical
         seed_entry=canonical(seed_entry)[0]
@@ -163,7 +155,9 @@ def train(job,source,state,progress,settings, *, seed_entry=None):
         from fit_bin_joint import grid_from
         parent_grid=grid_from(seed_entry)
     vector=vector_for(ParameterContext(initial_model));smooth=SmoothNative(ctx,data['input'][train_ids])
-    gamma=np.asarray(recipe['parameters']['gamma_7806_y'],dtype=int)
+    from native_gamma import parameter_values, from_raw
+    gamma=parameter_values(recipe['parameters'])['gamma_y']
+    if len(gamma)==128:gamma=2*from_raw(gamma)
     smooth.gamma_shape=FrozenGamma(gamma)
     params=dict(matrix_payload=bytes.fromhex(recipe['parameters']['matrix_780f_hex']),
         cc1=np.array(recipe['parameters']['cc1_direct_raw']),gamma_y=gamma.copy())

@@ -6,6 +6,8 @@ import shutil
 import struct
 import subprocess
 import sys
+import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import nullcontext
 from pathlib import Path
@@ -56,10 +58,13 @@ class UsbFixture:
         self.calls = []
 
     def __call__(self, executable, args, log, timeout):
-        assert 0 < timeout <= 8
+        assert 0 < timeout <= 15
         self.calls.append(args)
         if executable.name == "configure_fastboot_usb":
-            return 4 if self.failure == "multiple" else (2 if len(self.calls) == 1 else 0)
+            if args == ["--check"]:
+                return 4 if self.failure == "multiple" else (2 if len(self.calls) == 1 else 0)
+            assert args == []
+            return 0
         if args == ["getvar:version", "oem partition"]:
             rows = r5.expected_layout(self.table)
             if self.failure == "layout":
@@ -140,6 +145,80 @@ def test_manual_trigger_eof_does_not_reset(tmp_path, inputs):
     assert serial.commands == [(1, b"")]
 
 
+def test_poll_uart_flushes_live_capture_file(tmp_path):
+    class Capture:
+        def __init__(self):
+            self.data = bytearray()
+            self.flushed = 0
+        def write(self, data):
+            self.data.extend(data)
+        def flush(self):
+            self.flushed += 1
+
+    serial = FakeSerial()
+    serial.output += event(0x83, b"[mira] fastboot ready\\n")
+    capture = Capture()
+    bridge = r5.SerialBridge(serial, capture)
+    observed = bridge.poll_uart()
+    assert observed == b"[mira] fastboot ready\\n"
+    assert bytes(capture.data) == observed
+    assert capture.flushed >= 1
+
+
+def test_uart_poll_reconnects_after_device_configuration_error(tmp_path):
+    class DisconnectedSerial:
+        def __init__(self):
+            self.closed = False
+
+        def read(self, _size):
+            raise OSError(6, "Device not configured")
+
+        def close(self):
+            self.closed = True
+
+    class ReplacementSerial:
+        def __init__(self):
+            self.timeout = 0
+            self.output = bytearray(event(0x83, b"reconnected"))
+
+        def read(self, size):
+            data = bytes(self.output[:size])
+            del self.output[:size]
+            return data
+
+        def flush(self):
+            pass
+
+    capture = io.BytesIO()
+    original = DisconnectedSerial()
+    replacement = ReplacementSerial()
+    bridge = r5.SerialBridge(original, capture)
+    stop = threading.Event()
+    report = {}
+    reconnects = []
+
+    def reconnect():
+        reconnects.append(True)
+        return replacement
+
+    from manual_fastboot import poll_uart_until_exit
+    stop.clear()
+    poller = threading.Thread(
+        target=poll_uart_until_exit,
+        args=(bridge, stop, report, reconnect),
+    )
+    poller.start()
+    time_limit = time.monotonic() + 1
+    while not reconnects and time.monotonic() < time_limit:
+        time.sleep(0.01)
+    stop.set()
+    poller.join(timeout=1)
+    assert reconnects == [True]
+    assert original.closed
+    assert report["serial_reconnected"] is True
+    assert b"reconnected" in capture.getvalue()
+
+
 def test_full_flow_without_uart_ready_message(tmp_path, inputs):
     report, commands, usb = run(tmp_path, inputs)
     assert report["stage"] == "complete"
@@ -150,7 +229,7 @@ def test_full_flow_without_uart_ready_message(tmp_path, inputs):
     assert [c for c, _ in commands] == [1, 2, 3, *([4] * 64), 3, 5]
     assert r5.digest(b"".join(data for c, data in commands if c == 4)) == (
         "3604be189345d85deb701d22f145b8b7a28d606186ec287751a677ccbb9c2ebb")
-    assert [args[0] for args in usb if args] == [
+    assert [args[0] for args in usb if args and args != ["--check"]] == [
         "getvar:version", "oem partition dump nflasha 0 0x80", "oem dumpbrom"]
 
 
@@ -192,6 +271,110 @@ def test_malformed_uart_frame_does_not_block_usb_probe(tmp_path, inputs):
     assert report["usb_transport_verified"] is True
 
 
+def test_slow_configuration_gets_its_own_timeout(tmp_path, inputs):
+    table, records = inputs
+    usb = UsbFixture(table)
+    configuration_calls = []
+
+    def launch(executable, args, log, timeout):
+        if executable.name == "configure_fastboot_usb" and not args:
+            configuration_calls.append(timeout)
+            if timeout < 1:
+                raise subprocess.TimeoutExpired(str(executable), timeout)
+        return usb(executable, args, log, timeout)
+
+    report = r5.run_probe("fake", tmp_path / "run", table, records,
+                          opener=lambda *_: nullcontext(FakeSerial()), launch=launch,
+                          sleep=lambda _: None)
+    assert report["usb_transport_verified"] is True
+    assert len(configuration_calls) == 1
+
+
+def test_timed_out_configuration_is_not_retried(tmp_path, inputs):
+    table, records = inputs
+    calls = []
+
+    def launch(executable, args, log, timeout):
+        calls.append(args)
+        if args == ["--check"]:
+            return 0
+        raise subprocess.TimeoutExpired(str(executable), timeout)
+
+    report = r5.run_probe("fake", tmp_path / "run", table, records,
+                          opener=lambda *_: nullcontext(FakeSerial()), launch=launch,
+                          sleep=lambda _: None)
+    assert calls == [["--check"], []]
+    assert report["stage"] == "usb_configuration"
+    assert "配置超时" in report["error"]
+    assert report["usb_transport_verified"] is False
+
+
+def test_passive_check_timeout_keeps_waiting(tmp_path, inputs):
+    table, records = inputs
+    usb = UsbFixture(table)
+    checks = []
+
+    def launch(executable, args, log, timeout):
+        if args == ["--check"]:
+            checks.append(timeout)
+            if len(checks) == 1:
+                raise subprocess.TimeoutExpired(str(executable), timeout)
+        return usb(executable, args, log, timeout)
+
+    report = r5.run_probe("fake", tmp_path / "run", table, records,
+                          opener=lambda *_: nullcontext(FakeSerial()), launch=launch,
+                          sleep=lambda _: None)
+    assert report["usb_transport_verified"] is True
+    assert len(checks) >= 2
+
+
+@pytest.mark.parametrize("failure", [None, "stability"])
+def test_existing_usb_session_is_checked_without_serial(tmp_path, inputs, monkeypatch, failure):
+    assert callable(getattr(r5, "run_usb_check", None)), "缺少无需复位的 USB 检查入口"
+    table, _ = inputs
+    usb = UsbFixture(table)
+    waits = []
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("现有 USB 会话检查不得打开串口或重新引导")
+
+    monkeypatch.setattr(r5, "open_bridge", forbidden)
+    monkeypatch.setattr(r5, "start_ram", forbidden)
+
+    def launch(executable, args, log, timeout):
+        if log.name.startswith("stability-version-"):
+            log.write_text("COMMAND getvar:version\nREPLY OKAY0.5\n")
+            if failure == "stability":
+                return 5
+            return 0
+        return usb(executable, args, log, timeout)
+
+    run = tmp_path / "existing"
+    report = r5.run_usb_check(run, table, launch=launch, sleep=waits.append)
+    assert report["reset_attempted"] is False
+    assert report["persistent_write_commands_sent"] is False
+    assert report["serial_opened"] is False
+    assert report["stable_communication_verified"] == (failure is None)
+    assert report["stage"] == ("complete" if failure is None else "usb_stability")
+    assert (run / "report.json").is_file()
+    assert sum(waits) >= 60 if failure is None else "error" in report
+
+
+def test_existing_usb_session_stops_before_stability_on_configuration_failure(tmp_path, inputs):
+    assert callable(getattr(r5, "run_usb_check", None)), "缺少无需复位的 USB 检查入口"
+    table, _ = inputs
+    calls = []
+
+    def launch(executable, args, log, timeout):
+        calls.append(args)
+        return 0 if args == ["--check"] else 3
+
+    report = r5.run_usb_check(tmp_path / "failed", table, launch=launch, sleep=lambda _: None)
+    assert calls == [["--check"], []]
+    assert report["stage"] == "usb_configuration"
+    assert report["stable_communication_verified"] is False
+
+
 @pytest.mark.parametrize("banner,failure,expected_codes,reset", [
     (b"uart_boot 2", None, [1], False),
     (b"uart_boot 1", 2, [1, 2], True),
@@ -217,7 +400,7 @@ def test_usb_failure_preserves_evidence_without_retrying_reset(tmp_path, inputs,
     assert report["stage"] == expected_stage
     assert report["usb_transport_verified"] is False
     assert sum(code == 2 for code, _ in commands) == 1
-    assert sum(bool(args) for args in usb) == reads
+    assert sum(bool(args) and args != ["--check"] for args in usb) == reads
     assert "error" in report
     assert (tmp_path / "run" / "report.json").is_file()
 
@@ -263,8 +446,9 @@ def test_real_pyserial_uses_pty_only_and_does_not_send_after_partial_ack():
 
 
 @pytest.mark.parametrize("command", ["flash:nflasha5", "erase:nflasha5", "download:00000010",
-                                      "reboot", "oem poke:0x1000:0x0", "oem partition dump nflasha5"])
+                                      "oem poke:0x1000:0x0"])
 def test_native_helper_rejects_commands_before_usb_enumeration(command):
+    # 仅使用当前白名单拒绝的命令，避免离线测试访问真实 USB 设备。
     result = subprocess.run([str(r5.ROOT / r5.READER), command], capture_output=True, text=True)
     assert result.returncode == 2
     assert "Rejected command" in result.stderr

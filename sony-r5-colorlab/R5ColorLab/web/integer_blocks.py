@@ -19,7 +19,7 @@ def fingerprint():
     import core
     root = Path(__file__).resolve().parents[1]
     paths = [f'web/{name}' for name in SOURCES]+[f'scripts/{name}.py' for name in
-        ('edit_parameter_context','edit_color_pipeline','edit_native_model','residual_grid')]
+        ('edit_parameter_context','edit_color_pipeline','edit_native_model','native_gamma','residual_grid')]
     return {name: core.sha((root/name).read_bytes()) for name in paths}
 
 
@@ -195,7 +195,9 @@ class Directions:
         self.torch = self.tools.torch
         self.indices = np.r_[np.arange(scorer.ntrain),
                              np.arange(scorer.ntrain+scorer.nvalid,len(scorer.inputs))]
-        smooth = SmoothNative(scorer.context,scorer.inputs[self.indices])
+        from edit_parameter_context import ParameterContext
+        context=ParameterContext(scorer.context.base,native_gamma=True)
+        smooth = SmoothNative(context,scorer.inputs[self.indices])
         flat = np.array_equal(smooth.x,np.broadcast_to(smooth.x[:,4:5],smooth.x.shape))
         self.gpu = RoundedGPU(smooth,device=device,compact_flat=flat)
         self.target = self.tools.tensor(scorer.train_target)
@@ -219,7 +221,7 @@ class Directions:
         model, base = self.scorer.native(recipe.entry)
         tools, t = self.tools,self.torch
         vector = tools.tensor(vector_for(ParameterContext(model))).requires_grad_(True)
-        gamma = tools.tensor(np.array(recipe.entry['gamma_native_129'][:128])/8).requires_grad_(True)
+        gamma = tools.tensor(np.array(recipe.entry['gamma_native_129'])/8).requires_grad_(True)
         table = tools.tensor(grid_from(recipe.entry)).requires_grad_(True)
         self.gpu.override_gamma = gamma
         approximate = self.gpu.render(vector)/16383
@@ -237,7 +239,7 @@ class Directions:
             loss = loss + 30*(self.continuity.loss(probes)-self.continuity_limit).clamp(min=0)
         vg, gg, gridg = t.autograd.grad(loss,(vector,gamma,table))
         nativeg = np.r_[vg[:8].detach().cpu().numpy()*np.r_[np.full(4,1/256),np.full(4,1/64)],
-            vg[8:104].detach().cpu().numpy()/1024,gg[1:].detach().cpu().numpy()/8]
+            vg[8:104].detach().cpu().numpy()/1024,gg[1:-1].detach().cpu().numpy()/8]
         gradient = gridg.detach().cpu().numpy().astype(float)
         self.gpu.override_gamma = None
         if not np.isfinite(nativeg).all() or not np.isfinite(gradient).all():

@@ -95,7 +95,7 @@ def refine(config, grid, context, inputs, target, train, weights, eligible, gray
         initialization='frozen accepted BIN', training_samples=len(train))
     warm = context.build(**core.slot_native_parameters(context, seed))
     initial = vector_for(ParameterContext(warm))
-    smooth = SmoothNative(context, np.concatenate((inputs[train], bank.inputs(warm))))
+    smooth = SmoothNative(ParameterContext(warm), np.concatenate((inputs[train], bank.inputs(warm))))
     exact = np.concatenate((bin_base[train], probe_base))
     objective = StudentObjective(smooth, initial, exact, target[train], np.ones(len(train)),
         np.flatnonzero(gray[train]), bank, grid, response, perceptual, smoothing, strength)
@@ -129,7 +129,7 @@ def refine(config, grid, context, inputs, target, train, weights, eligible, gray
     continuous_vector = initial
     continuous_table = grid.astype(float)
     # 单一学生轨迹逐渐释放Gamma分辨率；不重复训练两个原生模型。
-    for controls, scale in ((17, 1.), (33, 10.), (128, 30.)):
+    for controls, scale in ((17, 1.), (33, 10.), (len(smooth.axis), 30.)):
         if time.perf_counter() >= deadline-25:
             break
         objective.initial = tools.tensor(continuous_vector)
@@ -187,7 +187,7 @@ def refine(config, grid, context, inputs, target, train, weights, eligible, gray
                 vector, gamma, table, _ = rounding.values(logits, hard=True)
                 vector = vector.cpu().numpy().astype(float)
                 entry = projected(seed, smooth.params(vector))
-                entry['gamma_native_129'] = np.rint(gamma.cpu().numpy()*8).astype(int).tolist()+[seed['gamma_native_129'][-1]]
+                entry['gamma_native_129'] = np.rint(gamma.cpu().numpy()*8).astype(int).tolist()
                 entry['grid_5x9x9'] = dict(coefficients=table.cpu().numpy().astype(int).T.reshape(3,5,9,9).tolist())
             for amount in (1., .25, .0625):
                 consider(blend_entries(seed,entry,amount),f'adaptive-rounding-{step+1}-{amount}')

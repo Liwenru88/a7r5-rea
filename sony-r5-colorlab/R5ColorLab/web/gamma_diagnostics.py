@@ -15,6 +15,9 @@ ORDINATE_DIVISOR = 16
 
 
 def _parameters(model):
+    if hasattr(model, 'native_gamma_129'):
+        from native_gamma import EDIT_AXIS, validate
+        return EDIT_AXIS.copy(), 2*validate(model.native_gamma_129)
     try:
         axis = np.frombuffer(model.raw, dtype='<i4', count=POINTS,
                              offset=0x5d8).astype(np.int64)
@@ -62,7 +65,7 @@ def _effective(model, dense_input, node_input):
     nodes = values[node_input]
     series = dict(output_14bit=nodes.tolist(),
                   adjacent_steps_14bit=np.diff(nodes).tolist(),
-                  adjacent_steps_scope='128 sampled integer nodes, not dense one-code steps',
+                  adjacent_steps_scope=f'{len(node_input)} sampled integer nodes, not dense one-code steps',
                   audit=dict(_step_audit(values),shared_neutral_rgb_response=True))
     return values, series
 
@@ -78,7 +81,7 @@ def _shape_audit(axis, values):
                 convex_transition_nodes=(np.flatnonzero(cross < 0) + 1).tolist(),
                 slope_raw_ratio=(dy / dx).tolist(),
                 zero_start=bool(values[0] == 0),
-                audit_scope='exact nonuniform 128-knot slopes before integer expansion/contrast')
+                audit_scope=f'exact nonuniform {len(axis)}-knot slopes before integer expansion/contrast')
 
 
 def compare(baseline, fitted):
@@ -92,6 +95,17 @@ def compare(baseline, fitted):
     """
     axis, before_parameters = _parameters(baseline)
     fitted_axis, after_parameters = _parameters(fitted)
+    promoted = len(axis) != len(fitted_axis)
+    if promoted:
+        from native_gamma import EDIT_AXIS, RAW_AXIS
+        def promote(x,y):
+            if np.array_equal(x,EDIT_AXIS):return y
+            if not np.array_equal(x,RAW_AXIS):raise ValueError('未验证的 Gamma 诊断横坐标')
+            # 仅补齐图示坐标；实际基线输出仍直接读取原运行表。
+            return np.trunc(np.interp(EDIT_AXIS,x,y)).astype(np.int64)
+        before_parameters=promote(axis,before_parameters)
+        after_parameters=promote(fitted_axis,after_parameters)
+        axis=fitted_axis=EDIT_AXIS.copy()
     if not np.array_equal(axis, fitted_axis):
         raise ValueError('Baseline and fitted MainGamma input axes differ')
     node_input = np.clip(axis // AXIS_DIVISOR, 0, INPUT_MAX).astype(np.int64)
@@ -105,8 +119,9 @@ def compare(baseline, fitted):
             input_label='Gamma 内部输入码值', output_label='Gamma 内部输出码值',
             scope='MainGamma only; not sRGB, final gray output, PC tone curve or secondary YGamma',
             runtime_samples='exact RuntimeColor.main_gamma lookup; integer expansion and contrast included',
-            stored_points=POINTS, stored_input_record='0x7805 signed int32',
-            stored_output_record='0x7806 signed int32, nonnegative 18-bit ordinates',
+            stored_points=len(axis), stored_input_record='CP native129 axis' if len(axis)==129 else '0x7805 signed int32',
+            stored_output_record='native129 in doubled Edit units' if len(axis)==129 else '0x7806 signed int32, nonnegative 18-bit ordinates',
+            legacy_baseline_node_interpolated=promoted,
             stored_input_divisor=AXIS_DIVISOR, stored_output_divisor=ORDINATE_DIVISOR,
             stored_output_scaling='raw y/16 is nominal control-point code units, not effective runtime output',
             runtime_input_domain=[0, INPUT_MAX], runtime_table_input_domain=[0, 32767],
@@ -126,7 +141,7 @@ def compare(baseline, fitted):
             fitted_output_raw=after_parameters.tolist(),
             baseline_output_14bit=(before_parameters / ORDINATE_DIVISOR).tolist(),
             fitted_output_14bit=(after_parameters / ORDINATE_DIVISOR).tolist(),
-            audit=dict(scope='128 stored parameter knots, before native table expansion/contrast',
+            audit=dict(scope=f'{len(axis)} parameter knots, before native table expansion/contrast',
                        same_axis=True,
                        baseline_monotone=bool(np.all(np.diff(before_parameters) >= 0)),
                        fitted_monotone=bool(np.all(np.diff(after_parameters) >= 0)),

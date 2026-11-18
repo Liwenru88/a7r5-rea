@@ -50,6 +50,18 @@ def main():
         audit=json.loads((job/'stack_audit.json').read_text())
         parent=args.output/state['base_job']
         recipe=json.loads((parent/'fit/recipe.json').read_text())
+        assert len(recipe['parameters']['gamma_native_129'])==129
+        assert len(recipe['parameters']['gamma_7806_y'])==128
+        assert recipe['fitting']['gamma_optimized_points']==129
+        from native_gamma import POLICY as GAMMA_POLICY
+        quality=json.loads((job/'quality_selection.json').read_text())
+        assert quality['gamma_forward_policy']==GAMMA_POLICY
+        from grid_distillation import model_for_config
+        from edit_parameter_context import ParameterContext,RuntimeColor
+        import baseline
+        context=ParameterContext(RuntimeColor.from_capture(*baseline.for_job(job)))
+        preview_model=context.build(**core.slot_native_parameters(context,config['entries'][0]))
+        assert preview_model.runtime==model_for_config(job,config).runtime
         summary=dict(schema='r5-hybrid-update-smoke/1',seconds=round(time.monotonic()-started,2),
             job=identifier,parent=state['base_job'],status=state['status'],
             target_sha256=core.sha(data),target_name=target.name,
@@ -61,6 +73,8 @@ def main():
             gpu_fallbacks=[r for r in recipe['fitting'].get('convergence',[]) if r.get('backend')=='GPU fallback'],
             grid_continuation_rounds=5,stack_rounds=len(audit['rounds']),
             camera_connected=False,production_filter=False)
+        summary.update(gamma_forward_policy=GAMMA_POLICY,native_gamma_points=129,
+            raw_projection_points=128,preview_and_acceptance_runtime_equal=True)
         training_profile.save(args.output/'smoke-summary.json',summary)
         print(json.dumps(summary,ensure_ascii=False,indent=2))
 

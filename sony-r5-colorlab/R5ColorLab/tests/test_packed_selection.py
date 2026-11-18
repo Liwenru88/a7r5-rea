@@ -197,12 +197,13 @@ class CandidateArchiveTests(unittest.TestCase):
 
 
 class CustomBudgetTests(unittest.TestCase):
-    def test_custom_budget_does_not_inherit_formal_only_policy(self):
+    def test_historical_custom_request_keeps_comparison_snapshot_in_c(self):
         body=bind(dict(target_kind='chart-image',training_profile='custom',number=24,
                        packed_selection_policy='native-packed-quality/1',packed_baseline={'old':'data'},quality_set='a'*64))
-        self.assertNotIn('packed_selection_policy',body)
-        self.assertNotIn('packed_baseline',body)
-        self.assertNotIn('quality_set',body)
+        self.assertEqual(body['training_profile'],'native-joint/1')
+        self.assertEqual(body['joint_options']['selection_policy'],'force-new')
+        self.assertEqual(body['packed_baseline'],{'old':'data'})
+        self.assertEqual(body['quality_set'],'a'*64)
 
 
 if __name__=='__main__':unittest.main()

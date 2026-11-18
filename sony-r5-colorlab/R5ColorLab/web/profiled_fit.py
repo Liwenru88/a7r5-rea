@@ -75,7 +75,8 @@ def fit(reference, data, *, seconds=60, progress=None):
         raise ValueError('核心求解预算必须为正数')
     started = time.perf_counter()
     deadline = started + seconds
-    context = data['context']
+    from edit_parameter_context import ParameterContext
+    context = ParameterContext(data['context'].base,native_gamma=True)
     inputs, target, train = data['inputs'], data['target'], data['train']
     gray, valid, bank = data['gray'], data['validation'], data['bank']
     if valid[train].any() or not np.isin(np.flatnonzero(gray), train).all():

@@ -1,4 +1,4 @@
 {
-  "host/configure_fastboot_usb": "3171d15c2769482afb6efdb5a498f6f53273f2c8165c7152dc15f79b2f131007",
-  "host/read_fastboot_usb": "7506de3c0c04f8da03caff5ce00abd6eec8bda7f0b4ffa8eee34f3b2bb89c0cc"
+  "host/configure_fastboot_usb": "4543ed2b5f50cef4122e22a608dec6abff0f7d59c782e0c31003de32fada7595",
+  "host/read_fastboot_usb": "f2b74e69dcc4be489e76bf14a2e0aeaef32ddbc19f2c8b80d417f9052f3a84bb"
 }

@@ -87,9 +87,9 @@ class HybridUpdateTests(unittest.TestCase):
     def test_web_explains_formal_budget(self):
         html = (WEB/'static/index.html').read_text()
         script = (WEB/'static/app.js').read_text()
-        self.assertIn('正式方案', html)
-        self.assertIn('value="custom"', html)
-        self.assertIn('upstream-formal/1', script)
+        self.assertIn('C · 原生四组联合训练', html)
+        self.assertNotIn('value="custom"', html)
+        self.assertNotIn('upstream-formal/1', script)
 
     def test_new_default_preserves_gray_axis(self):
         self.assertEqual(default_response(), HYBRID)
@@ -120,9 +120,9 @@ class HybridUpdateTests(unittest.TestCase):
         self.assertEqual(bound['evaluations'], 2000)
         self.assertEqual(bound['pc_options']['response'], HYBRID)
         self.assertEqual(bound['search_options']['starts'], 12)
-        self.assertTrue(bound['search_options']['postfit_deburr'])
+        self.assertFalse(bound['search_options']['postfit_deburr'])
         self.assertEqual(PROFILE['settings']['rounds'], 3)
-        self.assertEqual(bound['training_profile'], 'upstream-formal/1')
+        self.assertEqual(bound['training_profile'], 'native-joint/1')
         self.assertEqual(request['evaluations'], 7)
 
 

@@ -95,9 +95,10 @@ def _refine_once(config, grid, context, inputs, target, train, weights, eligible
     if not groups or np.allclose(focused, weights):
         return None, grid, {**audit, 'reason': 'no-distinct-chromatic-cohorts'}
 
-    smooth = SmoothNative(context, inputs[train])
     warm = context.build(**core.slot_native_parameters(context, seed))
-    initial = vector_for(ParameterContext(warm))
+    native_context = ParameterContext(warm)
+    smooth = SmoothNative(native_context, inputs[train])
+    initial = vector_for(native_context)
     probes = bank.inputs(warm)
     gray_rows = np.flatnonzero(gray[train])
     baseline_gray = model.predict_cpu(bin_base[train[gray_rows]], grid)
@@ -108,7 +109,7 @@ def _refine_once(config, grid, context, inputs, target, train, weights, eligible
                       response, perceptual, smoothing)
     if constrained:
         objective = GuardedMatrixObjective(*objective_args, bank=bank,
-            probe_smooth=SmoothNative(context, probes), gray_rows=gray_rows,
+            probe_smooth=SmoothNative(native_context, probes), gray_rows=gray_rows,
             baseline_gray=baseline_gray, baseline_probes=baseline_probes)
     else:
         objective = CompressedGridObjective(*objective_args)
