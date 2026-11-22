@@ -77,7 +77,10 @@ class FileResultError(ValueError):
         }
         label = {'select': '选择文件', 'read': '读取文件', 'write': '上传文件'}.get(action, '文件请求')
         detail = meanings.get((action, result), '未知文件错误')
-        super().__init__(f'{label}失败：{detail}（0x{result:08x}）' + (f'；路径：{path}' if path else ''))
+        hint = ''
+        if action == 'write' and result == 0x10000008 and path and path.startswith('/tmp/jiritsu/'):
+            hint = '（/tmp/jiritsu 为 nflasha6 FAT12 持久分区，限 512 槽位；若已满请使用 --engine kit 或经 SSH 清理历史残留）'
+        super().__init__(f'{label}失败：{detail}（0x{result:08x}）' + (f'；路径：{path}' if path else '') + hint)
 
 
 def wire(path):

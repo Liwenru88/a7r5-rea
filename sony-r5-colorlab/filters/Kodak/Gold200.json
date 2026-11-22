@@ -1,0 +1,13 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "Gold200",
+  "name": "柯达 Gold 200 暖金日光",
+  "short_name": "Gold200",
+  "series": "Kodak",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "d17482d4c2aa15724d7a82b4acbc9b088b69761225c0f60280a5e7b9b96b59ed",
+  "camera_tested": false,
+  "order": 14,
+  "type": "color-film"
+}

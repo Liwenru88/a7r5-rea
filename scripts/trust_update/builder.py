@@ -89,7 +89,7 @@ def _write_headers(build_dir, engine, run_id, materials, *, restore_preload=None
     if engine == 'kit':
         if restore_preload is None:
             raise ValueError('kit 载荷编译需要指定还原用 preload 基线')
-        kit_so = f'/tmp/jiritsu/a7r5-{run_id}.so'
+        kit_so = f'/tmp_wbshd/a7r5-trust-{run_id}.so'
         jit_defs.update(
             {
                 'PRELOAD_PATH': '/etc/ld.so.preload',

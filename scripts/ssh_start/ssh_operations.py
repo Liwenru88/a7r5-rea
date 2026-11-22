@@ -79,7 +79,7 @@ class JoinedSSHOperation:
             self.writes[self.ticket_path] = self.ticket_bytes
             self.writes['/tmp/jiritsu/libJit.so'] = self.libjit_bytes
         else:
-            self.kit_so_path = f'/tmp/jiritsu/a7r5-{self.run_id}.so'
+            self.kit_so_path = f'/tmp_wbshd/a7r5-ssh-{self.run_id}.so'
             self.arm_bytes = (self.kit_so_path + '\n').encode('ascii')
             self.reads[self.kit_so_path] = 1048576
             self.kit_payloads = {

@@ -265,7 +265,8 @@ def main(argv=None):
         progress('即将申请本机管理员权限 (sudo) 以接管相机 USB 接口，请在下方输入电脑密码：')
         forward = [
             'sudo',
-            str(Path(sys.executable).resolve()),
+            # 保留 .venv 软链接路径，避免 resolve() 后绕过 pyvenv.cfg 丢失虚拟环境依赖
+            os.path.abspath(sys.executable),
             '-B',
             str(Path(__file__).resolve()),
             '--engine',

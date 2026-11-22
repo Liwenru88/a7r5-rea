@@ -335,7 +335,7 @@ class KitTrustOperation(_BaseTrustOperation):
 
     def __init__(self, package_dir, channel_factory=Channel, clock=time.monotonic, sleep=time.sleep):
         super().__init__(package_dir, channel_factory, clock, sleep)
-        self.kit_so_path = f'/tmp/jiritsu/a7r5-{self.run_id}.so'
+        self.kit_so_path = f'/tmp_wbshd/a7r5-trust-{self.run_id}.so'
         self.arm_bytes = (self.kit_so_path + '\n').encode('ascii')
         self.allow_debug = False
         self.reads[self.kit_so_path] = 1048576

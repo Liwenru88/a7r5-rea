@@ -213,7 +213,8 @@ def main(argv=None):
 
     if os.geteuid() != 0:
         progress('即将申请本机管理员权限 (sudo) 以接管相机 USB 接口，请在下方输入电脑密码：')
-        os.execv('/usr/bin/sudo', ['sudo', str(Path(sys.executable).resolve()), '-B', str(Path(__file__).resolve()), *sys.argv[1:]])
+        # 保留 .venv 软链接路径，避免 resolve() 后绕过 pyvenv.cfg 丢失虚拟环境依赖
+        os.execv('/usr/bin/sudo', ['sudo', os.path.abspath(sys.executable), '-B', str(Path(__file__).resolve()), *sys.argv[1:]])
 
     if args.restore_only:
         return run_restore_only()

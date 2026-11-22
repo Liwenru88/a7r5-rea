@@ -2,8 +2,9 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>R5 色彩工作台</title><link rel="stylesheet" href="/style.css"></head>
 <body>
-<header><a class="brand" href="/">R5<span>COLOR LAB</span></a><div class="header-right"><span class="dot"></span>本地运行 <span class="tag">ILCE-7RM5 · 4.23</span></div></header>
+<header><div class="header-left"><a class="brand" href="/">R5<span>COLOR LAB</span></a><nav class="app-nav" aria-label="主功能切换"><button type="button" data-app-view="workbench" class="active" aria-pressed="true">色彩工作台</button><button type="button" data-app-view="library" aria-pressed="false">全部滤镜 · 24槽 <span id="navLibraryCount" class="nav-badge">…</span></button></nav></div><div class="header-right"><span class="dot"></span>本地运行 <span class="tag">ILCE-7RM5 · 4.23</span></div></header>
 <main>
+<div id="workbenchView">
 <section class="project-toolbar" id="workspaceToolbar">
   <div class="project-heading"><p class="eyebrow">R5 COLOR LAB</p><h1 id="workspaceTitle">滤镜工程</h1><span id="workspaceStatus" role="status">正在读取工程…</span></div>
   <div class="project-controls">
@@ -221,7 +222,51 @@
   <button id="workspaceCopy" class="secondary full">复制到空槽</button>
 </section><section class="card export-card"><p class="eyebrow">YOUR FILTER COLLECTION</p><h2>导出集</h2><p class="hint">支持24个自定义槽。新建库仅用1～12号自动导出v4，出现13～24号使用v5；导入的v5库保留v5格式。导入时完整替换，未列出的槽会清除；空配置可清空全部。</p><div id="collection" class="collection"></div><p class="hint">支持 v4／v5。每项配置必须明确选择原厂 5×9×9 网格、绑定完成的压缩结果，或保持已校验的导入 BIN 色彩参数。手动改动压缩参数后需重新压缩，或重新选择原厂网格；空集仍可用于清空。</p><button id="export" class="primary full">导出配置包 ↓</button><button id="saveProject" class="secondary full">保存配置 JSON</button><label class="secondary import-button">导入 R5NATIVE.BIN<input id="importBin" type="file" accept=".bin,.BIN"></label><p class="hint">支持十二槽 v4 与二十四槽 v5，校验后预览并确认替换页面配置库。导入 BIN 可改名称和槽号；色彩参数改变后需恢复、重新训练或选择原厂网格。</p><label class="secondary import-button">导入配置 JSON<input id="importProject" type="file" accept=".json"></label><p id="exportStatus" class="hint" aria-live="polite"></p><hr><h3>配置包包含</h3><p class="hint">R5NATIVE.BIN<br>native_config.json<br>export_audit.json</p><h3>使用方式</h3><p class="hint">需要 4.23 固件，旧格式不兼容。将 BIN 放入 SD 根目录，重新开机导入。在“自定义滤镜”中选择配置，选择即保存；“关闭”恢复原厂参数。原厂“创意外观”单独选择，附加处理与 Gamma 尾部保留。</p></section><div class="notice"><strong>当前精度边界</strong><p>拟合器的最终 LUT 颜色精度尚未通过。数值误差、模型色块和文件校验不能替代实际颜色验收。BW / SE 仍保留黑白 / 棕褐语义。</p><p>FL2 / FL3 基线为现有 FX2 参数适配；其余为 R5 原生普通场景参数。</p></div></aside>
 </div>
-</main><footer>R5 COLOR LAB <span>所有计算与文件处理均在本机进行</span></footer><div id="toast" role="status" hidden></div><script src="/workspace.js"></script><script src="/photo-metrics.js"></script><script src="/app.js"></script>
+</div>
+<section id="filterLibraryView" class="lib-shell" hidden aria-label="全部滤镜与 24 槽位自定义">
+  <aside class="card lib-sidebar">
+    <div class="section-title"><h2>分类</h2></div>
+    <div id="libCategoryList" class="lib-cat-list"></div>
+  </aside>
+  <section class="card lib-main">
+    <div class="lib-main-head">
+      <div>
+        <h2 id="libMainTitle">全部滤镜</h2>
+        <p id="libMainCount" class="hint">正在读取…</p>
+      </div>
+      <div class="lib-search-wrap">
+        <input id="libSearch" type="search" placeholder="搜索滤镜（名称、简称、系列…）" autocomplete="off">
+      </div>
+    </div>
+    <p id="libGridStatus" class="hint" aria-live="polite"></p>
+    <div id="libCardContainer"></div>
+  </section>
+  <aside class="card lib-resource">
+    <div class="lib-resource-head">
+      <div>
+        <p class="eyebrow">相机槽位</p>
+        <h2>资源栏 <span id="libSlotCount" class="lib-slot-count">0 / 24</span></h2>
+      </div>
+      <button id="libClearAll" class="secondary" type="button" disabled>清空</button>
+    </div>
+    <div id="libSlotMeter" class="lib-slot-meter" aria-label="24 槽位占用进度"></div>
+    <div id="libEmptyState" class="lib-empty">
+      <strong>还没有选择滤镜</strong>
+      <p class="hint">可跨系列添加，列表顺序对应相机槽位 1–24。</p>
+    </div>
+    <div id="libSelectedList" class="lib-selected-list"></div>
+    <div class="lib-resource-foot">
+      <button id="libDownloadBin" class="primary full" type="button" disabled>下载整合 BIN ↓</button>
+      <div class="lib-secondary-actions">
+        <button id="libDownloadZip" class="secondary" type="button" disabled>下载配置包 ZIP</button>
+        <button id="libImportToProject" class="secondary" type="button" disabled>导入到新工程</button>
+      </div>
+      <p id="libFormatNote" class="hint">R5NATIVE.BIN · 最多 24 槽</p>
+      <p id="libPackStatus" class="hint" aria-live="polite"></p>
+    </div>
+  </aside>
+</section>
+</main><footer>R5 COLOR LAB <span>所有计算与文件处理均在本机进行</span></footer><div id="toast" role="status" hidden></div><script src="/workspace.js"></script><script src="/photo-metrics.js"></script><script src="/app.js"></script><script src="/filter-library.js"></script>
 <dialog id="importDialog" aria-labelledby="importTitle"><h2 id="importTitle">确认导入配置库</h2><p id="importPreview" class="import-preview"></p><div class="dialog-actions"><button id="cancelImport" class="secondary" type="button">取消，保留当前内容</button><button id="workspaceMerge" class="secondary" type="button" hidden>合并到空槽</button><button id="confirmImport" class="primary" type="button">确认替换页面配置</button></div></dialog><dialog id="workspaceExportDialog" aria-labelledby="workspaceExportTitle">
   <h2 id="workspaceExportTitle">导出 R5NATIVE.BIN</h2>
   <p>BIN 包含已保存槽位，会在导入时替换机内配方库。工程草稿可以单独保留。</p>
@@ -237,4 +282,4 @@
   <div class="dialog-actions"><form method="dialog"><button class="secondary">取消</button></form>
   <button id="workspaceExportSaved" class="secondary">只导出已保存槽位</button>
   <button id="workspaceSaveAndExport" class="primary">保存全部草稿并导出</button></div>
-</dialog></body></html>
+</dialog><dialog id="libDetailDialog" class="lib-detail-dialog" aria-labelledby="libDetailTitle"><div class="lib-detail-head"><h2 id="libDetailTitle">滤镜详情</h2><button id="libDetailToggleSlot" class="secondary" type="button"></button></div><div id="libDetailToolbar" class="lib-detail-toolbar" hidden><div id="libDetailPhotoTabs" class="lib-seg-group" role="group" aria-label="选择样片"></div><div id="libDetailModeTabs" class="lib-seg-group" role="group" aria-label="对比模式"></div><button id="libDetailHoldOrig" class="secondary lib-hold-btn" type="button" hidden>按住看原片</button></div><div id="libDetailStage" class="lib-detail-stage" hidden></div><pre id="libDetailBody"></pre><div class="dialog-actions"><form method="dialog"><button class="primary">关闭</button></form></div></dialog></body></html>

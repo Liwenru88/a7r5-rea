@@ -1,0 +1,30 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "KCKodachrome641987-NB",
+  "name": "Kodachrome 64 1987 NB",
+  "short_name": "K64-87-NB",
+  "series": "Kodachrome",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "f7a13bf99feb87812a4d1841d7ed91322e235f01483cbe7692655e08594345cf",
+  "camera_tested": false,
+  "order": 75,
+  "type": "color-film",
+  "training_error": {
+    "status": "available",
+    "metric": "ΔE00",
+    "mean": 1.267979252567289,
+    "p95": 3.1550975846236518,
+    "maximum": 9.761627576548475,
+    "samples": 17343,
+    "split": "test",
+    "protocol": "v45-workbench-test-17343",
+    "label": "v4.5 训练台测试集",
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "encoding": "float display sRGB (clip 0..1, no 8-bit quantization) -> D65 Lab -> CIEDE2000",
+    "operator_sha256": "1d74680defab8ceb9dfe92b39bb5e16cbcd0e73abbe62e9fd1126d980557b195",
+    "parameter_sha256": "59f62297f914548e3ef35ba24edf180c31a77987c9307fd36d771fe0c5e6e7bb",
+    "source": "cpu_recompute_float_srgb",
+    "note": "最终整数原生参数与打包网格，按该任务记录的算子评测。"
+  }
+}

@@ -236,8 +236,11 @@ class TestSSHStart(unittest.TestCase):
                 self.assertTrue(report['service_ready'])
                 self.assertTrue(report['preload_unchanged'])
                 self.assertEqual(report['trigger_attempts'], 1)
+                self.assertTrue(op.prefix.startswith('/tmp_wbshd/'))
                 if engine == 'kit':
                     self.assertEqual(driver.debug_count, 1)
+                    self.assertTrue(op.kit_so_path.startswith('/tmp_wbshd/'))
+                    self.assertFalse(any(p.startswith('/tmp/jiritsu/') for p in op.writes))
 
     def test_failure_gates_block_stop(self):
         with self.assertRaises(ValueError):
@@ -300,6 +303,30 @@ class TestSSHStart(unittest.TestCase):
             self.assertIn('root@192.168.122.1', res['login_command'])
             self.assertIn('-p 2222', res['login_command'])
             self.assertTrue((Path(tmp) / 'run1/known_hosts').is_file())
+
+    def test_sudo_reexec_preserves_venv_symlink(self):
+        from unittest import mock
+
+        captured = {}
+
+        def fake_execv(path, argv):
+            captured['path'] = path
+            captured['argv'] = argv
+            raise SystemExit(0)
+
+        with tempfile.TemporaryDirectory(prefix='a7r5-ssh-sudo-') as tmp:
+            tmp_dir = Path(tmp)
+            with (
+                mock.patch.object(start_ssh.os, 'geteuid', return_value=1000),
+                mock.patch.object(start_ssh.os, 'execv', side_effect=fake_execv),
+                mock.patch.object(start_ssh, '_create_run_dir', return_value=tmp_dir),
+            ):
+                with self.assertRaises(SystemExit):
+                    start_ssh.main(['--password', 'SudoPathTest!2026'])
+                self.assertTrue((tmp_dir / '.pwd.hash').is_file())
+
+        self.assertEqual(captured['path'], '/usr/bin/sudo')
+        self.assertEqual(captured['argv'][1], start_ssh.os.path.abspath(start_ssh.sys.executable))
 
 
 if __name__ == '__main__':

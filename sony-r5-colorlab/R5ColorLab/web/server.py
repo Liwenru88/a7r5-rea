@@ -23,6 +23,7 @@ import core
 import chart_target
 import chart_datasets
 import export_policy423
+import filter_library
 import projects
 import batch_training
 from grid_models import default_response
@@ -367,6 +368,12 @@ class Handler(BaseHTTPRequestHandler):
             return self.respond(dict(error='Local origin required'), status=403)
         path = urlparse(self.path).path
         try:
+            if path == '/api/filter-library':
+                return self.respond(filter_library.catalog())
+            if path.startswith('/api/filter-samples/'):
+                from urllib.parse import unquote
+                rel = unquote(path[len('/api/filter-samples/'):])
+                return self.respond(filter_library.sample_file(rel).read_bytes(), 'image/jpeg')
             if path == '/api/projects':
                 return self.respond(projects.Store(RUNS).list())
             if path == '/api/projects/open':
@@ -550,6 +557,7 @@ class Handler(BaseHTTPRequestHandler):
             assets = {'/': ('index.html', 'text/html; charset=utf-8'),
                       '/photo-metrics.js': ('photo-metrics.js', 'text/javascript; charset=utf-8'),
                       '/workspace.js': ('workspace.js', 'text/javascript; charset=utf-8'),
+                      '/filter-library.js': ('filter-library.js', 'text/javascript; charset=utf-8'),
                       '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
                       '/style.css': ('style.css', 'text/css; charset=utf-8')}
             if path in assets:
@@ -893,6 +901,21 @@ class Handler(BaseHTTPRequestHandler):
                         SD_import_policy='replace-entire-set; missing selected configuration turns custom filter off',
                         compiler_sha256=core.sha(compiler_path.read_bytes()))))
                 return self.respond(memory.getvalue(), 'application/zip', filename='r5-native-config.zip')
+            if path == '/api/filter-library/pack':
+                fmt = (body.get('format') or 'bin').lower()
+                items = body.get('items') or []
+                if fmt == 'project':
+                    with LOCK:
+                        return self.respond(filter_library.import_bundle_to_project(items, RUNS))
+                payload, config, audit = filter_library.pack_bundle(items)
+                if fmt == 'zip':
+                    memory = io.BytesIO()
+                    with zipfile.ZipFile(memory, 'w', zipfile.ZIP_DEFLATED) as archive:
+                        archive.writestr('native_config.json', dump(config))
+                        archive.writestr('R5NATIVE.BIN', payload)
+                        archive.writestr('export_audit.json', dump(audit))
+                    return self.respond(memory.getvalue(), 'application/zip', filename='r5-native-config.zip')
+                return self.respond(payload, 'application/octet-stream', filename='R5NATIVE.BIN')
             if path == '/api/validate':
                 value=export_policy423.configuration(body)
                 if 'export_sources' in body:

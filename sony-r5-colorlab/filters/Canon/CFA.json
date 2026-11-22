@@ -1,0 +1,30 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "CFaithful",
+  "name": "Canon Faithful",
+  "short_name": "CFA",
+  "series": "Canon",
+  "description": "",
+  "updated": "2026-11-18",
+  "sha256": "5cf1153c25e53bde62e9b5a46aec9a7ad06100dbd18d833d291b61fea60ab49f",
+  "camera_tested": false,
+  "order": 17,
+  "type": "digital",
+  "training_error": {
+    "status": "available",
+    "metric": "ΔE00",
+    "mean": 1.0083022407252549,
+    "p95": 2.3007512388087306,
+    "maximum": 7.065935498479074,
+    "samples": 17343,
+    "split": "test",
+    "protocol": "v45-workbench-test-17343",
+    "label": "v4.5 训练台测试集",
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "encoding": "float display sRGB (clip 0..1, no 8-bit quantization) -> D65 Lab -> CIEDE2000",
+    "operator_sha256": "adcac4c201dd873c7a7f35a79abb4d59986a071443ac65a56208f69cf9c85809",
+    "parameter_sha256": "e6de3bc56348ef72118924294d5334015b4f572028a9dd8245d678d0bea4d58a",
+    "source": "cpu_recompute_float_srgb",
+    "note": "最终整数原生参数与打包网格，按该任务记录的算子评测。"
+  }
+}

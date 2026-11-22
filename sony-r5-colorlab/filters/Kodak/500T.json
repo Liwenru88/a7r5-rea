@@ -1,0 +1,13 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "500T",
+  "name": "柯达 Vision3 500T 冷蓝都市",
+  "short_name": "500T",
+  "series": "Kodak",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "9c153a758dbe509f2adc4525d68d0ee2f78e4deaeebf1b1b6a416ca7195002c5",
+  "camera_tested": false,
+  "order": 15,
+  "type": "color-film"
+}

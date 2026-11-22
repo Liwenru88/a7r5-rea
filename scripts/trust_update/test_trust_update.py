@@ -363,6 +363,8 @@ class TestTrustUpdate(unittest.TestCase):
                 if engine == 'kit':
                     self.assertTrue(report['debug_commands_sent'])
                     self.assertEqual(driver.debug_count, 1)
+                    self.assertTrue(op.kit_so_path.startswith('/tmp_wbshd/'))
+                    self.assertFalse(any(p.startswith('/tmp/jiritsu/') for p in op.writes))
 
     def test_failure_gates_block_stop(self):
         for mode in ('precheck_47', 'resource_43', 'corrupt_sector'):
@@ -427,6 +429,26 @@ class TestTrustUpdate(unittest.TestCase):
             self.assertTrue(res['succeeded'])
             self.assertTrue(res['ordinary_usb_restored'])
             self.assertTrue((Path(tmp) / 'run1/result.json').is_file())
+
+    def test_sudo_reexec_preserves_venv_symlink(self):
+        from unittest import mock
+
+        captured = {}
+
+        def fake_execv(path, argv):
+            captured['path'] = path
+            captured['argv'] = argv
+            raise SystemExit(0)
+
+        with (
+            mock.patch.object(update_trust.os, 'geteuid', return_value=1000),
+            mock.patch.object(update_trust.os, 'execv', side_effect=fake_execv),
+        ):
+            with self.assertRaises(SystemExit):
+                update_trust.main(['--engine', 'libjit'])
+
+        self.assertEqual(captured['path'], '/usr/bin/sudo')
+        self.assertEqual(captured['argv'][1], update_trust.os.path.abspath(update_trust.sys.executable))
 
 
 if __name__ == '__main__':

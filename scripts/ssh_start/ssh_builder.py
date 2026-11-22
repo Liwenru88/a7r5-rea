@@ -147,7 +147,8 @@ def build_ssh_package(package_dir, engine, run_id, password_hash, baseline_host,
     mat_dir.mkdir(parents=True, exist_ok=True)
     build_dir.mkdir(parents=True, exist_ok=True)
 
-    prefix = '/tmp/jiritsu/a7r5-ljssh-' + run_id
+    # 将程序与控制文件平铺到 /tmp_wbshd 内存盘，避免消耗 /tmp/jiritsu (nflasha6 FAT12) 根目录槽位
+    prefix = '/tmp_wbshd/a7r5-ljssh-' + run_id
     ram_name = 'a7r5-libjit-ssh-' + run_id
     private = '/var/run/' + ram_name
     ram_directory = '/tmp_network/' + ram_name
@@ -234,7 +235,7 @@ LogLevel ERROR
         _compile_elf(SSH_SRC / 'trigger.c', mat_dir / 'libJit.so', build_dir, shared=True)
         (mat_dir / 'ticket.bin').write_text(base_trigger['TICKET_BYTES'])
     else:
-        kit_so = f'/tmp/jiritsu/a7r5-{run_id}.so'
+        kit_so = f'/tmp_wbshd/a7r5-ssh-{run_id}.so'
         for name, hex_bytes in profile['preload_baselines']:
             sub_dir = build_dir / f'kit-{name}'
             sub_dir.mkdir(parents=True, exist_ok=True)

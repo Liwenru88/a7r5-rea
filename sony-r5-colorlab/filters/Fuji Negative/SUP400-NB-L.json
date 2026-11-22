@@ -1,0 +1,30 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "FNSuperia400-NB-L",
+  "name": "Elite Fuji Superia400 NB (linear)",
+  "short_name": "SUP400-NB-L",
+  "series": "Fuji Negative",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "c44cffbd96befa561a79bcbeaddffd756486be688eefdd776d866062992a157e",
+  "camera_tested": false,
+  "order": 54,
+  "type": "color-film",
+  "training_error": {
+    "status": "available",
+    "metric": "ΔE00",
+    "mean": 1.2438839445488952,
+    "p95": 3.016977109309802,
+    "maximum": 8.217937950767334,
+    "samples": 17343,
+    "split": "test",
+    "protocol": "v45-workbench-test-17343",
+    "label": "v4.5 训练台测试集",
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "encoding": "float display sRGB (clip 0..1, no 8-bit quantization) -> D65 Lab -> CIEDE2000",
+    "operator_sha256": "adcac4c201dd873c7a7f35a79abb4d59986a071443ac65a56208f69cf9c85809",
+    "parameter_sha256": "5e088e3f15350cd353a235a2b4e3567a162e1ef9854f4300804ab9b8c8899983",
+    "source": "cpu_recompute_float_srgb",
+    "note": "最终整数原生参数与打包网格，按该任务记录的算子评测。"
+  }
+}

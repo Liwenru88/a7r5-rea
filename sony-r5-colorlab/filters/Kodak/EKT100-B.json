@@ -1,0 +1,30 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "KEktar100-B",
+  "name": "Elite Kodak Ektar100 B",
+  "short_name": "EKT100-B",
+  "series": "Kodak",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "77d73105dee23ed875ae50b196cb21720c3e4bddc45a20e9d7398bc0b679ebdf",
+  "camera_tested": false,
+  "order": 84,
+  "type": "color-film",
+  "training_error": {
+    "status": "available",
+    "metric": "ΔE00",
+    "mean": 1.3035586238903025,
+    "p95": 3.115452014128477,
+    "maximum": 10.558612659223497,
+    "samples": 17343,
+    "split": "test",
+    "protocol": "v45-workbench-test-17343",
+    "label": "v4.5 训练台测试集",
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "encoding": "float display sRGB (clip 0..1, no 8-bit quantization) -> D65 Lab -> CIEDE2000",
+    "operator_sha256": "1d74680defab8ceb9dfe92b39bb5e16cbcd0e73abbe62e9fd1126d980557b195",
+    "parameter_sha256": "6c52ea952f68e8fed19edbd76d2ecfd87e15e1513ee985d20b5fa812b4a6ad25",
+    "source": "cpu_recompute_float_srgb",
+    "note": "最终整数原生参数与打包网格，按该任务记录的算子评测。"
+  }
+}

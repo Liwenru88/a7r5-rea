@@ -1,0 +1,30 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "CStandard",
+  "name": "Canon Standard",
+  "short_name": "CST",
+  "series": "Canon",
+  "description": "",
+  "updated": "2026-11-18",
+  "sha256": "d489e3668af38245b510c50b9c85504e8b20470c4c40f158066f1e260084763b",
+  "camera_tested": false,
+  "order": 26,
+  "type": "digital",
+  "training_error": {
+    "status": "available",
+    "metric": "ΔE00",
+    "mean": 0.9645525224237271,
+    "p95": 2.336326885246543,
+    "maximum": 6.4196457987790305,
+    "samples": 17343,
+    "split": "test",
+    "protocol": "v45-workbench-test-17343",
+    "label": "v4.5 训练台测试集",
+    "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+    "encoding": "float display sRGB (clip 0..1, no 8-bit quantization) -> D65 Lab -> CIEDE2000",
+    "operator_sha256": "adcac4c201dd873c7a7f35a79abb4d59986a071443ac65a56208f69cf9c85809",
+    "parameter_sha256": "83d5823006d561ee8eed9f619d09659efe59c04142babf68106244d0e6e3c68d",
+    "source": "cpu_recompute_float_srgb",
+    "note": "最终整数原生参数与打包网格，按该任务记录的算子评测。"
+  }
+}

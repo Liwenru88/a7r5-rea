@@ -1,0 +1,13 @@
+{
+  "schema": "r5-filter-description/1",
+  "id": "PRO400H",
+  "name": "富士 PRO 400H 薄荷青绿",
+  "short_name": "PRO400H",
+  "series": "Fuji Negative",
+  "description": "",
+  "updated": "2026-11-19",
+  "sha256": "36d17286947fae274ffe9250f30510d7246c2822305b4dbc2d5593391d9ce09c",
+  "camera_tested": false,
+  "order": 13,
+  "type": "color-film"
+}
