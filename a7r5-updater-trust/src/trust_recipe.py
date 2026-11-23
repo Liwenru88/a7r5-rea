@@ -12,6 +12,14 @@ PUBLIC_SHA='7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a'
 KEY_PATH='/etc/VerificationKey.pem'
 PATCH=bytes.fromhex('00008052c0035fd6')
 
+# 四个库打补丁后的 SHA-256（由已审查的补丁/偏移确定性生成，用作回归锚点）
+TARGET_LIB_SHA = {
+    'libupdaterapi.so': 'f817ee56f78fc829a341229f89236fcf6d7ba4dd7fefab1a61da4d2d7c4a58d6',
+    'libsdfileinputupdaterapi.so': '0624862064e43495d6291637d2e193d4656145d069550c58a4ce184bb9f5e354',
+    'libseninputupdaterapi.so': '6e62daaf5e4c216ab5920a841d2c5e90b7845fa7ae998b2bbbb5d7d9b7991dca',
+    'libuudfileinputupdaterapi.so': '9d2181d1f63060271d9edc80b3580519d545529cdf753cff79796d3d36829ae7',
+}
+
 TARGETS = {
     'libupdaterapi.so': (0x13324, 0x1356c, '1b334b9fb100601b1f8bc764cd9244bb32c2906101f4b2a8c0bd2e8d684df351', 71767),
     'libsdfileinputupdaterapi.so': (0xa9a8, 0xabf0, '257164d1cdf88757b8c0e2ba08ac47b06c46007410af308b7a8571b442b00cd2', None),
@@ -39,6 +47,8 @@ def verified_library(before, name):
     instructions = [(i.mnemonic, i.op_str) for i in Cs(CS_ARCH_ARM64, CS_MODE_ARM).disasm(PATCH, va)]
     require(instructions == [('mov', 'w0, #0'), ('ret', '')], '补丁指令不符')
     after = before[:offset] + PATCH + before[offset+8:]
+    if name in TARGET_LIB_SHA:
+        require(sha(after) == TARGET_LIB_SHA[name], '补丁后的库身份不符：' + name)
     rsa_offset = elf_offset(elf, rsa_va)
     require(before[rsa_offset:rsa_offset+372] == after[rsa_offset:rsa_offset+372], 'RSA 验签函数被修改')
     return after, {'path': '/usr/lib/' + name, 'file_offset': offset, 'elf_va': hex(va),
@@ -46,25 +56,46 @@ def verified_library(before, name):
                    'VerifySignature_372_bytes_unchanged': True, 'zlib_split': cut}
 
 def compress_exact(clear, stored_size, cut=None):
-    compressor = zlib.compressobj(9, zlib.DEFLATED, 15, 8, zlib.Z_DEFAULT_STRATEGY)
-    packed = (compressor.compress(clear) + compressor.flush() if cut is None else
-              compressor.compress(clear[:cut]) + compressor.flush(zlib.Z_BLOCK) +
-              compressor.compress(clear[cut:]) + compressor.flush())
-    require(len(packed) == stored_size, '压缩长度与原布局不同，拒绝填充或扩容')
-    check = zlib.decompressobj()
-    require(check.decompress(packed) + check.flush() == clear and check.eof and not check.unused_data and not check.unconsumed_tail,
-            '不是单个完整压缩流')
-    return packed
+    """返回与原始存储长度完全相同、且能解压回 clear 的单个 zlib 流。
 
-def construct(raw, private, public):
-    require(len(raw) == 25100288 and sha(raw) == SOURCE_P1_SHA, '本机一号分区前像不符')
+    先按原布局（给定切点/单块）压缩；长度不符时移动 zlib 块边界再试。
+    只改变压缩流的块划分，解压内容不变，不允许填充或扩容。
+    """
+    def pack(at):
+        compressor = zlib.compressobj(9, zlib.DEFLATED, 15, 8, zlib.Z_DEFAULT_STRATEGY)
+        if at is None:
+            return compressor.compress(clear) + compressor.flush()
+        return (compressor.compress(clear[:at]) + compressor.flush(zlib.Z_BLOCK) +
+                compressor.compress(clear[at:]) + compressor.flush())
+
+    def valid(packed):
+        check = zlib.decompressobj()
+        return (check.decompress(packed) + check.flush() == clear and check.eof
+                and not check.unused_data and not check.unconsumed_tail)
+
+    for at in (cut, None):
+        packed = pack(at)
+        if len(packed) == stored_size and valid(packed):
+            return packed
+    for at in range(len(clear)):
+        if at == cut:
+            continue
+        packed = pack(at)
+        if len(packed) == stored_size and valid(packed):
+            return packed
+    require(False, '压缩长度与原布局不同，拒绝填充或扩容')
+
+def construct(raw, private, public=None, *, source_sha=SOURCE_P1_SHA, replace_key=True):
+    """生成信任候选。replace_key=False 时只 patch 四个 verifyKey，保留官方 PEM。"""
+    require(len(raw) == 25100288 and sha(raw) == source_sha, '本机一号分区前像不符')
     fat = FatImage(raw)
     initrd = fat.read('/boot/initrd.img')
     sq = SquashImage(initrd)
     require(sha(sq.read(KEY_PATH)) == SONY_KEY_SHA, '原厂验签公钥不符')
-    require(len(public)==451 and sha(public)==PUBLIC_SHA and public.startswith(b'-----BEGIN PUBLIC KEY-----'), '公钥不是已封存的配对身份')
+    if replace_key:
+        require(len(public)==451 and sha(public)==PUBLIC_SHA and public.startswith(b'-----BEGIN PUBLIC KEY-----'), '公钥不是已封存的配对身份')
     require(private is None, '本模块不读取或生成私钥')
-    expected, changes = {KEY_PATH: public}, []
+    expected, changes = ({KEY_PATH: public} if replace_key else {}), []
     fragment_changes = {}
     for name in TARGETS:
         path = '/usr/lib/' + name
@@ -115,6 +146,7 @@ def construct(raw, private, public):
         if not entry['is_directory']:
             require(nf.read(path) == {'/boot/initrd.img': patched, '/p1chksum': new_sums}.get(path, fat.read(path)), '非目标 FAT 文件变化')
     return result, patched, new_sums, {'changed_squashfs_files': sorted(changed_files), 'libraries': changes,
+        'key_replaced': replace_key, 'source_sha256': sha(raw),
         'fat_metadata_unchanged': True, 'squashfs_metadata_unchanged': True,
         'current_parser_count': 1, 'p1chksum_valid': True,
         'kernel_unchanged': nf.read('/boot/vmlinux.bin') == fat.read('/boot/vmlinux.bin'),

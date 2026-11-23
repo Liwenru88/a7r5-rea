@@ -121,18 +121,20 @@ def prepare_update(job, run, baseline, backup_manifest, *, force=False):
         return package,TrustOperation(package)
     if backup_manifest is None:raise ValueError('请选择真实原厂备份记录，或明确选择强制安装')
     record = load(backup_manifest)
-    if (record.get('kind') != 'backup' or not record.get('task_complete') or record.get('device_IO') is not True
-            or record.get('simulation') is not False or record.get('backup_sha256') != SOURCE_SHA):
-        raise ValueError('需要已完成且匹配原厂4.00前像的真实备份记录')
-    before = safe(record['backup_file'], file=True).read_bytes()
+    # 前像/候选摘要以当前 bundle 的 trust-sectors.json 为准，不再硬编码某一份镜像。
     sectors = load(ROOT/'trust-sectors.json')
-    if len(before) != PARTITION_BYTES or digest(before) != SOURCE_SHA:raise ValueError('备份文件变化或未适配')
+    source_sha, target_sha = sectors['source_sha256'], sectors['target_sha256']
+    if (record.get('kind') != 'backup' or not record.get('task_complete') or record.get('device_IO') is not True
+            or record.get('simulation') is not False or record.get('backup_sha256') != source_sha):
+        raise ValueError('需要已完成且匹配当前信任 bundle 前像的真实备份记录')
+    before = safe(record['backup_file'], file=True).read_bytes()
+    if len(before) != PARTITION_BYTES or digest(before) != source_sha:raise ValueError('备份文件变化或未适配')
     candidate = bytearray(before)
     for row in sectors['rows']:
         at = row['offset'];old = base64.b64decode(row['before'], validate=True);new = base64.b64decode(row['after'], validate=True)
         if len(old) != 512 or len(new) != 512 or candidate[at:at+512] != old:raise ValueError('备份扇区前像不符')
         candidate[at:at+512] = new
-    if digest(candidate) != TARGET_SHA:raise ValueError('完整候选摘要不符')
+    if digest(candidate) != target_sha:raise ValueError('完整候选摘要不符')
     package, cfg = package_base(job, run, baseline)
     # 当前支持的SSH基础为原厂512换行；两种已知预加载分别有独立载荷。
     preload_name = record['preload_name']
@@ -143,7 +145,7 @@ def prepare_update(job, run, baseline, backup_manifest, *, force=False):
     ram = '/tmp_wbshd/a7r5-trust-'+run
     cfg.update(trust_control_layout='ram-v2',expected_preload_hex=values[preload_name], ram_dir=ram, journal_path=ram+'/journal',
                readback_path=ram+'/partition.logical', partition_bytes=PARTITION_BYTES,
-               candidate_sha256=TARGET_SHA, source_sha256=SOURCE_SHA,
+               candidate_sha256=target_sha, source_sha256=source_sha,
                expected_output_begin='A7R5_TRUST_BEGIN_'+run+'\n', expected_output_end='A7R5_TRUST_END_'+run+'\n')
     save(package/'config.json', cfg)
     write_payload(package/'materials/libJit.so', render_template('trust-'+preload_name+'.so', run))
@@ -222,7 +224,8 @@ def run(request, job, *, session_module=None, host_module=host):
         raw = job/'session/partition1.logical.bin'
         if raw.stat().st_size != PARTITION_BYTES or sha(raw) != report['capture_sha256']:raise ValueError('完整备份复核失败')
         value.update(backup_complete=True, backup_sha256=sha(raw), backup_relative='session/partition1.logical.bin',
-                     trust_state={SOURCE_SHA:'original', TARGET_SHA:'installed'}.get(sha(raw), 'unsupported'),
+                     trust_state={load(ROOT/'trust-sectors.json')['source_sha256']:'original',
+                                 load(ROOT/'trust-sectors.json')['target_sha256']:'installed'}.get(sha(raw), 'unsupported'),
                      preload_name=next(name for name, text in load(package/'config.json')['preload_baselines'] if text == report['expected_preload_hex']))
     def observe_recovery():
         try:

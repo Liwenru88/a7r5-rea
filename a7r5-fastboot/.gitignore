@@ -5,3 +5,5 @@
 /private/
 /runs/
 /__pycache__/
+/rescue/build/
+__pycache__/

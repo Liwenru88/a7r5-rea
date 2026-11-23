@@ -5,8 +5,10 @@ SECTOR=512
 BASE='acf32d30dd883ed349738e66fb081e85e0d6a3c746f5e3ca169031e8d69ed731'
 TARGET='a3733332c2a1b336226bb9000e01665ce54bec970aefc3334b88863b80f40ceb'
 
-def make_plan(old,new):
-    require(len(old)==len(new)==SIZE and sha(old)==BASE and sha(new)==TARGET,'不接受其它镜像对')
+def make_plan(old,new,*,source_sha=BASE,target_sha=TARGET):
+    require(len(old)==len(new)==SIZE,'不接受其它镜像对')
+    if source_sha is not None: require(sha(old)==source_sha,'前像摘要不符')
+    if target_sha is not None: require(sha(new)==target_sha,'候选摘要不符')
     fat=FatImage(old)
     def file_sectors(path):
         entry=fat.entries[path]
@@ -32,7 +34,7 @@ def make_plan(old,new):
                      'phase':'checksum' if sector in checksum else 'initrd',
                      'before_sha256':sha(a),'after_sha256':sha(b)})
     return {'schema':'a7r5-kit-trust-plan-v1','device':'/dev/cnflasha1','device_number':'252:129',
-            'source_sha256':BASE,'candidate_sha256':TARGET,'partition_bytes':SIZE,
+            'source_sha256':sha(old),'candidate_sha256':sha(new),'partition_bytes':SIZE,
             'changed_bytes':sum(a!=b for a,b in zip(old,new)),
             'logical_sector_size':SECTOR,'changed_sectors':len(rows),'logical_write_bytes':len(rows)*SECTOR,
             'physical_write_amplification_known':False,'rows':rows,
@@ -50,6 +52,6 @@ def classify(raw,old,new,rows):
         for got,a,b in zip(raw[offset:end],old[offset:end],new[offset:end]):
             require(got in (a,b),'差异扇区内未知字节')
         cursor=end; seen+=1
-    require(seen==258 and raw[cursor:]==old[cursor:],'恢复清单或尾部存在未知变化')
+    require(seen==len(rows) and raw[cursor:]==old[cursor:],'恢复清单或尾部存在未知变化')
     return {'state':'KNOWN_OLD_NEW_MIXTURE','write_needed':'需另行判断','automatic_repair':False,
             'next':'仅生成新恢复计划；禁止自动套逆补丁'}
