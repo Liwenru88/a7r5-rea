@@ -242,7 +242,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 <details>
 <summary>展开完整 Prompt：4.31 构建与快速脚本操作引导</summary>
 
-```text
+````text
 你是本次 Sony A7R V (ILCE-7RM5) 固件研究与工具工程 Agent。请从源码分析出发，围绕当前最新稳定主线 **4.31** 开展固件构建、离线校验，并按需在获得设备授权后执行相机快速维护脚本。用简体中文沟通，所有结论必须对应当前代码、实际命令输出或实机日志。
 
 任务参数（未填写则使用括号中的默认值）：
@@ -270,7 +270,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 6. 使用仓库根目录一键脚本构建 4.31：
    ```sh
    ./scripts/build_431_from_400.sh /path/to/4.00/BODYDATA.DAT -o /new/output/dir
-   ```
+```
    以构建脚本实际通过状态与生成的 `BODYDATA.DAT`、`R5NATIVE.BIN` 产物路径为准（不强行写死校验固定哈希）。
 7. 保持各模块当前源码设计原则与对应单元测试一致（如 `WBI3` 分区策略、`nflasha3` 原簇链更新、早期引导区不变等），一切具体偏移与结构约束以当前版本源码和单元测试为准。
 8. 按需运行离线单元测试并记录实际执行命令与结果：
@@ -291,7 +291,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 
 四、输出汇报
 汇报应真实、简明、可执行：说明改动内容、实际运行过的构建/测试命令及真实结果、是否涉及真实相机连接与操作、当前未验证项与下一步建议；严格区分「离线验证通过」与「实机验证通过」。
-```
+````
 
 </details>
 
@@ -303,14 +303,14 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 
 本工程的固件功能、容器工具、色彩训练及维护脚本参考或整合了以下开源与逆向研究项目：
 
-| 参考项目 | 对应模块与参考内容 |
-|---|---|
+| 参考项目                                                     | 对应模块与参考内容                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [`Hearts-Ace/sony-a7r5-custom-firmware`](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | A7R V 4.00 原生色彩参数、24 槽网格生命周期、FL2/FL3 色彩整合、镜头 AF 能力过滤，以及自定义照片纵横比（AP/CP/`AV-CAM.BIN`/`libmpr.so`）核心参考 |
 | [`Hearts-Ace/sony-r5-colorlab`](https://github.com/Hearts-Ace/sony-r5-colorlab) | `R5ColorLab` 色彩训练工作台、`R5GridCalibrator` 网格标定、24 槽 `R5NATIVE.BIN` 打包与公开滤镜预设库（本仓库额外集成 Apple Silicon Metal/MPS 训练适配） |
 | [`Erlla/sony-a7m4-custom-firmware`](https://github.com/Erlla/sony-a7m4-custom-firmware) | 自定义纵横比 CP 侧逐张任务锁存、HEIF/JPEG 裁切边界与部分相机维护工具思路参考 |
 | [`QAQLeonard/a7c2-fl23-research`](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 创意外观移植与默认六档参数研究（[`materials/upstream-default-six/`](a7r5-firmware-features/materials/NOTICE.txt)） |
-| [`DavidBuchanan314/ILCE-7M4-RE`](https://github.com/DavidBuchanan314/ILCE-7M4-RE) · [`ma1co/Sony-PMCA-RE`](https://github.com/ma1co/Sony-PMCA-RE) · [`chocotan/a7c2-re`](https://github.com/chocotan/a7c2-re) | Sony 固件容器解包、USB/Fastboot 引导及服务通道协议研究 |
-| 其他开源依赖 | Tauri、libusb 等基础组件（详见各子目录清单与许可证文件） |
+| [`DavidBuchanan314/ILCE-7M4-RE`](https://github.com/DavidBuchanan314/ILCE-7M4-RE) · [`ma1co/Sony-PMCA-RE`](https://github.com/ma1co/Sony-PMCA-RE) · [`chocotan/a7c2-re`](https://github.com/chocotan/a7c2-re) | Sony 固件容器解包、USB/Fastboot 引导及服务通道协议研究       |
+| 其他开源依赖                                                 | Tauri、libusb 等基础组件（详见各子目录清单与许可证文件）     |
 
 ### 2. 滤镜来源说明
 
