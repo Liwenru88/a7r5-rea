@@ -41,8 +41,14 @@ class Operation:
                  protocol=int(interface.bInterfaceProtocol),endpoints=[dict(address=int(e.bEndpointAddress),attributes=int(e.bmAttributes),max_packet=int(e.wMaxPacketSize),interval=int(e.bInterval)) for e in interface])
         self.interfaces_seen+=1
         if self.output is None:raise ValueError('缺少输出目录')
-        (self.output/f'interface-{self.interfaces_seen}.json').write_text(json.dumps(raw,indent=2))
-        if raw!=self.config['interfaces'].get(f'interface-{self.interfaces_seen}.json'):raise ValueError('接口指纹不符，不换端点')
+        name=f'interface-{self.interfaces_seen}.json'
+        (self.output/name).write_text(json.dumps(raw,indent=2))
+        expected=self.config['interfaces'].get(name)
+        if self.config.get('capture_interfaces') and raw!=expected:
+            self.config['interfaces'][name]=raw
+            (self.bundle/name).write_text(json.dumps(raw,indent=2)+'\n')
+            return
+        if raw!=expected:raise ValueError('接口指纹不符，不换端点')
         (self.output/f'endpoints-{self.interfaces_seen}.json').write_text(json.dumps(dict(incoming=129,outgoing=2,rule='fixed_first_bulk_no_fallback')))
     def guard_packet(self,packet):
         if packet!=self.permitted_packet or len(packet)<HEADER.size+7:raise PermissionError('未经精确授权')

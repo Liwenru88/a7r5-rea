@@ -64,13 +64,32 @@ def camera_media(tree, location):
     return media
 
 
+def diskutil_camera_media():
+    """ioreg 归档不可用时的回退：按 Sony 相机卷名定位整盘。"""
+    tree = plist_command(["diskutil", "list", "-plist"])
+    media = []
+    for disk in tree.get("AllDisksAndPartitions", []):
+        name = disk.get("DeviceIdentifier")
+        for part in disk.get("Partitions", []):
+            if part.get("VolumeName") in ("PMHOME", "ILCE-7RM5"):
+                media.append({"device": name, "whole": True, "bytes": disk.get("Size")})
+    if not media:
+        raise ValueError("未找到相机媒体，拒绝跳过挂载检查")
+    return media
+
+
 def unmount_camera(device, log):
     ports = tuple(device.port_numbers or ())
     if not 1 <= len(ports) <= 5 or any(not 1 <= p <= 15 for p in ports):
         raise ValueError("无法将 USB 物理端口映射到 Mac locationID")
     location = (device.bus << 24) | sum(p << (20 - 4 * i) for i, p in enumerate(ports))
-    tree = plist_command(["ioreg", "-a", "-l", "-r", "-c", "IOUSBHostDevice"])
-    media = camera_media(tree, location)
+    try:
+        tree = plist_command(["ioreg", "-a", "-l", "-r", "-c", "IOUSBHostDevice"])
+    except subprocess.CalledProcessError:
+        log("ioreg_archive_unavailable", fallback="diskutil")
+        media = diskutil_camera_media()
+    else:
+        media = camera_media(tree, location)
     if not any(m["whole"] for m in media): raise ValueError("未找到相机媒体，拒绝跳过挂载检查")
     for entry in media:
         info = plist_command(["diskutil", "info", "-plist", entry["device"]])

@@ -36,7 +36,8 @@ def validate_journal(raw,run,plan,*,force=False):
         expected += [('WRITE_BEGIN',index,row['offset'],0),('WRITE_RETURNED',index+1,row['offset'],0)]
         if index==len(plan['rows'])-1 or row['phase']!=plan['rows'][index+1]['phase']:
             expected.append(('PHASE_SYNC_RETURNED',index+1,row['offset'],0))
-    expected += [('FULL_LOGICAL_READBACK_MATCH',258,-1,0),('REOPENED_FULL_CAPTURE_MATCH',258,-1,0),('COMPLETED',258,-1,0)]
+    total=len(plan['rows'])
+    expected += [('FULL_LOGICAL_READBACK_MATCH',total,-1,0),('REOPENED_FULL_CAPTURE_MATCH',total,-1,0),('COMPLETED',total,-1,0)]
     if actual!=expected:raise ValueError('日志阶段、计数、偏移或结果不符')
     return True
 
@@ -74,7 +75,7 @@ class Operation(BaseOperation):
         self.plan=json.loads((self.bundle/'materials/write-plan.json').read_text())
         if self.force:
             self.patch=json.loads((self.bundle/'materials/trust-sectors.json').read_text())['rows']
-            if len(self.patch)!=258 or [r['offset'] for r in self.patch]!=[r['offset'] for r in self.plan['rows']]:
+            if len(self.patch)!=len(self.plan['rows']) or [r['offset'] for r in self.patch]!=[r['offset'] for r in self.plan['rows']]:
                 raise ValueError('强制模式写入范围不符')
             for row in self.patch:
                 if (row['offset']%512 or not 0<=row['offset']<=25100288-512
@@ -192,14 +193,15 @@ class Operation(BaseOperation):
             candidate_sha=match[1].decode();report['actual_source_sha256']=match[2].decode()
         else:
             candidate_sha=self.config['candidate_sha256']
+            count=len(self.plan['rows'])
             expected=(self.config['expected_output_begin']+'A7R5_TRUST_COMPLETE '+candidate_sha+
-                ' sectors=258 bytes=132096 reopened=1\n'+self.config['expected_output_end']).encode()
+                f' sectors={count} bytes={count*512} reopened=1\n'+self.config['expected_output_end']).encode()
             if data!=expected or len(data)!=size:raise ValueError('固定原生输出不符')
         journal=read('native-journal',self.config['journal_path']);validate_journal(journal,self.run,self.plan,force=self.force)
         report.update(native_write_complete=True,native_full_readback_verified=True,
             native_reopened_readback_verified=True,native_logical_partition_sha256=candidate_sha,
             trust_readback_format=self.readback_format,trust_readback_scope='planned-sectors' if self.sector_readback else 'full-partition')
-        receipt=dict(run_id=self.run,native_logical_sha256=candidate_sha,sectors=258,write_bytes=132096,
+        receipt=dict(run_id=self.run,native_logical_sha256=candidate_sha,sectors=len(self.plan['rows']),write_bytes=len(self.plan['rows'])*512,
             terminal_sha256=hashlib.sha256(terminal).hexdigest(),output_sha256=hashlib.sha256(data).hexdigest(),
             journal_sha256=hashlib.sha256(journal).hexdigest())
         save(self.output/'trust-native-verified.json',receipt)
@@ -238,7 +240,7 @@ class Operation(BaseOperation):
         if read('state-repeat',self.prefix+'.state')!=terminal:raise ValueError('重复终态变化')
         report.update(protocol_gate_passed=True,root_task_done=True,root_uid=0,root_euid=0,
             preload_unchanged=True,self_unlink_receipt=True,complete_partition_readback_verified=not self.sector_readback,
-            planned_sector_readback_verified=self.sector_readback,patch_sectors=258,logical_write_bytes=132096,
+            planned_sector_readback_verified=self.sector_readback,patch_sectors=len(self.plan['rows']),logical_write_bytes=len(self.plan['rows'])*512,
             shell_output_bytes=len(data),shell_output_sha256=hashlib.sha256(data).hexdigest())
         if self.sector_readback:
             report.update(planned_sector_readback_sha256=hashlib.sha256(raw).hexdigest(),trust_readback_bytes=len(raw))

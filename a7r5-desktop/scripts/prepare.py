@@ -195,7 +195,8 @@ def trust_sector_library(directory,run,preload,source_sha,target_sha,old,new,pla
             for key,row in zip(('FORCE_PRELOAD_A','FORCE_PRELOAD_B'),profile['preload_baselines']):
                 stream.write('#define '+key+' '+json.dumps(bytes.fromhex(row[1]).decode())+'\n')
     with (directory/'trust_config.h').open('a') as stream:
-        stream.write('#define PARTITION_BYTES 25100288UL\n#define PATCH_COUNT 258U\n')
+        stream.write(f'#define PARTITION_BYTES 25100288UL\n#define PATCH_COUNT {len(rows)}U\n'
+                     f'#define PATCH_COUNT_STR "{len(rows)}"\n#define PATCH_BYTES_STR "{len(rows)*512}"\n')
         if not precheck:
             stream.write('static const unsigned long PATCH_OFFSETS[]={'+','.join(str(r['offset'])+'UL' for r in rows)+'};\n')
             stream.write('static const unsigned char PATCH_CHECKSUM[]={'+','.join(str(int(r['phase']=='checksum')) for r in rows)+'};\n')
@@ -269,7 +270,7 @@ def trust_payload():
     sectors=json.loads((ENGINE/'trust-sectors.json').read_text())
     plan=json.loads((ENGINE/'write-plan.json').read_text())
     rows=sectors['rows']
-    if len(rows)!=258 or [r['offset'] for r in rows]!=[r['offset'] for r in plan['rows']]:
+    if len(rows)!=len(plan['rows']) or [r['offset'] for r in rows]!=[r['offset'] for r in plan['rows']]:
         raise ValueError('信任扇区清单不符')
     raw={}
     for key in ('before','after'):
@@ -300,9 +301,9 @@ def payloads():
     import trust_recipe, sector_plan
     before = (PROJECT/'a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha1.img').read_bytes()
     public = (PROJECT/'a7r5-updater-trust/public-key.pem').read_bytes()
-    after, _, _, _ = trust_recipe.construct(before, None, public)
+    after, _, _, _ = trust_recipe.construct(before, None, public, source_sha=sha(before))
     assert sha(after) == trust_recipe.TARGET_SHA
-    plan = sector_plan.make_plan(before, after)
+    plan = sector_plan.make_plan(before, after, source_sha=sha(before), target_sha=sha(after))
     save(ENGINE/'write-plan.json', plan)
     sectors = dict(source_sha256=sha(before), target_sha256=sha(after), bytes=len(before), rows=[
         dict(offset=r['offset'], before=base64.b64encode(before[r['offset']:r['offset']+512]).decode(),

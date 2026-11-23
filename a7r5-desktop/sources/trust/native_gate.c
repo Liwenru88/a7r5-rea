@@ -15,6 +15,10 @@ static void *copy(void *aa,const void *bb,size_t n)
 { unsigned char *a=aa;const unsigned char *b=bb;for(size_t i=0;i<n;i++)a[i]=b[i];return aa; }
 #endif
 #include "trust_config.h"
+#ifndef PATCH_COUNT_STR
+#define PATCH_COUNT_STR "258"
+#define PATCH_BYTES_STR "132096"
+#endif
 #ifndef TRUST_FORCE_SECTOR_READBACK
 #define TRUST_FORCE_SECTOR_READBACK 0
 #endif
@@ -464,13 +468,13 @@ static int native_task(int output)
         len=append(message,len,force_source_sha);
         len=append(message,len,
 #if TRUST_FORCE_SECTOR_READBACK
-            " sectors=258 bytes=132096 reopened=1 chunks=9 chunk_bytes=16384 readback=planned-sectors-v2\n" OUTPUT_END);
+            " sectors=" PATCH_COUNT_STR " bytes=" PATCH_BYTES_STR " reopened=1 chunks=9 chunk_bytes=16384 readback=planned-sectors-v2\n" OUTPUT_END);
 #else
-            " sectors=258 bytes=132096 reopened=1 chunks=1532 chunk_bytes=16384\n" OUTPUT_END);
+            " sectors=" PATCH_COUNT_STR " bytes=" PATCH_BYTES_STR " reopened=1 chunks=1532 chunk_bytes=16384\n" OUTPUT_END);
 #endif
         if(write(output,message,len)!=(s64)len)code=54;
 #else
-        const char message[]=OUTPUT_BEGIN "A7R5_TRUST_COMPLETE " CANDIDATE_SHA " sectors=258 bytes=132096 reopened=1\n" OUTPUT_END;
+        const char message[]=OUTPUT_BEGIN "A7R5_TRUST_COMPLETE " CANDIDATE_SHA " sectors=" PATCH_COUNT_STR " bytes=" PATCH_BYTES_STR " reopened=1\n" OUTPUT_END;
         if(write(output,message,sizeof(message)-1)!=(s64)sizeof(message)-1)code=54;
 #endif
     }
