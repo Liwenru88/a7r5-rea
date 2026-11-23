@@ -19,7 +19,7 @@
 - [工程结构](#工程结构)
 - [离线测试与发布检查](#离线测试与发布检查)
 - [交给 AI Agent 的完整提示词](#交给-ai-agent-的完整提示词)
-- [参考与许可](#参考与许可)
+- [参考项目、滤镜来源与许可](#参考项目滤镜来源与许可)
 
 ---
 
@@ -32,7 +32,7 @@
 | 目标机型与原厂基底 | Sony ILCE-7RM5 / A7R V，官方 **4.00** `BODYDATA.DAT`（754,525,608 字节，SHA-256 `51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2`） |
 | 4.31 核心能力 | 继承 4.28 全部能力（`look24` 24 槽滤镜、`look-fl2-fl3`、`lens-af-compat`、轻量防抖），新增 **6 档自定义照片纵横比**（`17:6`、`65:24`、`5:4`、`7:6`、`1.91:1`、`2.35:1`，支持 **JPEG 与 HEIF 4:2:0/4:2:2、单拍与 RAW+HEIF、全画幅 L/M/S 及 APS-C L/M/S** 全功能裁切）、`bank_unavailable_only()` 原厂创意外观放行、冷启动 CP 探测加固及 AP BSS 安全隔离扩容（`0x8f13000`） |
 | 底层不变式 | `WBI3`（`nflasha5` 首扇区偏移 `0x3` 为 `0x33`）、`nflasha15` 修改 4 个文件（`appFw.so`、`libmpr.so`、2 个 `.uxc`）、`nflasha8` 更新 `cpapp-b.bin`、`nflasha3` 原簇链更新 `AV-CAM.BIN` |
-| 输出 `R5NATIVE.BIN` | 29,552 字节，SHA-256：`19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6` |
+| 输出 `R5NATIVE.BIN` | 58,976 字节（24 槽精选默认包），SHA-256：`c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f` |
 | 详细说明与归档 | [`release431/PACKAGE-README.md`](a7r5-firmware-features/native24-combined/release431/PACKAGE-README.md) · [`4.28 基线归档`](a7r5-firmware-features/releases/4.28-427-af-debounce-20261117/README.md) |
 
 ---
@@ -297,7 +297,28 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 
 ---
 
-## 参考与许可
+## 参考项目、滤镜来源与许可
 
-- 原创代码、文档与整合实现仅限个人非商业研究使用。
-- 上游参考与第三方代码（如 `Hearts-Ace/sony-a7r5-custom-firmware`、`Hearts-Ace/sony-r5-colorlab`、`ma1co/Sony-PMCA-RE`、`chocotan/a7c2-re`、`DavidBuchanan314/ILCE-7M4-RE`、Tauri、libusb 等）继续遵循其原有许可证，详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 与各模块许可文件。
+### 1. 主要参考项目
+
+本工程的固件功能、容器工具、色彩训练及维护脚本参考或整合了以下开源与逆向研究项目：
+
+| 参考项目 | 对应模块与参考内容 |
+|---|---|
+| [`Hearts-Ace/sony-a7r5-custom-firmware`](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | A7R V 4.00 原生色彩参数、24 槽网格生命周期、FL2/FL3 色彩整合、镜头 AF 能力过滤，以及自定义照片纵横比（AP/CP/`AV-CAM.BIN`/`libmpr.so`）核心参考 |
+| [`Hearts-Ace/sony-r5-colorlab`](https://github.com/Hearts-Ace/sony-r5-colorlab) | `R5ColorLab` 色彩训练工作台、`R5GridCalibrator` 网格标定、24 槽 `R5NATIVE.BIN` 打包与公开滤镜预设库（本仓库额外集成 Apple Silicon Metal/MPS 训练适配） |
+| [`Erlla/sony-a7m4-custom-firmware`](https://github.com/Erlla/sony-a7m4-custom-firmware) | 自定义纵横比 CP 侧逐张任务锁存、HEIF/JPEG 裁切边界与部分相机维护工具思路参考 |
+| [`QAQLeonard/a7c2-fl23-research`](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 创意外观移植与默认六档参数研究（[`materials/upstream-default-six/`](a7r5-firmware-features/materials/NOTICE.txt)） |
+| [`DavidBuchanan314/ILCE-7M4-RE`](https://github.com/DavidBuchanan314/ILCE-7M4-RE) · [`ma1co/Sony-PMCA-RE`](https://github.com/ma1co/Sony-PMCA-RE) · [`chocotan/a7c2-re`](https://github.com/chocotan/a7c2-re) | Sony 固件容器解包、USB/Fastboot 引导及服务通道协议研究 |
+| 其他开源依赖 | Tauri、libusb 等基础组件（详见各子目录清单与许可证文件） |
+
+### 2. 滤镜来源说明
+
+- **随 4.31 更新包默认输出的 `R5NATIVE.BIN`（58,976 字节，24 槽精选）**：存放于 [`a7r5-firmware-features/native24-combined/release431/filters/`](a7r5-firmware-features/native24-combined/release431/filters/export_audit.json)（SHA-256：`c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f`），由 [`sony-r5-colorlab/filters/`](sony-r5-colorlab/filters/README.md) 中的 24 款单款滤镜按 `format_version=5` 打包而成，覆盖富士（`RA`、`CC`、`NC`、`AS`、`PRO400H`、`NN`、`ET`、`VN`）、徕卡（`LM9S`、`LLCHR`、`LLTEA`、`LL100M`）、尼康（`NRTP`、`NDRE`、`NDEN`）、柯达（`P400`、`Gold200`、`PORTRA800`、`500T`、`E100`）与理光（`RRETRO`、`RP`、`RN`、`RCIN-G`）。
+- **底层 4.28 基线默认滤镜包**：若单独使用 `./scripts/build_428_from_400.sh` 构建 4.28 基线，仍默认附带 [`FUJ_12_v45/R5NATIVE.BIN`](a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/filters/FUJ_12_v45/R5NATIVE.BIN)（29,552 字节，源自 `Hearts-Ace` 公开的富士常用 12 款正式参数包）。
+- **多品牌单款滤镜库与自训练工作台**：完整单款 `.bin` / `.json` 预设收录于 [`sony-r5-colorlab/filters/`](sony-r5-colorlab/filters/README.md)（源自 [`Hearts-Ace/sony-r5-colorlab`](https://github.com/Hearts-Ace/sony-r5-colorlab) 与 [`Hearts-Ace/sony-a7r5-custom-firmware`](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) 公开滤镜库），可通过 [`sony-r5-colorlab/`](sony-r5-colorlab/README.md) 自由选配 24 槽打包导出 `R5NATIVE.BIN`，或基于 Apple Silicon MPS 自行训练新滤镜。
+
+### 3. 许可声明
+
+- 本仓库原创代码、文档与整合实现**仅限个人非商业研究使用，禁止商用**。
+- 上游参考与第三方代码、工具及滤镜预设继续遵循其原有许可证（如 `R5ColorLab` 与 `R5GridCalibrator` 使用 GNU AGPL v3 等），详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 与各模块许可文件。

@@ -28,7 +28,7 @@ from a7r5dat.fat import FatImage
 from fat_avcam import replace as replace_avcam
 
 USR_SHA = 'bfaf6c1e27ba7130883103e43c6d124a7364e62b18fc8044f08895a78f1ab2df'
-FILTER_SHA = '19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6'
+FILTER_SHA = 'c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f'
 PUBLIC_SHA = '7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a'
 OUTPUT_ROOTS = ('.local', 'a7r5-firmware-features/builds')
 
@@ -360,8 +360,8 @@ def package_431(
     )
     require(openssl.returncode == 0, 'OpenSSL独立验签失败')
 
-    filter_path = parent.regular(PARENT / 'upstream/filters/FUJ_12_v45/R5NATIVE.BIN')
-    require(digest(filter_path) == FILTER_SHA, '正式十二款配方不符')
+    filter_path = parent.regular(HERE / 'filters/R5NATIVE.BIN')
+    require(digest(filter_path) == FILTER_SHA, '24槽精选默认滤镜包不符')
     delivery = out / 'delivery'
     delivery.mkdir()
     shutil.copyfile(out / 'BODYDATA.DAT', delivery / 'BODYDATA.DAT')

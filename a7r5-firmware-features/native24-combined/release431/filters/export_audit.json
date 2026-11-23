@@ -1,0 +1,254 @@
+{
+  "schema": "r5-filter-library-export/1",
+  "binary_sha256": "c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f",
+  "bytes": 58976,
+  "count": 24,
+  "slot_limit": 24,
+  "native_numbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "firmware": "native24-combined",
+  "format_version": 5,
+  "sources": [
+    {
+      "number": 1,
+      "key": "富士数码/RA",
+      "id": "RA",
+      "category": "富士数码",
+      "short_name": "RA",
+      "full_name": "富士 REALA ACE · 万能挂机",
+      "source_bin_sha256": "cbe1d008252215e922c3d48f91c10acb7f5e0d5559976d5b105e08fd15cf2e6d"
+    },
+    {
+      "number": 2,
+      "key": "富士数码/CC",
+      "id": "CC",
+      "category": "富士数码",
+      "short_name": "CC",
+      "full_name": "富士 Classic Chrome · 纪实正片",
+      "source_bin_sha256": "d68a61dd239967964e547a9eab9b4b3e887be93c049e8c10c4ef3f600f138d30"
+    },
+    {
+      "number": 3,
+      "key": "富士数码/NC",
+      "id": "NC",
+      "category": "富士数码",
+      "short_name": "NC",
+      "full_name": "富士 Classic Neg. · 经典负片",
+      "source_bin_sha256": "4847615af3cc43f93d8fa3bed92a2f871f944417dc1422e52d3f161eccd2adf3"
+    },
+    {
+      "number": 4,
+      "key": "Leica/LM9S",
+      "id": "LM9Standard",
+      "category": "Leica",
+      "short_name": "LM9S",
+      "full_name": "徕卡 M9 · CCD 德味标准",
+      "source_bin_sha256": "519466cc15f11654ba12696bfbd49b86accd4870dcc7b512bda91cb49cc59347"
+    },
+    {
+      "number": 5,
+      "key": "富士数码/AS",
+      "id": "AS",
+      "category": "富士数码",
+      "short_name": "AS",
+      "full_name": "富士 ASTIA · 柔和人像",
+      "source_bin_sha256": "8e2cfc16506ec3169a3e6516240ece54ead87bbecc6bbf5b458e7f43acfa0e47"
+    },
+    {
+      "number": 6,
+      "key": "Nikon/NRTP",
+      "id": "NRichTonePortrait",
+      "category": "Nikon",
+      "short_name": "NRTP",
+      "full_name": "尼康丰富色调 · 立体人像",
+      "source_bin_sha256": "4dac681871d8cc61410f322bba096555547c4aa95b77148e76b11045278db788"
+    },
+    {
+      "number": 7,
+      "key": "Kodak/P400",
+      "id": "P400",
+      "category": "Kodak",
+      "short_name": "P400",
+      "full_name": "柯达 Portra 400 · 胶片人像",
+      "source_bin_sha256": "77511022442a3ecba79a304b32b32aefe1c483290935ab20da992d74fe0979dc"
+    },
+    {
+      "number": 8,
+      "key": "Fuji Negative/PRO400H",
+      "id": "PRO400H",
+      "category": "Fuji Negative",
+      "short_name": "PRO400H",
+      "full_name": "富士 PRO 400H · 薄荷青绿",
+      "source_bin_sha256": "36d17286947fae274ffe9250f30510d7246c2822305b4dbc2d5593391d9ce09c"
+    },
+    {
+      "number": 9,
+      "key": "Nikon/NDRE",
+      "id": "NDream",
+      "category": "Nikon",
+      "short_name": "NDRE",
+      "full_name": "尼康 Dream · 梦幻柔光人像",
+      "source_bin_sha256": "38c06520aab855f3f3bd6322f3b35aaf585ee6c76f302ad35e350659715bf0ec"
+    },
+    {
+      "number": 10,
+      "key": "Kodak/Gold200",
+      "id": "Gold200",
+      "category": "Kodak",
+      "short_name": "Gold200",
+      "full_name": "柯达 Gold 200 · 暖金日光",
+      "source_bin_sha256": "d17482d4c2aa15724d7a82b4acbc9b088b69761225c0f60280a5e7b9b96b59ed"
+    },
+    {
+      "number": 11,
+      "key": "Kodak/PORTRA800-B",
+      "id": "PPortra800-B",
+      "category": "Kodak",
+      "short_name": "PORTRA800",
+      "full_name": "柯达 Portra 800 · 黄昏暖调",
+      "source_bin_sha256": "a000649eca02e963ac42b4bb42cf077c086e79d7053380dfe68051a07b1d7d64"
+    },
+    {
+      "number": 12,
+      "key": "富士数码/NN",
+      "id": "NN",
+      "category": "富士数码",
+      "short_name": "NN",
+      "full_name": "富士 Nostalgic Neg · 怀旧暖调",
+      "source_bin_sha256": "9c9d83a0ee5eb8c42cb8efc7a03f373910728504645c8a864c196e6d84ea663d"
+    },
+    {
+      "number": 13,
+      "key": "理光/RRETRO",
+      "id": "RRetro",
+      "category": "理光",
+      "short_name": "RRETRO",
+      "full_name": "理光 Retro · 复古暖棕",
+      "source_bin_sha256": "d88eac725f840a6d7d88f8af1e05634af76bc4497a0c7b7bf3959af87efd5c11"
+    },
+    {
+      "number": 14,
+      "key": "理光/RP",
+      "id": "RP",
+      "category": "理光",
+      "short_name": "GR正片",
+      "full_name": "理光 GR · 高反差正片",
+      "source_bin_sha256": "4de1271d084eac486ed7930d195dd70dcdb1630a2e00cbd6df2b4fb39087c371"
+    },
+    {
+      "number": 15,
+      "key": "理光/RN",
+      "id": "RN",
+      "category": "理光",
+      "short_name": "GR负片",
+      "full_name": "理光 GR · 街拍负片",
+      "source_bin_sha256": "f04fe51e80175c3bdff531f26d7dc990b967e5915b0d4872daa94608ab33b61f"
+    },
+    {
+      "number": 16,
+      "key": "理光/RCIN-G",
+      "id": "RCinemaGreen",
+      "category": "理光",
+      "short_name": "GR电影绿",
+      "full_name": "理光 GR · 电影青绿",
+      "source_bin_sha256": "e67a3fcc20218b2c65eb6a1636914cbe0acc55fba4620f8664ee02a25a00d0e2"
+    },
+    {
+      "number": 17,
+      "key": "Leica/LLCHR",
+      "id": "LLLChrome",
+      "category": "Leica",
+      "short_name": "LLCHR",
+      "full_name": "徕卡 Chrome · 现代街拍正片",
+      "source_bin_sha256": "159240d28315ad7a05931da53fce178fc913cc0bb4e2f1f685fd1c5f550bdda8"
+    },
+    {
+      "number": 18,
+      "key": "Nikon/NDEN",
+      "id": "NDenim",
+      "category": "Nikon",
+      "short_name": "NDEN",
+      "full_name": "尼康 Denim · 丹宁蓝调街拍",
+      "source_bin_sha256": "eea5a775f8cc2e081479f3aca67c53f53143eb5a0e380e94c28bd3dc5f69fa99"
+    },
+    {
+      "number": 19,
+      "key": "富士数码/ET",
+      "id": "ET",
+      "category": "富士数码",
+      "short_name": "ET",
+      "full_name": "富士 ETERNA · 电影宽容度",
+      "source_bin_sha256": "815e87a774c400312184d88064317baf4d8b259252af9bcdcce92c4d38ea377f"
+    },
+    {
+      "number": 20,
+      "key": "Kodak/500T",
+      "id": "500T",
+      "category": "Kodak",
+      "short_name": "500T",
+      "full_name": "柯达 Vision3 500T · 夜景冷蓝",
+      "source_bin_sha256": "9c153a758dbe509f2adc4525d68d0ee2f78e4deaeebf1b1b6a416ca7195002c5"
+    },
+    {
+      "number": 21,
+      "key": "Leica/LLTEA",
+      "id": "LLLTeal",
+      "category": "Leica",
+      "short_name": "LLTEA",
+      "full_name": "徕卡 Teal · 青橙电影冷调",
+      "source_bin_sha256": "6adf96b57dfddd1b973eaa3db7a718db108db0aca921e85d8d69089fa4940a0f"
+    },
+    {
+      "number": 22,
+      "key": "Kodak/E100-NB",
+      "id": "KEktachromeE100-NB",
+      "category": "Kodak",
+      "short_name": "E100",
+      "full_name": "柯达 Ektachrome 100 · 清冷反转",
+      "source_bin_sha256": "f391567610b06616802f471244d2268bfbf3f1fac2c274daa916406ea0523f75"
+    },
+    {
+      "number": 23,
+      "key": "富士数码/VN",
+      "id": "VN",
+      "category": "富士数码",
+      "short_name": "VN",
+      "full_name": "富士 Velvia · 浓郁风光",
+      "source_bin_sha256": "4bf7036019a80514478ddab31ee88a5f60e867af25a00bcc99fcbad09313dabc"
+    },
+    {
+      "number": 24,
+      "key": "Leica/LL100M",
+      "id": "LLL100YearsMono",
+      "category": "Leica",
+      "short_name": "LL100M",
+      "full_name": "徕卡百年单色 · 经典黑白",
+      "source_bin_sha256": "0a89baa7a190c381d4446ffc3e25b70a47d6aeccbcdb0f258c6027654be40690"
+    }
+  ],
+  "compiler_sha256": "d448b8fa293604046c7b5871c3328e2be81e52bae666979614689cd127bc4a6b"
+}

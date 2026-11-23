@@ -63,10 +63,25 @@ class Release431PatchTests(unittest.TestCase):
             self.assertIn('mov w3, w21', avcam_views_s)
             self.assertNotIn('mov w3, w0', avcam_views_s)
 
-            cp_compact = (tree / 'a7r5-firmware-features/native24-combined/release431/cp_aspect_compact.c').read_text(encoding='utf-8')
+            cp_compact = (tree / 'a7r5-firmware-features/native24-combined/release429/cp_aspect_compact.c').read_text(encoding='utf-8') if (tree / 'a7r5-firmware-features/native24-combined/release429/cp_aspect_compact.c').exists() else (tree / 'a7r5-firmware-features/native24-combined/release431/cp_aspect_compact.c').read_text(encoding='utf-8')
             notify_fn = cp_compact.split('void r5_cp_notify_jpeg', 1)[1].split('uint32_t r5_cp_raw_emb', 1)[0]
             self.assertIn('uint16_t w = wh[0], h = wh[1];', notify_fn)
             self.assertNotIn('task + MAIN_ROI', notify_fn)
+
+    def test_default_24_slot_filter_bundle_matches_container_package(self):
+        import hashlib, json
+        pkg_py = (HERE / 'container_package_431.py').read_text(encoding='utf-8')
+        expected_sha = 'c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f'
+        self.assertIn(f"FILTER_SHA = '{expected_sha}'", pkg_py)
+        self.assertIn("HERE / 'filters/R5NATIVE.BIN'", pkg_py)
+        bin_path = HERE / 'filters/R5NATIVE.BIN'
+        audit_path = HERE / 'filters/export_audit.json'
+        self.assertTrue(bin_path.is_file())
+        self.assertTrue(audit_path.is_file())
+        self.assertEqual(hashlib.sha256(bin_path.read_bytes()).hexdigest(), expected_sha)
+        audit = json.loads(audit_path.read_text(encoding='utf-8'))
+        self.assertEqual(audit['count'], 24)
+        self.assertEqual(audit['binary_sha256'], expected_sha)
 
 
 if __name__ == '__main__':
