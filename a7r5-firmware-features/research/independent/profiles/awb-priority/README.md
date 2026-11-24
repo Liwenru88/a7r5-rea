@@ -6,7 +6,7 @@
 
 从 `colour_fields.json` 选择 `purpose == "AWB priority"` 的一段。它位于属性 `0x02a40000` 的相对偏移 `0x930`，字节为 `61 ff`。对十二个已锁定的 GL 模板调用 `patch_template`，验证局部范围、重新计算 BK4 bank 校验，再由 DAT 工具更新外层 `backup.sum`。原有用户记录、模板内其他字段和原厂 AP／CP 字节保留。
 
-[字段资源](../../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/dependencies/colour_fields.json) · [模板源码](../../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/templates/prepare_templates.py) · [资源清单](resources.json)
+[字段资源](../../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/dependencies/colour_fields.json) · [模板源码](../../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/templates/prepare_templates.py) · [资源清单](resources.json)
 
 ## 复现与验收
 

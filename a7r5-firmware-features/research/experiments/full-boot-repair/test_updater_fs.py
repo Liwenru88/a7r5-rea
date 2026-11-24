@@ -9,7 +9,7 @@ from shell_status import repair_status
 from fixtures import updater_image
 
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/lib'))
+sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/lib'))
 from fwtool.archive.squashfs import readSquashfs, SquashfsSuper
 
 

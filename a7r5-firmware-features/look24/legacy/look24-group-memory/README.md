@@ -4,4 +4,4 @@
 
 预览开启但省略本模块时，每次切组都从首个有效项开始。跨开机恢复由独立的选择恢复模块管理。
 
-[模块清单](../../../look24-group-memory/module.json) · [定向测试](../../../native24-combined/tests/test_module_options.py)
+[模块清单](../../../look24-group-memory/module.json) · [定向测试](../../../firmware-runtime/tests/test_module_options.py)

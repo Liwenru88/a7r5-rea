@@ -16,7 +16,7 @@
 - 当前4.10独立客体：`a7r5-qemu/build/native12-410-menu-20261102-01/manifest.json`。旧guest11部分文字资源与当前包不同，首次前置检查拒绝后，改为明确替换当前包内对应资源；最终其余CPIO内容和元数据保持。
 - 有效运行：`a7r5-qemu/runs/native-native12-410-tc2enw_f/`。103次真实Qt按钮操作、103张客体帧／PNG独立核对、四轮MENU往返、worker退出0、QMP quit退出0，无固件或图形异常。
 - 输入身份／缺失／篡改／路径／链接拒绝测试：1个参数化测试方法通过；实际macOS沙箱边界：1项通过，固定输入只读、私有文件读取／外部写入／TCP均拒绝，允许本次输出和QMP Unix套接字。
-- 所有截图和精简证据集中到[菜单截图归档](../../native24-combined/dependencies/native12-combined/verification/2026-11-02-qemu-menu/README.md)，没有修改DAT或原回执。
+- 所有截图和精简证据集中到[菜单截图归档](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-02-qemu-menu/README.md)，没有修改DAT或原回执。
 
 | 验证对象 | 状态 | 实际结果 |
 |---|---|---|

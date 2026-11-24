@@ -2,7 +2,7 @@
 
 状态：`VERIFIED_CONTROL_ONLY_WITH_BLOCKERS`，任务整体仍为`IN_PROGRESS`。十二款及故障回退取得`PASS_MENU_ISOLATION`，完整启动／菜单生命周期仍未通过。没有连接相机、USB、SSH、真实SD卡或主机原始分区。固定4.10／4.11包、默认runtime及上游源码保持。
 
-全部新证据和截图归档在[研究记录](../../native24-combined/dependencies/native12-combined/verification/2026-11-02-e4-control/README.md)。新AP是独立修复候选，未打包进现有4.11升级包。
+全部新证据和截图归档在[研究记录](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-02-e4-control/README.md)。新AP是独立修复候选，未打包进现有4.11升级包。
 
 ## 已取得的证据
 
@@ -63,4 +63,4 @@ QEMU项目目录中的实际入口：
 
 用户确认故障发生在现有4.11包，慢速切换正常。本轮完整核对DAT摘要，确认包内仍为字体AP、不含独立E4事件修复。新增真实AArch64回放覆盖忙态连续导航、迟到值通知和下一次输入：旧AP按预期进入页面状态3，修复AP继续下一项请求、保持等待状态4。原版1项预期失败，修复候选6项E4回归及相关13项回归通过。
 
-该时序测试使用真实页面／setter／请求序列代码，通知路由与worker完成快照是显式夹具；不代表真实CP/E4/持久化成功或本次实机复现。没有启动新QEMU，没有新DAT，没有连接设备。既有修复已覆盖新增用例，本轮未新增固件补丁；当前4.11包仍未修复。详细证据与限制见[快速切换调查](../../native24-combined/dependencies/native12-combined/verification/2026-11-03-rapid-switch/README.md)。
+该时序测试使用真实页面／setter／请求序列代码，通知路由与worker完成快照是显式夹具；不代表真实CP/E4/持久化成功或本次实机复现。没有启动新QEMU，没有新DAT，没有连接设备。既有修复已覆盖新增用例，本轮未新增固件补丁；当前4.11包仍未修复。详细证据与限制见[快速切换调查](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-03-rapid-switch/README.md)。

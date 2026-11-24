@@ -2,11 +2,11 @@
 
 面向 **Sony A7R V / ILCE-7RM5、指定官方 4.00 固件前像、macOS Apple Silicon** 的固件构建与相机维护脚本工程。
 
-当前对外最新稳定主线版本为 **4.31**（基于 **4.28** 稳定基线，叠加 **6 档自定义照片纵横比 JPEG/HEIF 全功能裁切**、原厂创意外观放行隔离修复与冷启动加固、AP BSS 安全隔离区扩容），并提供一键构建固件、一键更新信任环境、一键启动 SSH、一键清理 `/tmp/jiritsu/` 残留以及 RAM Fastboot 快速脚本。
+当前对外最新稳定主线版本为 **4.31**（包含 **6 档自定义照片纵横比 JPEG/HEIF 全功能裁切**、原厂创意外观放行隔离修复与冷启动加固、AP BSS 安全隔离区扩容），并提供一键构建固件、一键更新信任环境、一键启动 SSH、一键清理 `/tmp/jiritsu/` 残留以及 RAM Fastboot 快速脚本。
 
 > **本项目仅限个人非商业研究使用，禁止商用。当前仅适配 macOS Apple Silicon，尚未适配 Windows、Linux 和 Intel Mac。** 用途限制适用于作者有权授权的原创内容；第三方代码继续遵循各自许可证，详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
 
-> **验证状态：** 4.31 与其底层 4.28 基线均已由项目作者完成**实机安装与全功能验证**；未纳入主线的实验性固件模块归档于 [`a7r5-firmware-features/research/`](a7r5-firmware-features/research/README.md)。
+> **验证状态：** 4.31 已由项目作者完成**实机安装与全功能验证**；未纳入主线的实验性固件模块归档于 [`a7r5-firmware-features/research/`](a7r5-firmware-features/research/README.md)。
 
 ---
 
@@ -25,15 +25,15 @@
 
 ## 当前版本：4.31
 
-4.31 基于已实机验证的 **4.28** 自包含基线构建，集成全部稳定功能并完成 6 档自定义照片纵横比（JPEG / HEIF 全功能裁切）。
+4.31 从官方 4.00 升级包和稳定版源码构建，支持 6 档自定义照片纵横比（JPEG / HEIF 裁切）。
 
 | 项目 | 说明与身份 |
 |---|---|
 | 目标机型与原厂基底 | Sony ILCE-7RM5 / A7R V，官方 **4.00** `BODYDATA.DAT`（754,525,608 字节，SHA-256 `51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2`） |
-| 4.31 核心能力 | 继承 4.28 全部能力（`look24` 24 槽滤镜、`look-fl2-fl3`、`lens-af-compat`、轻量防抖），新增 **6 档自定义照片纵横比**（`17:6`、`65:24`、`5:4`、`7:6`、`1.91:1`、`2.35:1`，支持 **JPEG 与 HEIF 4:2:0/4:2:2、单拍与 RAW+HEIF、全画幅 L/M/S 及 APS-C L/M/S** 全功能裁切）、`bank_unavailable_only()` 原厂创意外观放行、冷启动 CP 探测加固及 AP BSS 安全隔离扩容（`0x8f13000`） |
+| 4.31 核心能力 | `look24` 24 槽滤镜、`look-fl2-fl3`、`lens-af-compat`、轻量防抖、**6 档自定义照片纵横比**（`17:6`、`65:24`、`5:4`、`7:6`、`1.91:1`、`2.35:1`，支持 **JPEG 与 HEIF 4:2:0/4:2:2、单拍与 RAW+HEIF、全画幅 L/M/S 及 APS-C L/M/S** 全功能裁切）、`bank_unavailable_only()` 原厂创意外观放行、冷启动 CP 探测加固及 AP BSS 安全隔离扩容（`0x8f13000`） |
 | 底层不变式 | `WBI3`（`nflasha5` 首扇区偏移 `0x3` 为 `0x33`）、`nflasha15` 修改 4 个文件（`appFw.so`、`libmpr.so`、2 个 `.uxc`）、`nflasha8` 更新 `cpapp-b.bin`、`nflasha3` 原簇链更新 `AV-CAM.BIN` |
 | 输出 `R5NATIVE.BIN` | 58,976 字节（24 槽精选默认包），SHA-256：`c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f` |
-| 详细说明与归档 | [`release431/PACKAGE-README.md`](a7r5-firmware-features/native24-combined/release431/PACKAGE-README.md) · [`4.28 基线归档`](a7r5-firmware-features/releases/4.28-427-af-debounce-20261117/README.md) |
+| 详细说明 | [`stable-build/PACKAGE-README.md`](a7r5-firmware-features/firmware-runtime/stable-build/PACKAGE-README.md) |
 
 ---
 
@@ -45,32 +45,39 @@
 
 ```sh
 # 显式传入原厂 4.00 BODYDATA.DAT，并将最终产物导出到指定新目录
-./scripts/build_431_from_400.sh /path/to/4.00/BODYDATA.DAT -o ~/Desktop/a7r5-4.31
+./scripts/build_from_400.sh /path/to/4.00/BODYDATA.DAT -o ~/Desktop/a7r5-4.31
 
 # 若已将原厂 4.00 放置于 a7r5-firmware-images/官方升级包/BODYDATA.DAT，可直接无参执行
-./scripts/build_431_from_400.sh
+./scripts/build_from_400.sh
 ```
 
-（如需仅构建不含画幅裁切的 4.28 底层基线，可执行 `./scripts/build_428_from_400.sh`。）
+统一入口始终构建当前稳定版，资源集中维护在 [`stable-build/`](a7r5-firmware-features/firmware-runtime/stable-build/README.md)。
 
-脚本会自动完成环境自检、原厂 4.00 解包、4.28/4.31 编译、RSA 研究签名、736,841 帧回读与 `e2fsck -fn`，并核对输出 `BODYDATA.DAT` 与 `R5NATIVE.BIN` 的构建状态。
+脚本会自动完成环境自检、原厂 4.00 解包、稳定版双次编译、RSA 研究签名、736,841 帧回读与 `e2fsck -fn`，并核对输出 `BODYDATA.DAT` 与 `R5NATIVE.BIN` 的构建状态。
 
 ### 2. 一键更新研究签名信任环境（`scripts/trust_update/`）
 
 用于将当前仓库的研究签名公钥写入相机更新器分区（`/dev/cnflasha1`，258 扇区 / 132,096 字节），使相机可校验并接纳由本项目研究私钥签名的自定义 `BODYDATA.DAT`。
 
 - **双击 / 快捷入口**：`scripts/trust_update/一键更新信任环境.command`（默认使用 `libjit`，也可命令行传入 `kit`：`scripts/trust_update/一键更新信任环境.command kit`）
-- **命令行入口**：
+- **4.00 只读预检**：新 Mac 安装 Python 3 后，可从干净仓库使用同一个 `.command` 入口。预检只使用 Python 标准库和 macOS 自带的 USB 枚举，不需要 `.venv/`、`prepared/` 或 `.local/`。自动识别唯一接入的 `ILCE-7RM5` 和当前 USB 端口。固件版本请以相机菜单为准，预检会注明版本由用户提供。
 
 ```sh
-# 1) 只读检测当前 USB 端口、连接模式（0e0a/0336/096f），不提权、不修改设备
-.venv/bin/python -B scripts/trust_update/update_trust.py --check-only
+# 实时预检，版本参数填相机菜单显示的值
+./scripts/trust_update/一键更新信任环境.command --check-only --firmware-version 4.00
 
-# 2) 一键更新信任环境（支持 libjit 与 kit；若 /tmp/jiritsu 槽位已满建议使用 kit）
+# 离线复查已有 ioreg plist，不枚举当前 USB
+./scripts/trust_update/一键更新信任环境.command --check-only --firmware-version 4.00 --usb-snapshot /path/to/usb.plist
+```
+
+预检退出码 `0` 表示 USB 连接和所填版本符合预检条件，`1` 表示 USB 检测失败，`2` 表示版本未提供或不匹配。通过预检后，机内加载库、预加载状态和分区布局仍待核验。已有更新流程继续使用原有本机依赖。
+
+```sh
+# 一键更新信任环境（支持 libjit 与 kit；若 /tmp/jiritsu 槽位已满建议使用 kit）
 .venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit
 .venv/bin/python -B scripts/trust_update/update_trust.py --engine kit
 
-# 3) 若相机滞留在 0336 服务模式，仅发送 STOP 恢复为普通 MSC 模式
+# 若相机滞留在 0336 服务模式，仅发送 STOP 恢复为普通 MSC 模式
 .venv/bin/python -B scripts/trust_update/update_trust.py --restore-only
 ```
 
@@ -149,7 +156,7 @@ A7R5_BUILD_PYTHON="$(uv python find 3.14)" sh scripts/bootstrap.sh
 chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 ```
 
-- `.venv/`：用于 4.31 / 4.28 固件构建、快速设备脚本与离线测试。
+- `.venv/`：用于稳定版固件构建、快速设备脚本与离线测试。
 - `a7r5-dat-tool/.venv/`：用于 DAT 解析、加解密与验签工具。
 
 ### 3. 准备固定输入
@@ -177,17 +184,14 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 ```text
 .
 ├── scripts/
-│   ├── build_431_from_400.sh       一键从官方 4.00 构建 4.31 固件包
-│   ├── build_428_from_400.sh       一键从官方 4.00 构建 4.28 基线固件包
+│   ├── build_from_400.sh           从官方 4.00 构建当前稳定版
 │   ├── trust_update/               一键更新研究签名信任环境（libjit / kit）
 │   ├── ssh_start/                  一键启动相机 SSH 服务（libjit / kit）与只读诊断脚本
 │   ├── clean_jiritsu/              一键扫描与白名单安全清理 /tmp/jiritsu/（kit）
 │   ├── bootstrap.sh                创建并初始化 Python 3.14 虚拟环境
 │   └── release_check.py            源码发布边界与凭据检查
 ├── a7r5-firmware-features/
-│   ├── native24-combined/release431/  4.31 主线构建源码、6 档画幅裁切与端到端流水线
-│   ├── native24-combined/release428/  4.28 稳定基线自包含构建源码
-│   ├── releases/4.28-427-af-debounce-20261117/  4.28 交付说明与已知问题清单
+│   ├── firmware-runtime/stable-build/  稳定版源码、封包与滤镜配方
 │   ├── look24/                     24 槽自定义滤镜模块
 │   ├── look-fl2-fl3/               FL2 / FL3 与 RAW 12 项备选目录
 │   ├── lens-af-compat/             镜头 AF 能力过滤适配
@@ -217,11 +221,10 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 # 根目录发布边界与路径测试
 .venv/bin/python -B -m unittest discover -s tests -v
 
-# 4.31 与 4.28 补丁不变式及发布配置测试
+# 稳定版构建与源码不变式测试
 .venv/bin/python -B -m pytest -p no:cacheprovider \
-  a7r5-firmware-features/native24-combined/release431/test_patch_431.py \
-  a7r5-firmware-features/native24-combined/release428/test_patch_428.py \
-  a7r5-firmware-features/native24-combined/release428/test_release.py -q
+  a7r5-firmware-features/firmware-runtime/stable-build/test_build.py \
+  a7r5-firmware-features/firmware-runtime/stable-build/test_runtime_sources.py -q
 
 # 快速脚本离线单元测试（更新信任 / SSH 启动 / Jiritsu 清理）
 .venv/bin/python -B scripts/trust_update/test_trust_update.py
@@ -248,7 +251,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 任务参数（未填写则使用括号中的默认值）：
 - 仓库：https://github.com/Liwenru88/a7r5-rea.git
 - 工作目录：（新建 a7r5-rea；已有目录则保留全部改动）
-- 目标版本：（4.31，基于 **4.28** 稳定基线，集成 6 档自定义照片纵横比 JPEG/HEIF 全功能裁切、原厂创意外观放行隔离修复与冷启动加固、AP BSS 安全隔离区扩容）
+- 稳定版本：4.31（集成 6 档自定义照片纵横比 JPEG/HEIF 全功能裁切、原厂创意外观放行隔离修复与冷启动加固、AP BSS 安全隔离区扩容）
 - 原厂 BODYDATA.DAT：（先查本地默认输入路径；缺失时向用户确认合法取得的文件路径）
 - 本轮设备授权：（无；默认仅做离线工作，不连接 USB、不连 SSH、不写卡、不操作相机）
 
@@ -257,8 +260,8 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 2. 先读根 `README.md`、`THIRD_PARTY_NOTICES.md`，按任务需要再查看：
    - `docs/build-inputs.md`、`docs/source-publication.md`、`scripts/release_check.py`；
    - `a7r5-firmware-features/README.md`；
-   - `a7r5-firmware-features/native24-combined/release431/PACKAGE-README.md` 与 `build_431_from_400.py`；
-   - `a7r5-firmware-features/native24-combined/release428/SOURCE-ARCHIVE.md`（4.28 底层基线）；
+   - `a7r5-firmware-features/firmware-runtime/stable-build/PACKAGE-README.md` 与 `build.py`；
+   - `a7r5-firmware-features/firmware-runtime/stable-build/README.md`（构建资源目录）；
    - `scripts/trust_update/update_trust.py`、`scripts/ssh_start/start_ssh.py` 与 `scripts/clean_jiritsu/clean_jiritsu.py`；
    - `a7r5-fastboot/README.md`（仅当涉及 Fastboot 诊断或救砖时）。
    `a7r5-firmware-features/research/` 下存放的是未实机验证的实验模块与历史研究归档，不要把其中的未验证模块当作当前稳定主线推荐。
@@ -269,19 +272,19 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 5. 原厂基底采用适配的 ILCE-7RM5 4.00 `BODYDATA.DAT`（由构建脚本按当前工程逻辑自行识别和校验，不在提示词中硬编码固定哈希或字节数）；核对研究公私钥工具链存在且权限正确（`a7r5-dat-tool/keys/`），不随意替换机内或仓库现有身份，不在输出中泄露私钥或密码。
 6. 使用仓库根目录一键脚本构建 4.31：
    ```sh
-   ./scripts/build_431_from_400.sh /path/to/4.00/BODYDATA.DAT -o /new/output/dir
+   ./scripts/build_from_400.sh /path/to/4.00/BODYDATA.DAT -o /new/output/dir
 ```
    以构建脚本实际通过状态与生成的 `BODYDATA.DAT`、`R5NATIVE.BIN` 产物路径为准（不强行写死校验固定哈希）。
 7. 保持各模块当前源码设计原则与对应单元测试一致（如 `WBI3` 分区策略、`nflasha3` 原簇链更新、早期引导区不变等），一切具体偏移与结构约束以当前版本源码和单元测试为准。
 8. 按需运行离线单元测试并记录实际执行命令与结果：
-   - `a7r5-firmware-features/native24-combined/release431/test_patch_431.py`
-   - `a7r5-firmware-features/native24-combined/release428/test_patch_428.py`、`test_release.py`
+   - `a7r5-firmware-features/firmware-runtime/stable-build/test_build.py`
+   - `a7r5-firmware-features/firmware-runtime/stable-build/test_runtime_sources.py`
    - `scripts/trust_update/test_trust_update.py`、`scripts/ssh_start/test_ssh_start.py`、`scripts/clean_jiritsu/test_clean_jiritsu.py`
    - 根目录 `tests/` 与 `scripts/release_check.py`
 
 三、快速设备脚本与授权门禁
 9. 仅在用户明确授权连接或操作相机后，才可执行以下快速脚本：
-   - **只读 USB 状态检查**：`.venv/bin/python -B scripts/trust_update/update_trust.py --check-only`
+   - **4.00 只读兼容预检**：`./scripts/trust_update/一键更新信任环境.command --check-only --firmware-version 4.00`，版本由用户从相机菜单确认。
    - **一键更新信任环境**：`.venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit`（或使用 `--engine kit` / 双击 `scripts/trust_update/一键更新信任环境.command`，支持动态 `ioreg` 端口识别与 `0336` 预恢复；`kit` 模式全部走 `/tmp_wbshd/` 内存盘，零写入 `/tmp/jiritsu/`）
    - **一键启动 SSH**：`.venv/bin/python -B scripts/ssh_start/start_ssh.py --engine kit --ttl 0`（亦支持 `libjit` 或双击 `scripts/ssh_start/一键启动SSH.command`；如已有 SSH 在运行会超时退出并保留原会话，不发送 `STOP`，可通过 `update_trust.py --restore-only` 恢复普通 MSC）
    - **一键扫描/清理 `/tmp/jiritsu/` 残留**：`.venv/bin/python -B scripts/clean_jiritsu/clean_jiritsu.py --scan-only`（只读查看 FAT12 512 槽位与文件清单；去掉 `--scan-only` 按严格白名单清理研究残留文件以恢复 `libjit` 槽位）
@@ -314,8 +317,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 
 ### 2. 滤镜来源说明
 
-- **随 4.31 更新包默认输出的 `R5NATIVE.BIN`（58,976 字节，24 槽精选）**：存放于 [`a7r5-firmware-features/native24-combined/release431/filters/`](a7r5-firmware-features/native24-combined/release431/filters/export_audit.json)（SHA-256：`c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f`），由 [`sony-r5-colorlab/filters/`](sony-r5-colorlab/filters/README.md) 中的 24 款单款滤镜按 `format_version=5` 打包而成，覆盖富士（`RA`、`CC`、`NC`、`AS`、`PRO400H`、`NN`、`ET`、`VN`）、徕卡（`LM9S`、`LLCHR`、`LLTEA`、`LL100M`）、尼康（`NRTP`、`NDRE`、`NDEN`）、柯达（`P400`、`Gold200`、`PORTRA800`、`500T`、`E100`）与理光（`RRETRO`、`RP`、`RN`、`RCIN-G`）。
-- **底层 4.28 基线默认滤镜包**：若单独使用 `./scripts/build_428_from_400.sh` 构建 4.28 基线，仍默认附带 [`FUJ_12_v45/R5NATIVE.BIN`](a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/filters/FUJ_12_v45/R5NATIVE.BIN)（29,552 字节，源自 `Hearts-Ace` 公开的富士常用 12 款正式参数包）。
+- **随 4.31 更新包默认输出的 `R5NATIVE.BIN`（58,976 字节，24 槽精选）**：由 [稳定版滤镜配方](a7r5-firmware-features/firmware-runtime/stable-build/filters/native_config.json) 编译并按 [导出审计](a7r5-firmware-features/firmware-runtime/stable-build/filters/export_audit.json) 校验（SHA-256：`c8777b689e9c37506abbee49a5dc3964d0000e37b27ef033625122eaf5b77e4f`），由 [`sony-r5-colorlab/filters/`](sony-r5-colorlab/filters/README.md) 中的 24 款单款滤镜按 `format_version=5` 打包而成，覆盖富士（`RA`、`CC`、`NC`、`AS`、`PRO400H`、`NN`、`ET`、`VN`）、徕卡（`LM9S`、`LLCHR`、`LLTEA`、`LL100M`）、尼康（`NRTP`、`NDRE`、`NDEN`）、柯达（`P400`、`Gold200`、`PORTRA800`、`500T`、`E100`）与理光（`RRETRO`、`RP`、`RN`、`RCIN-G`）。
 - **多品牌单款滤镜库与自训练工作台**：完整单款 `.bin` / `.json` 预设收录于 [`sony-r5-colorlab/filters/`](sony-r5-colorlab/filters/README.md)（源自 [`Hearts-Ace/sony-r5-colorlab`](https://github.com/Hearts-Ace/sony-r5-colorlab) 与 [`Hearts-Ace/sony-a7r5-custom-firmware`](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) 公开滤镜库），可通过 [`sony-r5-colorlab/`](sony-r5-colorlab/README.md) 自由选配 24 槽打包导出 `R5NATIVE.BIN`，或基于 Apple Silicon MPS 自行训练新滤镜。
 
 ### 3. 许可声明

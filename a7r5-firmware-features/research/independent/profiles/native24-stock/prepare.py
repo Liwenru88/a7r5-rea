@@ -6,7 +6,7 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 FEATURES = HERE.parents[2]
-NATIVE = FEATURES / 'native24-combined'
+NATIVE = FEATURES / 'firmware-runtime'
 sys.path.insert(0, str(NATIVE / 'release417'))
 
 from container_package import AppendImagePatch, ImageBinding, digest, prepare_cp, prepare_usr, prepare_wbi, reader, require

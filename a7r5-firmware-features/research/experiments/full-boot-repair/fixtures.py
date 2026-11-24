@@ -44,7 +44,7 @@ def updater_image():
 
 
 def _squashfs_member(path):
-    sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/native24-combined'
+    sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/firmware-runtime'
                                '/dependencies/native12-combined/upstream/firmware/r5/src/lib'))
     from fwtool.archive.squashfs import readSquashfs
     for entry in readSquashfs(io.BytesIO(updater_image())):

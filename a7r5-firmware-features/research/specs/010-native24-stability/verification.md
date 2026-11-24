@@ -16,12 +16,12 @@ Status: NOT_VERIFIED
 
 | Evidence | Code State | Command / Step | Result | Scope |
 |---|---|---|---|---|
-| E-001 | 当前AP／CP，`.local/native24-stable-20261103-12` | 根`.venv/bin/python .../native24-combined/build.py --output ... --inputs .../work/inputs` | exit0，AP BSS282145、RX61160、已知帧保守和1360；CP代码7544／单库947000 | 来源、工具链、反向核对、段与栈门禁；真实资源非实测 |
-| E-002 | 同一当前组件及最终源码 | `A7R5_NATIVE24_BUILD=...-12 A7R5_NATIVE24_EVIDENCE=.../final-cpu .venv/bin/python -m pytest -q .../native24-combined/tests --junitxml=.../final-regression.xml` | 46通过，525.75秒；session-result PASS、full_related_suite、sources_unchanged均真 | OS／文件／UI／E4外部执行夹具；真实AP／CP指令 |
+| E-001 | 当前AP／CP，`.local/native24-stable-20261103-12` | 根`.venv/bin/python .../firmware-runtime/build.py --output ... --inputs .../work/inputs` | exit0，AP BSS282145、RX61160、已知帧保守和1360；CP代码7544／单库947000 | 来源、工具链、反向核对、段与栈门禁；真实资源非实测 |
+| E-002 | 同一当前组件及最终源码 | `A7R5_NATIVE24_BUILD=...-12 A7R5_NATIVE24_EVIDENCE=.../final-cpu .venv/bin/python -m pytest -q .../firmware-runtime/tests --junitxml=.../final-regression.xml` | 46通过，525.75秒；session-result PASS、full_related_suite、sources_unchanged均真 | OS／文件／UI／E4外部执行夹具；真实AP／CP指令 |
 | E-003 | QEMU `native24-stable-menu-20261103-05`／`ekfna2tl` | QEMU自身`.venv`，2项unittest；`run_validation.py`实际QTest操作，96个动作含STOP | 96原帧与PNG一致；24双向遍历及原厂／MENU往返；worker／AP／CP退出0 | schema2、2328只读；原E4在途1，等待0／完成0／需要恢复1，未证明成像 |
 | E-004 | 当前源、基底与工具链 | `.local/native24-stable-repro-20261103-01`重新构建；比较owned_sources、external_sources及四组件 | 全部一致 | 未使用旧缓存替代重编 |
-| E-005 | E-001～004来源与当前源码 | 在QEMU现有Python环境执行`native24-combined/archive.py` | 988文件加SHA清单，压缩包重新读取核对通过；tar SHA `cf8dc76ab9d2c3e247efb3f3b7492f61460afcc052b982bbe4800c77dac38b12` | 研究组件包；无私钥／DAT，不可安装 |
+| E-005 | E-001～004来源与当前源码 | 在QEMU现有Python环境执行`firmware-runtime/archive.py` | 988文件加SHA清单，压缩包重新读取核对通过；tar SHA `cf8dc76ab9d2c3e247efb3f3b7492f61460afcc052b982bbe4800c77dac38b12` | 研究组件包；无私钥／DAT，不可安装 |
 
-完整回执、源码、目标文件和当前帧见[归档](../../native24-combined/verification/2026-11-03-stability-01/README.md)，用户可读说明见[交付说明](../../native24-combined/稳定性优化交付说明.md)。修复前预期失败XML在归档tests/cpu中保留，009和早期候选的通过结果不替代本轮最终身份。
+完整回执、源码、目标文件和当前帧见[归档](../../firmware-runtime/verification/2026-11-03-stability-01/README.md)，用户可读说明见[交付说明](../../firmware-runtime/稳定性优化交付说明.md)。修复前预期失败XML在归档tests/cpu中保留，009和早期候选的通过结果不替代本轮最终身份。
 
 真实E4完整初始化、LCD／EVF／JPEG、介质掉电、完整电源及安装验收为MANUAL_REQUIRED。本轮不进行相机、USB、SSH、实体SD或原始分区操作。

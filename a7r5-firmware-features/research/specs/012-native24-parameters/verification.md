@@ -26,7 +26,7 @@ CP：`35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300`。AP BSS
 ```sh
 A7R5_NATIVE24_BUILD="$PWD/.local/native24-parameters-20261103-07" \
 A7R5_NATIVE24_EVIDENCE="$PWD/.local/native24-parameters-20261103-07/regression" \
-.venv/bin/python -m pytest -q a7r5-firmware-features/native24-combined/tests \
+.venv/bin/python -m pytest -q a7r5-firmware-features/firmware-runtime/tests \
   --tb=short --junitxml=.local/native24-parameters-20261103-07/regression.xml
 ```
 
@@ -40,7 +40,7 @@ QEMU命令见[独立实验说明](../../../a7r5-qemu/experiments/native24-parame
 | AC-004 固定快照、最后目标和失败回退 | PASS（离线） | E-002／005 |
 | AC-005 可追溯交付与QEMU截图 | PASS | E-004／005／006／007 |
 
-归档：[研究组件与证据](../../native24-combined/verification/2026-11-03-parameters-01/README.md)、[结果](../../native24-combined/verification/2026-11-03-parameters-01/results.json)、[交付说明与截图](../../native24-combined/八项调参交付说明.md)。压缩包SHA256：`4e6bde0421db5661c20275b7fea5f692d1a610e9a455829a8b17196e842a7546`。没有提交、推送、签名或设备操作。
+归档：[研究组件与证据](../../firmware-runtime/verification/2026-11-03-parameters-01/README.md)、[结果](../../firmware-runtime/verification/2026-11-03-parameters-01/results.json)、[交付说明与截图](../../firmware-runtime/八项调参交付说明.md)。压缩包SHA256：`4e6bde0421db5661c20275b7fea5f692d1a610e9a455829a8b17196e842a7546`。没有提交、推送、签名或设备操作。
 
 ## 验收边界
 

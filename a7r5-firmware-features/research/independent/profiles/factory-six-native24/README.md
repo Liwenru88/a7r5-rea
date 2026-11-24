@@ -8,7 +8,7 @@
 - CP 复用历史 1215 字节原生色表和 108 字节联合增量。六款 Gamma 私有行 75–86 与 SD 槽行 51–74 分开。配方包含 Classic Neg.、Classic Chrome、Nostalgic Neg.、Astia、GR Positive Film、GR Negative Film。
 - 现有 `build_legacy_six.py` 会锁定十档 AP、CP、AVCAM 和资源前像。该源实现目前依赖十档组件建立的早期 CP 页映射。封包增量只更新 `nflasha15`、`nflasha8` 和分区校验表，十档基线的 AVCAM 与图标直接复用。
 
-[六款源码构建与测试](../../../native24-combined/README.md#原厂组-c1c6-六款固定滤镜) · [配方资产](../../../materials/upstream-default-six) · [资源清单](resources.json)
+[六款源码构建与测试](../../../firmware-runtime/README.md#原厂组-c1c6-六款固定滤镜) · [配方资产](../../../materials/upstream-default-six) · [资源清单](resources.json)
 
 ## 复现
 

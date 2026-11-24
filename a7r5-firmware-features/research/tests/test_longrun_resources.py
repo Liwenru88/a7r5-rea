@@ -22,13 +22,13 @@ def load(name, path):
 
 @pytest.fixture
 def cp():
-    support = load('longrun_actual_cp', FEATURES / 'native24-combined/dependencies/native12-combined/tests/runtime_support.py')
+    support = load('longrun_actual_cp', FEATURES / 'firmware-runtime/dependencies/native12-combined/tests/runtime_support.py')
     folder = Path(os.environ.get('A7R5_LONGRUN_BUILD', BUILD))
     support.BASELINE = folder
     path = Path(os.environ.get('A7R5_LONGRUN_CP', folder / (
         'work/cp/cp423.NONINSTALLABLE.bin' if 'A7R5_LONGRUN_BUILD' in os.environ else 'cpapp-b.bin')))
     machine = support.CP(path.read_bytes())
-    service = load('longrun_cp_services', FEATURES / 'native24-combined/tests/cp_services.py')
+    service = load('longrun_cp_services', FEATURES / 'firmware-runtime/tests/cp_services.py')
     service.receiver_services(machine, budget=16 * 947000)
     return machine
 

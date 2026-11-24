@@ -6,7 +6,7 @@
 
 从 `colour_fields.json` 选择 `purpose == "R6 ST"` 的两段，分别写入 CC1 属性 `0x02a40001` 和矩阵属性 `0x02a4000d`。调用原模板处理器的 `patch_template`，核对每个原厂模板的完整摘要、双 BK4 bank 布局、范围和属性，更新受影响的内部校验。第二次应用要得到相同结果。DAT 工具另重算 `backup.sum`。
 
-[字段资源](../../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/dependencies/colour_fields.json) · [模板源码](../../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/templates/prepare_templates.py) · [资源清单](resources.json)
+[字段资源](../../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/dependencies/colour_fields.json) · [模板源码](../../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/templates/prepare_templates.py) · [资源清单](resources.json)
 
 ## 复现与验收
 

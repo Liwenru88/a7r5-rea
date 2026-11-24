@@ -20,7 +20,7 @@ def image():
     if not directory:
         pytest.skip('需要 --custom-sound 构建产物，设置 R5_SOUND_WORKSPACE')
     output = Path(directory).parent
-    support = MODULE.parent / 'native24-combined/dependencies/native12-combined/tests/runtime_support.py'
+    support = MODULE.parent / 'firmware-runtime/dependencies/native12-combined/tests/runtime_support.py'
     spec = importlib.util.spec_from_file_location('shutter_bound_support', support)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

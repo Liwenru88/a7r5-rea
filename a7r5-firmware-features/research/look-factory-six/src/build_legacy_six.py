@@ -15,7 +15,7 @@ from capstone import Cs, CS_ARCH_ARM, CS_MODE_THUMB
 from elftools.elf.elffile import ELFFile
 
 HERE = Path(__file__).resolve().parent
-NATIVE = HERE.parents[1] / 'native24-combined'
+NATIVE = HERE.parents[1] / 'firmware-runtime'
 sys.path[:0] = [str(NATIVE), str(NATIVE / 'dependencies/native12-combined')]
 from legacy_six import MATERIALS, load_recipes
 from patches import BASE, PatchSet, digest, require, thumb_b

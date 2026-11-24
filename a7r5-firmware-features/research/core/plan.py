@@ -6,7 +6,7 @@ import re
 
 FEATURES = Path(__file__).resolve().parents[1]
 ROOT = FEATURES.parent
-GL = FEATURES / 'native24-combined/dependencies/native12-combined/upstream/firmware/r5/src'
+GL = FEATURES / 'firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src'
 GL_DATA = GL / 'dependencies/colour_fields.json'
 GL_PREFIX = '0110_backup/SYSIPSX-DSLR/GL/'
 PART_SUM = '0701_part_image_sum/part_image.sum'

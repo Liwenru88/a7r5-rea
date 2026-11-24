@@ -42,7 +42,7 @@ def apply(raw, output, *, source_sha256):
                '-mfloat-abi=soft', '-c', str(HERE / 'raw_alternatives.S'), '-o', str(obj)]
     subprocess.run(command, check=True, capture_output=True)
     library = FEATURES / 'photo-electronic-shutter-sound/bindings/upstream/src/lib'
-    operations = FEATURES / 'native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/lib'
+    operations = FEATURES / 'firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/lib'
     sys.path[:0] = [str(library), str(operations)]
     try:
         from thumb_link import link

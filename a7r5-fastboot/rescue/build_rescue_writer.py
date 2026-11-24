@@ -13,7 +13,7 @@ import subprocess
 HERE = pathlib.Path(__file__).resolve().parent          # a7r5-fastboot/rescue
 MODULE = HERE.parent                                     # a7r5-fastboot
 REPO = MODULE.parent
-SRC = (REPO / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/'
+SRC = (REPO / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/'
               'upstream/analysis/r5_verifykey_skip_flash_20261014/partition1_usb.c')
 BUILD = HERE / 'build'
 CLANG = '/usr/bin/clang'

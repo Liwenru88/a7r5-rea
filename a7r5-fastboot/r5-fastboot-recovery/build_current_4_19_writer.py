@@ -3,7 +3,7 @@
 from __future__ import annotations
 import argparse, hashlib, subprocess
 from pathlib import Path
-SOURCE=Path(__file__).resolve().parents[2]/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/analysis/r5_verifykey_skip_flash_20261014/partition1_usb.c'
+SOURCE=Path(__file__).resolve().parents[2]/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream/analysis/r5_verifykey_skip_flash_20261014/partition1_usb.c'
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def main():
  p=argparse.ArgumentParser();p.add_argument('--sparse',type=Path,required=True);p.add_argument('--expected-sparse-sha256');p.add_argument('--output',type=Path,required=True);a=p.parse_args()

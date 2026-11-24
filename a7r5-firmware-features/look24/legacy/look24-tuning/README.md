@@ -4,4 +4,4 @@
 
 省略本模块时，自定义项的调参入口关闭，原厂项仍走原调参路径。旧微调文件保留，自定义的原生参数消息沿用原始值。
 
-[模块清单](../../../look24-tuning/module.json) · [偏移及文件格式](../../../native24-combined/相对偏移调参说明.md) · [定向测试](../../../native24-combined/tests/test_module_options.py)
+[模块清单](../../../look24-tuning/module.json) · [偏移及文件格式](../../../firmware-runtime/相对偏移调参说明.md) · [定向测试](../../../firmware-runtime/tests/test_module_options.py)

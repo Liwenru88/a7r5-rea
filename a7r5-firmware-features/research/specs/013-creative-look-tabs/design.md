@@ -5,7 +5,7 @@ Status: IMPLEMENTED_OFFLINE
 
 ## 当前接线与边界
 
-012拥有源为`native24-combined/runtime/unified-look.c`，原43行注册及MID／selector保持。已读取原`n12_dispatch`、`n12_labels`、`n12_refresh`、`n12_current`及原D9标签更新体`0x2208e34`。主页和调参页的vtable分别为`0x58ca670`和`0x58ca720`。现有中键事件由原分发处理并保留在途保护，右键进入DA调参页。
+012拥有源为`firmware-runtime/runtime/unified-look.c`，原43行注册及MID／selector保持。已读取原`n12_dispatch`、`n12_labels`、`n12_refresh`、`n12_current`及原D9标签更新体`0x2208e34`。主页和调参页的vtable分别为`0x58ca670`和`0x58ca720`。现有中键事件由原分发处理并保留在途保护，右键进入DA调参页。
 
 只在当前创意外观主页面启用分组，不将原厂条目从全局注册树或Fn入口删除，不重新编号或移动持久化数据。复用原厂顶部标题控件和真实中文字体渲染两组名称，方括号表示当前组，`>`表示Tab获得焦点；不在模拟器绘制Tab，不修改PNG，不改未经确认的原控件颜色字段。
 
@@ -29,11 +29,11 @@ Status: IMPLEMENTED_OFFLINE
 
 | Path | Action | Responsibility | Requirement |
 |---|---|---|---|
-| `native24-combined/runtime/unified-look.c`及必要的新拥有辅助源 | modify/create | Tab、焦点、原列表投影、浏览抑制及原厂委派 | REQ-001～004 |
-| `native24-combined/build.py`及必要的严格派生接线 | modify | 新调用点／前像、Tab修订和预算检查 | REQ-005 |
-| `native24-combined/tests/test_tabs.py`及必要夹具 | create/modify | 浏览无写入、输入层级、边界及原操作回归 | REQ-001～005 |
+| `firmware-runtime/runtime/unified-look.c`及必要的新拥有辅助源 | modify/create | Tab、焦点、原列表投影、浏览抑制及原厂委派 | REQ-001～004 |
+| `firmware-runtime/build.py`及必要的严格派生接线 | modify | 新调用点／前像、Tab修订和预算检查 | REQ-005 |
+| `firmware-runtime/tests/test_tabs.py`及必要夹具 | create/modify | 浏览无写入、输入层级、边界及原操作回归 | REQ-001～005 |
 | `a7r5-qemu/experiments/native24-tabs-menu/` | create | 独立固定新AP的只读观察、真实Qt输入与原帧 | REQ-005 |
-| `native24-combined/archive.py`、当前索引及交付说明 | modify/create | 新回执门禁与封存 | REQ-005 |
+| `firmware-runtime/archive.py`、当前索引及交付说明 | modify/create | 新回执门禁与封存 | REQ-005 |
 
 先建立旧012上的Tab缺失／无应用保护回归，再做最小AP实现；用可执行状态机测试覆盖主行为和关键拒绝。原生菜单分发／渲染是独立边界，必须由QEMU实际输入复验，记录浏览及已应用状态。实现冻结后执行一次完整相关回归及独立重建，再封存新归档。旧012及更早归档不改；回退直接使用原封存研究组件，不迁移文件。
 

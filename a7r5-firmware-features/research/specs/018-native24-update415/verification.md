@@ -7,7 +7,7 @@ Status: OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED
 | 项目 | 实际结果 |
 |---|---|
 | 构建 | `.local/native24-update415-20261104-01`，COMPLETED，未残留INCOMPLETE标记 |
-| 封包命令 | `a7r5-dat-tool/.venv/bin/python -B a7r5-firmware-features/native24-combined/release415/build.py --output .local/native24-update415-20261104-01` |
+| 封包命令 | `a7r5-dat-tool/.venv/bin/python -B a7r5-firmware-features/firmware-runtime/release415/build.py --output .local/native24-update415-20261104-01` |
 | 封装层回归 | 51 PASS，1.08秒；原始XML／日志在交付evidence中 |
 | 版本／头 | 4.15，版本字节`15 04`，头CRC32核对通过；原机型标识`0x11030080`保持 |
 | DAT | 754525608字节，SHA256 `4924ccfa29bb711124a31667a8f51e0b7e691d4547edc371e82989c40a017dde` |
@@ -22,6 +22,6 @@ Status: OFFLINE_PACKAGE_VERIFIED_DEVICE_RETEST_REQUIRED
 
 证据复用没有扩大原结论：82项完整CPU回归只绑定与4.14相同的AP／CP，源码差异严格限定为017编码器与构建器；本次分块7项和构建／Tab16项另行绑定新资源、源码及原XML。017固定tar／535项目录清单、独立重建、实际组件和103幅QEMU帧回执均重新核对；QEMU验证器再次检查CPIO、PNG和Qt／AP／CP退出，没有重启虚拟器。未把旧图标场景计入新资源的103帧，也未声称本轮重跑完整CPU或QEMU。
 
-交付为[4.15目录](../../native24-combined/releases/4.15/README.md)，完整回执见`verification.json`、`evidence/runtime-evidence.json`、`evidence/packaging-tests.xml`、`evidence/previous-version-comparison.json`及`CONTENTS.sha256`。导出过程另有`.local/native24-update415-20261104-01/export-proof.json`。
+交付为[4.15目录](../../firmware-runtime/releases/4.15/README.md)，完整回执见`verification.json`、`evidence/runtime-evidence.json`、`evidence/packaging-tests.xml`、`evidence/previous-version-comparison.json`及`CONTENTS.sha256`。导出过程另有`.local/native24-update415-20261104-01/export-proof.json`。
 
 当前整体仍为NOT_VERIFIED。用户已报告4.14仍重启，4.15没有实机日志、LDEC硬件、版本准入、升级／恢复、启动和实际成像验收；QEMU原E4和长列表标题抓帧边界继续保留。离线包校验通过不等于机身重启已消除。

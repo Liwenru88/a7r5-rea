@@ -8,7 +8,7 @@
 2. 用 `lens_af.S` 编译 Thumb 辅助代码，固定在 `0xbef780`，确认末尾不超过 `0xbef7c0`。检查五处原始调用指令后修改，输出 CP 摘要 `530b45341bd1…`。
 3. 等长替换 `nflasha8` 内的 `cpapp-b.bin`。AP、AVCAM、原厂纵横比资源和 WBI 使用输入版本。
 
-[源码](../../../lens-af-compat/src/lens_af.py) · [移植记录和回放命令](../../../native24-combined/A7M4功能移植记录.md#镜头-af-能力过滤) · [五处补丁回执](cp-patch.json) · [资源清单](resources.json)
+[源码](../../../lens-af-compat/src/lens_af.py) · [移植记录和回放命令](../../../firmware-runtime/A7M4功能移植记录.md#镜头-af-能力过滤) · [五处补丁回执](cp-patch.json) · [资源清单](resources.json)
 
 ## 复现与验收
 

@@ -8,7 +8,7 @@ import sys
 import pytest
 
 FEATURES = Path(__file__).resolve().parents[1]
-LEGACY = FEATURES / 'native24-combined/dependencies/native12-combined'
+LEGACY = FEATURES / 'firmware-runtime/dependencies/native12-combined'
 GL = LEGACY / 'upstream/firmware/r5/src'
 
 

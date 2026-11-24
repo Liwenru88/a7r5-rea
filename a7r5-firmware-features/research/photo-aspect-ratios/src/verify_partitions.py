@@ -8,7 +8,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 FEATURES = HERE.parents[1]
 ROOT = FEATURES.parent
-sys.path[:0] = [str(ROOT / 'a7r5-dat-tool'), str(FEATURES / 'native24-combined/release417')]
+sys.path[:0] = [str(ROOT / 'a7r5-dat-tool'), str(FEATURES / 'firmware-runtime/release417')]
 from a7r5dat.ext2_image_append import AppendImagePatch, ImageBinding
 from a7r5dat.ext2_patch import reader
 from a7r5dat.ext2read import Ext2

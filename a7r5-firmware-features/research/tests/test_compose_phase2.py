@@ -64,7 +64,7 @@ def test_relocated_marker_header_and_ntsc_preserve_native24_binary(images):
 
 def test_markers_and_ntsc_execute_from_combination(images):
     _, raw, _ = images
-    path = FEATURES / 'native24-combined/dependencies/native12-combined/tests/test_integration.py'
+    path = FEATURES / 'firmware-runtime/dependencies/native12-combined/tests/test_integration.py'
     spec = importlib.util.spec_from_file_location('legacy_phase2_instructions', path)
     legacy = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(legacy)

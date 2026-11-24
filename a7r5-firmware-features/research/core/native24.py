@@ -29,7 +29,7 @@ def prepare_wbi_marker(source, output, *, source_sha256, target_sha256):
 from .plan import FEATURES, ROOT, WBI_IMAGE, digest, read_json, require, sha
 from . import capture
 
-NATIVE = FEATURES / 'native24-combined'
+NATIVE = FEATURES / 'firmware-runtime'
 REFERENCE = FEATURES / 'independent/profiles/native24-stock'
 RUNTIME_COMPONENTS = FEATURES / 'look24/runtime-components.json'
 MATERIALS = FEATURES / 'materials'

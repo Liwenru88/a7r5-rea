@@ -7,7 +7,7 @@ import shutil
 import urllib.request
 
 HERE = Path(__file__).resolve().parent
-DEFAULT_ROOT = HERE.parent / 'native24-combined/dependencies/native12-combined/upstream'
+DEFAULT_ROOT = HERE.parent / 'firmware-runtime/dependencies/native12-combined/upstream'
 CAPSULE = HERE / 'snapshot-repair.json'
 COMMIT = '47f8f022628aef8de382a613ea4d11cd51d0a965'
 SNAPSHOT = 'c81e5b4681479eccf99224aae820adabaf139df3fb758a1e1927d81787e0ad95'

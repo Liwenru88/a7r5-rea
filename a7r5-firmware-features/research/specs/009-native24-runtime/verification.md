@@ -16,9 +16,9 @@ Updated: 2026-11-03
 
 | Evidence | Code State | Command / Step | Result | Scope |
 |---|---|---|---|---|
-| E-001 | AP c4efcaa0…／CP31f85fa3… | 根目录`.venv/bin/python .../native24-combined/build.py --output .local/native24-runtime-20261103-05` | exit 0，前像／逆还原／不重叠通过 | 新独立组件，无DAT；前四次中间／失败候选保留 |
+| E-001 | AP c4efcaa0…／CP31f85fa3… | 根目录`.venv/bin/python .../firmware-runtime/build.py --output .local/native24-runtime-20261103-05` | exit 0，前像／逆还原／不重叠通过 | 新独立组件，无DAT；前四次中间／失败候选保留 |
 | E-002 | 同一新AP／CP＋最终测试源 | `A7R5_NATIVE24_BUILD=... .venv/bin/python -m pytest .../test_runtime.py`，追加资源／持久化及图标定向验证 | 15＋1＋1＋1＝18通过 | 真实AP／CP与文件协议，原E4外部执行／OS／UI服务夹具明确 |
 | E-003 | `native24-menu-20261103-02`／`rsdd3lr1` | QEMU目录自身`.venv`，2项unittest；真实Qt前台设置、UP24／DOWN24、原厂与MENU往返 | 2项通过，96帧逐像素一致，三侧退出0 | 仅菜单／真实失败闭环；最后命令3、AP／CP／文件0，不是滤镜实际成功 |
 | E-004 | 归档组件及冻结源 | 上游331文件、旧DAT／旧AP、22派生文件、原帧及来源检查 | PASS | 旧交付保持，实际堆／成像与新增真实配方未验证 |
 
-完整命令、XML、组件、源码、图形、原帧、失败现场和剩余门禁见[本轮归档](../../native24-combined/verification/2026-11-03-01/README.md)。008原型、旧005／006记录保持，不以本轮离线任务完成覆盖其整机缺口。
+完整命令、XML、组件、源码、图形、原帧、失败现场和剩余门禁见[本轮归档](../../firmware-runtime/verification/2026-11-03-01/README.md)。008原型、旧005／006记录保持，不以本轮离线任务完成覆盖其整机缺口。

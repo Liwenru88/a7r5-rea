@@ -18,7 +18,7 @@
 | nflasha5 | 保留原厂快照，只把 WBI 头标记由 `WBI2` 改为 `WBI3`（偏移 `0x3` 的 1 字节），重算校验和 |
 | part_image.sum | 重新生成上述分区的 CRC 行 |
 
-`WBI2`／`WBI3` 是首扇区头标记。原厂更新器先清理快照头，随后写回包内分区，最后按清单校验。正确策略是保留原厂快照、只把标记 2→3，让包内镜像写回有效的 `WBI3` 头；改标记后镜像 CRC32 由 `0ff04cda` 变为 `76ce0feb`，需重算 `part_image.sum`。此前本独立包采用的“首扇区保持清理态”已废弃（2026-11-16）：清零后包内与设备都不再带有效头标记。注意该 profile 的脚本目前仍走零清分支，重新出包前需先同步代码。更新器、内核及 AVCAM 与原厂 4.00 字节相同。此处理仍需实机启动验收。 [写入顺序及历史故障分析](../../../native24-combined/4.18启动故障离线分析.md)
+`WBI2`／`WBI3` 是首扇区头标记。原厂更新器先清理快照头，随后写回包内分区，最后按清单校验。正确策略是保留原厂快照、只把标记 2→3，让包内镜像写回有效的 `WBI3` 头；改标记后镜像 CRC32 由 `0ff04cda` 变为 `76ce0feb`，需重算 `part_image.sum`。此前本独立包采用的“首扇区保持清理态”已废弃（2026-11-16）：清零后包内与设备都不再带有效头标记。注意该 profile 的脚本目前仍走零清分支，重新出包前需先同步代码。更新器、内核及 AVCAM 与原厂 4.00 字节相同。此处理仍需实机启动验收。 [写入顺序及历史故障分析](../../../firmware-runtime/4.18启动故障离线分析.md)
 
 ## 从锁定资源复现升级包
 
@@ -32,16 +32,16 @@
 
 ## 从源码实施和封包
 
-1. 解包原厂 DAT，校验 manifest.json、AP、CP 和分区摘要。运行时从冻结的十二槽代码派生，保留 24 槽布局、AP／CP 配对协议和现有稳定性逻辑。`--stock` 选择原厂输入并跳过整合版的本地 AP／CP 补丁。 [构建入口](../../../native24-combined/build.py) · [派生入口](../../../native24-combined/derive.py) · [24 槽布局](../../../native24-combined/layout.json)
-2. AP 在原厂创意外观枚举、预览、确认和调参处接入运行时。原厂可见性和原有选择器保留，独立滤镜菜单和 Fn 项不注册。原生空闲事件调用后台选择服务和界面刷新，CP 确认、E4 更新与机内事务按序提交。 [菜单逻辑](../../../native24-combined/runtime/unified-look.c) · [选择服务](../../../native24-combined/runtime/r5_filter_runtime423.c)
-3. CP 以原厂 Gamma 指针表 0x110cfa8、普通路由 0xdcc514 和外观路由 0xdcc67c 为基准。保留原厂 47 行，堆内保留 4 个空位，使自定义仍占 51～74。各槽的 CC1、矩阵、129 点 Gamma 和色度网格沿用配方解析。自定义释放后恢复原厂路由，同时为仍在处理的旧 ID 提供原厂曲线。原厂启动映射器继续执行，另映射运行时代码所在两页。 [原厂适配](../../../native24-combined/stock400.py) · [CP 对照测试](../../../native24-combined/tests/test_stock400.py)
-4. 冷启动读取并校验库，机内以同目录临时文件发布。选择记录与配方库绑定，微调以 CC1、矩阵、Gamma 和网格的身份绑定。调参只在原生 E4 消息上应用有符号偏移，再限幅到原厂范围。 [冷启动读取](../../../native24-combined/runtime/r5_stage413_thread.c) · [事务保存](../../../native24-combined/runtime/r5_stable_io425.c) · [参数实施](../../../native24-combined/相对偏移调参说明.md)
+1. 解包原厂 DAT，校验 manifest.json、AP、CP 和分区摘要。运行时从冻结的十二槽代码派生，保留 24 槽布局、AP／CP 配对协议和现有稳定性逻辑。`--stock` 选择原厂输入并跳过整合版的本地 AP／CP 补丁。 [构建入口](../../../firmware-runtime/build.py) · [派生入口](../../../firmware-runtime/derive.py) · [24 槽布局](../../../firmware-runtime/layout.json)
+2. AP 在原厂创意外观枚举、预览、确认和调参处接入运行时。原厂可见性和原有选择器保留，独立滤镜菜单和 Fn 项不注册。原生空闲事件调用后台选择服务和界面刷新，CP 确认、E4 更新与机内事务按序提交。 [菜单逻辑](../../../firmware-runtime/runtime/unified-look.c) · [选择服务](../../../firmware-runtime/runtime/r5_filter_runtime423.c)
+3. CP 以原厂 Gamma 指针表 0x110cfa8、普通路由 0xdcc514 和外观路由 0xdcc67c 为基准。保留原厂 47 行，堆内保留 4 个空位，使自定义仍占 51～74。各槽的 CC1、矩阵、129 点 Gamma 和色度网格沿用配方解析。自定义释放后恢复原厂路由，同时为仍在处理的旧 ID 提供原厂曲线。原厂启动映射器继续执行，另映射运行时代码所在两页。 [原厂适配](../../../firmware-runtime/stock400.py) · [CP 对照测试](../../../firmware-runtime/tests/test_stock400.py)
+4. 冷启动读取并校验库，机内以同目录临时文件发布。选择记录与配方库绑定，微调以 CC1、矩阵、Gamma 和网格的身份绑定。调参只在原生 E4 消息上应用有符号偏移，再限幅到原厂范围。 [冷启动读取](../../../firmware-runtime/runtime/r5_stage413_thread.c) · [事务保存](../../../firmware-runtime/runtime/r5_stable_io425.c) · [参数实施](../../../firmware-runtime/相对偏移调参说明.md)
 5. 生成两份图标资源，沿用原厂 4 KiB 分块边界。将 AP 和图标写入原 ext2 文件，CP 写入原 FAT 文件，独立回读 WBI 范围。三个新分区生成后只写入新解包工作区，由 DAT 工具重算分区校验表。 [分区准备脚本](prepare.py)
 
-在公共准备得到的全新 `out` 中执行以下命令。根目录 `.venv` 负责 ARM／AArch64 编译与回放，DAT 环境负责解包、封包和验签。编译使用仓库现有 clang／LLVM／lld 路径，ext2 检查使用 Homebrew 的 e2fsck。 [编译依赖](../../../native24-combined/实施与复现手册.md)
+在公共准备得到的全新 `out` 中执行以下命令。根目录 `.venv` 负责 ARM／AArch64 编译与回放，DAT 环境负责解包、封包和验签。编译使用仓库现有 clang／LLVM／lld 路径，ext2 检查使用 Homebrew 的 e2fsck。 [编译依赖](../../../firmware-runtime/实施与复现手册.md)
 
 ~~~sh
-native="$PWD/a7r5-firmware-features/native24-combined"
+native="$PWD/a7r5-firmware-features/firmware-runtime"
 profile="$PWD/a7r5-firmware-features/independent/profiles/native24-stock"
 dat="$PWD/a7r5-dat-tool/dattool.py"
 key="$PWD/a7r5-dat-tool/keys/sony-original-public.pem"

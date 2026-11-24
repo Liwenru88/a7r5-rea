@@ -4,4 +4,4 @@
 
 省略该模块时，冷启动和暖恢复都使用已提交的机内库。配方读取和回退保护由基础模块提供。实机 SD 卡和掉电耐久性仍需独立验证。
 
-[模块清单](../../../look24-sd-import/module.json) · [原厂启动适配](../../../native24-combined/module_options.py) · [构建手册](../../../构建工程实施手册.md)
+[模块清单](../../../look24-sd-import/module.json) · [原厂启动适配](../../../firmware-runtime/module_options.py) · [构建手册](../../../构建工程实施手册.md)

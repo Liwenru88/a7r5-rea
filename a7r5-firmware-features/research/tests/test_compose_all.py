@@ -69,7 +69,7 @@ def test_final_ap_contains_only_marker_and_ntsc_additions(work, base424):
     at, = struct.unpack_from('<Q', actual, 32)
     assert struct.unpack_from('<QQ', actual, at+32) == (0x500fc70, 0x500fc70)
     spec = importlib.util.spec_from_file_location('all_marker_instructions',
-        FEATURES / 'native24-combined/dependencies/native12-combined/tests/test_integration.py')
+        FEATURES / 'firmware-runtime/dependencies/native12-combined/tests/test_integration.py')
     legacy = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(legacy)
     legacy.test_marker_registration_executes_original_range_validator((None, None, actual))

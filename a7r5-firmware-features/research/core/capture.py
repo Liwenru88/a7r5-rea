@@ -6,7 +6,7 @@ import subprocess
 
 from .plan import AVCAM_IMAGE, FEATURES, ROOT, digest, read_json, require, sha
 
-NATIVE = FEATURES / 'native24-combined'
+NATIVE = FEATURES / 'firmware-runtime'
 ASPECT = FEATURES / 'photo-aspect-ratios'
 PINS = ASPECT / 'resources.json'
 AVCAM = 'AV-CAM.BIN'

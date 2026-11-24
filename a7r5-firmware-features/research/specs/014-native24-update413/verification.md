@@ -18,13 +18,13 @@ Status: NOT_VERIFIED
 
 ```sh
 a7r5-dat-tool/.venv/bin/python -B \
-  a7r5-firmware-features/native24-combined/release413/build.py \
+  a7r5-firmware-features/firmware-runtime/release413/build.py \
   --output .local/native24-update413-20261103-01
 ```
 
 完整现场：`.local/native24-update413-20261103-01`；总日志：`.local/native24-update413-20261103-01.log`。原始帧与运行时证据仍由013封存提供，包内AP、CP及两图形资源逐字节对应，不另跑未变化的QEMU。
 
-交付：[4.13说明](../../native24-combined/releases/4.13/README.md)、[BODYDATA.DAT](../../native24-combined/releases/4.13/BODYDATA.DAT)、[回执](../../native24-combined/releases/4.13/verification.json)、[全目录摘要](../../native24-combined/releases/4.13/CONTENTS.sha256)。DAT大小754525608字节，SHA256：`efeaaa2bd2c094b456ca16e66e2e763263a98b983e80aa600761882e5d4f167d`。
+交付：[4.13说明](../../firmware-runtime/releases/4.13/README.md)、[BODYDATA.DAT](../../firmware-runtime/releases/4.13/BODYDATA.DAT)、[回执](../../firmware-runtime/releases/4.13/verification.json)、[全目录摘要](../../firmware-runtime/releases/4.13/CONTENTS.sha256)。DAT大小754525608字节，SHA256：`efeaaa2bd2c094b456ca16e66e2e763263a98b983e80aa600761882e5d4f167d`。
 
 签名公钥沿用既有研究身份，公钥文件SHA256：`7f65b296987df665da217de514e785f75238e686ddd18952fa425fc47e8c858a`，未更改机身安全策略或updater。配套BIN为29552字节原十二款正式配方，SHA256：`19e020fa48c79643aaf9526e9c720d38ec5a92c3df11d0852b0a93a25ee880b6`。
 

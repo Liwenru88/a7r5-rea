@@ -2,7 +2,7 @@
 
 Status: OFFLINE_REPAIR_VERIFIED_DEVICE_NOT_VERIFIED
 
-本轮明确离线，未连接或写入相机；未生成DAT。详见[分析报告](离线分析与修复.md)和[组件归档](../../native24-combined/verification/2026-11-04-icon-pages-01/README.md)。
+本轮明确离线，未连接或写入相机；未生成DAT。详见[分析报告](离线分析与修复.md)和[组件归档](../../firmware-runtime/verification/2026-11-04-icon-pages-01/README.md)。
 
 | 执行项 | 结果 | 原始证据 |
 |---|---|---|

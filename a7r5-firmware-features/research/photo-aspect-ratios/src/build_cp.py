@@ -12,7 +12,7 @@ from elftools.elf.elffile import ELFFile
 
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parents[1] / 'native24-combined/dependencies/native12-combined'))
+sys.path.insert(0, str(HERE.parents[1] / 'firmware-runtime/dependencies/native12-combined'))
 from patches import BASE, PatchSet, digest, thumb_b
 
 

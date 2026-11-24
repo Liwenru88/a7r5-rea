@@ -9,7 +9,7 @@ from unicorn import UC_HOOK_CODE, UC_HOOK_MEM_INVALID
 from unicorn import arm_const as ARM
 
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/tests'))
+sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/tests'))
 import runtime_support
 
 parser = argparse.ArgumentParser(description=__doc__)

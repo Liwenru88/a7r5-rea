@@ -16,7 +16,7 @@ from test_native24 import ROOT, REPO, entries, load_codec
 
 @pytest.fixture(scope='module')
 def image():
-    candidate = json.loads((REPO/'a7r5-firmware-features/native24-combined/current-candidate.json').read_text())
+    candidate = json.loads((REPO/'a7r5-firmware-features/firmware-runtime/current-candidate.json').read_text())
     build = REPO/candidate['build']
     raw = (build/'appFw.so').read_bytes()
     assert hashlib.sha256(raw).hexdigest() == candidate['AP_sha256']

@@ -9,7 +9,7 @@
 3. 从原厂 ELF 自己的 `e_phoff` 定位活动 RX Program Header。核对原段终点 `0x500fbb7`、同页零填充和下一段边界，再扩至 `0x500fc70`。整合基底的 PHDR 地址不可直接沿用。
 4. 对 37 个变更范围逐一核对局部前像并做逆还原。只替换 USR 内的 `appFw.so`，原厂 CP、AVCAM 和图标来自基线。
 
-[属性与重定位清单](../../../aspect-guide406/patch-plan.json) · [原始文件补丁实现](../../../native24-combined/dependencies/native12-combined/patches.py) · [原厂前像逐处记录](ap-patch.json) · [资源清单](resources.json)
+[属性与重定位清单](../../../aspect-guide406/patch-plan.json) · [原始文件补丁实现](../../../firmware-runtime/dependencies/native12-combined/patches.py) · [原厂前像逐处记录](ap-patch.json) · [资源清单](resources.json)
 
 ## 复现
 

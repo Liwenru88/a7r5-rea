@@ -29,7 +29,7 @@ def codec(request):
 
 
 def entries(codec, slots):
-    original = codec.unpack((REPO / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/releases/4.11/R5NATIVE.BIN').read_bytes())
+    original = codec.unpack((REPO / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/releases/4.11/R5NATIVE.BIN').read_bytes())
     result = []
     for slot in slots:
         entry = copy.deepcopy(original['entries'][(slot - 1) % 12])
@@ -48,7 +48,7 @@ def test_expanded_slot_formats(codec, slots, version):
 
 
 def test_original_twelve_bytes_preserved(codec):
-    for name in ['a7r5-firmware-features/native24-combined/dependencies/native12-combined/releases/4.11/R5NATIVE.BIN',
+    for name in ['a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/releases/4.11/R5NATIVE.BIN',
                  'sony-r5-colorlab/filters/FUJ_12_v45_three_experts_20261102/R5NATIVE.BIN']:
         data = (REPO / name).read_bytes()
         assert codec.pack(codec.unpack(data)) == data
@@ -56,7 +56,7 @@ def test_original_twelve_bytes_preserved(codec):
 
 @pytest.fixture(scope='session')
 def firmware_decoders(tmp_path_factory):
-    candidate = json.loads((REPO / 'a7r5-firmware-features/native24-combined/current-candidate.json').read_text())
+    candidate = json.loads((REPO / 'a7r5-firmware-features/firmware-runtime/current-candidate.json').read_text())
     build = REPO / candidate['build']
     receipt = json.loads((build / 'build.json').read_text())
     assert receipt['AP_sha256'] == candidate['AP_sha256']
@@ -65,7 +65,7 @@ def firmware_decoders(tmp_path_factory):
     current = build / 'work/import'
     for name in ('r5_stage410_codec.c', 'sd_native_look.h'):
         assert hashlib.sha256((current / name).read_bytes()).hexdigest() == contracts['import/' + name]
-    legacy = REPO / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/import'
+    legacy = REPO / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/import'
     folder = tmp_path_factory.mktemp('real-firmware-codecs')
     result = {}
     for count, source in ((12, legacy), (24, current)):

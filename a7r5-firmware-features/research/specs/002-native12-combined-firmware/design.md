@@ -4,7 +4,7 @@
 - Status: `implemented-offline`
 - Updated: `2026-11-02`
 
-独立模块为 `a7r5-firmware-features/native24-combined/dependencies/native12-combined/`；源码快照和派生产物进入新的 `.local/native12-combined-*` 目录。既有 001 工程、4.06／4.08／4.09、故障现场及上游原件不修改。
+独立模块为 `a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/`；源码快照和派生产物进入新的 `.local/native12-combined-*` 目录。既有 001 工程、4.06／4.08／4.09、故障现场及上游原件不修改。
 
 ## 构建边界
 

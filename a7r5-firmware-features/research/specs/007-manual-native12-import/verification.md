@@ -21,8 +21,8 @@ Updated: 2026-11-03
 
 ```sh
 A7R5_NATIVE12_BASELINE="$PWD/.local/native12-combined-baseline-01" .venv/bin/python -m pytest -q \
-  a7r5-firmware-features/native24-combined/dependencies/native12-combined/tests/test_runtime_receiver.py::test_resume_reuses_sealed_bank_with_no_allocation_and_late_put_is_rejected \
-  a7r5-firmware-features/native24-combined/dependencies/native12-combined/tests/test_runtime_receiver.py::test_shared_heap_resource_failure_preserves_published_generations \
+  a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/tests/test_runtime_receiver.py::test_resume_reuses_sealed_bank_with_no_allocation_and_late_put_is_rejected \
+  a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/tests/test_runtime_receiver.py::test_shared_heap_resource_failure_preserves_published_generations \
   --junitxml=.local/native12-manual-import-baseline-20261103.xml
 ```
 
@@ -30,13 +30,13 @@ A7R5_NATIVE12_BASELINE="$PWD/.local/native12-combined-baseline-01" .venv/bin/pyt
 
 代码入口：
 
-- [启动、机内保存和重载占位](../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_stage413_thread.c)
-- [原厂Fsys边界及调用者前置条件](../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_fsys_adapter.h)
-- [CP参数库接收与代际保留](../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/cp/cp_stage413_probe.c)
-- [CP选择及关闭view](../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/cp/custom_filter423.c)
-- [名称目录发布与上限](../../native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_filter_names423.c)
-- [现有CP资源回归](../../native24-combined/dependencies/native12-combined/tests/test_runtime_receiver.py)
-- [当前统一入口调度](../../native24-combined/dependencies/native12-combined/unified-look.c)
+- [启动、机内保存和重载占位](../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_stage413_thread.c)
+- [原厂Fsys边界及调用者前置条件](../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_fsys_adapter.h)
+- [CP参数库接收与代际保留](../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/cp/cp_stage413_probe.c)
+- [CP选择及关闭view](../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/cp/custom_filter423.c)
+- [名称目录发布与上限](../../firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/import/r5_filter_names423.c)
+- [现有CP资源回归](../../firmware-runtime/dependencies/native12-combined/tests/test_runtime_receiver.py)
+- [当前统一入口调度](../../firmware-runtime/dependencies/native12-combined/unified-look.c)
 
 ## 未验证与下一步
 

@@ -21,7 +21,7 @@
 | [WBI 标记 2→3](profiles/wbi/README.md) | 指定旧 4.18 | 保留原厂快照，只把头标记由 `WBI2` 改为 `WBI3` 并重算校验和；旧的“首扇区清零”候选仅留作历史对照 |
 | [旧 4.18 基线](profiles/baseline418/README.md) | 精确 4.17 | 历史启动故障对照，也是 WBI 修复的可重建输入 |
 
-表中的构建输入是离线 DAT。构建顺序无需在相机上逐版安装。24 槽 4.17 包含同版的 FL2／FL3、NTSC、声音、照片标记及参数模板。4.19 独立版从原厂 AP／CP 构建，并单独记录包内 WBI 失效处理。旧独立滤镜菜单和 Fn 分配属于 [4.10／4.11 历史路线](../native24-combined/dependencies/native12-combined/README.md)。[32 槽与机内 CUBE](../custom-filters/README.md)属于另一研究路线。
+表中的构建输入是离线 DAT。构建顺序无需在相机上逐版安装。24 槽 4.17 包含同版的 FL2／FL3、NTSC、声音、照片标记及参数模板。4.19 独立版从原厂 AP／CP 构建，并单独记录包内 WBI 失效处理。旧独立滤镜菜单和 Fn 分配属于 [4.10／4.11 历史路线](../firmware-runtime/dependencies/native12-combined/README.md)。[32 槽与机内 CUBE](../custom-filters/README.md)属于另一研究路线。
 
 ## 公共准备
 
@@ -47,4 +47,4 @@ out=$(mktemp -d "$PWD/.local/a7r5-single.XXXXXX")
 
 历史整理生成了十二个功能候选和一个历史对照包，每个均完成 736,841 帧校验、独立解包与 OpenSSL 验签。对应候选另执行了十档裁切 19 项、六款与 24 槽共存 8 项、镜头 AF 1 项，以及 FL2／FL3 选择、NTSC 跳转、标记范围和声音选择各 1 项指令回放。4.19 的证据在其[独立实施文档](profiles/native24-stock/README.md#离线验收)记录。资源完整性可在本目录执行 `shasum -a 256 -c SHA256SUMS` 核对。
 
-这些是升级包复现和离线验收记录。实际机身升级准入、冷启动、功能行为和成片结果按各项文档单独记录。旧 4.18 基线曾在实机更新后无法启动，WBI 单项修正尚无实机启动结论。 [故障分析](../native24-combined/4.18启动故障离线分析.md)
+这些是升级包复现和离线验收记录。实际机身升级准入、冷启动、功能行为和成片结果按各项文档单独记录。旧 4.18 基线曾在实机更新后无法启动，WBI 单项修正尚无实机启动结论。 [故障分析](../firmware-runtime/4.18启动故障离线分析.md)

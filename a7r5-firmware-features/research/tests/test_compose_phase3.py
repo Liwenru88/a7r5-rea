@@ -78,7 +78,7 @@ def test_marker_and_ntsc_preserve_stage3_color_code(readback):
             assert reversed_ap[offset:offset + len(after)] == after
             reversed_ap[offset:offset + len(before)] = before
     assert reversed_ap == (native / 'appFw.so').read_bytes()
-    path = FEATURES / 'native24-combined/dependencies/native12-combined/tests/test_integration.py'
+    path = FEATURES / 'firmware-runtime/dependencies/native12-combined/tests/test_integration.py'
     spec = importlib.util.spec_from_file_location('legacy_stage3_instructions', path)
     checks = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(checks)

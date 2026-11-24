@@ -12,7 +12,7 @@ import environment
 
 class FontPatchContract(unittest.TestCase):
     def test_derived_image_preserves_all_bytes_outside_explicit_overlay(self):
-        module=environment.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined'
+        module=environment.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined'
         spec=importlib.util.spec_from_file_location('menu_font_test',module/'menu_font.py')
         font=importlib.util.module_from_spec(spec);spec.loader.exec_module(font)
         raw=(module/'verification/2026-11-02-runtime/readback/components/usr/lib/appFw.so').read_bytes()

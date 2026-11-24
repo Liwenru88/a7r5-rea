@@ -51,10 +51,10 @@ E-002中的worker成功／失败终态是CPU测试内显式放置的快照；失
 | AC-004 | PASS（CPU、等待／在途／失败实帧） | 本轮无统一页实际成功画面；原厂项仍用原标题 |
 | AC-005 | PASS（离线构建与相关回归） | 未封包、未验新DAT、未连接相机 |
 
-源码、组件、XML、清单、原帧与校验清单见[本轮归档](../../native24-combined/dependencies/native12-combined/verification/2026-11-03-unified-rapid/README.md)。005整合版仍保持未通过；本轮没有扩展到补全成像模型或发布升级包。
+源码、组件、XML、清单、原帧与校验清单见[本轮归档](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-03-unified-rapid/README.md)。005整合版仍保持未通过；本轮没有扩展到补全成像模型或发布升级包。
 
 ## 冷启动版补验（同一固件身份）
 
 用户随后指定五类收尾场景。当前e833…／固定CP新增9项双CPU跨层回放通过（89.32秒），没有修改固件。不同于E-002的worker终态快照，新测试执行真实后台、CP回执和选择文件编解码／发布；但原E4外部执行、目录锚定及原厂UI仍是明确替身，不能升级成实际E4成功。新增真实Qt全十二项／ST／FL2／FL3、四轮MENU及重入复验，72原帧与PNG逐像素一致，三侧退出0；QEMU原E4仍未完成。
 
-新证据、源码身份复用、逐项状态和机身待验步骤见[冷启动版补验归档](../../native24-combined/dependencies/native12-combined/verification/2026-11-03-unified-cold/README.md)。它补充AC-001～AC-003的跨层证据，保持本页整体NOT_VERIFIED及原实验边界。
+新证据、源码身份复用、逐项状态和机身待验步骤见[冷启动版补验归档](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-03-unified-cold/README.md)。它补充AC-001～AC-003的跨层证据，保持本页整体NOT_VERIFIED及原实验边界。

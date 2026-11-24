@@ -30,7 +30,7 @@ CP：`35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300`。AP BSS
 ```sh
 A7R5_NATIVE24_BUILD="$PWD/.local/native24-tabs-20261103-09" \
 A7R5_NATIVE24_EVIDENCE="$PWD/.local/native24-tabs-20261103-09/regression" \
-.venv/bin/python -m pytest -q a7r5-firmware-features/native24-combined/tests \
+.venv/bin/python -m pytest -q a7r5-firmware-features/firmware-runtime/tests \
   --tb=short --junitxml=.local/native24-tabs-20261103-09/regression.xml
 ```
 
@@ -44,7 +44,7 @@ QEMU独立清单为`native24-tabs-menu/1`，只读2444字节；最终满库`buil
 | AC-004 一致恢复及边界 | PASS（机器码及明确边界夹具） | E-002／003／004／005／006 |
 | AC-005 可追溯交付 | PASS | E-005／006／007 |
 
-归档：[研究组件与证据](../../native24-combined/verification/2026-11-03-tabs-01/README.md)、[结果](../../native24-combined/verification/2026-11-03-tabs-01/results.json)、[操作说明与截图](../../native24-combined/Tab分组交互说明.md)。压缩包67611206字节，SHA256为`7d5f2b33a2bc152918e434643b0339c7fe267f22c4f86d93730e12e77b774d29`。显示限制另随包保存于`build/known-limitations.json`，不可当作可安装升级包。
+归档：[研究组件与证据](../../firmware-runtime/verification/2026-11-03-tabs-01/README.md)、[结果](../../firmware-runtime/verification/2026-11-03-tabs-01/results.json)、[操作说明与截图](../../firmware-runtime/Tab分组交互说明.md)。压缩包67611206字节，SHA256为`7d5f2b33a2bc152918e434643b0339c7fe267f22c4f86d93730e12e77b774d29`。显示限制另随包保存于`build/known-limitations.json`，不可当作可安装升级包。
 
 ## 未验证边界
 

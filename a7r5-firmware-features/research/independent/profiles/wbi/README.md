@@ -12,7 +12,7 @@
 
 新策略下的对应步骤：保留 `WBI3` 前像的全部 512 字节，只把偏移 `0x3` 改回 `0x33`（若输入为 `WBI2`），镜像 SHA-256 预期为 `eac727efd7af2142ddd9b8ae22387614eaaaba9dc9f04ce0434bf8e7c766d693`，CRC32 为 `76ce0feb`。
 
-[故障与更新顺序](../../../native24-combined/4.18启动故障离线分析.md) · [正式构建入口的处理逻辑](../../../native24-combined/release417/container_package.py#L157) · [资源清单](resources.json)
+[故障与更新顺序](../../../firmware-runtime/4.18启动故障离线分析.md) · [正式构建入口的处理逻辑](../../../firmware-runtime/release417/container_package.py#L157) · [资源清单](resources.json)
 
 ## 复现与验收
 

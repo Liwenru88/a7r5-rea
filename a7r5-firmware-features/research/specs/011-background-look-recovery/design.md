@@ -5,7 +5,7 @@ Status: IMPLEMENTED_OFFLINE
 
 ## 实现边界
 
-沿用010拥有的`native24-combined/runtime/`和独立构建器，不修改冻结上游及010封存。增加独立QEMU实验与固定输入身份；默认运行时和旧实验不改。选择文件、库格式和CP协议保持。
+沿用010拥有的`firmware-runtime/runtime/`和独立构建器，不修改冻结上游及010封存。增加独立QEMU实验与固定输入身份；默认运行时和旧实验不改。选择文件、库格式和CP协议保持。
 
 ## 后台协调
 

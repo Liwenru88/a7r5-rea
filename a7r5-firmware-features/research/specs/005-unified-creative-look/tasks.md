@@ -13,7 +13,7 @@
   _Depends: T001_
 - [ ] T003 独立 QEMU 清单与实际 Qt 按键，截图复验原生／FL2／FL3／十二款及失败恢复、页面生命周期。
   已有原生页面、图标和明确失败提示的阶段截图；失败后四轮顶层MENU开关及重新进入ST有真实像素证据。十二款逐一成功、失败刷新列表、故障恢复、Fn 与完整启动生命周期未完成。
-  2026-11-03新增真实Qt全十二款名称／编号、ST、FL2／FL3及四轮MENU／ST重入复验，72原帧逐像素一致；只补齐菜单显示，十二款实际成功应用、完整Fn和整机电源／介质验收仍未完成。见[冷启动版补验](../../native24-combined/dependencies/native12-combined/verification/2026-11-03-unified-cold/README.md)。
+  2026-11-03新增真实Qt全十二款名称／编号、ST、FL2／FL3及四轮MENU／ST重入复验，72原帧逐像素一致；只补齐菜单显示，十二款实际成功应用、完整Fn和整机电源／介质验收仍未完成。见[冷启动版补验](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-03-unified-cold/README.md)。
   _Requirements: REQ-001, REQ-003, REQ-004_
   _Acceptance: AC-001, AC-003, AC-004_
   _Verification: V3 有限菜单隔离验证；完整启动单独记录限制_

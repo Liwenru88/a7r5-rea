@@ -2,7 +2,7 @@
 
 结论：`VERIFIED_WITH_FINDINGS`。中文方框已修复；冻结BIN中的十二款配置经过生产AP读取、持久化、真实CP参数验证与封存后发布名称，十二项右栏全名均能逐项完整显示。仍存在左列长简称裁切，且原生E4刷新未完成；本结果不能作为滤镜成功应用或完整固件可安装的证明。全程没有相机、USB、SSH、真实存储卡或主机原始分区操作。
 
-[全部截图及证据](../../native24-combined/dependencies/native12-combined/verification/2026-11-02-qemu-native12-loading/README.md)包含689个文件，保留92张原始PNG及同名客体帧、AP只读状态、真实CP消息、两项加载拒绝、组件与源码快照、摘要清单。历史方框及失败候选现场保持。
+[全部截图及证据](../../firmware-runtime/dependencies/native12-combined/verification/2026-11-02-qemu-native12-loading/README.md)包含689个文件，保留92张原始PNG及同名客体帧、AP只读状态、真实CP消息、两项加载拒绝、组件与源码快照、摘要清单。历史方框及失败候选现场保持。
 
 ## 中文方框根因与修复
 

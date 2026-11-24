@@ -57,7 +57,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
 '''
     (output/'dataflow-adapter.inc').write_text(adapter)
     (output/'builder.py').write_bytes(Path(__file__).read_bytes())
-    font_spec=importlib.util.spec_from_file_location('derived_font',env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/menu_font.py')
+    font_spec=importlib.util.spec_from_file_location('derived_font',env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/menu_font.py')
     font=importlib.util.module_from_spec(font_spec);font_spec.loader.exec_module(font)
     icon_names={'usr/share/app/image_00_23_IPSX.uxc','usr/share/app/image_00_32_IPSX.uxc'} if unified_look else set()
     original_files=extract(files['initrd'],{'usr/lib/appFw.so','usr/lib/libObj.so','cp/cpapp-b.bin'}|icon_names)
@@ -66,7 +66,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
     if font_receipt['target_sha256']!=env.FONT_AP_SHA:raise ValueError('字体修订构建结果不符')
     actual_ap_sha=env.FONT_AP_SHA
     if menu_event_fix:
-        event_spec=importlib.util.spec_from_file_location('derived_e4_event',env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/e4_menu_compat.py')
+        event_spec=importlib.util.spec_from_file_location('derived_e4_event',env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/e4_menu_compat.py')
         event=importlib.util.module_from_spec(event_spec);event_spec.loader.exec_module(event)
         patched,event_receipt=event.build(patched.read_bytes(),output/'e4-menu')
         actual_ap_sha=event_receipt['target_sha256']
@@ -74,7 +74,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
         record['e4_menu_patch']=env.fact(output/'e4-menu/e4-menu-patch.json')
         record['component_override']='AP derived from 4.11; consumes private value-refresh event; not repackaged in DAT'
     if unified_look:
-        unified_spec=importlib.util.spec_from_file_location('derived_unified_look',env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/unified_look.py')
+        unified_spec=importlib.util.spec_from_file_location('derived_unified_look',env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/unified_look.py')
         unified=importlib.util.module_from_spec(unified_spec);unified_spec.loader.exec_module(unified)
         patched,unified_receipt=unified.build(patched.read_bytes(),output/'unified-look')
         actual_ap_sha=unified_receipt['target_sha256']
@@ -84,7 +84,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
     from cp_service import build as build_cp
     receiver=build_cp(output/'cp-receiver')
     cp=output/'cpapp-b.bin';cp.write_bytes(original_files['cp/cpapp-b.bin'])
-    binpath=env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/filters/FUJ_12_v45/R5NATIVE.BIN'
+    binpath=env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream/filters/FUJ_12_v45/R5NATIVE.BIN'
     if env.digest(binpath)!=env.BIN_SHA:raise ValueError('十二配置 BIN 身份不符')
     (output/'R5NATIVE.BIN').write_bytes(binpath.read_bytes())
     base=env.LAB/'build/aspect-guide406-20261026-01/guest-11'
@@ -118,7 +118,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
     candidate=output/'menu.cpio';intermediate=output/'replaced.cpio'
     replacements={'simulation/menu-observe-a7r5-baseline.so':(output/'menu-observe-a7r5-baseline.so').read_bytes(),'usr/lib/appFw.so':patched.read_bytes()}
     if unified_look:
-        icon_spec=importlib.util.spec_from_file_location('derived_unified_icons',env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/unified_icons.py')
+        icon_spec=importlib.util.spec_from_file_location('derived_unified_icons',env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/unified_icons.py')
         icons=importlib.util.module_from_spec(icon_spec);icon_spec.loader.exec_module(icons)
         receipts={}
         for name in sorted(icon_names):
@@ -127,7 +127,7 @@ static int native12_dataflow_send(unsigned id,void *message,int *handled) {
             (output/Path(name).name).write_bytes(changed)
         env.save(output/'unified-icons.json',receipts);record['unified_icons']=env.fact(output/'unified-icons.json')
     if release411:
-        release=env.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined/releases/4.11'
+        release=env.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/releases/4.11'
         if env.digest(release/'BODYDATA.DAT')!=env.DAT411_SHA:raise ValueError('4.11包身份不符')
         delivered=json.loads((release/'verification.json').read_text())
         if (delivered['sha256'],delivered['partitions']['AP']['component_sha256'],delivered['partitions']['CP']['component_sha256'])!=(env.DAT411_SHA,env.FONT_AP_SHA,env.CP_SHA):

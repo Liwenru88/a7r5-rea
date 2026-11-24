@@ -3,7 +3,7 @@
 Feature ID: 014-native24-update413
 Status: IMPLEMENTED_OFFLINE
 
-新增`native24-combined/release413/build.py`，不修改013构建器或封存回执。输入固定为013归档四组件、当前候选索引、已核验上游4.36基线，以及原4.00 DAT。新输出位于`.local/native24-update413-20261103-01`，交付复制至`native24-combined/releases/4.13`，均拒绝覆盖。
+新增`firmware-runtime/release413/build.py`，不修改013构建器或封存回执。输入固定为013归档四组件、当前候选索引、已核验上游4.36基线，以及原4.00 DAT。新输出位于`.local/native24-update413-20261103-01`，交付复制至`firmware-runtime/releases/4.13`，均拒绝覆盖。
 
 USR以冻结上游基线`bfaf6c1e…`为源，保持其机内lut目录及原布局。复用已有尾部块扩展算法，新增仅在本封装器生效的三项固定绑定（AP、23／32图形资源，原inode及源／目标长度和完整SHA均锁定）；不放宽通用Patch或旧图标白名单。扩展AP及两资源后，独立Audit比较全部路径、inode、内容／块映射和非容量元数据，e2fsck只读检查。CP定长替换既有FAT数据区，其他字节保持。
 
@@ -13,7 +13,7 @@ USR以冻结上游基线`bfaf6c1e…`为源，保持其机内lut目录及原布�
 
 | 文件 | 职责 | Requirement |
 |---|---|---|
-| `native24-combined/release413/build.py` | 固定输入、镜像扩展、封包及独立核对 | REQ-001～003 |
-| `native24-combined/release413/test_release.py` | 未知载荷／不完整回执拒绝 | REQ-001、003 |
-| `native24-combined/releases/4.13/` | 新DAT、BIN、公钥、必要源码和证据 | REQ-004 |
+| `firmware-runtime/release413/build.py` | 固定输入、镜像扩展、封包及独立核对 | REQ-001～003 |
+| `firmware-runtime/release413/test_release.py` | 未知载荷／不完整回执拒绝 | REQ-001、003 |
+| `firmware-runtime/releases/4.13/` | 新DAT、BIN、公钥、必要源码和证据 | REQ-004 |
 | 当前索引及README | 清晰区分离线封装与机身验收 | REQ-004 |

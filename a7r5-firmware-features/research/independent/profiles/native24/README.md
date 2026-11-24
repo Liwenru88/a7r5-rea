@@ -13,7 +13,7 @@
 | 八项相对偏移 | 本次原生 E4 参数加偏移，再限制到合法值。初始和重置都显示 0。R5TUNE2 按配方身份保存，兼容读取 R5TUNE1。归零时输出应与上游原生消息逐字节一致。 |
 | 语言与资源 | 两份图标容器配套生成，新增图标按原厂分块边界编码。名称处理、AP 容量和 CP 配方同一构建身份。 |
 
-[运行时模块实施与验收](运行时模块实施.md) · [完整源码复现](../../../native24-combined/实施与复现手册.md) · [布局约束](../../../native24-combined/layout.json) · [零偏移核对](../../../native24-combined/上游八项参数核对.md) · [资源清单](resources.json)
+[运行时模块实施与验收](运行时模块实施.md) · [完整源码复现](../../../firmware-runtime/实施与复现手册.md) · [布局约束](../../../firmware-runtime/layout.json) · [零偏移核对](../../../firmware-runtime/上游八项参数核对.md) · [资源清单](resources.json)
 
 ## 复现与验收
 
@@ -23,6 +23,6 @@
 "$python" -B "$tool" native24 --base "$stock" --output "$out/native24"
 ```
 
-输出包括 DAT、研究公钥、验收回执和 `R5NATIVE.BIN`。构建工具要求最终 DAT 摘要与上述发布版本一致。按源码复建时，先重建锁定的原厂派生基线，再使用 `native24-combined/build.py` 生成 AP、CP 和两份图标，使用相对偏移测试与封包入口复核。已经安装的机身是否接受同版本内容仍待实机确认。
+输出包括 DAT、研究公钥、验收回执和 `R5NATIVE.BIN`。构建工具要求最终 DAT 摘要与上述发布版本一致。按源码复建时，先重建锁定的原厂派生基线，再使用 `firmware-runtime/build.py` 生成 AP、CP 和两份图标，使用相对偏移测试与封包入口复核。已经安装的机身是否接受同版本内容仍待实机确认。
 
-功能验收按空库／部分库／满库、双卡／无卡、冷启动、切组记忆、快拨只应用最后项、八项调节、恢复和换库场景拆分。从原厂 4.00 实施单功能版请使用另一个配置。 [源封包回执](../../../native24-combined/releases/4.17/verification.json) · [整合版精确复现](verification.json) · [4.19 独立版](../native24-stock/README.md)
+功能验收按空库／部分库／满库、双卡／无卡、冷启动、切组记忆、快拨只应用最后项、八项调节、恢复和换库场景拆分。从原厂 4.00 实施单功能版请使用另一个配置。 [源封包回执](../../../firmware-runtime/releases/4.17/verification.json) · [整合版精确复现](verification.json) · [4.19 独立版](../native24-stock/README.md)

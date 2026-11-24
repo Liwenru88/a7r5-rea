@@ -62,7 +62,7 @@ def test_new_aspect_icons_decode_and_preserve_creative_look_images(name):
     before = path.read_bytes()
     after = icons(before)
     decoder = types.ModuleType('aspect_reference_lz77')
-    source = (HERE.parents[1] / 'native24-combined/dependencies/native12-combined/upstream'
+    source = (HERE.parents[1] / 'firmware-runtime/dependencies/native12-combined/upstream'
               / 'firmware/r5/src/lib/fwtool/lz77/__init__.py')
     exec(compile(source.read_bytes(), str(source), 'exec'), decoder.__dict__)
     count = struct.unpack_from('<I', after, 12)[0]&0x1fff

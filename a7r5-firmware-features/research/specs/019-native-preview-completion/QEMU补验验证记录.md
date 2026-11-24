@@ -2,7 +2,7 @@
 
 2026-11-04。新增DA真实事件入口已修复并验证，新AP为`401c16fe99a047f1440c2a9d1b7c5a48a9e5c380db5e57eed150d1604074f21f`。**整体为部分通过：长空闲关机崩溃尚未归因，调参画面数值存在滞后疑点，原E4及成像未验收。** 没有新DAT，没有本轮相机I/O。
 
-最终审查根目录为`a7r5-firmware-features/native24-combined/verification/2026-11-04-preview-qemu-01/`；以下相对证据路径均以此为基准。
+最终审查根目录为`a7r5-firmware-features/firmware-runtime/verification/2026-11-04-preview-qemu-01/`；以下相对证据路径均以此为基准。
 
 | 项目 | 实际结果 |
 |---|---|

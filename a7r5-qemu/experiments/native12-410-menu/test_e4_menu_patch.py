@@ -9,7 +9,7 @@ import unittest
 import environment
 from elftools.elf.elffile import ELFFile
 
-MODULE=environment.ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined'
+MODULE=environment.ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined'
 
 
 class EventGuardContract(unittest.TestCase):

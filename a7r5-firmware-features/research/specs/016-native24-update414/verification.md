@@ -20,11 +20,11 @@ Status: NOT_VERIFIED
 
 ```sh
 a7r5-dat-tool/.venv/bin/python -B \
-  a7r5-firmware-features/native24-combined/release414/build.py \
+  a7r5-firmware-features/firmware-runtime/release414/build.py \
   --output .local/native24-update414-20261104-01
 ```
 
-交付：[BODYDATA.DAT](../../native24-combined/releases/4.14/BODYDATA.DAT)、[说明](../../native24-combined/releases/4.14/README.md)、[验证回执](../../native24-combined/releases/4.14/verification.json)、[目录摘要](../../native24-combined/releases/4.14/CONTENTS.sha256)。
+交付：[BODYDATA.DAT](../../firmware-runtime/releases/4.14/BODYDATA.DAT)、[说明](../../firmware-runtime/releases/4.14/README.md)、[验证回执](../../firmware-runtime/releases/4.14/verification.json)、[目录摘要](../../firmware-runtime/releases/4.14/CONTENTS.sha256)。
 
 - DAT大小：754525608字节。
 - DAT SHA256：`c4846fc1e7bd5f279aa8b98ac319990a6f2bb901d75a66b5492320538104ceb2`。

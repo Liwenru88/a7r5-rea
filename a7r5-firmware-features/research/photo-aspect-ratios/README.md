@@ -14,7 +14,7 @@
 | 照片回放 | JPEG 实际 SOF、私有 Exif 和即时缓存一致；RAW 仅同步私有预览标签，HEIF 补辅助图分类。AP 为精确尺寸补图标、像素数及有资格的未知比例放大门，保留其他拒绝。 |
 | 资源和归档 | 两份图标、68 份语言资源及 AP／CP／AVCAM／MPR。AVCAM 在原 FAT 簇链余量内增长，MPR 增加只读执行段；原有映射及非目标文件保持。WBI 仍沿用既有失效策略。 |
 
-[源码及消息地址](src/README.md) · [原厂 AVCAM 前像](resources.json) · [组合入口](../native24-combined/build_capture.py)
+[源码及消息地址](src/README.md) · [原厂 AVCAM 前像](resources.json) · [组合入口](../firmware-runtime/build_capture.py)
 
 将构建配置的 `modules` 设为 `["photo-aspect-ratios"]` 可独立生成升级包。与 24 槽和 AF 共存可用第四阶段预设；从预设去掉不需要的模块即可。 [封包与回放命令](../构建工程实施手册.md#第四阶段的镜头-af-与十档纵横比) · [共存预设](../presets/phase4-look24-lens-af-aspect.json)
 

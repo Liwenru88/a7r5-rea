@@ -51,7 +51,7 @@ def build(output):
     base=LAB/'build/aspect-guide406-20261026-01/guest-11'
     base_record=json.loads((base/'manifest.json').read_text());files=verified(base_record)
     if digest(files['initrd'])!=BASE_GUEST_SHA:raise ValueError('菜单支持客体不是固定guest11')
-    module=ROOT/'a7r5-firmware-features/native24-combined/dependencies/native12-combined'
+    module=ROOT/'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined'
     current=module/'verification/2026-11-02-runtime/readback'
     manifest=json.loads((current/'manifest.json').read_text())
     if manifest['source']['sha256']!=DAT_SHA or digest(module/'releases/4.10/BODYDATA.DAT')!=DAT_SHA:

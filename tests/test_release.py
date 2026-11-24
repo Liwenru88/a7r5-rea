@@ -71,14 +71,14 @@ class PublicationTests(unittest.TestCase):
         local = [
             'docs/private-publication/20261111/index.before',
             'docs/cleanup-audit-20261111/execution-03-deep/surviving-files-before.json',
-            'a7r5-firmware-features/native24-combined/audits/relative-parameters/build.json',
+            'a7r5-firmware-features/firmware-runtime/audits/relative-parameters/build.json',
             'a7r5-firmware-features/releases/4.19-full-repaired-20261111/qemu/qt-driver.json',
             'a7r5-firmware-features/independent/profiles/native24/12.delta.gz',
             'sony-r5-colorlab/R5ColorLab/web/data/r5/paired-20261102-shared-c1-c50.json',
             'sony-r5-colorlab/R5ColorLab/web/data/chart/sony100mp_5300k_v45/SONY-v4.5-100MP-5300K.ARW.gz',
         ]
         source = [
-            'a7r5-firmware-features/native24-combined/audits/relative-parameters/probe.py',
+            'a7r5-firmware-features/firmware-runtime/audits/relative-parameters/probe.py',
             'a7r5-firmware-features/releases/4.19-full-repaired-20261111/README.md',
             'a7r5-firmware-features/independent/profiles/native24/resources.json',
             'source-assets/chunks/sample/0000.chunk', 'scripts/source-assets.json',
@@ -90,7 +90,7 @@ class PublicationTests(unittest.TestCase):
         self.assertTrue(set(source) <= set(names), '恢复工具、清单或源码被误排除')
 
     def test_nested_upstream_ignore_does_not_publish_built_templates(self):
-        upstream = 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream'
+        upstream = 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream'
         self.write(upstream + '/.gitignore', (PROJECT / upstream / '.gitignore').read_bytes())
         local = [upstream + '/R5FlashWorkbench/engine/templates/capture.so',
                  upstream + '/R5FlashWorkbench/engine/templates.json']

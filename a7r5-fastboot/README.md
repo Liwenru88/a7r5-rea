@@ -93,7 +93,7 @@ python3 -B a7r5-fastboot/manual_fastboot.py \\
 | RP2040 源码和构建材料 | [准备清单](private/reference/preparation/准备清单.md)、[开漏桥源码](private/reference/preparation/uart_boot/)、[构建产物和参数](private/reference/preparation/bridge-build/)、[工具链版本及日志](private/reference/preparation/toolchain/)、[UF2 验证回执](assets/bridge-verification.json) |
 | 历史主机实现 | [原准备阶段的脚本、清单与工具](private/reference/preparation/)、[Hearts-Ace USB 原始源码](private/reference/hearts-original/)、[迁移前独立工具说明](private/reference/fastboot-rebuild-readme.md) |
 | 上游检索与原始资料 | [提交、Releases 与 ZIP 扫描结果](private/upstream/scan/)、[原始发布 ZIP](private/upstream/release-zips/)、[部分 Git 镜像](private/upstream/git-mirrors/) |
-| 4.18 启动故障 | [故障分析](../a7r5-firmware-features/native24-combined/4.18启动故障离线分析.md)、[原始对照和回放](private/cases/4.18-incident/)、[组件审计](private/cases/4.18-component-audit/) |
+| 4.18 启动故障 | [故障分析](../a7r5-firmware-features/firmware-runtime/4.18启动故障离线分析.md)、[原始对照和回放](private/cases/4.18-incident/)、[组件审计](private/cases/4.18-component-audit/) |
 | WBI 离线验证 | [验证回执](private/cases/4.18-wbi-verify/verification.json)、[原始 4.17 与 4.18 包](private/cases/inputs/)、[原厂 4.00 包](../a7r5-firmware-images/官方升级包/BODYDATA.DAT)、[历史 WBI2 回读](../a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha5.img) |
 | 校验记录 | [迁移清单与逐文件摘要](private/migration.json)、[迁移前测试](private/evidence/pre-migration/)、[隔离环境复验](private/evidence/relocated-offline.log) |
 

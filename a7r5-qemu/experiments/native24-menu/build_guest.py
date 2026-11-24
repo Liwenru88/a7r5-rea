@@ -51,7 +51,7 @@ def build(output, runtime):
     for name in ('appFw.so', 'cpapp-b.bin', 'image_00_23_IPSX.uxc', 'image_00_32_IPSX.uxc', 'build.json'):
         shutil.copyfile(runtime / name, output / name)
     shutil.copyfile(runtime / 'work/import/module_audit.json', output / 'module_audit.json')
-    bin_source = env.ROOT / 'a7r5-firmware-features/native24-combined/dependencies/native24-format/verification/2026-11-03-01/fixtures/R5NATIVE24.synthetic.test.BIN'
+    bin_source = env.ROOT / 'a7r5-firmware-features/firmware-runtime/dependencies/native24-format/verification/2026-11-03-01/fixtures/R5NATIVE24.synthetic.test.BIN'
     if env.digest(bin_source) != env.BIN_SHA:
         raise ValueError('合成测试BIN身份不符')
     shutil.copyfile(bin_source, output / 'R5NATIVE.BIN')

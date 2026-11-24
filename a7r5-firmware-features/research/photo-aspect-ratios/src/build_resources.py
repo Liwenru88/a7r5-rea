@@ -13,7 +13,7 @@ from build_ap import FIRST_LABEL, FIRST_STATUS, FIRST_SMALL_ICON, FIRST_PIXEL_IC
 from aspect_sizes import PIXEL_LABELS
 from unified_icons import GLYPHS, HEADER, payload_fields
 
-sys.path.insert(0, str(HERE.parents[1] / 'native24-combined'))
+sys.path.insert(0, str(HERE.parents[1] / 'firmware-runtime'))
 sys.path.insert(0, str(HERE.parents[2] / 'a7r5-dat-tool'))
 from icon_codec import native_lz77_stream
 from a7r5dat.ext2read import Ext2

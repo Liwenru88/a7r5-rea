@@ -6,7 +6,7 @@
 
 ## 已执行证据
 
-表内`evidence/`相对于最终归档根目录`a7r5-firmware-features/native24-combined/verification/2026-11-04-preview-completion-01/`；`.local/`路径相对于仓库根目录。
+表内`evidence/`相对于最终归档根目录`a7r5-firmware-features/firmware-runtime/verification/2026-11-04-preview-completion-01/`；`.local/`路径相对于仓库根目录。
 
 | 验证 | 结果与证据 |
 |---|---|
@@ -29,14 +29,14 @@
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B \
-  a7r5-firmware-features/native24-combined/build.py \
+  a7r5-firmware-features/firmware-runtime/build.py \
   --output .local/native24-preview-rebuild-new
 
 PYTHONDONTWRITEBYTECODE=1 \
 A7R5_NATIVE24_BUILD="$PWD/.local/native24-preview-rebuild-new" \
 A7R5_NATIVE24_EVIDENCE="$PWD/.local/native24-preview-rebuild-new/tests" \
 .venv/bin/python -B -m pytest -x -q -p no:cacheprovider \
-  a7r5-firmware-features/native24-combined/tests \
+  a7r5-firmware-features/firmware-runtime/tests \
   --junitxml=.local/native24-preview-rebuild-new/tests/results.xml
 ```
 

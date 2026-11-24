@@ -18,7 +18,7 @@ Updated: 2026-11-03
 | Evidence | Code State | Command / Step | Result | Scope |
 |---|---|---|---|---|
 | E-001 | 冻结上游＋独立layout.c／受限派生头文件 | `prepare.py --output .local/native24-feasibility-20261103-01`；最终pytest中的布局两参数场景 | 6次编译exit 0；两目标执行一致 | 编译布局及隔离，不执行原CP固件消费者 |
-| E-002 | build.json固定对象＋归档测试源 | `A7R5_NATIVE24_PROTOTYPE_BUILD=... A7R5_NATIVE24_EVIDENCE=... .venv/bin/python -m pytest -q a7r5-firmware-features/native24-combined/dependencies/native24-format/tests/test_prototype.py --junitxml=.../final.xml` | 15 passed，0.20秒，exit 0 | 与E-001共用一次最终模块验证；文件格式原型，不接线程／传输／菜单 |
+| E-002 | build.json固定对象＋归档测试源 | `A7R5_NATIVE24_PROTOTYPE_BUILD=... A7R5_NATIVE24_EVIDENCE=... .venv/bin/python -m pytest -q a7r5-firmware-features/firmware-runtime/dependencies/native24-format/tests/test_prototype.py --junitxml=.../final.xml` | 15 passed，0.20秒，exit 0 | 与E-001共用一次最终模块验证；文件格式原型，不接线程／传输／菜单 |
 | E-003 | 当前旧AP e833…／CP bb8…及冻结快照 | 来源／输出摘要、旧DAT和文档引用检查 | PASS | 未写相机、未迁移配置、未改当前固件 |
 
-命令完整参数、对象、原型源码、内存区域表、测试XML及待实现门禁见[本次归档](../../native24-combined/dependencies/native24-format/verification/2026-11-03-01/README.md)。1 MiB只是显式测试预算；单库余101576字节，不能装两份完整24槽库，也没有实机剩余堆证据。
+命令完整参数、对象、原型源码、内存区域表、测试XML及待实现门禁见[本次归档](../../firmware-runtime/dependencies/native24-format/verification/2026-11-03-01/README.md)。1 MiB只是显式测试预算；单库余101576字节，不能装两份完整24槽库，也没有实机剩余堆证据。

@@ -6,7 +6,7 @@ import subprocess
 from aspect_sizes import generate
 
 HERE = Path(__file__).resolve().parent
-LINKER = HERE.parents[1] / 'native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/lib/strict_ap_link.py'
+LINKER = HERE.parents[1] / 'firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/lib/strict_ap_link.py'
 
 
 def compile_helpers(work, names, rx, externals, *, prefix=b''):

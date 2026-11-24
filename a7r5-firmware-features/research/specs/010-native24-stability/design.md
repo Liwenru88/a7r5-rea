@@ -5,7 +5,7 @@ Status: IMPLEMENTED_OFFLINE
 
 ## 文件与来源
 
-继续使用`native24-combined/build.py`，新输出目录独立构建。`runtime/`保存拥有的AP修订源及头文件；`stability.py`将其叠加到精确派生的009源码并写连续来源账本；`layout.json`集中不变的24槽布局／协议合同，`derive-matches.json`锁定派生替换次数。冻结源与009归档保持。CP原代码窗口和947000布局暂不重分配，通过AP资源协调和现有CP诊断接口收敛风险；真实堆未知不能用扩大模拟预算替代。
+继续使用`firmware-runtime/build.py`，新输出目录独立构建。`runtime/`保存拥有的AP修订源及头文件；`stability.py`将其叠加到精确派生的009源码并写连续来源账本；`layout.json`集中不变的24槽布局／协议合同，`derive-matches.json`锁定派生替换次数。冻结源与009归档保持。CP原代码窗口和947000布局暂不重分配，通过AP资源协调和现有CP诊断接口收敛风险；真实堆未知不能用扩大模拟预算替代。
 
 首次稳定性构建新增约1.7KiB代码，原AP RX连同PLT副本超过64KiB门禁。统一入口已经不注册私有页，故将`menu_research/r5_filter_page425.c`的私有对象池／绘制／同步等待实现替换为原厂三构造函数的直接委派兼容层，保留符号和原生地址校验。这同时回收不可达私有页的代码和BSS，不扩RX、不覆盖原厂数据；需执行非零加载基址和原厂构造委派回归。
 

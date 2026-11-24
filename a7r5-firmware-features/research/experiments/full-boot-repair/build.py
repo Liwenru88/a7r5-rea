@@ -36,7 +36,7 @@ def update_header(raw, updater_bytes):
 
 
 def snapshot_fs(raw):
-    sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/native24-combined/dependencies/native12-combined/upstream/firmware/r5/src/lib'))
+    sys.path.insert(0, str(ROOT / 'a7r5-firmware-features/firmware-runtime/dependencies/native12-combined/upstream/firmware/r5/src/lib'))
     from fwtool.archive.squashfs import readSquashfs
     return {f.path: (f.mode, f.uid, f.gid, f.mtime, None if f.contents is None else f.contents.read())
             for f in readSquashfs(io.BytesIO(raw))}

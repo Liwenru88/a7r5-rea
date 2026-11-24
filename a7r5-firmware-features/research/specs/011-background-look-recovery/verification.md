@@ -15,7 +15,7 @@ Status: NOT_VERIFIED
 | E-004 | 独立QEMU实验的`unittest discover`及`run_validation.py`；运行`native-native12-410-xwuaneij` | PASS，2项固定身份检查、107次真实Qt操作；107原帧重新生成PNG逐一一致；Qt worker／AP QMP／CP均退出0 | 原厂标题及参数、ST调参入口、PT／NT往返、24槽双向遍历、FL2／FL3、四轮菜单往返 |
 | E-005 | 新组件上一次完整相关CPU回归；`verification/2026-11-03-background-01/tests/cpu/session-result.json`及原始XML | PASS，56项，653.54秒；源码前后不变、组件与构建收据一致 | 最终集成门禁 |
 | E-006 | 010封存988项SHA清单、旧4.10／4.11 DAT摘要、两次独立新构建四组件比较 | PASS，历史材料未变，新构建组件一致 | AC-005 |
-| E-007 | `native24-combined/archive.py`以完整CPU结果、新清单、107原帧和实际Qt／退出回执归档 | PASS，1036文件及压缩包逐成员重新读取校验 | AC-005 |
+| E-007 | `firmware-runtime/archive.py`以完整CPU结果、新清单、107原帧和实际Qt／退出回执归档 | PASS，1036文件及压缩包逐成员重新读取校验 | AC-005 |
 
 当前AP为`cc3dde6456dbcb40378bb93e2cbf64c661ee3543673028c7e560e62784523467`，CP为`35eb911d27be4a8aab8a0a5fe9a8f028c16453d5ab79605fe36dbd199b833300`，CP及两份图形资源相对010不变。构建02在归档门禁适配后重新生成，四组件与QEMU所用构建01完全相同；最终回归绑定构建02的源码和收据。
 
@@ -27,14 +27,14 @@ Status: NOT_VERIFIED
 | AC-004 克制反馈、删除ST修复要求 | PASS（离线） | E-002／004／005 |
 | AC-005 独立、可追溯、无设备交付 | PASS | E-004／005／006／007 |
 
-归档入口：[本轮研究组件](../../native24-combined/verification/2026-11-03-background-01/README.md)、[结果](../../native24-combined/verification/2026-11-03-background-01/results.json)、[交互说明与截图](../../native24-combined/后台恢复交互优化说明.md)。压缩包SHA256为`9af12386f3c47fbd9d0464bba68e7c68422315c7551e70a0c6386836c4aa6d3c`。
+归档入口：[本轮研究组件](../../firmware-runtime/verification/2026-11-03-background-01/README.md)、[结果](../../firmware-runtime/verification/2026-11-03-background-01/results.json)、[交互说明与截图](../../firmware-runtime/后台恢复交互优化说明.md)。压缩包SHA256为`9af12386f3c47fbd9d0464bba68e7c68422315c7551e70a0c6386836c4aa6d3c`。
 
 实际最终命令（仓库根目录）：
 
 ```sh
 A7R5_NATIVE24_BUILD="$PWD/.local/native24-background-20261103-02" \
 A7R5_NATIVE24_EVIDENCE="$PWD/.local/native24-background-20261103-02/final-cpu" \
-.venv/bin/python -m pytest -q a7r5-firmware-features/native24-combined/tests \
+.venv/bin/python -m pytest -q a7r5-firmware-features/firmware-runtime/tests \
   --tb=short --junitxml=.local/native24-background-20261103-02/final-regression.xml
 ```
 

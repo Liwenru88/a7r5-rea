@@ -21,7 +21,7 @@ GAMMA = 0xca0990
 
 @pytest.fixture
 def cp():
-    path = FEATURES / 'native24-combined/dependencies/native12-combined/tests/runtime_support.py'
+    path = FEATURES / 'firmware-runtime/dependencies/native12-combined/tests/runtime_support.py'
     spec = importlib.util.spec_from_file_location('raw_actual_cp', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

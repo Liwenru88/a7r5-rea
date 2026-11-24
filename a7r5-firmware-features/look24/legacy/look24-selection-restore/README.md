@@ -4,4 +4,4 @@
 
 省略本模块时，冷启动以原厂选择开始。当前会话的应用失败仍回退到上次成功项，暖恢复沿用会话状态。旧选择文件不参与当前选择，也不被覆盖。
 
-[模块清单](../../../look24-selection-restore/module.json) · [事务实现](../../../native24-combined/runtime/r5_filter_runtime423.c) · [定向测试](../../../native24-combined/tests/test_module_options.py)
+[模块清单](../../../look24-selection-restore/module.json) · [事务实现](../../../firmware-runtime/runtime/r5_filter_runtime423.c) · [定向测试](../../../firmware-runtime/tests/test_module_options.py)
