@@ -254,10 +254,62 @@ class HashStubDriver:
         return chunk
 
 
+def _synthetic_materials(count=258):
+    """在无 prepared/engine/ 的干净归档中构造确定性模拟扇区材料。"""
+    rows = []
+    plan_rows = []
+    before_parts = []
+    after_parts = []
+    for idx in range(count):
+        offset = (100 + idx) * 512
+        b = bytes([(idx * 7 + j) & 0xFF for j in range(512)])
+        a = bytes([(idx * 13 + j + 1) & 0xFF for j in range(512)])
+        before_parts.append(b)
+        after_parts.append(a)
+        phase = 'checksum' if idx == count - 1 else 'initrd'
+        plan_rows.append({'offset': offset, 'bytes': 512, 'phase': phase})
+        rows.append({
+            'offset': offset,
+            'before': base64.b64encode(b).decode('ascii'),
+            'after': base64.b64encode(a).decode('ascii'),
+        })
+    src_sha = hashlib.sha256(b''.join(before_parts)).hexdigest()
+    tgt_sha = hashlib.sha256(b''.join(after_parts)).hexdigest()
+    return builder._pack_trust_materials(
+        {'source_sha256': src_sha, 'target_sha256': tgt_sha, 'rows': plan_rows},
+        {'source_sha256': src_sha, 'target_sha256': tgt_sha, 'bytes': builder.PARTITION_BYTES, 'rows': rows},
+    )
+
+
 class TestTrustUpdate(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.materials = builder.load_trust_materials()
+        try:
+            cls.materials = builder.load_trust_materials()
+        except FileNotFoundError:
+            cls.materials = _synthetic_materials(258)
+
+    def test_preimage_offline_plan_without_prepared_engine(self):
+        from unittest import mock
+
+        with tempfile.TemporaryDirectory(prefix='a7r5-noprep-') as tmp:
+            missing = Path(tmp) / 'missing-prepared'
+            with mock.patch.object(builder, 'PREPARED_ENGINE', missing):
+                with self.assertRaisesRegex(FileNotFoundError, '--preimage'):
+                    builder.load_trust_materials()
+
+                preimage = builder.PROJECT / 'a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha1.img'
+                if preimage.is_file():
+                    mat_replace = builder.load_trust_materials(preimage, mode='replace-key')
+                    mat_skip = builder.load_trust_materials(preimage, mode='skip-key')
+                    self.assertEqual(len(mat_replace['plan']['rows']), 258)
+                    self.assertGreater(len(mat_skip['plan']['rows']), 0)
+                    self.assertLess(len(mat_skip['plan']['rows']), 258)
+                    baseline = {'location_id': 0x02140000, 'bus': 2, 'ports': [1, 4], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+                    pkg = Path(tmp) / 'pkg-skip'
+                    builder.build_package(pkg, 'libjit', '22334455667788992233445566778899', baseline, mat_skip)
+                    op = LibjitTrustOperation(pkg, sleep=lambda _: None)
+                    self.assertEqual(op.patch_count, len(mat_skip['plan']['rows']))
 
     def test_dynamic_usb_port_and_prerecovery(self):
         # 测试任意非历史端口 (bus=2, ports=[1, 4], locationID=0x02140000)
@@ -418,11 +470,15 @@ class TestTrustUpdate(unittest.TestCase):
                 'service_stop_backend_error_code': -9,
             }
 
+        class FakeBuilder:
+            load_trust_materials = staticmethod(lambda *a, **kw: self.materials)
+            build_package = staticmethod(builder.build_package)
+
         with tempfile.TemporaryDirectory(prefix='a7r5-test-loop-') as tmp:
             res = update_trust.run_update(
                 'kit',
                 host_mod=FakeHostMod(),
-                builder_mod=builder,
+                builder_mod=FakeBuilder(),
                 session_fn=fake_session,
                 out_dir=Path(tmp) / 'run1',
             )

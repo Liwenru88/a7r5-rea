@@ -2,8 +2,10 @@
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
+import sys
 
 from elftools.elf.elffile import ELFFile
 
@@ -13,9 +15,35 @@ PROJECT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 TRUST_SOURCES = PROJECT / 'a7r5-desktop/sources/trust'
 PREPARED_ENGINE = PROJECT / 'a7r5-desktop/prepared/engine'
+UPDATER_TRUST_SRC = PROJECT / 'a7r5-updater-trust/src'
+DEFAULT_PUBLIC_KEY = PROJECT / 'a7r5-updater-trust/public-key.pem'
 
-CLANG = Path('/opt/homebrew/opt/llvm/bin/clang')
-LLD = Path('/opt/homebrew/opt/lld/bin/ld.lld')
+
+def resolve_tool(env_var, candidates):
+    """按环境变量与常见 Homebrew 安装位置解析本机工具路径。"""
+    configured = os.environ.get(env_var)
+    if configured:
+        return Path(configured)
+    for path in candidates:
+        if path.is_file():
+            return path
+    return candidates[0]
+
+
+CLANG = resolve_tool(
+    'A7R5_CLANG',
+    (
+        Path('/opt/homebrew/opt/llvm/bin/clang'),
+        Path('/usr/local/opt/llvm/bin/clang'),
+    ),
+)
+LLD = resolve_tool(
+    'A7R5_LLD',
+    (
+        Path('/opt/homebrew/opt/lld/bin/ld.lld'),
+        Path('/usr/local/opt/lld/bin/ld.lld'),
+    ),
+)
 
 PARTITION_BYTES = 25100288
 PATCH_COUNT = 258
@@ -31,17 +59,11 @@ def load_profile():
     return device_profile.load_profile()
 
 
-def load_trust_materials():
-    """加载并校验 258 扇区写入计划与前后像扇区材料。"""
-    plan_path = PREPARED_ENGINE / 'write-plan.json'
-    sectors_path = PREPARED_ENGINE / 'trust-sectors.json'
-
-    plan = json.loads(plan_path.read_text())
-    sectors = json.loads(sectors_path.read_text())
+def _pack_trust_materials(plan, sectors):
+    """校验写入计划与扇区材料并组装统一结构。"""
     profile = load_profile()
-
     rows = sectors['rows']
-    if len(rows) != PATCH_COUNT or [r['offset'] for r in rows] != [r['offset'] for r in plan['rows']]:
+    if not rows or [r['offset'] for r in rows] != [r['offset'] for r in plan['rows']]:
         raise ValueError('写入计划与扇区清单不一致')
 
     before_parts = []
@@ -63,6 +85,67 @@ def load_trust_materials():
         'before_bytes': b''.join(before_parts),
         'after_bytes': b''.join(after_parts),
     }
+
+
+def build_trust_materials_from_image(preimage_path, *, mode='replace-key', public_key_path=None):
+    """纯离线：从指定 cnflasha1 前像现场计算当前机身专属写入计划与扇区材料。"""
+    if mode not in ('replace-key', 'skip-key'):
+        raise ValueError(f'不支持的信任补丁模式：{mode}')
+    raw = Path(preimage_path).read_bytes()
+    if len(raw) != PARTITION_BYTES:
+        raise ValueError(f'cnflasha1 镜像长度应为 {PARTITION_BYTES} 字节，实际为 {len(raw)}')
+
+    src_dir = str(UPDATER_TRUST_SRC)
+    if src_dir not in sys.path:
+        sys.path.insert(0, src_dir)
+    import sector_plan
+    import trust_recipe
+
+    actual_sha = sha256_bytes(raw)
+    replace_key = mode == 'replace-key'
+    pub_path = Path(public_key_path) if public_key_path is not None else DEFAULT_PUBLIC_KEY
+    public_key = pub_path.read_bytes() if replace_key else None
+    result, _patched, _new_sums, _record = trust_recipe.construct(
+        raw,
+        None,
+        public_key,
+        source_sha=actual_sha,
+        replace_key=replace_key,
+    )
+    target_sha = sha256_bytes(result)
+    plan = sector_plan.make_plan(raw, result, source_sha=actual_sha, target_sha=target_sha)
+    sectors = {
+        'source_sha256': actual_sha,
+        'target_sha256': target_sha,
+        'bytes': len(raw),
+        'rows': [
+            {
+                'offset': row['offset'],
+                'before': base64.b64encode(raw[row['offset'] : row['offset'] + 512]).decode('ascii'),
+                'after': base64.b64encode(result[row['offset'] : row['offset'] + 512]).decode('ascii'),
+            }
+            for row in plan['rows']
+        ],
+    }
+    return _pack_trust_materials(plan, sectors)
+
+
+def load_trust_materials(preimage_path=None, *, mode='replace-key', public_key_path=None):
+    """加载信任写入材料：传入前像时纯离线现算，否则回退读取 prepared/engine/。"""
+    if preimage_path is not None:
+        return build_trust_materials_from_image(preimage_path, mode=mode, public_key_path=public_key_path)
+
+    plan_path = PREPARED_ENGINE / 'write-plan.json'
+    sectors_path = PREPARED_ENGINE / 'trust-sectors.json'
+    if not plan_path.is_file() or not sectors_path.is_file():
+        raise FileNotFoundError(
+            '未找到 a7r5-desktop/prepared/engine/{write-plan.json,trust-sectors.json}；'
+            '请传入 --preimage /path/to/cnflasha1.img 按当前机身镜像离线现算计划'
+        )
+
+    plan = json.loads(plan_path.read_text())
+    sectors = json.loads(sectors_path.read_text())
+    return _pack_trust_materials(plan, sectors)
 
 
 def verify_toolchain():
@@ -132,8 +215,9 @@ def _write_headers(build_dir, engine, run_id, materials, *, restore_preload=None
         'FORCE_PRELOAD_A': bytes.fromhex(profile['preload_baselines'][0][1]).decode('ascii'),
         'FORCE_PRELOAD_B': bytes.fromhex(profile['preload_baselines'][1][1]).decode('ascii'),
     }
+    patch_count = len(plan['rows'])
     lines = [f'#define {k} {json.dumps(v)}\n' for k, v in trust_defs.items()]
-    lines.append(f'#define PARTITION_BYTES {PARTITION_BYTES}UL\n#define PATCH_COUNT {PATCH_COUNT}U\n')
+    lines.append(f'#define PARTITION_BYTES {PARTITION_BYTES}UL\n#define PATCH_COUNT {patch_count}U\n')
     lines.append(
         'static const unsigned long PATCH_OFFSETS[]={'
         + ','.join(f'{r["offset"]}UL' for r in plan['rows'])

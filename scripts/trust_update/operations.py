@@ -29,10 +29,11 @@ def validate_journal(raw, run_id, plan):
         expected += [('WRITE_BEGIN', index, row['offset'], 0), ('WRITE_RETURNED', index + 1, row['offset'], 0)]
         if index == len(plan['rows']) - 1 or row['phase'] != plan['rows'][index + 1]['phase']:
             expected.append(('PHASE_SYNC_RETURNED', index + 1, row['offset'], 0))
+    total = len(plan['rows'])
     expected += [
-        ('FULL_LOGICAL_READBACK_MATCH', 258, -1, 0),
-        ('REOPENED_FULL_CAPTURE_MATCH', 258, -1, 0),
-        ('COMPLETED', 258, -1, 0),
+        ('FULL_LOGICAL_READBACK_MATCH', total, -1, 0),
+        ('REOPENED_FULL_CAPTURE_MATCH', total, -1, 0),
+        ('COMPLETED', total, -1, 0),
     ]
     if actual != expected:
         raise ValueError('机内日志阶段、扇区计数或偏移不符')
@@ -70,12 +71,15 @@ class _BaseTrustOperation:
 
         self.plan = json.loads((self.package / 'materials/write-plan.json').read_text())
         self.patch = json.loads((self.package / 'materials/trust-sectors.json').read_text())['rows']
-        if len(self.patch) != 258 or [r['offset'] for r in self.patch] != [r['offset'] for r in self.plan['rows']]:
+        if not self.patch or [r['offset'] for r in self.patch] != [r['offset'] for r in self.plan['rows']]:
             raise ValueError('写入计划与扇区材料不匹配')
+        self.patch_count = len(self.patch)
+        self.logical_write_bytes = self.patch_count * 512
+        self.readback_chunks = (self.logical_write_bytes + 16383) // 16384
 
         self.readback_parts = [
-            (self.config['readback_path'] + f'.sectors-{i}', min(16384, 132096 - i * 16384))
-            for i in range(9)
+            (self.config['readback_path'] + f'.sectors-{i}', min(16384, self.logical_write_bytes - i * 16384))
+            for i in range(self.readback_chunks)
         ]
         self.reads = {
             '/version.txt': 4096,
@@ -230,7 +234,8 @@ class _BaseTrustOperation:
         pattern = (
             re.escape(self.config['expected_output_begin'].encode())
             + rb'A7R5_TRUST_FORCE_COMPLETE ([0-9a-f]{64}) source_sha256=([0-9a-f]{64}) '
-            rb'sectors=258 bytes=132096 reopened=1 chunks=9 chunk_bytes=16384 readback=planned-sectors-v2\n'
+            + f'sectors={self.patch_count} bytes={self.logical_write_bytes} reopened=1 '
+              f'chunks={self.readback_chunks} chunk_bytes=16384 readback=planned-sectors-v2\n'.encode('ascii')
             + re.escape(self.config['expected_output_end'].encode())
         )
         match = re.fullmatch(pattern, data)
@@ -257,8 +262,8 @@ class _BaseTrustOperation:
             if part != expected_sectors[index * 16384 : index * 16384 + expected_len]:
                 raise ValueError(f'扇区回读分块 {index} 内容与目标不符')
             raw_sectors.extend(part)
-        if len(raw_sectors) != 132096 or bytes(raw_sectors) != expected_sectors:
-            raise ValueError('258 扇区完整回读不符')
+        if len(raw_sectors) != self.logical_write_bytes or bytes(raw_sectors) != expected_sectors:
+            raise ValueError(f'{self.patch_count} 扇区完整回读不符')
 
         if self._read(channel, 'preload-after', '/etc/ld.so.preload') != baseline_bytes:
             raise ValueError('/etc/ld.so.preload 未保持或未准确还原')
@@ -269,8 +274,8 @@ class _BaseTrustOperation:
             protocol_gate_passed=True,
             planned_sector_readback_verified=True,
             preload_unchanged=True,
-            patch_sectors=258,
-            logical_write_bytes=132096,
+            patch_sectors=self.patch_count,
+            logical_write_bytes=self.logical_write_bytes,
             planned_sector_readback_sha256=hashlib.sha256(raw_sectors).hexdigest(),
         )
         self.safe_to_stop = True

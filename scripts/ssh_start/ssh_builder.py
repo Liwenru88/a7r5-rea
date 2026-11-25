@@ -17,14 +17,21 @@ if str(TRUST_DIR) not in sys.path:
     sys.path.insert(0, str(TRUST_DIR))
 
 import device_profile
+from builder import CLANG, LLD, resolve_tool
 
 SSH_SRC = PROJECT / 'a7r5-ssh/libjit-ssh-on-demand/src'
 SFTP_VENDOR = PROJECT / 'a7r5-ssh/ssh-service/original-view/vendor'
 LIBC_SDK = PROJECT / 'a7r5-exec/sdk/libc-2.25.so'
 
-CLANG = Path('/opt/homebrew/opt/llvm/bin/clang')
-LLD = Path('/opt/homebrew/opt/lld/bin/ld.lld')
-OPENSSL = Path('/opt/homebrew/opt/openssl/bin/openssl')
+OPENSSL = resolve_tool(
+    'A7R5_OPENSSL',
+    (
+        Path('/opt/homebrew/opt/openssl/bin/openssl'),
+        Path('/opt/homebrew/opt/openssl@3/bin/openssl'),
+        Path('/usr/local/opt/openssl/bin/openssl'),
+        Path('/usr/local/opt/openssl@3/bin/openssl'),
+    ),
+)
 
 HASH_PATTERN = re.compile(r'\$6\$rounds=10000\$[A-Za-z0-9./]{16}\$[A-Za-z0-9./]{86}')
 EXPECTED_PASSWD_SHA = '4a691edcd492167bb3d538e4e15c24dd5fbc45785afcf2beddb3fbd39e097398'

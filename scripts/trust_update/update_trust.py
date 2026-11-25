@@ -101,13 +101,15 @@ def run_update(
     engine,
     *,
     timeout_seconds=120,
+    preimage_path=None,
+    trust_mode='replace-key',
     host_mod=host_usb,
     builder_mod=builder,
     session_fn=usb_session.run_session,
     out_dir=None,
     fixture_target=None,
 ):
-    """执行完整闭环：模式识别/0336预恢复 → 载荷编译 → 0e0a→0336 双重认证 → 258扇区写入校验 → STOP恢复0e0a。"""
+    """执行完整闭环：模式识别/0336预恢复 → 载荷编译 → 0e0a→0336 双重认证 → 计划扇区写入校验 → STOP恢复0e0a。"""
     run_id = uuid.uuid4().hex
     out_dir = Path(out_dir) if out_dir is not None else _create_run_dir(run_id)
     out_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -130,8 +132,12 @@ def run_update(
             f'bus={baseline["bus"]}, ports={baseline["ports"]}'
         )
 
-        progress('正在加载 258 扇区写入配方并交叉编译原生载荷...')
-        materials = builder_mod.load_trust_materials()
+        progress('正在准备写入配方并交叉编译原生载荷...')
+        materials = (
+            builder_mod.load_trust_materials(preimage_path, mode=trust_mode)
+            if preimage_path is not None
+            else builder_mod.load_trust_materials()
+        )
         pkg_dir = out_dir / 'package'
         builder_mod.build_package(
             pkg_dir,
@@ -197,6 +203,8 @@ def run_update(
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--engine', choices=('libjit', 'kit'), default='libjit', help='选择触发方式：libjit 或 kit')
+    parser.add_argument('--preimage', type=Path, help='指定本机 cnflasha1 前像路径，离线现场生成写入计划，无需 prepared/engine/')
+    parser.add_argument('--mode', choices=('replace-key', 'skip-key'), default='replace-key', help='配合 --preimage 使用的补丁模式（默认 replace-key）')
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--check-only', action='store_true', help='仅检测当前 USB 端口与连接模式，不提权、不修改设备')
     mode.add_argument('--restore-only', action='store_true', help='若当前处于 0336 服务模式，仅恢复为普通 MSC 模式')
@@ -220,7 +228,12 @@ def main(argv=None):
         return run_restore_only()
 
     with process_lock():
-        result = run_update(args.engine, timeout_seconds=args.timeout)
+        result = run_update(
+            args.engine,
+            timeout_seconds=args.timeout,
+            preimage_path=args.preimage,
+            trust_mode=args.mode,
+        )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result['succeeded'] else 3
 

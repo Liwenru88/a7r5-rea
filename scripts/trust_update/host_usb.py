@@ -10,6 +10,7 @@ import time
 PROJECT = Path(__file__).resolve().parents[2]
 VENDOR_SITE = PROJECT / 'a7r5-desktop/prepared/engine/site'
 FALLBACK_SITE = PROJECT / 'a7r5-exec/vendor/engine/libs'
+FALLBACK_PMCA = PROJECT / 'a7r5-exec/vendor/engine/sources/workspaces/j/work/sony-pmca-re'
 LIBUSB_CANDIDATES = (
     PROJECT / 'a7r5-desktop/prepared/engine/lib/libusb-1.0.dylib',
     Path('/opt/homebrew/opt/libusb/lib/libusb-1.0.dylib'),
@@ -37,15 +38,17 @@ SERVICE_INTERFACE = {
 
 
 def ensure_usb_paths():
-    """注入项目内 vendored PyUSB/Cryptodome 与 pmca_source 路径。"""
+    """注入项目内 vendored PyUSB/Cryptodome 与 pmca_source 路径（优先使用 .venv 原生扩展，缺失时回退库内源码）。"""
+    if VENDOR_SITE.is_dir() and str(VENDOR_SITE) not in sys.path:
+        sys.path.insert(0, str(VENDOR_SITE))
     for path in (
-        VENDOR_SITE,
-        FALLBACK_SITE,
         PROJECT / 'a7r5-desktop/prepared/engine/vendor/pmca_source',
+        FALLBACK_PMCA,
+        FALLBACK_SITE,
     ):
         text = str(path)
         if path.is_dir() and text not in sys.path:
-            sys.path.insert(0, text)
+            sys.path.append(text)
 
 
 def find_libusb():

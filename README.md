@@ -144,7 +144,7 @@
 
 | 操作 | 干净仓库外需要准备的材料 |
 |---|---|
-| 信任更新 | `a7r5-desktop/prepared/engine/` 下的 `write-plan.json` 和 `trust-sectors.json`（单机身前像派生，不能跨机身通用） |
+| 信任更新 | 传入目标机身前像 `--preimage /path/to/cnflasha1.img` 离线现算计划（或准备 `a7r5-desktop/prepared/engine/{write-plan.json,trust-sectors.json}`） |
 | Jiritsu `--scan-only` 和清理 | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld`），不依赖 `prepared/engine/` |
 | 启动 SSH | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld` / `openssl`）；通用 `libc-2.25.so` 与 `sftp-server.arm64` 已随仓库提供 |
 | 恢复普通 USB | 项目 Python 环境和本机 `libusb`。PyUSB 源码随仓库提供 |
