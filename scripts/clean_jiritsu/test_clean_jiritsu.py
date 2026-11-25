@@ -178,6 +178,26 @@ class TestCleanJiritsu(unittest.TestCase):
             self.assertEqual(cfg_scan['mode'], 'scan')
             self.assertTrue((pkg_scan / 'materials/kit-blank-512.so').is_file())
 
+    def test_embedded_profile_and_clean_build_without_prepared_engine(self):
+        import device_profile
+
+        desktop_profile = json.loads((PROJECT / 'a7r5-desktop/engine/profile.json').read_text())
+        embedded = device_profile.load_profile()
+        for key in ('interfaces', 'version_sha256', 'loader_sha256', 'loader_bytes', 'preload_baselines'):
+            self.assertEqual(embedded[key], desktop_profile[key])
+        embedded['interfaces']['interface-1.json']['ports'].append(99)
+        self.assertEqual(device_profile.load_profile()['interfaces']['interface-1.json']['ports'], [1])
+
+        run_id = '11223344556677889900aabbccddeeff'
+        baseline = {'location_id': 0x02100000, 'bus': 2, 'ports': [1], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+        with tempfile.TemporaryDirectory(prefix='a7r5-clean-noprep-') as tmp:
+            missing_prepared = Path(tmp) / 'nonexistent-prepared-engine'
+            with mock.patch.object(clean_builder.trust_builder, 'PREPARED_ENGINE', missing_prepared):
+                pkg = Path(tmp) / 'pkg'
+                cfg = clean_builder.build_clean_package(pkg, run_id, baseline, apply=False)
+                self.assertEqual(cfg['version_sha256'], desktop_profile['version_sha256'])
+                self.assertTrue((pkg / 'materials/kit-blank-512.so').is_file())
+
     def _run_sim(self, *, apply=True, preload_idx=0, fail_mode=None):
         run_id = 'abcdef0123456789abcdef0123456789'
         baseline = {'location_id': 0x02100000, 'bus': 2, 'ports': [1], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}

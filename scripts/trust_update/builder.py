@@ -7,11 +7,12 @@ import subprocess
 
 from elftools.elf.elffile import ELFFile
 
+import device_profile
+
 PROJECT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 TRUST_SOURCES = PROJECT / 'a7r5-desktop/sources/trust'
 PREPARED_ENGINE = PROJECT / 'a7r5-desktop/prepared/engine'
-DESKTOP_ENGINE = PROJECT / 'a7r5-desktop/engine'
 
 CLANG = Path('/opt/homebrew/opt/llvm/bin/clang')
 LLD = Path('/opt/homebrew/opt/lld/bin/ld.lld')
@@ -25,17 +26,19 @@ def sha256_bytes(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def load_profile():
+    """加载内嵌的 4.00 设备基线配置。"""
+    return device_profile.load_profile()
+
+
 def load_trust_materials():
     """加载并校验 258 扇区写入计划与前后像扇区材料。"""
     plan_path = PREPARED_ENGINE / 'write-plan.json'
     sectors_path = PREPARED_ENGINE / 'trust-sectors.json'
-    profile_path = DESKTOP_ENGINE / 'profile.json'
-    if not profile_path.is_file():
-        profile_path = PREPARED_ENGINE / 'profile.json'
 
     plan = json.loads(plan_path.read_text())
     sectors = json.loads(sectors_path.read_text())
-    profile = json.loads(profile_path.read_text())
+    profile = load_profile()
 
     rows = sectors['rows']
     if len(rows) != PATCH_COUNT or [r['offset'] for r in rows] != [r['offset'] for r in plan['rows']]:

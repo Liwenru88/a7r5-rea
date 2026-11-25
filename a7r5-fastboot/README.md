@@ -16,6 +16,14 @@
 
 ## USB 枚举与配置诊断
 
+三个快捷脚本支持把 `--check-only` 放在首位。它们使用 Python 3 标准库和 macOS USB 枚举，干净仓库即可运行。步骤 1 检查唯一的 RP2040 USB 设备，步骤 2 和 3 检查唯一的 Fastboot USB 设备。可附加 `--usb-snapshot /path/to/usb.plist` 离线复查。`usb_observed` 只表示枚举匹配，串口、Fastboot 通信和相机固件版本仍待确认。
+
+```sh
+./a7r5-fastboot/1_enter_fastboot.sh --check-only
+./a7r5-fastboot/2_activate_usb.sh --check-only
+./a7r5-fastboot/3_trigger_sd_update.sh --check-only
+```
+
 `host/configure_fastboot_usb --check` 只检查系统注册表中是否存在唯一的 `18d1:4ee0`，不打开 USB 设备、不发送控制请求。返回码 `0` 表示目标可见，`2` 表示不存在，`4` 表示存在多个目标；目标可见不等于通信就绪。
 
 不带参数运行该工具会读取配置状态和配置描述符，必要时执行一次 USB 配置；它会改变临时 USB 接口状态，但不复位相机、不发送 Fastboot 重启命令、不写分区。读取配置失败时打印返回码和 `configuration=unknown` 并停止；已处于所需配置时不重复配置。日志即时输出每一步返回码，避免超时后丢失已完成阶段的信息。

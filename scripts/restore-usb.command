@@ -1,6 +1,11 @@
 #!/bin/zsh
 set -eu
 TASK_DIR="${0:A:h}"
+if [[ "${1:-}" == --check-only ]]; then
+  shift
+  exec /bin/sh "$TASK_DIR/usb_preflight.sh" recovery "$@"
+fi
+
 TASK_PY="${A7R5_PYTHON:-${TASK_DIR}/../.venv/bin/python}"
 if [[ ! -x "$TASK_PY" ]]; then
   print -u2 -- "未找到Python环境：$TASK_PY；请设置A7R5_PYTHON。"

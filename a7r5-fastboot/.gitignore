@@ -1,7 +1,13 @@
-# 本地运行材料、机身记录和上游原始归档
+# 本地机身记录和上游原始归档；通用 Fastboot 资产与 arm64 USB 工具按精确白名单随仓保留
 !/.gitignore
-/assets/
-/host/
+/assets/*
+!/assets/fastboot.bin
+!/assets/pyserial-3.5-py2.py3-none-any.whl
+!/assets/uart_boot.ino.uf2
+!/assets/bridge-verification.json
+/host/*
+!/host/configure_fastboot_usb
+!/host/read_fastboot_usb
 /private/
 /runs/
 /__pycache__/

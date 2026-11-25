@@ -2,6 +2,11 @@
 set -eu
 SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h:h}"
+if [[ "${1:-}" == --check-only ]]; then
+  shift
+  exec /bin/sh "$PROJECT_ROOT/scripts/usb_preflight.sh" msc "$@"
+fi
+
 PYTHON_BIN="${A7R5_PYTHON:-${PROJECT_ROOT}/.venv/bin/python}"
 
 if [[ ! -x "$PYTHON_BIN" ]]; then

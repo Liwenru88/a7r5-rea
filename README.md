@@ -91,8 +91,8 @@
 - **命令行入口**：
 
 ```sh
-# 只读检测当前 USB 连接与模式
-.venv/bin/python -B scripts/ssh_start/start_ssh.py --check-only
+# 4.00 只读预检，版本参数填相机菜单显示的值
+./scripts/ssh_start/一键启动SSH.command --check-only --firmware-version 4.00
 
 # 交互输入 8~128 位密码并一键启动 SSH（推荐 kit 或 libjit，不留明文密码）
 .venv/bin/python -B scripts/ssh_start/start_ssh.py --engine kit
@@ -113,6 +113,9 @@
 - **命令行入口**：
 
 ```sh
+# 4.00 只读预检，版本参数填相机菜单显示的值
+./scripts/clean_jiritsu/一键清理Jiritsu.command --check-only --firmware-version 4.00
+
 # 1) 只读扫描：枚举 /tmp/jiritsu/ 文件清单与 FAT12 槽位占用情况，不删除任何文件
 .venv/bin/python -B scripts/clean_jiritsu/clean_jiritsu.py --scan-only
 
@@ -132,6 +135,20 @@
 - `a7r5-fastboot/1_enter_fastboot.sh`：自动查找 RP2040（`0x2E8A`）串口并循环触发 RAM Fastboot 直至 USB 激活成功。
 - `a7r5-fastboot/2_activate_usb.sh`：激活 Sony Fastboot USB 接口（`18d1:4ee0`）并读取分区表、SDM2 与 `nflasha2` 状态（支持 `--quick`）。
 - `a7r5-fastboot/3_trigger_sd_update.sh`：受限写入 `nflasha2` 的 `/updater/mode5` 触发标志并重启进入 SD 卡强制升级流程。
+
+### 6. 新 Mac 的只读设备预检
+
+信任更新、SSH 和 Jiritsu 清理的 `.command`，以及 [USB 恢复](scripts/restore-usb.md)和上述三个 Fastboot 快捷脚本，都可把 `--check-only` 放在首位。预检使用 Python 3 标准库和 macOS USB 枚举，干净仓库即可运行。加 `--usb-snapshot /path/to/usb.plist` 可离线复查。USB 恢复及 Fastboot 预检只确认设备枚举，执行操作继续使用原有环境要求。
+
+`--check-only` 通过只表示本机 USB 枚举符合预检条件。实际操作的安装要求如下。
+
+| 操作 | 干净仓库外需要准备的材料 |
+|---|---|
+| 信任更新 | `a7r5-desktop/prepared/engine/` 下的 `write-plan.json` 和 `trust-sectors.json`（单机身前像派生，不能跨机身通用） |
+| Jiritsu `--scan-only` 和清理 | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld`），不依赖 `prepared/engine/` |
+| 启动 SSH | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld` / `openssl`）；通用 `libc-2.25.so` 与 `sftp-server.arm64` 已随仓库提供 |
+| 恢复普通 USB | 项目 Python 环境和本机 `libusb`。PyUSB 源码随仓库提供 |
+| 执行 Fastboot | 通用 `fastboot.bin`、`uart_boot.ino.uf2`、`pyserial` wheel 及 Apple Silicon `host/` USB 工具已随仓库提供（Intel Mac 需从 `native/` 编译） |
 
 ---
 
@@ -164,7 +181,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 | 材料 | 默认位置 / 来源 | 要求 |
 |---|---|---|
 | 官方 4.00 `BODYDATA.DAT` | `a7r5-firmware-images/官方升级包/BODYDATA.DAT`（或构建时传入路径） | 754,525,608 字节，SHA-256 `51e1176a255a9a4b4782dfbcfa6c5f332b71173bdfe9ed2bcf4fca6bcbc6c2e2` |
-| 一号明文分区前像（可选，用于独立对比） | `a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha1.img` | 25,100,288 字节，SHA-256 `acf32d30dd883ed349738e66fb081e85e0d6a3c746f5e3ca169031e8d69ed731` |
+| 一号明文分区前像（用于信任材料重建和独立对比） | `a7r5-firmware-images/标准固件_19项/明文分区_17项/cnflasha1.img` | 25,100,288 字节，SHA-256 `acf32d30dd883ed349738e66fb081e85e0d6a3c746f5e3ca169031e8d69ed731` |
 | 目标 `libc` SDK 与 SFTP | `a7r5-exec/sdk/libc-2.25.so`、`a7r5-ssh/ssh-service/original-view/vendor/sftp-server.arm64` | 按 [`scripts/local-inputs.json`](scripts/local-inputs.json) 校验；SFTP 可用 `scripts/prepare_sftp.py` 从 Debian 包提取 |
 
 ---

@@ -166,7 +166,7 @@ def main() -> int:
     if sys.platform != "darwin":
         raise SystemExit("需要在 macOS 上运行")
 
-    _, records = r5.preflight(r5.ROOT)
+    _, records = r5.preflight(r5.ROOT, bootstrap=True)
     ts = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     out_dir = (args.output or (SCRIPT_DIR / "runs" / f"auto-fastboot-{ts}")).resolve()
     out_dir.mkdir(mode=0o700, parents=True, exist_ok=False)

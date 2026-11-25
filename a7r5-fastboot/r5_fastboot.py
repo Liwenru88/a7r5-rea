@@ -23,9 +23,8 @@ ASSET_PINS = {
     PAYLOAD: "330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc",
     SDM2: "1c2c4b0548a49a3ec25ef4b5f09540ca78c4432cc0419e0c07e626ff2f77d7e6",
     WHEEL: "c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0",
-    # 公开 R5 build（Hearts-Ace tools/rp2040-bridge，OPEN_DRAIN/Waveshare Zero）；
-    # 作者本地的 40554314… 不在分发范围，重定基线见 ASSETS-PROVENANCE.md。
-    BRIDGE: "49aa9db4f080e2024cc6516f30fdb8316ba01fe13ee1e4fb02b26ea44d0d8dfe",
+    # 与 assets/bridge-verification.json 一致的 Waveshare RP2040-Zero OPEN_DRAIN 通用桥接固件
+    BRIDGE: "40554314f62bc5c22d6d22246b42988a79bb8f9a5089942fda7fbfb85e1d4dcd",
 }
 RECORDS_SHA = "3604be189345d85deb701d22f145b8b7a28d606186ec287751a677ccbb9c2ebb"
 TABLE_DUMP = "oem partition dump nflasha 0 0x80"

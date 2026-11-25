@@ -1,0 +1,15 @@
+{
+  "uf2": "bridge-build/uart_boot.ino.uf2",
+  "sha256": "40554314f62bc5c22d6d22246b42988a79bb8f9a5089942fda7fbfb85e1d4dcd",
+  "bytes": 153088,
+  "verified_uf2_blocks": 299,
+  "fqbn": "rp2040:rp2040:waveshare_rp2040_zero",
+  "core": "6.3.0",
+  "arduino_cli": "1.5.1",
+  "extra_flags": [
+    "-DOPEN_DRAIN"
+  ],
+  "banner": "uart_boot 1",
+  "board_tested": false,
+  "camera_io": false
+}

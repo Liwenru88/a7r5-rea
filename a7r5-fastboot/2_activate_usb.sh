@@ -4,6 +4,19 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [[ "${1:-}" == --check-only ]]; then
+  shift
+  exec /bin/sh "$REPO_ROOT/scripts/usb_preflight.sh" fastboot "$@"
+fi
+if [[ "${1:-}" == --help || "${1:-}" == -h ]]; then
+  printf '%s\n' '用法：2_activate_usb.sh [--quick | --check-only [--usb-snapshot 文件] | --help]'
+  exit 0
+fi
+if (( $# > 1 )) || { (( $# == 1 )) && [[ "$1" != --quick ]]; }; then
+  printf '%s\n' '参数无效，请运行 2_activate_usb.sh --help。' >&2
+  exit 2
+fi
+
 CONFIGURE="$SCRIPT_DIR/host/configure_fastboot_usb"
 READER="$SCRIPT_DIR/host/read_fastboot_usb"
 

@@ -97,18 +97,17 @@ def interface_fingerprint(interface):
     }
 
 
+def usb_devices(tree):
+    """遍历主机注册表中的 USB 设备节点。"""
+    for node in tree:
+        if node.get('IOObjectClass') == 'IOUSBHostDevice':
+            yield node
+        yield from usb_devices(node.get('IORegistryEntryChildren', []))
+
+
 def parse_ioreg(tree, location=None):
     """解析 ioreg IOUSBHostDevice 树，识别唯一的 Sony 相机及其模式与存储媒体。"""
-    found = []
-
-    def walk(node):
-        if node.get('IOObjectClass') == 'IOUSBHostDevice' and node.get('idVendor') == VID:
-            found.append(node)
-        for child in node.get('IORegistryEntryChildren', []):
-            walk(child)
-
-    for node in tree:
-        walk(node)
+    found = [node for node in usb_devices(tree) if node.get('idVendor') == VID]
     if not found:
         return {'kind': 'absent', 'present': False}
     if len(found) != 1:
@@ -160,14 +159,19 @@ def parse_ioreg(tree, location=None):
     return result
 
 
-def snapshot(out_dir=None, label=None, timeout=5, location=None):
-    """抓取一次 macOS ioreg USB 快照并解析状态。"""
-    raw = subprocess.run(
+def read_ioreg(timeout=5):
+    """读取 macOS USB 注册表快照。"""
+    return subprocess.run(
         ['/usr/sbin/ioreg', '-a', '-l', '-r', '-c', 'IOUSBHostDevice'],
         capture_output=True,
         check=True,
         timeout=timeout,
     ).stdout
+
+
+def snapshot(out_dir=None, label=None, timeout=5, location=None):
+    """抓取一次 macOS ioreg USB 快照并解析状态。"""
+    raw = read_ioreg(timeout)
     if out_dir is not None and label is not None:
         (Path(out_dir) / f'{label}.plist').write_bytes(raw)
     if not raw.strip():

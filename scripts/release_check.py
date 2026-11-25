@@ -16,6 +16,25 @@ PUBLIC_RESEARCH_KEYS = {
     'a7r5-dat-tool/keys/research-signing-private.pem':
         '3c64a0897fca201a1480e4d504719f354d1362ce05e1dcfc83efede9daeb405e',
 }
+# 用户明确授权纳入仓库的跨机通用依赖；仅按精确路径与 SHA-256 放行。
+PORTABLE_COMMON_BINARIES = {
+    'a7r5-exec/sdk/libc-2.25.so':
+        'f9104526eb7e5d2ea533c1a209bb0b83e69367f569e4c966895c8e106e6382c9',
+    'a7r5-ssh/ssh-service/original-view/vendor/sftp-server.arm64':
+        '621e0f8b6aaaedddbbd1e31dd01b2bae551b70af11d508b7fee66a491348f76e',
+    'a7r5-fastboot/host/configure_fastboot_usb':
+        '4543ed2b5f50cef4122e22a608dec6abff0f7d59c782e0c31003de32fada7595',
+    'a7r5-fastboot/host/read_fastboot_usb':
+        'f2b74e69dcc4be489e76bf14a2e0aeaef32ddbc19f2c8b80d417f9052f3a84bb',
+    'a7r5-fastboot/assets/fastboot.bin':
+        '330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc',
+    'a7r5-fastboot/assets/pyserial-3.5-py2.py3-none-any.whl':
+        'c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0',
+    'a7r5-fastboot/assets/uart_boot.ino.uf2':
+        '40554314f62bc5c22d6d22246b42988a79bb8f9a5089942fda7fbfb85e1d4dcd',
+    'a7r5-fastboot/assets/bridge-verification.json':
+        'b1e0e5b4b32a6c541c9103d1ae678eba6acc06e9ea5bd1c3e9eda0479391476c',
+}
 PASSWORD_HASH = re.compile(rb'\$6\$(?:rounds=\d+\$)?[./A-Za-z0-9]{1,16}\$[./A-Za-z0-9]{80,86}')
 FORBIDDEN_DIRS = {'.venv', '__pycache__', '.pytest_cache', 'target', 'prepared', 'dist',
                   'packages', 'terminal-packages', 'runs', 'quick-runs', 'verification', 'logs', '.local'}
@@ -56,16 +75,21 @@ def inspect(root, names):
         if not path.is_file():
             errors.append(dict(path=name, reason='候选文件不存在'))
             continue
-        if (set(relative.parts) & FORBIDDEN_DIRS or relative.suffix.lower() in FORBIDDEN_SUFFIXES
-                or relative.parts[0] == 'a7r5-firmware-images'
-                or any(p.startswith('ATTEMPT_LOCK') or p.endswith('.app') for p in relative.parts)
-                or relative.name in {'client-key', 'host_ecdsa', 'fixed-password-input', 'ACTIVE_SERVICE.json', 'PENDING_RECOVERY.json', 'ACTIVE_SESSION.lock'}):
-            errors.append(dict(path=name, reason='本地材料或运行记录进入候选集'))
         if path.stat().st_size > 10*1024*1024:
             errors.append(dict(path=name, reason='超过项目源码文件大小门槛10MiB'))
             continue
         raw = path.read_bytes()
-        allowed_key = PUBLIC_RESEARCH_KEYS.get(name) == hashlib.sha256(raw).hexdigest()
+        digest = hashlib.sha256(raw).hexdigest()
+        allowed_common = PORTABLE_COMMON_BINARIES.get(name) == digest
+        if name in PORTABLE_COMMON_BINARIES and not allowed_common:
+            errors.append(dict(path=name, reason='白名单通用文件摘要变化，须重新确认'))
+        if (set(relative.parts) & FORBIDDEN_DIRS
+                or (relative.suffix.lower() in FORBIDDEN_SUFFIXES and not allowed_common)
+                or relative.parts[0] == 'a7r5-firmware-images'
+                or any(p.startswith('ATTEMPT_LOCK') or p.endswith('.app') for p in relative.parts)
+                or relative.name in {'client-key', 'host_ecdsa', 'fixed-password-input', 'ACTIVE_SERVICE.json', 'PENDING_RECOVERY.json', 'ACTIVE_SESSION.lock'}):
+            errors.append(dict(path=name, reason='本地材料或运行记录进入候选集'))
+        allowed_key = PUBLIC_RESEARCH_KEYS.get(name) == digest
         if name in PUBLIC_RESEARCH_KEYS and not allowed_key:
             errors.append(dict(path=name, reason='公开研究私钥内容变化，须重新确认发布身份'))
         if PRIVATE_HEADER.search(raw) and not allowed_key:
@@ -74,10 +98,10 @@ def inspect(root, names):
             errors.append(dict(path=name, reason='包含固定口令哈希，需人工排除或改为测试时生成'))
         if re.search(rb'/Users/'+rb'[A-Za-z0-9_.-]+/', raw):
             errors.append(dict(path=name, reason='包含开发机用户绝对路径'))
-        # 拒绝无扩展名伪装的 ELF/Mach-O；图标等源码资源不受影响。
-        if raw[:4] in (b'\x7fELF', b'\xcf\xfa\xed\xfe', b'\xfe\xed\xfa\xcf', b'\xca\xfe\xba\xbe'):
+        # 拒绝无扩展名伪装的 ELF/Mach-O；白名单通用依赖与图标等源码资源不受影响。
+        if not allowed_common and raw[:4] in (b'\x7fELF', b'\xcf\xfa\xed\xfe', b'\xfe\xed\xfa\xcf', b'\xca\xfe\xba\xbe'):
             errors.append(dict(path=name, reason='包含本机或客体可执行二进制'))
-        records.append(dict(path=name, bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest()))
+        records.append(dict(path=name, bytes=len(raw), sha256=digest))
     return records, errors
 
 

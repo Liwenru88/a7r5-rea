@@ -6,16 +6,21 @@ import re
 import secrets
 import shutil
 import subprocess
+import sys
 
 from elftools.elf.elffile import ELFFile
 
 PROJECT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
+TRUST_DIR = PROJECT / 'scripts/trust_update'
+if str(TRUST_DIR) not in sys.path:
+    sys.path.insert(0, str(TRUST_DIR))
+
+import device_profile
+
 SSH_SRC = PROJECT / 'a7r5-ssh/libjit-ssh-on-demand/src'
 SFTP_VENDOR = PROJECT / 'a7r5-ssh/ssh-service/original-view/vendor'
 LIBC_SDK = PROJECT / 'a7r5-exec/sdk/libc-2.25.so'
-DESKTOP_ENGINE = PROJECT / 'a7r5-desktop/engine'
-PREPARED_ENGINE = PROJECT / 'a7r5-desktop/prepared/engine'
 
 CLANG = Path('/opt/homebrew/opt/llvm/bin/clang')
 LLD = Path('/opt/homebrew/opt/lld/bin/ld.lld')
@@ -125,10 +130,7 @@ def _compile_elf(source, output, include_dir, *, shared=False):
 
 
 def load_profile():
-    path = DESKTOP_ENGINE / 'profile.json'
-    if not path.is_file():
-        path = PREPARED_ENGINE / 'profile.json'
-    return json.loads(path.read_text())
+    return device_profile.load_profile()
 
 
 def build_ssh_package(package_dir, engine, run_id, password_hash, baseline_host, *, ttl_seconds=0):

@@ -8,7 +8,13 @@ Mac 终端运行，或在 Finder 双击 `restore-usb.command`：
 
 如提示 Password，在终端输入 Mac 管理员密码。不要在任务或传输进行时运行；退出服务模式可能中断任务，并使尚未取回的结果无法继续读取。
 
-只查看状态，不提权、不发送相机协议请求：
+新 Mac 安装 Python 3 后，可从干净仓库只读查看当前 USB 状态。可加 `--usb-snapshot /path/to/usb.plist` 离线复查。
+
+```sh
+./scripts/restore-usb.command --check-only
+```
+
+`usb_observed` 表示发现唯一匹配的 USB 设备。服务或过渡模式的枚举无法确认机型或恢复结果。需要原格式的本地诊断日志时，可继续用项目环境运行：
 
 ```sh
 ./scripts/restore-usb.command --check

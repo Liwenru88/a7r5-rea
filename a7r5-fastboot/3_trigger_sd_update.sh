@@ -4,6 +4,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [[ "${1:-}" == --check-only ]]; then
+  shift
+  exec /bin/sh "$REPO_ROOT/scripts/usb_preflight.sh" fastboot "$@"
+fi
 
 if [[ -x "$REPO_ROOT/.venv/bin/python" ]]; then
   PYTHON="$REPO_ROOT/.venv/bin/python"

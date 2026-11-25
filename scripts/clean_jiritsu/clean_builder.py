@@ -14,6 +14,7 @@ if str(TRUST_DIR) not in sys.path:
     sys.path.insert(0, str(TRUST_DIR))
 
 import builder as trust_builder
+import device_profile
 
 TRUST_SOURCES = PROJECT / 'a7r5-desktop/sources/trust'
 CLANG = trust_builder.CLANG
@@ -125,8 +126,7 @@ def build_clean_package(package_dir, run_id, baseline_host, *, apply=True, extra
     mat_dir = package_dir / 'materials'
     mat_dir.mkdir(parents=True, exist_ok=True)
 
-    materials = trust_builder.load_trust_materials()
-    profile = json.loads(json.dumps(materials['profile']))
+    profile = device_profile.load_profile()
     bus, ports = baseline_host['bus'], baseline_host['ports']
     for row in profile['interfaces'].values():
         row['bus'] = bus
