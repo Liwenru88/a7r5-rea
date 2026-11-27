@@ -194,6 +194,13 @@ __attribute__((visibility("default"))) void _init(void)
     if (!capture_control_parent_ready()) die(98);
     if (unlink_file(KIT_SO_PATH) < 0) die(99);
     if (!capture_control_create()) die(100);
+#ifdef KIT_WRITE_CLAIM
+    s64 claim = open_file(CLAIM_PATH, WRONLY | CREATE | EXCL | NOFOLLOW | CLOEXEC);
+    if (claim < 0) { state("FAILED", 102, 0, 1, -1); die(102); }
+    int failed = write_all(claim, TICKET_BYTES, sizeof(TICKET_BYTES) - 1) || sc(82, claim, 0, 0, 0, 0, 0) < 0;
+    if (close_fd(claim) < 0) failed = 1;
+    if (failed) { state("FAILED", 103, 0, 1, -1); die(103); }
+#endif
     s64 pid = sc(220, 17, 0, 0, 0, 0, 0);
     if (!pid) worker();
     if (pid < 0) { state("FAILED", 101, 0, 1, -1); die(101); }

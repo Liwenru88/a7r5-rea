@@ -106,6 +106,27 @@ class TestPreflight(unittest.TestCase):
                 self.assertEqual(result.returncode, 2, result.stderr)
                 self.assertIn('--check-only', result.stderr)
 
+    def test_trust_launcher_forwards_auto_flow_options(self):
+        # 用只回显参数的解释器替身确认：默认 libjit 全自动，引擎与转存参数原样下发。
+        fake_python = self.root / 'bin' / 'fake-python'
+        fake_python.write_text('#!/bin/sh\nprintf \'%s\\n\' "$@"\n')
+        fake_python.chmod(0o755)
+        env = {'A7R5_PYTHON': str(fake_python), 'PATH': '/usr/bin:/bin'}
+        cases = (
+            ([], ['--engine', 'libjit']),
+            (['kit'], ['--engine', 'kit']),
+            (['--capture-only'], ['--engine', 'libjit', '--capture-only']),
+            (['kit', '--capture-timeout', '420'], ['--engine', 'kit', '--capture-timeout', '420']),
+            (['--preimage', '/tmp/cnflasha1.img'], ['--engine', 'libjit', '--preimage', '/tmp/cnflasha1.img']),
+        )
+        for args, expected in cases:
+            with self.subTest(args=args):
+                result = self.launch(HERE / LAUNCHER, *args, env=env)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                argv = result.stdout.split()
+                self.assertEqual(argv[0], '-B')
+                self.assertEqual(argv[2:], expected)
+
     def test_usb_observation_matches_each_shortcut_target(self):
         rp2040 = dict(camera(), idVendor=0x2e8a, idProduct=0x000a)
         fastboot = dict(camera(0x03210000), idVendor=0x18d1, idProduct=0x4ee0)

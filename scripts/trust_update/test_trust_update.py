@@ -1,4 +1,4 @@
-"""trust_update 离线回归测试：动态 USB 识别、0336 预恢复、双引擎交叉编译、报文守卫与闭环状态机。"""
+"""trust_update 离线回归测试：动态 USB 识别、0336 预恢复、自动转存、双引擎交叉编译、报文守卫与闭环状态机。"""
 import base64
 import hashlib
 import json
@@ -13,10 +13,24 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 import builder
+import capture as capture_flow
 import host_usb
-from operations import DEBUG, KitTrustOperation, LibjitTrustOperation
+from operations import (
+    DEBUG,
+    KitCaptureOperation,
+    KitTrustOperation,
+    LibjitCaptureOperation,
+    LibjitTrustOperation,
+)
 from usb_session import HEADER, READ, wire
 import update_trust
+
+
+CAPTURE_VER = b'A7R5_TEST_VER_400\n'
+CAPTURE_LDR = b'A7R5_TEST_LOADER'
+PARTITION_BYTES = builder.PARTITION_BYTES
+# 25,100,288 字节 = 256 * 98,048，用固定字节环保证每次转存内容完全一致。
+CAPTURE_IMAGE = bytes(range(256)) * (PARTITION_BYTES // 256)
 
 
 def _fake_ioreg_tree(pid, location_id, *, product='ILCE-7RM5', with_media=True):
@@ -117,7 +131,43 @@ class FakeCameraDriver:
         pass
 
 
-class HashStubDriver:
+class _ChannelStub:
+    """固定 Senser 协议替身：按 0x8000 块与 512 字节边界把响应排队给 Channel。"""
+
+    state_polls = 0
+
+    def _wire_to_path(self, raw_wire):
+        path = raw_wire.decode('ascii')
+        if path.startswith('/tmp/jiritsu/../../'):
+            return path[len('/tmp/jiritsu/../..') :]
+        return path
+
+    def _queue_chunks(self, seq, result_code, payload):
+        body = struct.pack('<I', result_code) + payload
+        header = HEADER.pack(len(body), 0x40, seq, 0, 0, 0, 0)
+        self._reads = getattr(self, '_reads', [])
+        self._reads.append(header)
+        offset = 0
+        while offset < len(body):
+            block = body[offset : offset + 0x8000]
+            pos = 0
+            while pos < len(block):
+                piece = block[pos : pos + 4096]
+                self._reads.append(piece)
+                pos += len(piece)
+            if len(block) % 512 == 0:
+                self._reads.append(b'')  # ZLP 边界
+            offset += len(block)
+
+    def read(self, length):
+        chunk = self._reads.pop(0)
+        if len(chunk) > length:
+            self._reads.insert(0, chunk[length:])
+            return chunk[:length]
+        return chunk
+
+
+class HashStubDriver(_ChannelStub):
     """与 _BaseTrustOperation 配合的协议驱动替身，校验真实读写与响应分块。"""
 
     def __init__(self, engine, run_id, cfg, materials, preload_bytes, *, fail_mode=None):
@@ -148,12 +198,6 @@ class HashStubDriver:
         # 若 size <= 0x8000 且 size % 512 == 0，Channel 会读取 512 字节边界空包（返回 b'' 表示 ZLP）。
         # 这里用特殊队列控制 read() 返回值。
 
-    def _wire_to_path(self, raw_wire):
-        path = raw_wire.decode('ascii')
-        if path.startswith('/tmp/jiritsu/../../'):
-            return path[len('/tmp/jiritsu/../..') :]
-        return path
-
     def _trigger_task(self):
         if self.fail_mode == 'precheck_47':
             self.files[self.control_prefix + '.state'] = (
@@ -173,6 +217,9 @@ class HashStubDriver:
 
         src_sha = self.materials['sectors']['source_sha256']
         tgt_sha = self.materials['sectors']['target_sha256']
+        if self.fail_mode == 'changed_preimage':
+            # 机内分区在转存后被改动：机内前像摘要与计划前像不一致。
+            src_sha = '0' * 64
         output_text = (
             self.cfg['expected_output_begin']
             + f'A7R5_TRUST_FORCE_COMPLETE {tgt_sha} source_sha256={src_sha} '
@@ -229,29 +276,136 @@ class HashStubDriver:
             raise AssertionError(f'未知命令 {cmd}')
         return len(packet)
 
-    def _queue_chunks(self, seq, result_code, payload):
-        body = struct.pack('<I', result_code) + payload
-        header = HEADER.pack(len(body), 0x40, seq, 0, 0, 0, 0)
-        self._reads = getattr(self, '_reads', [])
-        self._reads.append(header)
-        offset = 0
-        while offset < len(body):
-            block = body[offset : offset + 0x8000]
-            pos = 0
-            while pos < len(block):
-                piece = block[pos : pos + 4096]
-                self._reads.append(piece)
-                pos += len(piece)
-            if len(block) % 512 == 0:
-                self._reads.append(b'')  # ZLP 边界
-            offset += len(block)
 
-    def read(self, length):
-        chunk = self._reads.pop(0)
-        if len(chunk) > length:
-            self._reads.insert(0, chunk[length:])
-            return chunk[:length]
-        return chunk
+class CaptureStubDriver(_ChannelStub):
+    """模拟 cnflasha1 只读转存与 RAM 副本清理：两次触发分别产出分块镜像与清理回执。"""
+
+    def __init__(self, engine, run_id, cfg, preload_bytes, *, fail_mode=None, image=CAPTURE_IMAGE):
+        self.engine = engine
+        self.run_id = run_id
+        self.cfg = cfg
+        self.preload_bytes = preload_bytes
+        self.fail_mode = fail_mode
+        self.image = image
+        self.capture_sha256 = hashlib.sha256(image).hexdigest()
+        self.control_prefix = cfg['capture_control_dir'] + '/task'
+        self.ticket_path = cfg['capture_control_dir'] + '.ticket'
+        self.cleanup_prefix = cfg['cleanup_control_dir'] + '/task'
+        self.capture_so_path = cfg['capture_kit_so_path']
+        self.cleanup_so_path = cfg['cleanup_kit_so_path']
+        self.files = {
+            '/version.txt': CAPTURE_VER,
+            '/usr/lib/libJiritsu.so': CAPTURE_LDR,
+            '/etc/ld.so.preload': preload_bytes,
+        }
+        self.selected = None
+        self.stage = 0
+        self.stage_polls = {}
+        self.debug_count = 0
+        self.ticket_bytes = f'A7R5_LIBJIT {run_id}\n'.encode('ascii')
+
+    def _done_state(self, prefix, output):
+        return (
+            f'A7R5-JIT-1 {self.run_id} DONE 0 uid=0 euid=0 bytes={len(output)} '
+            f'disarmed=1 children=0\n'
+        ).encode('ascii')
+
+    def _capture_output(self):
+        summary = (
+            f' bytes={self.cfg["partition_bytes"]} twice=1 chunks={self.cfg["capture_chunk_count"]} '
+            f'chunk_bytes={self.cfg["capture_chunk_bytes"]}\n'
+        )
+        return (
+            self.cfg['expected_output_begin']
+            + f'A7R5_CAPTURE_COMPLETE {self.capture_sha256}'
+            + summary
+            + self.cfg['expected_output_end']
+        ).encode('ascii')
+
+    def _cleanup_output(self):
+        return (
+            f'A7R5_CAPTURE_CLEANUP {self.run_id} sha256={self.capture_sha256} '
+            f'deleted={self.cfg["capture_chunk_count"]} bytes={self.cfg["partition_bytes"]} '
+            f'directory_removed=1\n'
+        ).encode('ascii')
+
+    def _trigger(self):
+        if self.stage == 0:
+            if self.fail_mode == 'capture_44':
+                self.files[self.control_prefix + '.output'] = b'\n'
+                self.files[self.control_prefix + '.state'] = (
+                    f'A7R5-JIT-1 {self.run_id} FAILED 44 uid=0 euid=0 bytes=0 disarmed=1 children=0\n'
+                ).encode('ascii')
+            else:
+                output = self._capture_output()
+                self.files[self.control_prefix + '.claim'] = self.ticket_bytes
+                self.files[self.control_prefix + '.output'] = output
+                self.files[self.control_prefix + '.state'] = self._done_state(self.control_prefix, output)
+                chunk_bytes = int(self.cfg['capture_chunk_bytes'])
+                for index in range(int(self.cfg['capture_chunk_count'])):
+                    self.files[f'{self.cfg["capture_path"]}.part-{index}'] = CAPTURE_IMAGE[
+                        index * chunk_bytes : (index + 1) * chunk_bytes
+                    ]
+        else:
+            if self.fail_mode == 'cleanup_68':
+                output = f'A7R5_CAPTURE_CLEANUP_FAILED {self.run_id} deleted=0 code=68\n'.encode('ascii')
+                self.files[self.cleanup_prefix + '.output'] = output
+                self.files[self.cleanup_prefix + '.state'] = (
+                    f'A7R5-JIT-1 {self.run_id} FAILED 68 uid=0 euid=0 bytes={len(output)} '
+                    f'disarmed=1 children=0\n'
+                ).encode('ascii')
+            else:
+                output = self._cleanup_output()
+                self.files[self.cleanup_prefix + '.output'] = output
+                self.files[self.cleanup_prefix + '.state'] = self._done_state(self.cleanup_prefix, output)
+                for path in [p for p in self.files if p.startswith(self.cfg['capture_path'] + '.part-')]:
+                    self.files.pop(path)
+        self.stage += 1
+
+    def write(self, packet):
+        size, func, seq, *meta = HEADER.unpack_from(packet)
+        body = packet[HEADER.size :]
+        assert size == len(body) and func == 0x40
+        group, cmd = struct.unpack_from('<HH', body)
+        assert group == 0x1001
+
+        if cmd == 15:  # select
+            self.selected = self._wire_to_path(body[5:-1])
+            self._queue_chunks(seq, 0, b'')
+        elif cmd == 16:  # put
+            data = body[7:]
+            self.files[self.selected] = data
+            if self.engine == 'libjit' and self.selected == '/tmp/jiritsu/libJit.so':
+                self.files.pop('/tmp/jiritsu/libJit.so', None)
+                self._trigger()
+            self._queue_chunks(seq, 0, b'')
+        elif cmd == 17:  # read
+            if self.selected not in self.files:
+                self._queue_chunks(seq, 0x10000006, b'')
+            else:
+                content = self.files[self.selected]
+                polls = self.stage_polls.get(self.selected, 0)
+                if self.selected.endswith('/task.state') and polls == 0:
+                    self.stage_polls[self.selected] = 1
+                    running = (
+                        f'A7R5-JIT-1 {self.run_id} RUNNING 0 uid=0 euid=0 bytes=0 disarmed=1 children=0\n'
+                    ).encode('ascii')
+                    self._queue_chunks(seq, 0, running)
+                else:
+                    self.stage_polls[self.selected] = polls + 1
+                    self._queue_chunks(seq, 0, content)
+        elif cmd == 5:  # DEBUG
+            assert self.engine == 'kit'
+            self.debug_count += 1
+            if self.files['/etc/ld.so.preload'] not in (b'', self.preload_bytes):
+                # 载荷 _init 在派发工作进程前还原 /etc/ld.so.preload。
+                self.files['/etc/ld.so.preload'] = self.preload_bytes
+            self.files.pop(self.capture_so_path if self.stage == 0 else self.cleanup_so_path, None)
+            self._trigger()
+            self._queue_chunks(seq, 0, b'')
+        else:
+            raise AssertionError(f'未知命令 {cmd}')
+        return len(packet)
 
 
 def _synthetic_materials(count=258):
@@ -367,6 +521,36 @@ class TestTrustUpdate(unittest.TestCase):
                 self.assertTrue(so_path.is_file())
                 self.assertIn(b'A7R5_TRUST_KIT_FORCE_V1', so_path.read_bytes())
 
+    def test_compile_capture_and_cleanup_payloads(self):
+        run_id = '89abcdef0123456789abcdef01234567'
+        baseline = {'location_id': 0x02140000, 'bus': 2, 'ports': [1, 4], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+        with tempfile.TemporaryDirectory(prefix='a7r5-test-capture-') as tmp:
+            pkg_jit = Path(tmp) / 'jit'
+            cfg_jit = builder.build_capture_package(pkg_jit, 'libjit', run_id, baseline)
+            self.assertIn(b'A7R5_CAPTURE_READONLY_V5_RAM_16K', (pkg_jit / 'materials/capture.so').read_bytes())
+            self.assertIn(b'A7R5_CAPTURE_CLEANUP_V2_RAM_16K', (pkg_jit / 'materials/capture-cleanup.so').read_bytes())
+            self.assertEqual(cfg_jit['capture_chunk_count'], 1532)
+            self.assertEqual(cfg_jit['capture_chunk_bytes'], 16384)
+            self.assertEqual(cfg_jit['cleanup_ticket_path'], '/tmp_wbshd/a7r5-cleanup-' + run_id + '.ticket')
+            self.assertTrue(LibjitCaptureOperation(pkg_jit).packet_limit == 4096)
+
+            pkg_kit = Path(tmp) / 'kit'
+            cfg_kit = builder.build_capture_package(pkg_kit, 'kit', run_id, baseline)
+            for name in ('blank-512', 'installed-boot-hook'):
+                self.assertIn(
+                    b'A7R5_CAPTURE_KIT_READONLY_V1_RAM_16K',
+                    (pkg_kit / f'materials/capture-{name}.so').read_bytes(),
+                )
+                self.assertIn(
+                    b'A7R5_CAPTURE_KIT_CLEANUP_V1_RAM_16K',
+                    (pkg_kit / f'materials/cleanup-{name}.so').read_bytes(),
+                )
+            self.assertEqual(cfg_kit['capture_kit_so_path'], '/tmp_wbshd/a7r5-capture-' + run_id + '.so')
+            self.assertTrue(KitCaptureOperation(pkg_kit).cleanup_so_path.startswith('/tmp_wbshd/'))
+            self.assertFalse(
+                any(path.startswith('/tmp/jiritsu/') for path in KitCaptureOperation(pkg_kit).reads)
+            )
+
     def _run_operation_sim(self, engine, preload_index, *, fail_mode=None):
         run_id = 'abcdef0123456789abcdef0123456789'
         baseline = {'location_id': 0x03210000, 'bus': 3, 'ports': [2, 1], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
@@ -426,12 +610,140 @@ class TestTrustUpdate(unittest.TestCase):
         with self.assertRaises(ValueError):
             self._run_operation_sim('kit', 1, fail_mode='preload_not_restored')
 
-    def test_full_closed_loop_with_0336_prerecovery(self):
-        loc = 0x02140000
-        baseline_host = {
+    def test_changed_device_preimage_with_target_match_is_reported_as_drift(self):
+        # 前像漂移但落盘结果仍等于计划目标：记录漂移证据，不误判为失败。
+        op, report, driver = self._run_operation_sim('kit', 0, fail_mode='changed_preimage')
+        self.assertTrue(op.safe_to_stop)
+        self.assertTrue(report['preimage_drift']['resolved_by_target_match'])
+        self.assertEqual(report['preimage_drift']['device_source_sha256'], '0' * 64)
+        self.assertEqual(
+            report['preimage_drift']['plan_source_sha256'], self.materials['sectors']['source_sha256']
+        )
+
+    def test_wrong_target_partition_is_rejected(self):
+        materials = dict(
+            self.materials,
+            plan=dict(self.materials['plan'], candidate_sha256='f' * 64),
+            sectors=dict(self.materials['sectors'], target_sha256='f' * 64),
+        )
+        run_id = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        baseline = {'location_id': 0x02140000, 'bus': 2, 'ports': [1, 4], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+        preload = bytes.fromhex(self.materials['profile']['preload_baselines'][0][1])
+        with tempfile.TemporaryDirectory(prefix='a7r5-wrong-target-') as tmp:
+            pkg = Path(tmp) / 'pkg'
+            cfg = builder.build_package(pkg, 'libjit', run_id, baseline, materials)
+            # 计划候选与扇区材料目标被一起改写，操作器仍会接受材料，但机内回执必须是同一目标。
+            cfg['version_sha256'] = hashlib.sha256(CAPTURE_VER).hexdigest()
+            cfg['loader_sha256'] = hashlib.sha256(CAPTURE_LDR).hexdigest()
+            cfg['loader_bytes'] = len(CAPTURE_LDR)
+            (pkg / 'config.json').write_text(json.dumps(cfg))
+            op = LibjitTrustOperation(pkg, sleep=lambda _: None)
+            driver = HashStubDriver('libjit', run_id, cfg, self.materials, preload)
+            driver.files['/version.txt'] = CAPTURE_VER
+            driver.files['/usr/lib/libJiritsu.so'] = CAPTURE_LDR
+            report = {}
+            out = Path(tmp) / 'out'
+            out.mkdir()
+            with self.assertRaisesRegex(ValueError, '计划候选'):
+                op(driver, out, lambda ev, **kw: None, report)
+            self.assertFalse(op.safe_to_stop)
+
+    def _run_capture_sim(self, engine, preload_index=0, *, fail_mode=None, tmp=None):
+        run_id = 'fedcba9876543210fedcba9876543210'
+        baseline = {'location_id': 0x02140000, 'bus': 2, 'ports': [1, 4], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+        preload_bytes = bytes.fromhex(self.materials['profile']['preload_baselines'][preload_index][1])
+        pkg = Path(tmp) / f'capture-{engine}'
+        cfg = builder.build_capture_package(pkg, engine, run_id, baseline)
+        cfg['version_sha256'] = hashlib.sha256(CAPTURE_VER).hexdigest()
+        cfg['loader_sha256'] = hashlib.sha256(CAPTURE_LDR).hexdigest()
+        cfg['loader_bytes'] = len(CAPTURE_LDR)
+        (pkg / 'config.json').write_text(json.dumps(cfg))
+
+        op = (LibjitCaptureOperation if engine == 'libjit' else KitCaptureOperation)(pkg, sleep=lambda _: None)
+        op.interface_checked(FakeDevice(0x0e0a, 2, [1, 4]), FakeInterface([129, 2], interface_class=8, subclass=6, protocol=80))
+        op.interface_checked(FakeDevice(0x0336, 2, [1, 4]), FakeInterface([129, 2, 131, 4]))
+
+        driver = CaptureStubDriver(engine, run_id, cfg, preload_bytes, fail_mode=fail_mode)
+        out = Path(tmp) / f'session-{engine}'
+        out.mkdir()
+        report = {}
+        op(driver, out, lambda ev, **kw: None, report)
+        return op, report, driver, out, cfg
+
+    def test_capture_operations_dump_and_cleanup(self):
+        for engine in ('libjit', 'kit'):
+            with self.subTest(engine=engine), tempfile.TemporaryDirectory(prefix='a7r5-capture-') as tmp:
+                op, report, driver, out, cfg = self._run_capture_sim(engine, 0, tmp=tmp)
+                self.assertTrue(op.safe_to_stop)
+                self.assertTrue(report['capture_verified'])
+                self.assertTrue(report['native_capture_complete'])
+                self.assertEqual(report['capture_sha256'], hashlib.sha256(CAPTURE_IMAGE).hexdigest())
+                self.assertEqual(report['capture_download_chunks'], 1532)
+                self.assertEqual(report['partition_writes'], 0)
+                self.assertEqual(report['trigger_attempts'], 2)
+                self.assertEqual(report['fixed_writes_attempted'], 4)
+                self.assertEqual(report['capture_cleanup_state'], 'complete')
+                self.assertTrue(report['capture_cleanup_verified'])
+                self.assertEqual(driver.stage, 2)
+                if engine == 'kit':
+                    self.assertEqual(driver.debug_count, 2)
+                    self.assertFalse(any(p.startswith('/tmp/jiritsu/') for p in op.writes))
+
+                receipt = capture_flow.persist_image(
+                    out,
+                    Path(tmp) / 'cnflasha1.img',
+                    report=report,
+                    run_id=op.run_id,
+                    chunk_count=op.chunk_count,
+                    chunk_bytes=op.chunk_bytes,
+                    partition_bytes=op.partition_bytes,
+                )
+                image = Path(tmp) / 'cnflasha1.img'
+                self.assertEqual(receipt['sha256'], hashlib.sha256(CAPTURE_IMAGE).hexdigest())
+                self.assertEqual(receipt['bytes'], PARTITION_BYTES)
+                self.assertEqual(image.stat().st_size, PARTITION_BYTES)
+                self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), receipt['sha256'])
+                self.assertTrue((Path(tmp) / 'cnflasha1.img.receipt.json').is_file())
+                self.assertFalse((out / 'partition-chunk-000.bin').exists())
+
+    def test_capture_failure_withholds_stop(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-capture-fail-') as tmp:
+            with self.assertRaisesRegex(RuntimeError, '44'):
+                self._run_capture_sim('libjit', 0, fail_mode='capture_44', tmp=tmp)
+            out = Path(tmp) / 'session-libjit'
+            self.assertFalse(any(out.glob('partition-chunk-*')))
+
+    def test_capture_cleanup_failure_still_allows_stop_but_reports(self):
+        # 清理失败时本机镜像已完整下载：允许 STOP 恢复普通 MSC，但状态必须记录为 failed。
+        run_id = '00112233445566778899aabbccddeeff'
+        baseline = {'location_id': 0x02140000, 'bus': 2, 'ports': [1, 4], 'pid': 0x0e0a, 'model': 'ILCE-7RM5', 'media': [], 'drivers': ['IOUSBMassStorageDriver']}
+        preload_bytes = bytes.fromhex(self.materials['profile']['preload_baselines'][0][1])
+        with tempfile.TemporaryDirectory(prefix='a7r5-capture-cleanup-fail-') as tmp:
+            pkg = Path(tmp) / 'pkg'
+            cfg = builder.build_capture_package(pkg, 'libjit', run_id, baseline)
+            cfg['version_sha256'] = hashlib.sha256(CAPTURE_VER).hexdigest()
+            cfg['loader_sha256'] = hashlib.sha256(CAPTURE_LDR).hexdigest()
+            cfg['loader_bytes'] = len(CAPTURE_LDR)
+            (pkg / 'config.json').write_text(json.dumps(cfg))
+            op = LibjitCaptureOperation(pkg, sleep=lambda _: None)
+            driver = CaptureStubDriver('libjit', run_id, cfg, preload_bytes, fail_mode='cleanup_68')
+            out = Path(tmp) / 'session'
+            out.mkdir()
+            report = {}
+            with self.assertRaisesRegex(RuntimeError, '68'):
+                op(driver, out, lambda ev, **kw: None, report)
+            self.assertTrue(op.safe_to_stop)
+            self.assertEqual(report['capture_cleanup_state'], 'failed')
+            self.assertFalse(report['capture_cleanup_verified'])
+            self.assertTrue(report['capture_verified'])
+            self.assertEqual(report['cleanup_native_exit_code'], 68)
+            self.assertIn('68', report['cleanup_failure_output'])
+
+    def _host_baseline(self):
+        return {
             'kind': 'ordinary',
             'present': True,
-            'location_id': loc,
+            'location_id': 0x02140000,
             'bus': 2,
             'ports': [1, 4],
             'pid': 0x0e0a,
@@ -440,12 +752,23 @@ class TestTrustUpdate(unittest.TestCase):
             'drivers': ['IOUSBMassStorageDriver'],
         }
 
+    def _fake_host_mod(self):
+        baseline_host = self._host_baseline()
+
         class FakeHostMod:
             def __init__(self):
                 self.snap_calls = 0
+                self.ensure_calls = 0
 
             def ensure_ordinary_mode(self, out_dir=None, log_fn=None):
-                return baseline_host, {'initial': {'kind': 'service', 'location_id': loc}, 'stop_attempts': 1, 'stop_result': 'returned'}
+                self.ensure_calls += 1
+                if out_dir is not None:
+                    Path(out_dir).mkdir(parents=True, exist_ok=True)
+                return baseline_host, {
+                    'initial': {'kind': 'service', 'location_id': baseline_host['location_id']},
+                    'stop_attempts': 1,
+                    'stop_result': 'returned',
+                }
 
             def snapshot(self, out_dir=None, label=None, timeout=5, location=None):
                 self.snap_calls += 1
@@ -456,8 +779,68 @@ class TestTrustUpdate(unittest.TestCase):
                 take('host-01')
                 return {'recovered': True, 'observations': [baseline_host, baseline_host]}
 
-        def fake_session(output, operation, timeout_seconds=120):
+        return FakeHostMod()
+
+    def _fake_builder(self, *, status='stock_ready'):
+        materials = self.materials
+
+        class FakeBuilder:
+            build_capture_package = staticmethod(builder.build_capture_package)
+            build_package = staticmethod(builder.build_package)
+            material_paths = []
+
+            @staticmethod
+            def load_trust_materials(path=None, *, mode='replace-key'):
+                FakeBuilder.material_paths.append(path)
+                if path is not None:
+                    assert Path(path).is_file(), '自动模式必须使用刚转存的本机镜像'
+                return materials
+
+            @staticmethod
+            def inspect_trust_image(path, *, mode='replace-key'):
+                raw = Path(path).read_bytes()
+                return {
+                    'status': status,
+                    'sha256': hashlib.sha256(raw).hexdigest(),
+                    'mode': mode,
+                    'key_sha256': '0' * 64,
+                    'p1chksum_valid': status != 'unknown',
+                    'libraries': {},
+                }
+
+        return FakeBuilder()
+
+    def _auto_session(self, *, counters=None, capture_fail_mode=None, preload_index=0):
+        """把真实转存操作器接到 CaptureStubDriver；信任写入阶段用固定成功门控回执。"""
+        preload = bytes.fromhex(self.materials['profile']['preload_baselines'][preload_index][1])
+
+        def session(output, operation, timeout_seconds=120):
             Path(output).mkdir(parents=True, exist_ok=True)
+            if isinstance(operation, (LibjitCaptureOperation, KitCaptureOperation)):
+                if counters is not None:
+                    counters['capture'] = counters.get('capture', 0) + 1
+                operation.config['version_sha256'] = hashlib.sha256(CAPTURE_VER).hexdigest()
+                operation.config['loader_sha256'] = hashlib.sha256(CAPTURE_LDR).hexdigest()
+                operation.config['loader_bytes'] = len(CAPTURE_LDR)
+                driver = CaptureStubDriver(
+                    operation.config['engine'],
+                    operation.run_id,
+                    operation.config,
+                    preload,
+                    fail_mode=capture_fail_mode,
+                )
+                report = {}
+                try:
+                    operation(driver, Path(output), lambda *a, **k: None, report)
+                except Exception as exc:
+                    report['failure'] = f'{type(exc).__name__}: {exc}'
+                if operation.safe_to_stop:
+                    report.update(service_stop_attempts=1, service_stop_result='returned')
+                else:
+                    report['recovery_required'] = True
+                return report
+            if counters is not None:
+                counters['trust'] = counters.get('trust', 0) + 1
             return {
                 'protocol_gate_passed': True,
                 'native_write_complete': True,
@@ -470,21 +853,194 @@ class TestTrustUpdate(unittest.TestCase):
                 'service_stop_backend_error_code': -9,
             }
 
-        class FakeBuilder:
-            load_trust_materials = staticmethod(lambda *a, **kw: self.materials)
-            build_package = staticmethod(builder.build_package)
+        return session
 
+    def test_full_closed_loop_with_0336_prerecovery(self):
         with tempfile.TemporaryDirectory(prefix='a7r5-test-loop-') as tmp:
             res = update_trust.run_update(
                 'kit',
-                host_mod=FakeHostMod(),
-                builder_mod=FakeBuilder(),
-                session_fn=fake_session,
+                auto_capture=False,
+                host_mod=self._fake_host_mod(),
+                builder_mod=self._fake_builder(),
+                session_fn=self._auto_session(),
                 out_dir=Path(tmp) / 'run1',
             )
-            self.assertTrue(res['succeeded'])
+            self.assertTrue(res['succeeded'], res.get('failure'))
+            self.assertEqual(res['capture_mode'], 'prepared')
             self.assertTrue(res['ordinary_usb_restored'])
             self.assertTrue((Path(tmp) / 'run1/result.json').is_file())
+
+    def test_auto_capture_then_update_closed_loop(self):
+        for engine in ('libjit', 'kit'):
+            with self.subTest(engine=engine), tempfile.TemporaryDirectory(prefix='a7r5-auto-') as tmp:
+                counters = {}
+                fake_builder = self._fake_builder()
+                res = update_trust.run_update(
+                    engine,
+                    host_mod=self._fake_host_mod(),
+                    builder_mod=fake_builder,
+                    session_fn=self._auto_session(counters=counters),
+                    capture_mod=capture_flow,
+                    out_dir=Path(tmp) / 'run',
+                )
+                self.assertTrue(res['succeeded'], res.get('failure'))
+                self.assertEqual(counters, {'capture': 1, 'trust': 1})
+                self.assertEqual(res['capture_mode'], 'auto')
+                self.assertEqual(res['capture_receipt']['sha256'], hashlib.sha256(CAPTURE_IMAGE).hexdigest())
+                self.assertEqual(res['capture_report']['trigger_attempts'], 2)
+                image = Path(tmp) / 'run/cnflasha1.img'
+                self.assertEqual(image.stat().st_size, PARTITION_BYTES)
+                self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), res['capture_receipt']['sha256'])
+                self.assertTrue(res['inspection']['p1chksum_valid'])
+                self.assertEqual(
+                    [str(path) for path in fake_builder.material_paths],
+                    [str(Path(tmp) / 'run/cnflasha1.img')],
+                )
+                self.assertTrue(res['ordinary_usb_restored'])
+                self.assertTrue((Path(tmp) / 'run/result.json').is_file())
+                self.assertFalse((Path(tmp) / 'run/capture/session/partition-chunk-000.bin').exists())
+
+    def test_auto_flow_uses_real_capture_and_trust_operations(self):
+        """自动转存 → 镜像落盘 → 信任写入两条真实操作器串联，仅镜像解析与材料生成用替身。"""
+        for engine in ('libjit', 'kit'):
+            with self.subTest(engine=engine), tempfile.TemporaryDirectory(prefix='a7r5-e2e-') as tmp:
+                preload = bytes.fromhex(self.materials['profile']['preload_baselines'][0][1])
+                calls = {'capture': 0, 'trust': 0}
+
+                def session(output, operation, timeout_seconds=120):
+                    Path(output).mkdir(parents=True, exist_ok=True)
+                    operation.config['version_sha256'] = hashlib.sha256(CAPTURE_VER).hexdigest()
+                    operation.config['loader_sha256'] = hashlib.sha256(CAPTURE_LDR).hexdigest()
+                    operation.config['loader_bytes'] = len(CAPTURE_LDR)
+                    if isinstance(operation, (LibjitCaptureOperation, KitCaptureOperation)):
+                        calls['capture'] += 1
+                        driver = CaptureStubDriver(engine, operation.run_id, operation.config, preload)
+                    else:
+                        calls['trust'] += 1
+                        driver = HashStubDriver(engine, operation.run_id, operation.config, self.materials, preload)
+                        driver.files['/version.txt'] = CAPTURE_VER
+                        driver.files['/usr/lib/libJiritsu.so'] = CAPTURE_LDR
+                    report = {}
+                    try:
+                        operation(driver, Path(output), lambda *a, **k: None, report)
+                    except Exception as exc:
+                        report['failure'] = f'{type(exc).__name__}: {exc}'
+                    if operation.safe_to_stop:
+                        report.update(service_stop_attempts=1, service_stop_result='returned')
+                    else:
+                        report['recovery_required'] = True
+                    return report
+
+                res = update_trust.run_update(
+                    engine,
+                    host_mod=self._fake_host_mod(),
+                    builder_mod=self._fake_builder(),
+                    session_fn=session,
+                    capture_mod=capture_flow,
+                    out_dir=Path(tmp) / 'run',
+                )
+                self.assertTrue(res['succeeded'], res.get('failure'))
+                self.assertEqual(calls, {'capture': 1, 'trust': 1})
+                self.assertEqual(
+                    res['session_report']['actual_source_sha256'], self.materials['sectors']['source_sha256']
+                )
+                self.assertEqual(
+                    res['session_report']['native_logical_partition_sha256'],
+                    self.materials['sectors']['target_sha256'],
+                )
+                self.assertTrue(res['session_report']['protocol_gate_passed'])
+                self.assertEqual(res['capture_report']['capture_sha256'], hashlib.sha256(CAPTURE_IMAGE).hexdigest())
+
+    def test_auto_capture_skips_when_already_updated(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-auto-skip-') as tmp:
+            counters = {}
+            res = update_trust.run_update(
+                'kit',
+                host_mod=self._fake_host_mod(),
+                builder_mod=self._fake_builder(status='already_updated'),
+                session_fn=self._auto_session(counters=counters),
+                capture_mod=capture_flow,
+                out_dir=Path(tmp) / 'run',
+            )
+            self.assertTrue(res['succeeded'], res.get('failure'))
+            self.assertEqual(res['skipped'], 'already_updated')
+            self.assertEqual(counters, {'capture': 1})
+            self.assertTrue((Path(tmp) / 'run/cnflasha1.img').is_file())
+
+    def test_auto_capture_aborts_before_write_when_capture_fails(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-auto-fail-') as tmp:
+            counters = {}
+            res = update_trust.run_update(
+                'libjit',
+                host_mod=self._fake_host_mod(),
+                builder_mod=self._fake_builder(),
+                session_fn=self._auto_session(counters=counters, capture_fail_mode='capture_44'),
+                capture_mod=capture_flow,
+                out_dir=Path(tmp) / 'run',
+            )
+            self.assertFalse(res['succeeded'])
+            self.assertNotIn('trust', counters)
+            self.assertIn('44', res['failure'])
+            self.assertTrue(res['capture_report']['recovery_required'])
+            self.assertIn('--restore-only', res['recovery_hint'])
+            self.assertFalse((Path(tmp) / 'run/package').exists())
+            self.assertFalse((Path(tmp) / 'run/cnflasha1.img').exists())
+
+    def test_preimage_mode_skips_capture(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-preimage-') as tmp:
+            preimage = Path(tmp) / 'cnflasha1.img'
+            preimage.write_bytes(b'A7R5-EXISTING-IMAGE')
+            counters = {}
+            res = update_trust.run_update(
+                'kit',
+                preimage_path=preimage,
+                host_mod=self._fake_host_mod(),
+                builder_mod=self._fake_builder(),
+                session_fn=self._auto_session(counters=counters),
+                capture_mod=capture_flow,
+                out_dir=Path(tmp) / 'run',
+            )
+            self.assertTrue(res['succeeded'], res.get('failure'))
+            self.assertEqual(res['capture_mode'], 'preimage')
+            self.assertEqual(counters, {'trust': 1})
+            self.assertFalse((Path(tmp) / 'run/capture').exists())
+
+    def test_persist_image_rejects_mismatched_digest(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-persist-fail-') as tmp:
+            session = Path(tmp) / 'session'
+            session.mkdir()
+            (session / 'partition-chunk-000.bin').write_bytes(b'A' * 8)
+            (session / 'partition-chunk-001.bin').write_bytes(b'B' * 8)
+            with self.assertRaisesRegex(ValueError, '摘要'):
+                capture_flow.persist_image(
+                    session,
+                    Path(tmp) / 'cnflasha1.img',
+                    report={'capture_sha256': '0' * 64},
+                    run_id='0' * 32,
+                    chunk_count=2,
+                    chunk_bytes=8,
+                    partition_bytes=16,
+                )
+            self.assertFalse((Path(tmp) / 'cnflasha1.img').exists())
+
+    def test_capture_only_writes_image_without_update(self):
+        with tempfile.TemporaryDirectory(prefix='a7r5-capture-only-') as tmp:
+            counters = {}
+            code = update_trust.run_capture_only(
+                'kit',
+                capture_mod=capture_flow,
+                host_mod=self._fake_host_mod(),
+                builder_mod=self._fake_builder(),
+                session_fn=self._auto_session(counters=counters),
+                out_dir=Path(tmp) / 'capture-run',
+            )
+            self.assertEqual(code, 0)
+            result = json.loads((Path(tmp) / 'capture-run/result.json').read_text())
+            self.assertTrue(result['succeeded'])
+            self.assertEqual(result['capture_receipt']['sha256'], hashlib.sha256(CAPTURE_IMAGE).hexdigest())
+            self.assertEqual(counters, {'capture': 1})
+            self.assertTrue(Path(result['captured_image']).is_file())
+            self.assertEqual(result['inspection']['status'], 'stock_ready')
 
     def test_sudo_reexec_preserves_venv_symlink(self):
         from unittest import mock

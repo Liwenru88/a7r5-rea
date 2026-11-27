@@ -59,7 +59,9 @@
 
 用于将当前仓库的研究签名公钥写入相机更新器分区（`/dev/cnflasha1`，258 扇区 / 132,096 字节），使相机可校验并接纳由本项目研究私钥签名的自定义 `BODYDATA.DAT`。
 
-- **双击 / 快捷入口**：`scripts/trust_update/一键更新信任环境.command`（默认使用 `libjit`，也可命令行传入 `kit`：`scripts/trust_update/一键更新信任环境.command kit`）
+默认**全自动**：进入服务通道先把机内 `/dev/cnflasha1` 只读转存到本机 `.local/trust-update-*/cnflasha1.img`（含 `.receipt.json` 摘要回执），再用这份刚取回的真实镜像现场计算写入计划并完成写入。**不再需要预先准备 `cnflasha1.img` 或 `prepared/engine/` 材料。**
+
+- **双击 / 快捷入口**：`scripts/trust_update/一键更新信任环境.command`（默认使用 `libjit` 全自动，也可命令行传入 `kit`：`scripts/trust_update/一键更新信任环境.command kit`）
 - **4.00 只读预检**：新 Mac 安装 Python 3 后，可从干净仓库使用同一个 `.command` 入口。预检只使用 Python 标准库和 macOS 自带的 USB 枚举，不需要 `.venv/`、`prepared/` 或 `.local/`。自动识别唯一接入的 `ILCE-7RM5` 和当前 USB 端口。固件版本请以相机菜单为准，预检会注明版本由用户提供。
 
 ```sh
@@ -73,15 +75,29 @@
 预检退出码 `0` 表示 USB 连接和所填版本符合预检条件，`1` 表示 USB 检测失败，`2` 表示版本未提供或不匹配。通过预检后，机内加载库、预加载状态和分区布局仍待核验。已有更新流程继续使用原有本机依赖。
 
 ```sh
-# 一键更新信任环境（支持 libjit 与 kit；若 /tmp/jiritsu 槽位已满建议使用 kit）
+# 全自动：转存 cnflasha1 → 现场计算写入计划 → 写入 → 双重校验 → 恢复普通 MSC
 .venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit
 .venv/bin/python -B scripts/trust_update/update_trust.py --engine kit
+
+# 只转存镜像，不写入信任环境（结果在 .local/trust-update-*/cnflasha1.img）
+.venv/bin/python -B scripts/trust_update/update_trust.py --engine kit --capture-only
+
+# 复用已有镜像离线现算计划（不再触发转存）；--no-capture 则改用 prepared/engine/ 既有材料
+.venv/bin/python -B scripts/trust_update/update_trust.py --preimage .local/trust-update-*/cnflasha1.img
+.venv/bin/python -B scripts/trust_update/update_trust.py --no-capture
 
 # 若相机滞留在 0336 服务模式，仅发送 STOP 恢复为普通 MSC 模式
 .venv/bin/python -B scripts/trust_update/update_trust.py --restore-only
 ```
 
-脚本特性：通过 macOS `ioreg` 动态识别任意 USB 端口、自动处理 `0336 -> STOP -> 0e0a` 预恢复、32 MiB 内存与 9 块扇区写入、机内整分区 SHA-256 与主机 9 块回读双重校验，并在完成后发送 `STOP` 恢复普通 MSC 模式。`kit` 引擎全部载荷走 `/tmp_wbshd/` 内存盘，**零写入 `/tmp/jiritsu/`**。执行设备操作时会申请本机 `sudo` 管理员权限，请保持相机供电稳定与 MSC 连接，切勿中途拔线。
+脚本特性：
+
+- **自动转存**：机内把 `/dev/cnflasha1` 分 1532 块（16 KiB）只读取到 `/tmp_wbshd`，两次整分区读取摘要一致才成功；主机逐块下载、逐块 fsync，会话结束后合并为 `cnflasha1.img` 并重新读取整镜像复核。只有本机分块全部落盘后，才允许用本次转存模板清理机内 RAM 副本（清理回执与本机镜像摘要绑定，`deleted=1532 directory_removed=1`）。
+- **写入计划绑定真实前像**：自动模式下写入计划的前像就是刚转存的镜像。写入会话结束时，机内上报的整分区摘要必须等于计划候选 `candidate_sha256`——这等价于落盘分区与计划目标逐字节一致；不相等立即中止且不发送 STOP（保留现场）。若机内前像在两次会话之间被其它进程改动、但落盘结果仍与目标一致（差异只落在被整体覆盖的计划扇区内），会在 `result.json` 的 `preimage_drift` 中留下证据并给出警告，不误判为失败。
+- **幂等**：先判定一号分区状态；若已是目标信任态（`already_updated`），只做转存与判定，不再写入，退出码仍为 `0`。
+- **其余特性**：通过 macOS `ioreg` 动态识别任意 USB 端口、自动处理 `0336 -> STOP -> 0e0a` 预恢复、32 MiB 内存与 9 块计划扇区写入、机内整分区 SHA-256 与主机 9 块回读双重校验，并在完成后发送 `STOP` 恢复普通 MSC 模式。`kit` 引擎的转存、清理与信任写入全部走 `/tmp_wbshd/` 内存盘，**零写入 `/tmp/jiritsu/`**。执行设备操作时会申请本机 `sudo` 管理员权限，请保持相机供电稳定与 MSC 连接，切勿中途拔线。
+
+失败语义：转存阶段失败时相机保留在 `0336` 现场、不自动 STOP（可执行 `--restore-only` 恢复）；转存成功但机内 RAM 清理失败时仍会 STOP 恢复普通 MSC，但本次运行不会继续写入信任环境。所有证据与 `result.json` 都保存在 `.local/trust-update-*/`。
 
 ### 3. 一键启动相机 SSH 服务（`scripts/ssh_start/`）
 
@@ -144,7 +160,7 @@
 
 | 操作 | 干净仓库外需要准备的材料 |
 |---|---|
-| 信任更新 | 传入目标机身前像 `--preimage /path/to/cnflasha1.img` 离线现算计划（或准备 `a7r5-desktop/prepared/engine/{write-plan.json,trust-sectors.json}`） |
+| 信任更新 | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld`）；机内 `cnflasha1` 由脚本自动转存，无需预置镜像（离线复用时可加 `--preimage`） |
 | Jiritsu `--scan-only` 和清理 | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld`），不依赖 `prepared/engine/` |
 | 启动 SSH | 项目 Python 环境、本机 `libusb` 与交叉编译工具链（`clang` / `ld.lld` / `openssl`）；通用 `libc-2.25.so` 与 `sftp-server.arm64` 已随仓库提供 |
 | 恢复普通 USB | 项目 Python 环境和本机 `libusb`。PyUSB 源码随仓库提供 |
@@ -202,7 +218,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 .
 ├── scripts/
 │   ├── build_from_400.sh           从官方 4.00 构建当前稳定版
-│   ├── trust_update/               一键更新研究签名信任环境（libjit / kit）
+│   ├── trust_update/               一键转存 cnflasha1 并更新研究签名信任环境（libjit / kit）
 │   ├── ssh_start/                  一键启动相机 SSH 服务（libjit / kit）与只读诊断脚本
 │   ├── clean_jiritsu/              一键扫描与白名单安全清理 /tmp/jiritsu/（kit）
 │   ├── bootstrap.sh                创建并初始化 Python 3.14 虚拟环境
@@ -302,7 +318,7 @@ chmod 600 a7r5-dat-tool/keys/research-signing-private.pem
 三、快速设备脚本与授权门禁
 9. 仅在用户明确授权连接或操作相机后，才可执行以下快速脚本：
    - **4.00 只读兼容预检**：`./scripts/trust_update/一键更新信任环境.command --check-only --firmware-version 4.00`，版本由用户从相机菜单确认。
-   - **一键更新信任环境**：`.venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit`（或使用 `--engine kit` / 双击 `scripts/trust_update/一键更新信任环境.command`，支持动态 `ioreg` 端口识别与 `0336` 预恢复；`kit` 模式全部走 `/tmp_wbshd/` 内存盘，零写入 `/tmp/jiritsu/`）
+   - **一键更新信任环境**：`.venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit`（或使用 `--engine kit` / 双击 `scripts/trust_update/一键更新信任环境.command`）：全自动，先把机内 `/dev/cnflasha1` 只读转存为本机 `.local/trust-update-*/cnflasha1.img`，再用该镜像现场计算写入计划并写入，支持动态 `ioreg` 端口识别与 `0336` 预恢复；`kit` 模式全部走 `/tmp_wbshd/` 内存盘，零写入 `/tmp/jiritsu/`。`--capture-only` 只转存不写入，`--preimage` 可离线复用已有镜像）
    - **一键启动 SSH**：`.venv/bin/python -B scripts/ssh_start/start_ssh.py --engine kit --ttl 0`（亦支持 `libjit` 或双击 `scripts/ssh_start/一键启动SSH.command`；如已有 SSH 在运行会超时退出并保留原会话，不发送 `STOP`，可通过 `update_trust.py --restore-only` 恢复普通 MSC）
    - **一键扫描/清理 `/tmp/jiritsu/` 残留**：`.venv/bin/python -B scripts/clean_jiritsu/clean_jiritsu.py --scan-only`（只读查看 FAT12 512 槽位与文件清单；去掉 `--scan-only` 按严格白名单清理研究残留文件以恢复 `libjit` 槽位）
    - **RAM Fastboot 快速脚本**（仅在救砖/诊断并获得明确授权时）：`a7r5-fastboot/1_enter_fastboot.sh`、`2_activate_usb.sh`、`3_trigger_sd_update.sh`

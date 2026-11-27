@@ -37,7 +37,7 @@
 三、快速设备脚本与授权门禁
 9. 仅在用户明确授权连接或操作相机后，才可执行以下快速脚本：
    - **4.00 只读兼容预检**：`./scripts/trust_update/一键更新信任环境.command --check-only --firmware-version 4.00`，版本由用户从相机菜单确认。可加 `--usb-snapshot` 离线复查已有 USB 快照。
-   - **一键更新信任环境**：`.venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit`（或使用 `--engine kit` / 双击 `scripts/trust_update/一键更新信任环境.command`，支持动态 `ioreg` 端口识别与 `0336` 预恢复；`kit` 模式全部走 `/tmp_wbshd/` 内存盘，零写入 `/tmp/jiritsu/`）
+   - **一键更新信任环境**：`.venv/bin/python -B scripts/trust_update/update_trust.py --engine libjit`（或使用 `--engine kit` / 双击 `scripts/trust_update/一键更新信任环境.command`）：全自动，先把机内 `/dev/cnflasha1` 只读转存为本机 `.local/trust-update-*/cnflasha1.img`，再用该镜像现场计算写入计划并写入，支持动态 `ioreg` 端口识别与 `0336` 预恢复；`kit` 模式全部走 `/tmp_wbshd/` 内存盘，零写入 `/tmp/jiritsu/`。`--capture-only` 只转存不写入，`--preimage` 可离线复用已有镜像）
    - **一键启动 SSH**：`.venv/bin/python -B scripts/ssh_start/start_ssh.py --engine kit --ttl 0`（亦支持 `libjit` 或双击 `scripts/ssh_start/一键启动SSH.command`；如已有 SSH 在运行会超时退出并保留原会话，不发送 `STOP`，可通过 `update_trust.py --restore-only` 恢复普通 MSC）
    - **一键扫描/清理 `/tmp/jiritsu/` 残留**：`.venv/bin/python -B scripts/clean_jiritsu/clean_jiritsu.py --scan-only`（只读查看 FAT12 512 槽位与文件清单；去掉 `--scan-only` 按严格白名单清理研究残留文件以恢复 `libjit` 槽位）
    - **RAM Fastboot 快速脚本**（仅在救砖/诊断并获得明确授权时）：`a7r5-fastboot/1_enter_fastboot.sh`、`2_activate_usb.sh`、`3_trigger_sd_update.sh`
